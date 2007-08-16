@@ -16,7 +16,7 @@
 
 """Pippy Activity: A simple Python programming activity ."""
 
-import gtksourceview # FIXME: move to gtksourceview2
+import gtksourceview2
 import gtk
 import logging
 import telepathy
@@ -24,7 +24,7 @@ import telepathy.client
 import hippo
 import pango
 import vte
-from sys import executable
+import sys
 
 from dbus import Interface
 from dbus.service import method, signal
@@ -65,19 +65,28 @@ class PippyActivity(Activity):
         #hbox.append(self.main_panel, hippo.PACK_EXPAND)
 
         win = gtk.Window()        
-        self.text_buffer = gtksourceview.SourceBuffer()
-        lm = gtksourceview.SourceLanguagesManager()
+        self.text_buffer = gtksourceview2.Buffer()
 
-        lang = lm.get_language_from_mime_type("text/x-python")
-        self.text_buffer.set_language(lang)
+        lang_manager = gtksourceview2.language_manager_get_default()
+        langs = lang_manager.list_languages()
+        for lang in langs:
+            for m in lang.get_mime_types():
+                if m == "text/x-python":
+                    self.text_buffer.set_language(lang)
+
         self.text_buffer.set_highlight(True)
 
-        self.text_view = gtksourceview.SourceView(self.text_buffer)
+        self.text_view = gtksourceview2.View(self.text_buffer)
         self.text_view.set_size_request(1200, 300)
         self.text_view.set_editable(True)
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
         self.text_view.modify_font(pango.FontDescription("Monospace 12"))
+
+        # We could change the color theme here, if we want to.
+        #mgr = gtksourceview2.style_manager_get_default()
+        #style_scheme = mgr.get_scheme('kate')
+        #self.text_buffer.set_style_scheme(style_scheme)
 
         # The GTK source view window
         codesw = gtk.ScrolledWindow()
