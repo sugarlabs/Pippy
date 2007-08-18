@@ -25,12 +25,14 @@ import hippo
 import pango
 import vte
 import sys
+import os
+import gobject
 
 from dbus import Interface
 from dbus.service import method, signal
 from dbus.gobject_service import ExportedGObject
 
-from sugar.activity.activity import Activity, ActivityToolbox
+from sugar.activity.activity import Activity, ActivityToolbox, get_bundle_path
 from sugar.presence import presenceservice
 
 # will eventually be imported from sugar
@@ -54,19 +56,45 @@ class PippyActivity(Activity):
         toolbox.show()
 
         # Hippo Canvas:
-        # FIXME: Need a sidebar to show different files.
+        win = gtk.Window()
+        
+        hbox = hippo.CanvasBox(spacing=4,
+            orientation=hippo.ORIENTATION_HORIZONTAL)
+
         vbox = hippo.CanvasBox(spacing=4,
             orientation=hippo.ORIENTATION_VERTICAL)
 
-        #self.main_panel = hippo.CanvasBox(spacing=4,
-        #    orientation=hippo.ORIENTATION_VERTICAL)
-        #self.entry = gtk.Entry()
-        #self.main_panel.append(hippo.CanvasWidget(widget=self.entry))
-        #hbox.append(self.main_panel, hippo.PACK_EXPAND)
+        # The sidebar.
+        self.model = gtk.TreeStore(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING)
+        treeview = gtk.TreeView(self.model)
+        cellrenderer = gtk.CellRendererText()
+        treecolumn = gtk.TreeViewColumn("Examples", cellrenderer, text=1)
+        treeview.get_selection().connect("changed", self.selection_cb)
+        treeview.append_column(treecolumn)
+        treeview.set_size_request(200, 900)
+        treeview.show()
 
-        win = gtk.Window()        
+        # Create scrollbars around the view.
+        scrolled = gtk.ScrolledWindow()
+        scrolled.add(treeview)
+        scrolled.show()
+        hbox.append(hippo.CanvasWidget(widget=scrolled), hippo.PACK_EXPAND)
+
+        for root, dirs, files in os.walk(get_bundle_path() + '/data/', topdown=True):
+            for i in dirs:
+                self._logger.debug("dir %s" % i)
+                
+                listdir = os.listdir(root + i)
+                listdir.sort()
+                for file in listdir:
+                    self._logger.debug("file %s" % file)
+                    entry = { "name": file, "path": root + i + "/" + file }
+                    iter = self.model.insert_before(None, None)
+                    self.model.set_value(iter, 0, entry)
+                    self.model.set_value(iter, 1, entry["name"])
+
+        # Source buffer
         self.text_buffer = gtksourceview2.Buffer()
-
         lang_manager = gtksourceview2.language_manager_get_default()
         langs = lang_manager.list_languages()
         for lang in langs:
@@ -76,8 +104,9 @@ class PippyActivity(Activity):
 
         self.text_buffer.set_highlight(True)
 
+        # The GTK source view window
         self.text_view = gtksourceview2.View(self.text_buffer)
-        self.text_view.set_size_request(1200, 300)
+        self.text_view.set_size_request(900, 300)
         self.text_view.set_editable(True)
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
@@ -88,7 +117,6 @@ class PippyActivity(Activity):
         #style_scheme = mgr.get_scheme('kate')
         #self.text_buffer.set_style_scheme(style_scheme)
 
-        # The GTK source view window
         codesw = gtk.ScrolledWindow()
         codesw.set_policy(gtk.POLICY_AUTOMATIC,
                       gtk.POLICY_AUTOMATIC)
@@ -98,9 +126,8 @@ class PippyActivity(Activity):
 
         # The "go" button
         gobutton = gtk.Button(label="Run!")
-        gobutton.add(self.text_view)
         gobutton.connect('clicked', self.gobutton_cb)
-        gobutton.set_size_request(1200, 50)
+        gobutton.set_size_request(1000, 50)
         vbox.append(hippo.CanvasWidget(widget=gobutton))
         
         # The vte python window
@@ -121,12 +148,14 @@ class PippyActivity(Activity):
                              [])
 
         vbox.append(hippo.CanvasWidget(widget=self._vte), hippo.PACK_EXPAND)
-        
+
+        hbox.append(vbox)
         canvas = hippo.Canvas()
-        canvas.set_root(vbox)
+        canvas.set_root(hbox)
         self.set_canvas(canvas)
         self.show_all()
 
+        
         self.hellotube = None
 
         # get the Presence Service
@@ -153,6 +182,14 @@ class PippyActivity(Activity):
             if self.get_shared():
                 # we've already joined
                 self._joined_cb()
+
+    def selection_cb(self, column):
+        model, iter = column.get_selected()
+        value = model.get_value(iter,0)
+        self._logger.debug("clicked! %s" % value['path'])
+        file = open(value['path'], 'r')
+        lines = file.readlines()
+        self.text_buffer.set_text("".join(lines))
 
     def gobutton_cb(self, button):
         #self._vte.reset(True, True)
