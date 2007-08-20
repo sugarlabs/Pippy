@@ -199,7 +199,7 @@ class PippyActivity(Activity):
         self.text_buffer.set_text("".join(lines))
 
     def gobutton_cb(self, button):
-        #self._vte.reset(True, True)
+        self._vte.grab_focus()
         self._vte.feed("\x1B[H\x1B[J")
         
         # FIXME: We're losing an odd race here
@@ -213,7 +213,7 @@ class PippyActivity(Activity):
             file.write(line)
         file.close()
 
-        pid = self._vte.fork_command(sys.executable, ["python", "/tmp/pippy.py"])
+        pid = self._vte.fork_command("/bin/sh", ["/bin/sh", "-c", "python /tmp/pippy.py; sleep 1"])
         
     def _shared_cb(self, activity):
         self._logger.debug('My activity was shared')
