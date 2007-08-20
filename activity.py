@@ -83,15 +83,21 @@ class PippyActivity(Activity):
         for root, dirs, files in os.walk(get_bundle_path() + '/data/', topdown=True):
             for i in dirs:
                 self._logger.debug("dir %s" % i)
+                direntry = { "name": i, "path": root + i + "/" }
+                olditer = self.model.insert_before(None, None)
+                self.model.set_value(olditer, 0, direntry)
+                self.model.set_value(olditer, 1, direntry["name"])
                 
                 listdir = os.listdir(root + i)
                 listdir.sort()
                 for file in listdir:
                     self._logger.debug("file %s" % file)
                     entry = { "name": file, "path": root + i + "/" + file }
-                    iter = self.model.insert_before(None, None)
+                    iter = self.model.insert_before(olditer, None)
                     self.model.set_value(iter, 0, entry)
                     self.model.set_value(iter, 1, entry["name"])
+
+        treeview.expand_all()
 
         # Source buffer
         self.text_buffer = gtksourceview2.Buffer()
@@ -110,7 +116,8 @@ class PippyActivity(Activity):
         self.text_view.set_editable(True)
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
-        self.text_view.modify_font(pango.FontDescription("Monospace 12"))
+        self.text_view.set_wrap_mode(gtk.WRAP_CHAR)
+        self.text_view.modify_font(pango.FontDescription("Monospace 10"))
 
         # We could change the color theme here, if we want to.
         #mgr = gtksourceview2.style_manager_get_default()
@@ -141,7 +148,7 @@ class PippyActivity(Activity):
         #self._scrollbar.show()
         #self.pack_start(self._scrollbar, False, False, 0)
         
-        font = 'Monospace 12'
+        font = 'Monospace 10'
         self._vte.set_font(pango.FontDescription(font))
         self._vte.set_colors(gtk.gdk.color_parse ('#000000'),
                              gtk.gdk.color_parse ('#E7E7E7'),
