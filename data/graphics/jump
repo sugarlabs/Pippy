@@ -1,0 +1,35 @@
+# both of these functions should be in the 'basic' package or some such
+def clear_scr():
+    print '\x1B[H\x1B[J' # clear screen, the hard way.
+def wait():
+    import time
+    time.sleep(0.1)
+
+# jumping man!
+# having to escape the backslash is rather unfortunate
+# i didn't have to do that in C64 BASIC
+for i in xrange(0,50):
+    clear_scr()
+    print "\\o/"
+    print "_|_"
+    print "   "
+    wait()
+    
+    clear_scr()
+    print "_o_"
+    print " | "
+    print "/ \\"
+    wait()
+    
+    clear_scr()
+    print " o "
+    print "/|\\"
+    print "| |"
+    wait()
+    
+    clear_scr()
+    print "_o_"
+    print " | "
+    print "/ \\"
+    wait()
+    

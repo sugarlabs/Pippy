@@ -1,0 +1,3 @@
+number = input("Which times table? ")
+for i in range(1,13):
+    print i, "x", number, "=", i*number
