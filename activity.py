@@ -50,20 +50,16 @@ class PippyActivity(Activity):
         self.set_title('Pippy Activity')
         self._logger = logging.getLogger('pippy-activity')
 
-        # top toolbar with share and close buttons:
+        # Top toolbar with share and close buttons:
         toolbox = ActivityToolbox(self)
         self.set_toolbox(toolbox)
         toolbox.show()
 
-        # Hippo Canvas:
+        # Main layout.
         win = gtk.Window()
+        hbox = gtk.HBox()
+        vbox = gtk.VBox()
         
-        hbox = hippo.CanvasBox(spacing=4,
-            orientation=hippo.ORIENTATION_HORIZONTAL)
-
-        vbox = hippo.CanvasBox(spacing=4,
-            orientation=hippo.ORIENTATION_VERTICAL)
-
         # The sidebar.
         self.model = gtk.TreeStore(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING)
         treeview = gtk.TreeView(self.model)
@@ -72,13 +68,11 @@ class PippyActivity(Activity):
         treeview.get_selection().connect("changed", self.selection_cb)
         treeview.append_column(treecolumn)
         treeview.set_size_request(200, 900)
-        treeview.show()
 
         # Create scrollbars around the view.
         scrolled = gtk.ScrolledWindow()
         scrolled.add(treeview)
-        scrolled.show()
-        hbox.append(hippo.CanvasWidget(widget=scrolled), hippo.PACK_EXPAND)
+        hbox.pack_start(scrolled)
 
         for root, dirs, files in os.walk(get_bundle_path() + '/data/', topdown=True):
             for i in dirs:
@@ -127,39 +121,36 @@ class PippyActivity(Activity):
         codesw = gtk.ScrolledWindow()
         codesw.set_policy(gtk.POLICY_AUTOMATIC,
                       gtk.POLICY_AUTOMATIC)
-        codesw.set_shadow_type(gtk.SHADOW_IN)
         codesw.add(self.text_view)
-        vbox.append(hippo.CanvasWidget(widget=codesw), hippo.PACK_EXPAND)
+        vbox.pack_start(codesw)
 
         # The "go" button
         gobutton = gtk.Button(label="Run!")
         gobutton.connect('clicked', self.gobutton_cb)
-        gobutton.set_size_request(1000, 50)
-        vbox.append(hippo.CanvasWidget(widget=gobutton))
+        gobutton.set_size_request(1000, 10)
+        vbox.pack_start(gobutton)
+
+        # An hbox to hold the vte window and its scrollbar.
+        outbox = gtk.HBox()
         
         # The vte python window
         self._vte = vte.Terminal()
         self._vte.set_size(30, 5)
-        self._vte.set_size_request(200, 150)
-        self._vte.show()
-
-        # FIXME: Need a scrollbar for the output window.
-        #self._scrollbar = gtk.VScrollbar(self._vte.get_adjustment())
-        #self._scrollbar.show()
-        #self.pack_start(self._scrollbar, False, False, 0)
-        
+        self._vte.set_size_request(200, 200)
         font = 'Monospace 10'
         self._vte.set_font(pango.FontDescription(font))
         self._vte.set_colors(gtk.gdk.color_parse ('#000000'),
                              gtk.gdk.color_parse ('#E7E7E7'),
                              [])
-
-        vbox.append(hippo.CanvasWidget(widget=self._vte), hippo.PACK_EXPAND)
-
-        hbox.append(vbox)
-        canvas = hippo.Canvas()
-        canvas.set_root(hbox)
-        self.set_canvas(canvas)
+        outbox.pack_start(self._vte)
+        
+        # FIXME: Need a scrollbar for the output window.
+        outsb = gtk.VScrollbar(self._vte.get_adjustment())
+        outsb.show()
+        outbox.pack_start(outsb, False, False, 0)
+        vbox.pack_end(outbox)
+        hbox.pack_end(vbox)
+        self.set_canvas(hbox)
         self.show_all()
 
         

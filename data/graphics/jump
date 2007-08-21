@@ -1,3 +1,4 @@
+# From C. Scott Ananian
 # both of these functions should be in the 'basic' package or some such
 def clear_scr():
     print '\x1B[H\x1B[J' # clear screen, the hard way.

@@ -1,4 +1,5 @@
 number = input("Enter a number: ")
+
 if number > 5:
     print "Greater than 5"
 elif number < 5:
