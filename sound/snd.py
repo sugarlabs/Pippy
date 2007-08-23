@@ -23,8 +23,8 @@ def defEnvelope(attack=0.01, decay=0.1, sustain=0.8, release=0.1):
 
     scorelines.append("f100 0 1024 7 0 %ld 1. %ld %f %ld %f %ld 0" % (att, dec, sus, bal, sus, rel))
 
-def playSine( pitch=1000, amp=5000, dur=1, starttime=0):
-    """Play a sine wave (pitch = [1000], amp = [5000], dur = [1], starttime = [0])"""
+def playSine( pitch=1000, amplitude=5000, duration=1, starttime=0):
+    """Play a sine wave (pitch = [1000], amp = [5000], duration = [1], starttime = [0])"""
     if not 1 in instrlist:
         orchlines.append("instr 1\n")
         orchlines.append("asig oscil p5, p4, 1\n")
@@ -32,10 +32,10 @@ def playSine( pitch=1000, amp=5000, dur=1, starttime=0):
         orchlines.append("endin\n\n")
         instrlist.append(1)
 
-    scorelines.append("i1 %s %s %s %s\n" % (str(starttime), str(dur), str(pitch), str(amp)))
+    scorelines.append("i1 %s %s %s %s\n" % (str(starttime), str(duration), str(pitch), str(amplitude)))
 
-def playSquare( pitch=1000, amp=5000, dur=1, starttime=0):
-    """Play a square wave (pitch = [1000], amp = [5000], dur = [1], starttime = [0])"""
+def playSquare( pitch=1000, amplitude=5000, duration=1, starttime=0):
+    """Play a square wave (pitch = [1000], amplitude = [5000], duration = [1], starttime = [0])"""
     if not 2 in instrlist:
         orchlines.append("instr 2\n")
         orchlines.append("asig oscil p5, p4, 2\n")
@@ -43,11 +43,11 @@ def playSquare( pitch=1000, amp=5000, dur=1, starttime=0):
         orchlines.append("endin\n\n")
         instrlist.append(2)
 
-    scorelines.append("i2 %f %f %f %f\n" % (float(starttime), float(dur), float(pitch), float(amp)))
+    scorelines.append("i2 %f %f %f %f\n" % (float(starttime), float(duration), float(pitch), float(amplitude)))
 
-def playWave(name='horse', pitch=1, amp=1, loop=False, dur=1, starttime=0):
-    """Play a wave file (name = ['horse'], pitch = [1], amp = [1], loop = [False], dur = [1], starttime = [0])"""
-    fullname = '/usr/share/activities/TamTam.activity/Resources/Sounds/' + str(name)
+def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, starttime=0):
+    """Play a wave file (sound = ['horse'], pitch = [1], amplitude = [1], loop = [False], duration = [1], starttime = [0])"""
+    fullname = '/usr/share/activities/TamTam.activity/Resources/Sounds/' + str(sound)
     if loop == False:
         lp = 0
     else:
@@ -58,7 +58,7 @@ def playWave(name='horse', pitch=1, amp=1, loop=False, dur=1, starttime=0):
     orchlines.append("out asig\n")
     orchlines.append("endin\n\n")
 
-    scorelines.append("i10 %s %s\n" % (float(starttime), float(dur)))
+    scorelines.append("i10 %s %s\n" % (float(starttime), float(duration)))
 
 def audioOut():
     path = os.path.dirname(os.path.abspath(__file__))
