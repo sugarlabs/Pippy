@@ -4,13 +4,14 @@
 #       define breakpoints function
 
 import os
-import csnd
 
 orchlines = []
 scorelines = []
 instrlist = []
 wavnum = [10]
 fnum = [100]
+
+temp_path = env.get_profile_path() + '/pippy'
 
 
 def quit(self):
@@ -90,7 +91,7 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, startt
     scorelines.append("i%ld %f %f %s\n" % (wavnum[0], float(starttime), float(duration), str(env)))
 
 def audioOut():
-    path = os.path.dirname(os.path.abspath(__file__))
+    path = temp_path
     csd = open(path + "/temp.csd", "w")
     csd.write("<CsoundSynthesizer>\n\n")
     csd.write("<CsOptions>\n")
