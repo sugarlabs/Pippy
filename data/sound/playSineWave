@@ -1,6 +1,0 @@
-import sys
-sys.path.append('/usr/share/activities/Pippy.activity/sound')
-from snd import *
-playSine()
-audioOut()
-        
