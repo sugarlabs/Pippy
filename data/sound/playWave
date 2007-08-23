@@ -1,0 +1,6 @@
+import sys
+sys.path.append('/usr/share/activities/Pippy.activity/sound')
+from snd import *
+playWave(name='didjeridu', loop=True, dur=5)
+audioOut()
+        
