@@ -31,8 +31,8 @@ def defADSR(attack=0.01, decay=0.1, sustain=0.8, release=0.1):
     scorelines.append("f%ld 0 1024 7 0 %ld 1. %ld %f %ld %f %ld 0\n" % (fnum[0], att, dec, sus, bal, sus, rel))
     return fnum[0]
 
-def playSine( pitch=1000, amp=5000, dur=1, starttime=0, envelope='default'):
-    """Play a sine wave (pitch = [1000], amp = [5000], dur = [1], starttime = [0], envelope=['default'])"""
+def playSine( pitch=1000, amplitude=5000, duration=1, starttime=0, envelope='default'):
+    """Play a sine wave (pitch = [1000], amplitude = [5000], duration = [1], starttime = [0], envelope=['default'])"""
     if envelope == 'default':
         env = 100
     else:
@@ -46,10 +46,10 @@ def playSine( pitch=1000, amp=5000, dur=1, starttime=0, envelope='default'):
         orchlines.append("endin\n\n")
         instrlist.append(1)
 
-    scorelines.append("i1 %s %s %s %s %s\n" % (str(starttime), str(dur), str(pitch), str(amp), str(env)))
+    scorelines.append("i1 %s %s %s %s %s\n" % (str(starttime), str(duration), str(pitch), str(amplitude), str(env)))
 
-def playSquare( pitch=1000, amp=5000, dur=1, starttime=0, envelope='default'):
-    """Play a square wave (pitch = [1000], amp = [5000], dur = [1], starttime = [0], envelope=['default'])"""
+def playSquare( pitch=1000, amplitude=5000, duration=1, starttime=0, envelope='default'):
+    """Play a square wave (pitch = [1000], amplitude = [5000], duration = [1], starttime = [0], envelope=['default'])"""
     if envelope == 'default':
         env = 100
     else:
@@ -63,12 +63,12 @@ def playSquare( pitch=1000, amp=5000, dur=1, starttime=0, envelope='default'):
         orchlines.append("endin\n\n")
         instrlist.append(2)
 
-    scorelines.append("i2 %s %s %s %s %s\n" % (str(starttime), str(dur), str(pitch), str(amp), str(env)))
+    scorelines.append("i2 %s %s %s %s %s\n" % (str(starttime), str(duration), str(pitch), str(amplitude), str(env)))
 
-def playWave(name='horse', pitch=1, amp=1, loop=False, dur=1, starttime=0, envelope='default'):
-    """Play a wave file (name = ['horse'], pitch = [1], amp = [1], loop = [False], dur = [1], starttime = [0], envelope=['default'])"""
+def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, starttime=0, envelope='default'):
+    """Play a wave file (sound = ['horse'], pitch = [1], amplitude = [1], loop = [False], duration = [1], starttime = [0], envelope=['default'])"""
 
-    fullname = '/usr/share/activities/TamTam.activity/Resources/Sounds/' + str(name)
+    fullname = '/usr/share/activities/TamTam.activity/Resources/Sounds/' + str(sound)
     if loop == False:
         lp = 0
     else:
@@ -87,7 +87,7 @@ def playWave(name='horse', pitch=1, amp=1, loop=False, dur=1, starttime=0, envel
     orchlines.append("out asig*aenv\n")
     orchlines.append("endin\n\n")
 
-    scorelines.append("i%ld %f %f %s\n" % (wavnum[0], float(starttime), float(dur), str(env)))
+    scorelines.append("i%ld %f %f %s\n" % (wavnum[0], float(starttime), float(duration), str(env)))
 
 def audioOut():
     path = os.path.dirname(os.path.abspath(__file__))
