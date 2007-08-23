@@ -13,7 +13,8 @@ wavnum = [10]
 fnum = [100]
 
 temp_path = env.get_profile_path() + '/pippy'
-os.mkdir(temp_path)
+if not os.path.isdir(temp_path):
+    os.mkdir(temp_path)
 
 
 def quit(self):
