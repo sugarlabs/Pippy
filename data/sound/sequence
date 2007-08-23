@@ -1,0 +1,12 @@
+import sys
+import random
+sys.path.append('/usr/share/activities/Pippy.activity/sound')
+from snd import *
+for i in range(25):
+    pitch = random.randint(500,2000)
+    amp = 5000
+    dur = 0.1
+    starttime = i * 0.1
+    playSine(pitch, amp, dur, starttime)
+audioOut()
+
