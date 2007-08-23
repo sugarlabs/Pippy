@@ -113,14 +113,5 @@ def audioOut():
     csd.write("\n</CsScore>\n")
     csd.write("\n</CsoundSynthesizer>")
     csd.close()
-
-    f = open(path + '/temp.csd', 'r')
-    for line in f.readlines():
-        print line[0:-1]
  
-    #cs = csnd.Csound()
-    #cs.Compile(path + '/temp.csd')
-    #perf = csnd.CsoundPerformanceThread(cs)
-    #perf.Play()
-
-
+    os.system('csound ' + path + '/temp.csd')
