@@ -84,7 +84,7 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, startt
     orchlines.append("instr %ld\n" % wavnum[0]) 
     orchlines.append("aenv oscil 1, 1/p3, p4\n")
     orchlines.append('asig diskin "%s", %s, 0, %ld\n' % (fullname, str(pitch), lp)) 
-    orchlines.append("out asig*aenv\n")
+    orchlines.append("out asig*%f*aenv\n" % float(amplitude))
     orchlines.append("endin\n\n")
 
     scorelines.append("i%ld %f %f %s\n" % (wavnum[0], float(starttime), float(duration), str(env)))
