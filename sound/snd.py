@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 # TODO: Apply pitch envelope
-#       define breakpoints function
+#       not normalize function table
 
 import os
 from sugar import env
@@ -10,6 +10,7 @@ orchlines = []
 scorelines = []
 instrlist = []
 wavnum = [10]
+complexnum  = [10]
 fnum = [100]
 
 temp_path = env.get_profile_path() + '/pippy'
@@ -23,17 +24,43 @@ def quit(self):
     cs.Reset()
     cs = None            
 
-def defADSR(attack=0.01, decay=0.1, sustain=0.8, release=0.1):
+def defAdsr(attack=0.01, decay=0.1, sustain=0.8, release=0.1):
     """Define an ADSR envelope. fnum = defADSR(attack = [0.01], decay = [0.1], sustain = [0.8], release = [0.1])"""
-    att = int(1024 * attack)
-    dec = int(1024 * decay)
-    rel = int(1024 * release)
-    bal = 1024 - (att + dec + rel)
+    att = int(2048 * attack)
+    dec = int(2048 * decay)
+    rel = int(2048 * release)
+    bal = 2048 - (att + dec + rel)
     sus = min(1., sustain)
 
     fnum[0] += 1
-    scorelines.append("f%ld 0 1024 7 0 %ld 1. %ld %f %ld %f %ld 0\n" % (fnum[0], att, dec, sus, bal, sus, rel))
+    scorelines.append("f%ld 0 2048 7 0 %ld 1. %ld %f %ld %f %ld 0\n" % (fnum[0], att, dec, sus, bal, sus, rel))
     return fnum[0]
+
+def defLineSegments(list=[0,10,1,10,0,10,1,10,0]):
+    """Define a breakpoints envelope. list=[0,10,1,10,0,10,1,10,0]. list begin with the start value of the function and is follow by any pair values (duration, value). The number of elements in the list should odd."""
+
+    totalLength = 0
+    newlist = []
+    for i in range(len(list)):
+        if (i % 2) == 1:
+            totalLength += list[i]
+
+    for i in range(len(list)):
+        if (i % 2) == 0:
+            newlist.append(list[i])
+        else:
+            newlist.append(int(2048 * (list[i] / float(totalLength))))
+
+    fnum[0] += 1
+    scorelines.append("f" + str(fnum[0]) + " 0 2048 7 " + " ".join([str(n) for n in newlist]))
+    return fnum[0]
+
+def defComplexWave(list=[1,0,0,.3,0,.2,0,0,.1]):
+    """Define a complex waveform to be read with 'playComplex' function. list=[1,0,0,.3,0,.2,0,0,.1]
+is a list of amplitude for succesive harmonics of a waveform"""
+    complexnum[0] += 1
+    scorelines.append("f" + str(complexnum[0]) + " 0 2048 10 " + " ".join([str(n) for n in list]))
+    return complexnum[0]
 
 def playSine( pitch=1000, amplitude=5000, duration=1, starttime=0, envelope='default'):
     """Play a sine wave (pitch = [1000], amplitude = [5000], duration = [1], starttime = [0], envelope=['default'])"""
@@ -68,6 +95,45 @@ def playSquare( pitch=1000, amplitude=5000, duration=1, starttime=0, envelope='d
         instrlist.append(2)
 
     scorelines.append("i2 %s %s %s %s %s\n" % (str(starttime), str(duration), str(pitch), str(amplitude), str(env)))
+
+def playSawtooth( pitch=1000, amplitude=5000, duration=1, starttime=0, envelope='default'):
+    """Play a sawtooth wave (pitch = [1000], amplitude = [5000], duration = [1], starttime = [0], envelope=['default'])"""
+    if envelope == 'default':
+        env = 100
+    else:
+        env = envelope
+
+    if not 3 in instrlist:
+        orchlines.append("instr 3\n")
+        orchlines.append("aenv oscil 1, 1/p3, p6\n")
+        orchlines.append("asig oscil p5*aenv, p4, 3\n")
+        orchlines.append("out asig\n")
+        orchlines.append("endin\n\n")
+        instrlist.append(3)
+
+    scorelines.append("i3 %s %s %s %s %s\n" % (str(starttime), str(duration), str(pitch), str(amplitude), str(env)))
+
+def playComplex( pitch=1000, amplitude=5000, duration=1, starttime=0, wave='default', envelope='default'):
+    """Play a complex wave (pitch = [1000], amplitude = [5000], duration = [1], starttime = [0], wave = ['default'], envelope = ['default'])"""
+    if envelope == 'default':
+        env = 100
+    else:
+        env = envelope
+
+    if wave == 'default':
+        wavetable = 10
+    else:
+        wavetable = wave
+
+    if not 4 in instrlist:
+        orchlines.append("instr 4\n")
+        orchlines.append("aenv oscil 1, 1/p3, p6\n")
+        orchlines.append("asig oscil p5*aenv, p4, p7\n")
+        orchlines.append("out asig\n")
+        orchlines.append("endin\n\n")
+        instrlist.append(4)
+
+    scorelines.append("i4 %s %s %s %s %s %s\n" % (str(starttime), str(duration), str(pitch), str(amplitude), str(env), str(wavetable)))
 
 def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, starttime=0, envelope='default'):
     """Play a wave file (sound = ['horse'], pitch = [1], amplitude = [1], loop = [False], duration = [1], starttime = [0], envelope=['default'])"""
@@ -108,9 +174,11 @@ def audioOut():
         csd.write(line)
     csd.write("\n</CsInstruments>\n\n")
     csd.write("<CsScore>\n\n")
-    csd.write("f1 0 1024 10 1\n")
-    csd.write("f2 0 1024 10 1 0 .33 0 .2 0 .143 0 .111\n")
-    csd.write("f100 0 1024 7 0. 10 1. 950 1. 64 0.\n")
+    csd.write("f1 0 2048 10 1\n")
+    csd.write("f2 0 2048 10 1 0 .33 0 .2 0 .143 0 .111\n")
+    csd.write("f3 0 2048 10 1 .5 .33 .25 .2 .175 .143 .125 .111 .1\n")
+    csd.write("f10 0 2048 10 1 0 0 .3 0 .2 0 0 .1\n")
+    csd.write("f100 0 2048 7 0. 10 1. 950 1. 64 0.\n")
     for line in scorelines:
         csd.write(line)
     csd.write("e\n")
