@@ -205,6 +205,17 @@ class PippyActivity(Activity):
         file.close()
 
         pid = self._vte.fork_command("/bin/sh", ["/bin/sh", "-c", "python /tmp/pippy.py; sleep 1"])
+
+    def write_file(self, file_path):
+        self.metadata['mime_type'] = 'text/x-python'
+        start, end = self.text_buffer.get_bounds()
+        text = self.text_buffer.get_text(start, end)
+        file = open(file_path, 'w')
+        file.write(text)
+    
+    def read_file(self, file_path):
+        text = open(file_path).read()
+        self.text_buffer.set_text(text)
         
     def _shared_cb(self, activity):
         self._logger.debug('My activity was shared')
