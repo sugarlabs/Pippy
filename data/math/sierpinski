@@ -1,5 +1,6 @@
 # Sierpinski triangles
-size = 5
+import sys
+size = 3
 modulus = 2
 
 lines = modulus**size
@@ -13,13 +14,13 @@ for i in range(0,lines):
   newvector = vector[:]
   for j in range(0,len(vector)-1):
     if (newvector[j] == 0):
-      print " ",
+      sys.stdout.write(" ")
     else:
       remainder = newvector[j] % modulus
       if (remainder == 0):
-        print "O",
+        sys.stdout.write("O")
       else:
-        print ".",
+        sys.stdout.write(".")
     newvector[j] = vector[j-1] + vector[j+1]
   print
   vector = newvector[:]
