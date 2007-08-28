@@ -2,4 +2,3 @@ a, b = 0, 1
 while b < 1001:
      print b,
      a, b = b, a+b
-
