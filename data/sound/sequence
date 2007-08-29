@@ -2,7 +2,7 @@ import sys
 import random
 from sugar.activity.activity import get_bundle_path
 sys.path.append(get_bundle_path() + '/sound')
-from snd import *
+from sound import *
 
 for i in range(25):
     pitch = random.randint(500,2000)

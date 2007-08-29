@@ -1,7 +1,7 @@
 import sys
 from sugar.activity.activity import get_bundle_path
 sys.path.append(get_bundle_path() + '/sound')
-from snd import *
+from sound import *
 
 playSine()
 audioOut()
