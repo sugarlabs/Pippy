@@ -1,3 +1,5 @@
+* Added getSoundList() which returns the list of available sounds for playWave() (Flipo)
+
 4
 
 * Journal integration
