@@ -1,5 +1,7 @@
 5
 
+* Update to new Tubes API
+* Small example changes
 * Added getSoundList() which returns the list of available sounds for playWave() (Flipo)
 
 4
