@@ -133,6 +133,9 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, startt
     orchlines.append("endin\n\n")
 
     scorelines.append("i%ld %f %f %s %s\n" % (wavnum[0], float(starttime), float(duration), str(pitenv), str(ampenv)))
+    
+def getSoundList():
+    return os.listdir('/usr/share/activities/TamTam.activity/Resources/Sounds/')
 
 def audioOut():
     path = temp_path
