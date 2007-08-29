@@ -66,7 +66,7 @@ class PippyActivity(Activity):
         treecolumn = gtk.TreeViewColumn("Examples", cellrenderer, text=1)
         treeview.get_selection().connect("changed", self.selection_cb)
         treeview.append_column(treecolumn)
-        treeview.set_size_request(200, 900)
+        treeview.set_size_request(220, 900)
 
         # Create scrollbars around the view.
         scrolled = gtk.ScrolledWindow()
