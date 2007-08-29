@@ -1,7 +1,16 @@
 4
 
+* Journal integration
+* Sound support!  Thanks to Nat/TamTam team.
+* New examples:  
+   Sierpinski (Madeleine Ball)
+   Recursion (Mel Chua)
+   Fibonacci (Rafael Ortiz)
+
 3
+
+* Added scrollbars, replaced hippo with gtk.
 
 2
 
-There is no news.
+* First public release.
