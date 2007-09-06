@@ -1,2 +1,2 @@
 import code
-code.InteractiveConsole().interact()
+code.InteractiveConsole().interact(banner="")
