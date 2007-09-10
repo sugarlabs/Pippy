@@ -27,6 +27,7 @@ import vte
 import sys
 import os
 import gobject
+from signal import SIGTERM
 
 from dbus import Interface
 from dbus.service import method, signal
@@ -66,7 +67,7 @@ class PippyActivity(Activity):
         treecolumn = gtk.TreeViewColumn("Examples", cellrenderer, text=1)
         treeview.get_selection().connect("changed", self.selection_cb)
         treeview.append_column(treecolumn)
-        treeview.set_size_request(200, 900)
+        treeview.set_size_request(220, 900)
 
         # Create scrollbars around the view.
         scrolled = gtk.ScrolledWindow()
@@ -123,11 +124,22 @@ class PippyActivity(Activity):
         codesw.add(self.text_view)
         vbox.pack_start(codesw)
 
+        # An hbox for the buttons
+        buttonhbox = gtk.HBox()
+
         # The "go" button
         gobutton = gtk.Button(label="Run!")
         gobutton.connect('clicked', self.gobutton_cb)
-        gobutton.set_size_request(1000, 2)
-        vbox.pack_start(gobutton)
+        gobutton.set_size_request(800, 2)
+        buttonhbox.pack_start(gobutton)
+
+        # The "stop" button
+        stopbutton = gtk.Button(label="Stop!")
+        stopbutton.connect('clicked', self.stopbutton_cb)
+        stopbutton.set_size_request(200, 2)
+        buttonhbox.pack_end(stopbutton)
+
+        vbox.pack_start(buttonhbox)
 
         # An hbox to hold the vte window and its scrollbar.
         outbox = gtk.HBox()
@@ -204,7 +216,10 @@ class PippyActivity(Activity):
             file.write(line)
         file.close()
 
-        pid = self._vte.fork_command("/bin/sh", ["/bin/sh", "-c", "python /tmp/pippy.py; sleep 1"])
+        self._pid = self._vte.fork_command("/bin/sh", ["/bin/sh", "-c", "python /tmp/pippy.py; sleep 1"])
+
+    def stopbutton_cb(self, button):
+        os.kill(self._pid, SIGTERM)	
 
     def write_file(self, file_path):
         self.metadata['mime_type'] = 'text/x-python'

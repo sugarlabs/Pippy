@@ -1,3 +1,18 @@
+7
+
+
+* Remove the "interpreter" banner; we don't provide the help files it mentions
+* Add "Stop!" button to terminate the currently running code.
+
+6
+
+* Add "interpreter" example, by Ivan Krstić.
+* 55px->45px icon, resized by Eben Eliason.
+
+5
+
+* Update to new Tubes API
+* Small example changes
 * Added getSoundList() which returns the list of available sounds for playWave() (Flipo)
 
 4

@@ -3,5 +3,5 @@ from sugar.activity.activity import get_bundle_path
 sys.path.append(get_bundle_path() + '/sound')
 from sound import *
 
-for sound in getSoundList():
+for sound in sorted(getSoundList()):
     print sound

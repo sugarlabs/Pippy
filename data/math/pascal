@@ -1,5 +1,5 @@
 # Pascal's triangle
-lines = 8
+lines = 9
 
 vector = [1]
 
