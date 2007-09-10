@@ -1,3 +1,9 @@
+7
+
+
+* Remove the "interpreter" banner; we don't provide the help files it mentions
+* Add "Stop!" button to terminate the currently running code.
+
 6
 
 * Add "interpreter" example, by Ivan Krstić.

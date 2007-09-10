@@ -3,5 +3,5 @@ name = Pippy
 service_name = org.laptop.Pippy
 class = activity.PippyActivity
 icon = activity-pippy
-activity_version = 6
+activity_version = 7
 show_launcher = yes
