@@ -35,8 +35,7 @@ from dbus.gobject_service import ExportedGObject
 from sugar.activity.activity import Activity, ActivityToolbox, get_bundle_path
 from sugar.presence import presenceservice
 
-# will eventually be imported from sugar
-from tubeconn import TubeConnection
+from sugar.presence.tubeconn import TubeConnection
 
 SERVICE = "org.laptop.Pippy"
 IFACE = SERVICE
@@ -67,7 +66,7 @@ class PippyActivity(Activity):
         treecolumn = gtk.TreeViewColumn("Examples", cellrenderer, text=1)
         treeview.get_selection().connect("changed", self.selection_cb)
         treeview.append_column(treecolumn)
-        treeview.set_size_request(200, 900)
+        treeview.set_size_request(220, 900)
 
         # Create scrollbars around the view.
         scrolled = gtk.ScrolledWindow()
@@ -106,7 +105,7 @@ class PippyActivity(Activity):
 
         # The GTK source view window
         self.text_view = gtksourceview2.View(self.text_buffer)
-        self.text_view.set_size_request(900, 300)
+        self.text_view.set_size_request(900, 350)
         self.text_view.set_editable(True)
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
@@ -127,7 +126,7 @@ class PippyActivity(Activity):
         # The "go" button
         gobutton = gtk.Button(label="Run!")
         gobutton.connect('clicked', self.gobutton_cb)
-        gobutton.set_size_request(1000, 10)
+        gobutton.set_size_request(1000, 2)
         vbox.pack_start(gobutton)
 
         # An hbox to hold the vte window and its scrollbar.
@@ -136,7 +135,7 @@ class PippyActivity(Activity):
         # The vte python window
         self._vte = vte.Terminal()
         self._vte.set_size(30, 5)
-        self._vte.set_size_request(200, 200)
+        self._vte.set_size_request(200, 300)
         font = 'Monospace 10'
         self._vte.set_font(pango.FontDescription(font))
         self._vte.set_colors(gtk.gdk.color_parse ('#000000'),
@@ -182,6 +181,7 @@ class PippyActivity(Activity):
                 self._joined_cb()
 
     def selection_cb(self, column):
+        self.save()
         model, iter = column.get_selected()
         value = model.get_value(iter,0)
         self._logger.debug("clicked! %s" % value['path'])
@@ -205,6 +205,17 @@ class PippyActivity(Activity):
         file.close()
 
         pid = self._vte.fork_command("/bin/sh", ["/bin/sh", "-c", "python /tmp/pippy.py; sleep 1"])
+
+    def write_file(self, file_path):
+        self.metadata['mime_type'] = 'text/x-python'
+        start, end = self.text_buffer.get_bounds()
+        text = self.text_buffer.get_text(start, end)
+        file = open(file_path, 'w')
+        file.write(text)
+    
+    def read_file(self, file_path):
+        text = open(file_path).read()
+        self.text_buffer.set_text(text)
         
     def _shared_cb(self, activity):
         self._logger.debug('My activity was shared')
@@ -219,8 +230,8 @@ class PippyActivity(Activity):
         self._shared_activity.connect('buddy-left', self._buddy_left_cb)
 
         self._logger.debug('This is my activity: making a tube...')
-        id = self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].OfferTube(
-            telepathy.TUBE_TYPE_DBUS, SERVICE, {})
+        id = self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].OfferDBusTube(
+            SERVICE, {})
 
     # presence service should be tubes-aware and give us more help
     # with this
@@ -302,7 +313,7 @@ class PippyActivity(Activity):
         if (type == telepathy.TUBE_TYPE_DBUS and
             service == SERVICE):
             if state == telepathy.TUBE_STATE_LOCAL_PENDING:
-                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].AcceptTube(id)
+                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(id)
 
             tube_conn = TubeConnection(self.conn,
                 self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES],

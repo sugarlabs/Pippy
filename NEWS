@@ -1,5 +1,27 @@
+6
+
+* Add "interpreter" example, by Ivan Krstić.
+* 55px->45px icon, resized by Eben Eliason.
+
+5
+
+* Update to new Tubes API
+* Small example changes
+* Added getSoundList() which returns the list of available sounds for playWave() (Flipo)
+
+4
+
+* Journal integration
+* Sound support!  Thanks to Nat/TamTam team.
+* New examples:  
+   Sierpinski (Madeleine Ball)
+   Recursion (Mel Chua)
+   Fibonacci (Rafael Ortiz)
+
 3
+
+* Added scrollbars, replaced hippo with gtk.
 
 2
 
-There is no news.
+* First public release.

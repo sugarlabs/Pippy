@@ -1,6 +1,8 @@
 import sys
-sys.path.append('/usr/share/activities/Pippy.activity/sound')
-from snd import *
+from sugar.activity.activity import get_bundle_path
+sys.path.append(get_bundle_path() + '/sound')
+from sound import *
+
 playSine()
 audioOut()
         

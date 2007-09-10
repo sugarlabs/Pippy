@@ -1,8 +1,11 @@
-# Pascal's triangle
-lines = 9
+# Sierpinski triangles
+import sys
+size = 3
+modulus = 2
+
+lines = modulus**size
 
 vector = [1]
-
 for i in range(1,lines+1):
   vector.insert(0,0)
   vector.append(0)
@@ -11,9 +14,13 @@ for i in range(0,lines):
   newvector = vector[:]
   for j in range(0,len(vector)-1):
     if (newvector[j] == 0):
-      print "  ",
+      sys.stdout.write(" ")
     else:
-      print "%2d" % newvector[j],
+      remainder = newvector[j] % modulus
+      if (remainder == 0):
+        sys.stdout.write("O")
+      else:
+        sys.stdout.write(".")
     newvector[j] = vector[j-1] + vector[j+1]
   print
   vector = newvector[:]

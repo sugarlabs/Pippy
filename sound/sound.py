@@ -156,7 +156,22 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, startt
     if pitch_envelope == 'default': pitenv = 99
     else: pitenv = pitch_envelope
 
+    if amplitude_envelope == 'default': ampenv = 100
+    else: ampenv = amplitude_envelope
+
+    if not 9 in instrlist:
+        orchlines.append("instr 9\n") 
+        orchlines.append("kpitenv oscil 1, 1/p3, p8\n")
+        orchlines.append("aenv oscil 1, 1/p3, p9\n")
+        orchlines.append("asig diskin p4, p5*kpitenv, 0, p7\n") 
+        orchlines.append("out asig*p6*aenv\n")
+        orchlines.append("endin\n\n")
+        instrlist.append(9)
+
     scorelines.append('i9 %f %f "%s" %s %s %s %s %s\n' % (float(starttime), float(duration), fullname, str(pitch), str(amplitude), str(lp), str(pitenv), str(ampenv)))
+    
+def getSoundList():
+    return os.listdir('/usr/share/activities/TamTam.activity/Resources/Sounds/')
 
 def audioOut(file=None):
     """Compile a .csd file and start csound to run it. If a string is given as argument, it write a wave file on disk instead of sending sound to hp. (file = [None])"""
