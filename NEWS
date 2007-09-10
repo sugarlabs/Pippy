@@ -1,5 +1,8 @@
-7
+8
 
+* Changed location of sound library on filesystem, for build573+.
+
+7
 
 * Remove the "interpreter" banner; we don't provide the help files it mentions
 * Add "Stop!" button to terminate the currently running code.
