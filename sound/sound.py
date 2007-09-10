@@ -149,7 +149,7 @@ def playPluck( pitch=100, amplitude=5000, duration=2, starttime=0, pitch_envelop
 
 def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, starttime=0, pitch_envelope='default', amplitude_envelope='default'):
     """Play a wave file (sound = ['horse'], pitch = [1], amplitude = [1], loop = [False], duration = [1], starttime = [0], pitch_envelope=['default'], amplitude_envelope=['default'])"""
-    fullname = '/usr/share/activities/TamTam.activity/Resources/Sounds/' + str(sound)
+    fullname = '/usr/share/activities/TamTamEdit.activity/Resources/Sounds/' + str(sound)
 
     if loop == False: lp = 0
     else: lp = 1
@@ -172,7 +172,7 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, startt
     scorelines.append('i9 %f %f "%s" %s %s %s %s %s\n' % (float(starttime), float(duration), fullname, str(pitch), str(amplitude), str(lp), str(pitenv), str(ampenv)))
     
 def getSoundList():
-    return sorted(os.listdir('/usr/share/activities/TamTam.activity/Resources/Sounds/'))
+    return sorted(os.listdir('/usr/share/activities/TamTamEdit.activity/Resources/Sounds/'))
 
 def audioOut(file=None):
     """Compile a .csd file and start csound to run it. If a string is given as argument, it write a wave file on disk instead of sending sound to hp. (file = [None])"""
