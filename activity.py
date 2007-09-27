@@ -27,8 +27,9 @@ import vte
 import sys
 import os
 import gobject
-from signal import SIGTERM
 
+from signal import SIGTERM
+from gettext import gettext as _
 from dbus import Interface
 from dbus.service import method, signal
 from dbus.gobject_service import ExportedGObject
@@ -47,7 +48,6 @@ class PippyActivity(Activity):
     def __init__(self, handle):
         """Set up the Pippy activity."""
         Activity.__init__(self, handle)
-        self.set_title('Pippy Activity')
         self._logger = logging.getLogger('pippy-activity')
 
         # Top toolbar with share and close buttons:
@@ -64,7 +64,7 @@ class PippyActivity(Activity):
         self.model = gtk.TreeStore(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING)
         treeview = gtk.TreeView(self.model)
         cellrenderer = gtk.CellRendererText()
-        treecolumn = gtk.TreeViewColumn("Examples", cellrenderer, text=1)
+        treecolumn = gtk.TreeViewColumn(_("Examples"), cellrenderer, text=1)
         treeview.get_selection().connect("changed", self.selection_cb)
         treeview.append_column(treecolumn)
         treeview.set_size_request(220, 900)
@@ -77,7 +77,7 @@ class PippyActivity(Activity):
         for root, dirs, files in os.walk(get_bundle_path() + '/data/', topdown=True):
             for i in dirs:
                 self._logger.debug("dir %s" % i)
-                direntry = { "name": i, "path": root + i + "/" }
+                direntry = { "name": _(i), "path": root + i + "/" }
                 olditer = self.model.insert_before(None, None)
                 self.model.set_value(olditer, 0, direntry)
                 self.model.set_value(olditer, 1, direntry["name"])
@@ -86,7 +86,7 @@ class PippyActivity(Activity):
                 listdir.sort()
                 for file in listdir:
                     self._logger.debug("file %s" % file)
-                    entry = { "name": file, "path": root + i + "/" + file }
+                    entry = { "name": _(file), "path": root + i + "/" + file }
                     iter = self.model.insert_before(olditer, None)
                     self.model.set_value(iter, 0, entry)
                     self.model.set_value(iter, 1, entry["name"])
@@ -128,13 +128,13 @@ class PippyActivity(Activity):
         buttonhbox = gtk.HBox()
 
         # The "go" button
-        gobutton = gtk.Button(label="Run!")
+        gobutton = gtk.Button(label=_("Run!"))
         gobutton.connect('clicked', self.gobutton_cb)
         gobutton.set_size_request(800, 2)
         buttonhbox.pack_start(gobutton)
 
         # The "stop" button
-        stopbutton = gtk.Button(label="Stop!")
+        stopbutton = gtk.Button(label=_("Stop!"))
         stopbutton.connect('clicked', self.stopbutton_cb)
         stopbutton.set_size_request(200, 2)
         buttonhbox.pack_end(stopbutton)
