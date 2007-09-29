@@ -15,7 +15,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """Pippy Activity: A simple Python programming activity ."""
-
+import gettext
 import gtksourceview2
 import gtk
 import logging
@@ -128,13 +128,13 @@ class PippyActivity(Activity):
         buttonhbox = gtk.HBox()
 
         # The "go" button
-        gobutton = gtk.Button(label=_("Run!"))
+        gobutton = gtk.Button(label=_("Run!")
         gobutton.connect('clicked', self.gobutton_cb)
         gobutton.set_size_request(800, 2)
         buttonhbox.pack_start(gobutton)
 
         # The "stop" button
-        stopbutton = gtk.Button(label=_("Stop!"))
+        stopbutton = gtk.Button(label=_("Stop!")
         stopbutton.connect('clicked', self.stopbutton_cb)
         stopbutton.set_size_request(200, 2)
         buttonhbox.pack_end(stopbutton)
