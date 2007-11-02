@@ -21,4 +21,4 @@ table = {
 print "OLPC would like to take this opportunity to acknowledge the community of people and projects that have made the XO laptop possible."
 
 for subsystem in table.keys():
-    print subsystem, '\t', table[subsystem]
+    print '\n', subsystem, '\n\t', table[subsystem]
