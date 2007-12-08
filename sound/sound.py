@@ -207,4 +207,4 @@ def audioOut(file=None):
     csd.write("\n</CsoundSynthesizer>")
     csd.close()
  
-    os.system('csound ' + path + '/temp.csd')
+    os.system('csound ' + path + '/temp.csd >/dev/null 2>/dev/null')
