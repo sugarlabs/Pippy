@@ -1,8 +1,4 @@
 # bounce: move some text around the screen
-# use the escape key to exit
-# 
-# on the XO, the escape key is the top lefthand key,
-# circle with an x in it.
 
 import sys,pygame
 from pygame.locals import *
@@ -55,8 +51,7 @@ while 1:
       sys.exit()
 
     elif event.type == KEYDOWN:
-      if event.key == K_ESCAPE:
-        sys.exit()
+      sys.exit()
 
   screen.fill((250,250,250))
   

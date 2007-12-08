@@ -1,8 +1,4 @@
-# lines: make lots of lines on the screen, just for fun!
-# use the escape key to exit
-# 
-# on the XO, the escape key is the top lefthand key,
-# circle with an x in it.
+# lines: make lots of lines on the screen
 
 import sys,pygame
 from pygame.locals import *
@@ -43,8 +39,7 @@ while 1:
       sys.exit()
 
     elif event.type == KEYDOWN:
-      if event.key == K_ESCAPE:
-        sys.exit()
+      sys.exit()
 
   # draw the line using the current values and width=3
   pygame.draw.line(screen, color, start, end, 3)

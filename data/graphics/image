@@ -1,6 +1,4 @@
 # image: take a picture
-#
-# any keypress to exit
 
 import sys, pygame, gst, time
 from random import *
