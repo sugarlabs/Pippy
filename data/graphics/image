@@ -1,0 +1,52 @@
+# image: take a picture
+#
+# any keypress to exit
+
+import sys, pygame, gst, time
+from random import *
+
+# XO screen is 1200 by 900
+size = width, height = 1200, 900
+
+# grey background
+bgcolor = (128,128,128)
+
+# grab a frame from camera to file
+pipeline = gst.parse_launch('v4l2src ! ffmpegcolorspace ! jpegenc ! filesink location=/tmp/pippypic.jpg')
+pipeline.set_state(gst.STATE_PLAYING)
+
+# pygame always needs to be initialized as the first call
+pygame.init()
+
+# turn off cursor
+pygame.mouse.set_visible(False)
+
+# create the pygame window at the desired size and return a Surface object for
+# drawing in that window.
+screen = pygame.display.set_mode(size)
+
+time.sleep(1)
+pipeline.set_state(gst.STATE_NULL)
+
+# load in previously grabbed frame
+image = pygame.image.load("/tmp/pippypic.jpg")
+
+angle = 0.0
+scale = 2.0
+
+while 1:
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT: sys.exit()
+    elif event.type == pygame.KEYDOWN: sys.exit()
+
+  newImage = pygame.transform.rotozoom(image, angle,scale)
+  newImageRect = newImage.get_rect()
+  newImageRect.centerx = screen.get_rect().centerx
+  newImageRect.centery = screen.get_rect().centery
+
+  screen.fill(bgcolor)
+  screen.blit(newImage, newImageRect)
+  pygame.display.flip()
+
+  angle = angle + 5.0
+  scale = scale * 0.95
