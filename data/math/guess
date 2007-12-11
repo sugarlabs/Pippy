@@ -1,6 +1,5 @@
 import random
-from random import randrange
-R = randrange(1,100)
+R = random.randrange(1,100)
 
 print "Guess a number between 1 and 100!"
 N = input("Enter a number: ")

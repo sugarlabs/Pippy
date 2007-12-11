@@ -5,7 +5,7 @@
 # on the XO, the escape key is the top lefthand key,
 # circle with an x in it.
 
-import sys,pygame
+import pippy, pygame, sys
 from pygame.locals import *
 from random import *
 
@@ -50,7 +50,7 @@ textRect = text.get_rect()
 textRect.centerx = screen.get_rect().centerx
 textRect.centery = screen.get_rect().centery
 
-while 1:
+while pippy.pygame.next_frame():
 
   # display msg
   screen.fill(bgcolor)

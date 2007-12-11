@@ -216,7 +216,13 @@ class PippyActivity(Activity):
             file.write(line)
         file.close()
 
-        self._pid = self._vte.fork_command("/bin/sh", ["/bin/sh", "-c", "python /tmp/pippy.py; sleep 1"])
+        self._pid = self._vte.fork_command \
+                    (command="/bin/sh",
+                     argv=["/bin/sh", "-c",
+                           "python /tmp/pippy.py; sleep 1"],
+                     envv=["PYTHONPATH=%s/library" % get_bundle_path()],
+                     directory=get_bundle_path(),
+                     lastlog=False, utmp=False, wtmp=False)
 
     def stopbutton_cb(self, button):
         os.kill(self._pid, SIGTERM)	

@@ -1,6 +1,6 @@
 # bounce: move some text around the screen
 
-import sys,pygame
+import pippy, pygame, sys
 from pygame.locals import *
 from random import *
 
@@ -44,7 +44,7 @@ textRect = text.get_rect()
 textRect.left = 0;
 textRect.top = 0;
 
-while 1:
+while pippy.pygame.next_frame():
 
   for event in pygame.event.get():
     if event.type == QUIT:

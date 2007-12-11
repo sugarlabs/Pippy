@@ -1,31 +1,27 @@
-def clear_scr():
-    print '\x1B[H\x1B[J' # clear screen
-
-def wait():
-    import time
-    time.sleep(0.1)
+import pippy
 
 for i in xrange(0,50):
-    clear_scr()
+    pippy.console.clear()
+    # Note that we have to escape backslashes
     print "\\o/"
     print "_|_"
     print "   "
-    wait()
+    pippy.wait()
     
-    clear_scr()
+    pippy.console.clear()
     print "_o_"
     print " | "
     print "/ \\"
-    wait()
+    pippy.wait()
     
-    clear_scr()
+    pippy.console.clear()
     print " o "
     print "/|\\"
     print "| |"
-    wait()
+    pippy.wait()
     
-    clear_scr()
+    pippy.console.clear()
     print "_o_"
     print " | "
     print "/ \\"
-    wait()
+    pippy.wait()

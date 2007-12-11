@@ -1,7 +1,4 @@
-import sys
-from sugar.activity.activity import get_bundle_path
-sys.path.append(get_bundle_path() + '/sound')
-from sound import *
+import pippy
 
-for sound in getSoundList():
+for sound in pippy.sound.getSoundList():
     print sound
