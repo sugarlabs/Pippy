@@ -3,7 +3,8 @@
 import pygame
 
 def pause():
-    # display a "Paused" screen and suspend.
+    """Display a "Paused" screen and suspend."""
+    from gettext import gettext as _
     caption, icon_caption = pygame.display.get_caption()
     screen = pygame.display.get_surface()
     old_screen = screen.copy()  # save this for later.
@@ -16,7 +17,7 @@ def pause():
     screen.fill(WHITE)
     screen.blit(dimmed, (0,0))
     font = pygame.font.Font(None, 36) # 36px high
-    msg = "   PAUSED   "
+    msg = _("PAUSED")
     msg_surf = font.render(msg, True, BLACK, WHITE)
     def center(rect, screen):
         rect.center = (screen.get_width()/2, screen.get_height()/2)
@@ -41,7 +42,8 @@ def pause():
     pygame.display.flip()
 
 _last_event_time=0
-def next_frame(max_fps=20, idle_timeout=20, clock=pygame.time.Clock()):
+def next_frame(max_fps=20, idle_timeout=20,
+               clock=pygame.time.Clock(), pause=pause):
     """Limit maximum frame rate of pygame.  Returns True.
 
     If idle longer than the idle_timeout (in seconds), then we'll put up a
