@@ -4,7 +4,6 @@
 # audioOut write a wave file if a string is given as argument
 import os
 from sugar import env
-from sugar.activity.activity import get_bundle_path
 
 orchlines = []
 scorelines = []
