@@ -14,7 +14,7 @@ def pause():
     WHITE = (255,255,255)
     dimmed = screen.copy()
     dimmed.set_alpha(128)
-    screen.fill(WHITE)
+    screen.fill(BLACK)
     screen.blit(dimmed, (0,0))
     font = pygame.font.Font(None, 36) # 36px high
     msg = _("PAUSED")
