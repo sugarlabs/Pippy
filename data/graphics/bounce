@@ -3,7 +3,6 @@
 import pippy, pygame, sys
 from pygame.locals import *
 from random import *
-from gettext import gettext as _
 
 # always need to init first thing
 pygame.init()
@@ -24,7 +23,7 @@ mvect = [3,2]
 # for drawing into
 screen = pygame.display.set_mode(size)
 
-msg = _("Hello!")
+msg = "Hello!"
 
 # create a Font object from a file, or use the default
 # font if the file name is None. size param is height
