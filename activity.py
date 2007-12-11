@@ -211,7 +211,8 @@ class PippyActivity(Activity):
         start, end = self.text_buffer.get_bounds()
         text = self.text_buffer.get_text(start, end)
 
-        file = open('/tmp/pippy.py', 'w', 0)
+        pippy_app_name = '%s/tmp/pippy_app.py' % self.get_activity_root()
+        file = open(pippy_app_name, 'w', 0)
         for line in text:
             file.write(line)
         file.close()
@@ -219,10 +220,9 @@ class PippyActivity(Activity):
         self._pid = self._vte.fork_command \
                     (command="/bin/sh",
                      argv=["/bin/sh", "-c",
-                           "python /tmp/pippy.py; sleep 1"],
+                           "python %s; sleep 1" % pippy_app_name],
                      envv=["PYTHONPATH=%s/library" % get_bundle_path()],
-                     directory=get_bundle_path(),
-                     lastlog=False, utmp=False, wtmp=False)
+                     directory=get_bundle_path())
 
     def stopbutton_cb(self, button):
         os.kill(self._pid, SIGTERM)	
