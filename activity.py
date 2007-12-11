@@ -203,7 +203,7 @@ class PippyActivity(Activity):
 
     def gobutton_cb(self, button):
         self._vte.grab_focus()
-        self._vte.feed("\x1B[H\x1B[J")
+        self._vte.feed("\x1B[H\x1B[J\x1B[0;39m")
         
         # FIXME: We're losing an odd race here
         # gtk.main_iteration(block=False)
