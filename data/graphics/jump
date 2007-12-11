@@ -2,6 +2,11 @@ import pippy
 
 for i in xrange(0,50):
     pippy.console.clear()
+    if i < 25:
+       pippy.console.red()
+    else:
+       pippy.console.blue()
+
     # Note that we have to escape backslashes
     print "\\o/"
     print "_|_"
