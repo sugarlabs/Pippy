@@ -15,22 +15,18 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """Pippy Activity: A simple Python programming activity ."""
-import gettext
 import gtksourceview2
 import gtk
 import logging
 import telepathy
 import telepathy.client
-import hippo
 import pango
 import vte
-import sys
 import os
 import gobject
 
 from signal import SIGTERM
 from gettext import gettext as _
-from dbus import Interface
 from dbus.service import method, signal
 from dbus.gobject_service import ExportedGObject
 
@@ -56,7 +52,6 @@ class PippyActivity(Activity):
         toolbox.show()
 
         # Main layout.
-        win = gtk.Window()
         hbox = gtk.HBox()
         vbox = gtk.VBox()
         
@@ -84,12 +79,12 @@ class PippyActivity(Activity):
                 
                 listdir = os.listdir(root + i)
                 listdir.sort()
-                for file in listdir:
-                    self._logger.debug("file %s" % file)
-                    entry = { "name": _(file), "path": root + i + "/" + file }
-                    iter = self.model.insert_before(olditer, None)
-                    self.model.set_value(iter, 0, entry)
-                    self.model.set_value(iter, 1, entry["name"])
+                for _file in listdir:
+                    self._logger.debug("file %s" % _file)
+                    entry = { "name": _(_file), "path": root + i + "/" + _file }
+                    _iter = self.model.insert_before(olditer, None)
+                    self.model.set_value(_iter, 0, entry)
+                    self.model.set_value(_iter, 1, entry["name"])
 
         treeview.expand_all()
 
@@ -155,7 +150,6 @@ class PippyActivity(Activity):
                              [])
         outbox.pack_start(self._vte)
         
-        # FIXME: Need a scrollbar for the output window.
         outsb = gtk.VScrollbar(self._vte.get_adjustment())
         outsb.show()
         outbox.pack_start(outsb, False, False, 0)
@@ -194,11 +188,11 @@ class PippyActivity(Activity):
 
     def selection_cb(self, column):
         self.save()
-        model, iter = column.get_selected()
-        value = model.get_value(iter,0)
+        model, _iter = column.get_selected()
+        value = model.get_value(_iter,0)
         self._logger.debug("clicked! %s" % value['path'])
-        file = open(value['path'], 'r')
-        lines = file.readlines()
+        _file = open(value['path'], 'r')
+        lines = _file.readlines()
         self.text_buffer.set_text("".join(lines))
 
     def gobutton_cb(self, button):
@@ -212,10 +206,10 @@ class PippyActivity(Activity):
         text = self.text_buffer.get_text(start, end)
 
         pippy_app_name = '%s/tmp/pippy_app.py' % self.get_activity_root()
-        file = open(pippy_app_name, 'w', 0)
+        _file = open(pippy_app_name, 'w', 0)
         for line in text:
-            file.write(line)
-        file.close()
+            _file.write(line)
+        _file.close()
 
         self._pid = self._vte.fork_command \
                     (command="/bin/sh",
@@ -231,8 +225,8 @@ class PippyActivity(Activity):
         self.metadata['mime_type'] = 'text/x-python'
         start, end = self.text_buffer.get_bounds()
         text = self.text_buffer.get_text(start, end)
-        file = open(file_path, 'w')
-        file.write(text)
+        _file = open(file_path, 'w')
+        _file.write(text)
     
     def read_file(self, file_path):
         text = open(file_path).read()
@@ -251,7 +245,7 @@ class PippyActivity(Activity):
         self._shared_activity.connect('buddy-left', self._buddy_left_cb)
 
         self._logger.debug('This is my activity: making a tube...')
-        id = self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].OfferDBusTube(
+        _id = self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].OfferDBusTube(
             SERVICE, {})
 
     # presence service should be tubes-aware and give us more help
@@ -326,19 +320,19 @@ class PippyActivity(Activity):
             reply_handler=self._list_tubes_reply_cb,
             error_handler=self._list_tubes_error_cb)
 
-    def _new_tube_cb(self, id, initiator, type, service, params, state):
+    def _new_tube_cb(self, _id, initiator, type, service, params, state):
         self._logger.debug('New tube: ID=%d initator=%d type=%d service=%s '
-                     'params=%r state=%d', id, initiator, type, service,
+                     'params=%r state=%d', _id, initiator, type, service,
                      params, state)
 
         if (type == telepathy.TUBE_TYPE_DBUS and
             service == SERVICE):
             if state == telepathy.TUBE_STATE_LOCAL_PENDING:
-                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(id)
+                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(_id)
 
             tube_conn = TubeConnection(self.conn,
                 self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES],
-                id, group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
+                _id, group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
             self.hellotube = HelloTube(tube_conn, self.initiating, self._get_buddy)
 
     def _buddy_joined_cb (self, activity, buddy):
@@ -361,7 +355,7 @@ class PippyActivity(Activity):
             self._logger.debug('CS handle %u belongs to %u', cs_handle, handle)
         else:
             handle = cs_handle
-            logger.debug('non-CS handle %u belongs to itself', handle)
+            self._logger.debug('non-CS handle %u belongs to itself', handle)
 
             # XXX: deal with failure to get the handle owner
             assert handle != 0
