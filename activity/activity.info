@@ -1,6 +1,6 @@
 [Activity]
 name = Pippy
-service_name = org.laptop.Pippy
+bundle_id = org.laptop.Pippy
 class = activity.PippyActivity
 icon = activity-pippy
 activity_version = 12

@@ -15,6 +15,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """Pippy Activity: A simple Python programming activity ."""
+from __future__ import with_statement
 import gtksourceview2
 import gtk
 import logging
@@ -22,7 +23,7 @@ import telepathy
 import telepathy.client
 import pango
 import vte
-import os
+import re, os, os.path
 import gobject
 
 from signal import SIGTERM
@@ -34,10 +35,22 @@ from sugar.activity.activity import Activity, ActivityToolbox, get_bundle_path
 from sugar.presence import presenceservice
 
 from sugar.presence.tubeconn import TubeConnection
+from sugar.graphics.toolbutton import ToolButton
+
 
 SERVICE = "org.laptop.Pippy"
 IFACE = SERVICE
 PATH = "/org/laptop/Pippy"
+
+ACTIVITY_INFO_TEMPLATE = """
+[Activity]
+name = %s
+bundle_id = org.laptop.pippy.%s
+class = activity.VteActivity
+icon = activity-icon
+activity_version = %d
+show_launcher = yes
+"""
 
 class PippyActivity(Activity):
     """Pippy Activity as specified in activity.info"""
@@ -48,6 +61,14 @@ class PippyActivity(Activity):
 
         # Top toolbar with share and close buttons:
         toolbox = ActivityToolbox(self)
+        # add 'make bundle' button.
+        at = toolbox.get_activity_toolbar()
+        # XXX: shouldn't reuse document-save; we need a distinctive icon.
+        self._make = ToolButton('document-save')
+        self._make.set_tooltip(_('Save as Activity'))
+        self._make.connect('clicked', self.makebutton_cb)
+        toolbox.get_activity_toolbar().insert(self._make, 4)
+        self._make.show()
         self.set_toolbox(toolbox)
         toolbox.show()
 
@@ -195,21 +216,25 @@ class PippyActivity(Activity):
         lines = _file.readlines()
         self.text_buffer.set_text("".join(lines))
 
-    def gobutton_cb(self, button):
+    def _write_text_buffer(self, filename):
+        start, end = self.text_buffer.get_bounds()
+        text = self.text_buffer.get_text(start, end)
+
+        with open(filename, 'w') as f:
+            for line in text:
+                f.write(line)
+    def _reset_vte(self):
         self._vte.grab_focus()
         self._vte.feed("\x1B[H\x1B[J\x1B[0;39m")
+
+    def gobutton_cb(self, button):
+        self._reset_vte()
         
         # FIXME: We're losing an odd race here
         # gtk.main_iteration(block=False)
         
-        start, end = self.text_buffer.get_bounds()
-        text = self.text_buffer.get_text(start, end)
-
         pippy_app_name = '%s/tmp/pippy_app.py' % self.get_activity_root()
-        _file = open(pippy_app_name, 'w', 0)
-        for line in text:
-            _file.write(line)
-        _file.close()
+        self._write_text_buffer(pippy_app_name)
 
         self._pid = self._vte.fork_command \
                     (command="/bin/sh",
@@ -220,6 +245,85 @@ class PippyActivity(Activity):
 
     def stopbutton_cb(self, button):
         os.kill(self._pid, SIGTERM)	
+
+    def makebutton_cb(self, button):
+        from shutil import copytree, copy2, rmtree
+        from tempfile import mkdtemp
+        from sugar import profile
+        from sugar.datastore import datastore
+        # get the name of this pippy program.
+        title = self.metadata['title']
+        if title == 'Pippy Activity':
+            from sugar.graphics.alert import Alert
+            from sugar.graphics.icon import Icon
+            alert = Alert()
+            alert.props.title =_ ('Save as Activity Error')
+            alert.props.msg = _('Please give your activity a meaningful name before attempting to save it as an activity.')
+            cancel_icon = Icon(icon_name='dialog-cancel')
+            alert.add_button(gtk.RESPONSE_CANCEL, _('Stop'), cancel_icon)
+            alert.connect('response', self.dismiss_alert_cb)
+            self.add_alert(alert)
+            return
+        self._reset_vte()
+        # turn the activity title into a python identifier.
+        pytitle = re.sub(r'[^A-Za-z0-9_]', '', title)
+        if re.match(r'[0-9]', pytitle) is not None:
+            pytitle = '_' + pytitle # first character cannot be numeric
+        # create a new temp dir in which to create the bundle.
+        app_temp = mkdtemp('.activity', 'Pippy',
+                           '%s/tmp/' % self.get_activity_root())
+        bundle = get_bundle_path()
+        try:
+            for f in os.listdir('%s/skel' % bundle):
+                if os.path.isdir(f):
+                    cp = copytree
+                else:
+                    cp = copy2
+                cp('%s/skel/%s' % (bundle, f), '%s/%s' % (app_temp, f))
+            copytree('%s/library' % bundle, '%s/library' % app_temp)
+            # create activity.info file.
+            version = 1
+            with open('%s/activity/activity.info' % app_temp, 'w') as f:
+                f.write(ACTIVITY_INFO_TEMPLATE % (title, pytitle, version))
+            # put script into $app_temp/pippy_app.py
+            self._write_text_buffer('%s/pippy_app.py' % app_temp)
+            # write MANIFEST file.
+            with open('%s/MANIFEST' % app_temp, 'w') as f:
+                for dirpath, dirnames, filenames in os.walk(app_temp):
+                    for name in filenames:
+                        fn = os.path.join(dirpath, name).replace(app_temp+'/', '')
+                        if fn=='MANIFEST': continue
+                        f.write('%s\n' % fn)
+            # invoke bundle builder
+            pid = self._vte.fork_command \
+                    (command="/bin/sh",
+                     argv=["/bin/sh", "-c",
+                           "python %s/setup.py dist || sleep 1" % app_temp],
+                     directory=app_temp)
+            # hand off to journal?
+            jobject = datastore.create()
+            metadata = {
+                'title': '%s Bundle' % title,
+                'title_set_by_user': '1',
+                'buddies': '',
+                'preview': '',
+                'icon-color': profile.get_color().to_string(),
+                'mime_type': 'application/vnd.olpc-sugar',
+            }
+            for k, v in metadata.items():
+                jobject.metadata[k] = v # the dict.update method is missing =(
+            jobject.file_path = '%s/%s-%d.xo' % (app_temp, pytitle, version)
+            os.waitpid(pid, 0)
+            datastore.write(jobject)
+            jobject.destroy()
+            self._vte.feed("\r\n")
+            self._vte.feed(_("Activity saved to journal."))
+            self._vte.feed("\r\n")
+        finally:
+            rmtree(app_temp, ignore_errors=True)
+
+    def dismiss_alert_cb(self, alert, response_id):
+        self.remove_alert(alert)
 
     def write_file(self, file_path):
         self.metadata['mime_type'] = 'text/x-python'
