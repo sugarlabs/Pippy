@@ -3,16 +3,11 @@
 # added frequency modulation genertor
 # audioOut write a wave file if a string is given as argument
 import os
-from sugar import env
 
 orchlines = []
 scorelines = []
 instrlist = []
 fnum = [100]
-
-temp_path = env.get_profile_path() + '/pippy'
-if not os.path.isdir(temp_path):
-    os.mkdir(temp_path)
 
 def quit(self):
     perf.Stop()
@@ -175,6 +170,12 @@ def getSoundList():
 
 def audioOut(file=None):
     """Compile a .csd file and start csound to run it. If a string is given as argument, it write a wave file on disk instead of sending sound to hp. (file = [None])"""
+    global temp_path
+    if temp_path is None:
+        from sugar import env
+        temp_path = env.get_profile_path() + '/pippy'
+        if not os.path.isdir(temp_path):
+            os.mkdir(temp_path)
     path = temp_path
     csd = open(path + "/temp.csd", "w")
     csd.write("<CsoundSynthesizer>\n\n")
