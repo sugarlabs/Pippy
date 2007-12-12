@@ -32,10 +32,11 @@ def pause():
     pygame.display.flip()
 
     # SUSPEND
-    # try:
-    #    open('/sys/power/state','w').write('mem')
-    # except: # XXX: couldn't suspend (no permissions?)
-    #    pygame.event.post(pygame.event.wait())
+    try:
+        raise RuntimeError() # XXX don't try this yet. we should use ohm.
+        open('/sys/power/state','w').write('mem')
+    except: # couldn't suspend (no permissions?)
+        pygame.event.post(pygame.event.wait())
 
     pygame.display.set_caption(caption, icon_caption)
     screen.blit(old_screen, (0,0))
