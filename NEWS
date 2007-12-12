@@ -1,3 +1,12 @@
+12
+
+* Factor out a pippy library, which programs can use with 'import pippy'.
+    
+* The pygame portion of the library uses 'best practices' to avoid eating
+  up CPU, and pauses & suspends after 20 seconds of inactivity.
+
+(From C. Scott Ananian.)
+
 11
 
 * New pygame examples by Henry Holtzman!  "bounce", "camera", "lines", "pong".
