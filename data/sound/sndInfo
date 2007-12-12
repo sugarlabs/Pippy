@@ -1,2 +1,0 @@
-import pippy
-help(pippy.sound.playSine)
