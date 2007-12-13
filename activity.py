@@ -35,6 +35,8 @@ from sugar.activity.activity import Activity, ActivityToolbox, get_bundle_path
 from sugar.presence import presenceservice
 
 from sugar.presence.tubeconn import TubeConnection
+from sugar.graphics.icon import Icon
+from sugar.graphics.menuitem import MenuItem
 from sugar.graphics.toolbutton import ToolButton
 
 
@@ -61,14 +63,19 @@ class PippyActivity(Activity):
 
         # Top toolbar with share and close buttons:
         toolbox = ActivityToolbox(self)
-        # add 'make bundle' button.
-        at = toolbox.get_activity_toolbar()
-        # XXX: shouldn't reuse document-save; we need a distinctive icon.
-        self._make = ToolButton('document-save')
-        self._make.set_tooltip(_('Save as Activity'))
-        self._make.connect('clicked', self.makebutton_cb)
-        toolbox.get_activity_toolbar().insert(self._make, 4)
-        self._make.show()
+        # add 'make bundle' entry to 'keep' palette.
+        palette = toolbox.get_activity_toolbar().keep.get_palette()
+        # XXX: should clear out old palette entries?
+        menu_item = MenuItem(_('As Pippy Document'))
+        menu_item.set_image(Icon(file=('%s/activity/activity-pippy.svg' % get_bundle_path()), icon_size=gtk.ICON_SIZE_MENU))
+        menu_item.connect('activate', self.keepbutton_cb)
+        palette.menu.append(menu_item)
+        menu_item.show()
+        menu_item = MenuItem(_('As Activity Bundle'))
+        menu_item.set_image(Icon(file=('%s/skel/activity/activity-icon.svg' % get_bundle_path()), icon_size=gtk.ICON_SIZE_MENU))
+        menu_item.connect('activate', self.makebutton_cb)
+        palette.menu.append(menu_item)
+        menu_item.show()
         self.set_toolbox(toolbox)
         toolbox.show()
 
@@ -246,7 +253,10 @@ class PippyActivity(Activity):
     def stopbutton_cb(self, button):
         os.kill(self._pid, SIGTERM)	
 
-    def makebutton_cb(self, button):
+    def keepbutton_cb(self, __):
+        self.copy()
+
+    def makebutton_cb(self, __):
         from shutil import copytree, copy2, rmtree
         from tempfile import mkdtemp
         from sugar import profile
