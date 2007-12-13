@@ -1,6 +1,3 @@
-import random
-from random import choice
-
 table = {
           'Hardware & Mechanicals': 'John Watlington, Mark Foster, Mary Lou Jepsen, Yves Behar, Bret Recor, Mitch Pergola, Martin Schnitzer, Kenneth Jewell, Kevin Young, Jacques Gagne, Nicholas Negroponte, Frank Lee, Victor Chau, Albert Hsu, HT Chen, Vance Ke, Ben Chuang, Johnson Huang, Sam Chang, Alex Chu, Roger Huang, and the rest of the Quanta team, the Marvell team, the AMD team, the ChiMei team...',
           'Firmware':               'Ron Minnich, Richard Smith, Mitch Bradley, Tom Sylla, Lilian Walter, Bruce Wang..',
@@ -18,10 +15,19 @@ table = {
           'Finance & Legal':        'Eben Moglen, Bruce Parker, William Kolb, John Sare, Sandra Lee, Richard Bernstein, Jaclyn Tsai, Jaime Cheng, Robert Fadel, Charles Kane (Grasshopper), Kathy Paur, Andriani Ferti',
           'PR and Media':           'Larry Weber, Jackie Lustig, Jodi Petrie, George Snell, Kyle Austin, Hilary Meserole, Erick A. Betancourt, Michael Borosky, Sylvain Lefebvre, Martin Le Sauteur',
           'Directors & Advisors':   'Howard Anderson, Rebecca Allen, Ayo Kusamotu, Jose Maria Aznar, V. Michael Bove, Jr., Rodrigo Mesquita, Seymour Papert, Ted Selker, Ethan Beard (Google); John Roese (Nortel); Dandy Hsu (Quanta); Marcelo Claure (Brightstar); Gary Dillabough (eBay); Gustavo Arenas (AMD); Mike Evans (Red Hat); Ed Horowitz (SES Astra); Jeremy Philips (NewsCorp); Scott Soong (Chi Lin); Sehat Sutardja (Marvell); Joe Jacobson (MIT Media Lab); Steve Kaufman (Riverside); Will Swope (Intel); and Tom Meredith (MFI)',
-          'Pippy':                  'Chris Ball'
+          'Pippy':                  'Chris Ball, C. Scott Ananian'
        }
  
-print "OLPC would like to take this opportunity to acknowledge the community of people and projects that have made the XO laptop possible."
+import random, time
+from pippy.console import *
+from textwrap import fill
 
-subsystem = random.choice(table.keys());
-print '\n', subsystem, '\t',table[subsystem]
+while True:
+    reset()
+    print fill("OLPC would like to take this opportunity to acknowledge the community of people and projects that have made the XO laptop possible.", 68)
+
+    subsystem = random.choice(table.keys())
+    random.choice([red, green, orange, blue, purple, cyan])()
+    print '\n', fill("%s:    %s" % (subsystem, table[subsystem]), 68)
+
+    time.sleep(3)
