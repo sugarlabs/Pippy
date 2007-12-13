@@ -1,5 +1,7 @@
 14
 
+* Add pippy.console.size() to get rows/cols, make "thanks" use it.
+
 13
 
 * Pippy can now create activity bundles of user code, using the "Keep As
