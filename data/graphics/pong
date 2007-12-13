@@ -124,7 +124,7 @@ while pippy.pygame.next_frame():
 
             # draw the unused balls
             for i in range(balls):
-              pygame.draw.circle(screen, ball_color, (30+i*ball_radius*2.4, 30), 
+              pygame.draw.circle(screen, ball_color, (int(round(30+i*ball_radius*2.4)), 30), 
                                  ball_radius)
 
             # update the display
