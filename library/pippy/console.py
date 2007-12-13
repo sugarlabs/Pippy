@@ -1,9 +1,13 @@
 """Console helpers for pippy."""
-import sys
+import sys, commands
 def clear():
     """Clear screen on console."""
     # magic escape sequence
     sys.stdout.write('\x1B[H\x1B[J')
+
+def size():
+    """Return the number of rows/columns in the current VTE widget."""
+    return commands.getoutput("stty size")
 
 def red():
     """Change text color to red."""

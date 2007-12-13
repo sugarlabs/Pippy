@@ -22,12 +22,18 @@ import random, time
 from pippy.console import *
 from textwrap import fill
 
+# Determine the number of columns in our window in 
+# order to wrap text to that width -- this changes 
+# when we run as a standalone activity instead of 
+# inside the output pane.
+lines, cols = size().split(" ")
+
 while True:
     reset()
-    print fill("OLPC would like to take this opportunity to acknowledge the community of people and projects that have made the XO laptop possible.", 68)
+    print fill("OLPC would like to take this opportunity to acknowledge the community of people and projects that have made the XO laptop possible.", int(cols))
 
     subsystem = random.choice(table.keys())
     random.choice([red, green, orange, blue, purple, cyan])()
-    print '\n', fill("%s:    %s" % (subsystem, table[subsystem]), 68)
+    print '\n', fill("%s:    %s" % (subsystem, table[subsystem]), int(cols))
 
     time.sleep(3)
