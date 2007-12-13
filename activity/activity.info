@@ -3,5 +3,5 @@ name = Pippy
 bundle_id = org.laptop.Pippy
 class = activity.PippyActivity
 icon = activity-pippy
-activity_version = 13
+activity_version = 14
 show_launcher = yes
