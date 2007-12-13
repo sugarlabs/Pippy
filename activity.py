@@ -105,11 +105,10 @@ class PippyActivity(Activity):
                 self.model.set_value(olditer, 0, direntry)
                 self.model.set_value(olditer, 1, direntry["name"])
                 
-                listdir = os.listdir(root + i)
-                listdir.sort()
-                for _file in listdir:
+                for _file in sorted(os.listdir(os.path.join(root, i))):
                     self._logger.debug("file %s" % _file)
-                    entry = { "name": _(_file), "path": root + i + "/" + _file }
+                    entry = { "name": _(_file.capitalize()),
+                              "path": os.path.join(root, i, _file) }
                     _iter = self.model.insert_before(olditer, None)
                     self.model.set_value(_iter, 0, entry)
                     self.model.set_value(_iter, 1, entry["name"])
@@ -222,6 +221,9 @@ class PippyActivity(Activity):
         _file = open(value['path'], 'r')
         lines = _file.readlines()
         self.text_buffer.set_text("".join(lines))
+        self.metadata['title'] = value['name']
+        self._reset_vte()
+        self.text_view.grab_focus()
 
     def _write_text_buffer(self, filename):
         start, end = self.text_buffer.get_bounds()
@@ -269,8 +271,8 @@ class PippyActivity(Activity):
             alert = Alert()
             alert.props.title =_ ('Save as Activity Error')
             alert.props.msg = _('Please give your activity a meaningful name before attempting to save it as an activity.')
-            cancel_icon = Icon(icon_name='dialog-cancel')
-            alert.add_button(gtk.RESPONSE_CANCEL, _('Stop'), cancel_icon)
+            ok_icon = Icon(icon_name='dialog-ok')
+            alert.add_button(gtk.RESPONSE_OK, _('Ok'), ok_icon)
             alert.connect('response', self.dismiss_alert_cb)
             self.add_alert(alert)
             return
