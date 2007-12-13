@@ -1,3 +1,8 @@
+* Pippy can now create activity bundles of user code, using the "Keep As
+  Bundle" icon on the toolbar!
+
+(From C. Scott Ananian.)
+
 12
 
 * Factor out a pippy library, which programs can use with 'import pippy'.
