@@ -211,6 +211,7 @@ class PippyActivity(Activity):
         lines = _file.readlines()
         self.text_buffer.set_text("".join(lines))
         self.metadata['title'] = value['name']
+        self.stopbutton_cb(None)
         self._reset_vte()
         self.text_view.grab_focus()
 
