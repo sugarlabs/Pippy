@@ -1,10 +1,9 @@
 """pygame support for pippy."""
 
-import pygame
-
 def pause():
     """Display a "Paused" screen and suspend."""
     from gettext import gettext as _
+    import pygame
     caption, icon_caption = pygame.display.get_caption()
     screen = pygame.display.get_surface()
     old_screen = screen.copy()  # save this for later.
@@ -43,14 +42,19 @@ def pause():
     pygame.display.flip()
 
 _last_event_time=0
-def next_frame(max_fps=20, idle_timeout=20,
-               clock=pygame.time.Clock(), pause=pause):
+_default_clock=None
+def next_frame(max_fps=20, idle_timeout=20, clock=None, pause=pause):
     """Limit maximum frame rate of pygame.  Returns True.
 
     If idle longer than the idle_timeout (in seconds), then we'll put up a
     "paused" message and the XO will suspend.  This ensures that we don't
     burn up all of our battery running an animation!"""
-    global _last_event_time
+    import pygame
+    global _last_event_time, _default_clock
+    if _default_clock is None:
+        _default_clock = pygame.time.Clock()
+    if clock is None:
+        clock = _default_clock
     clock.tick(max_fps)
 
     if pygame.event.peek(xrange(pygame.NOEVENT, pygame.USEREVENT)):

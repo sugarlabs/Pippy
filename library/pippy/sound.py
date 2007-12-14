@@ -2,18 +2,19 @@
 
 # added frequency modulation genertor
 # audioOut write a wave file if a string is given as argument
-import os
 
 orchlines = []
 scorelines = []
 instrlist = []
 fnum = [100]
 
+"""XXX: This function seems to be broken. (CSA)
 def quit(self):
     perf.Stop()
     perf.Join()                                    
     cs.Reset()
     cs = None            
+"""
 
 def defAdsr(attack=0.01, decay=0.1, sustain=0.8, release=0.1):
     """Define an ADSR envelope. fnum = defADSR(attack = [0.01], decay = [0.1], sustain = [0.8], release = [0.1])"""
@@ -166,13 +167,16 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, startt
     scorelines.append('i9 %f %f "%s" %s %s %s %s %s\n' % (float(starttime), float(duration), fullname, str(pitch), str(amplitude), str(lp), str(pitenv), str(ampenv)))
     
 def getSoundList():
+    import os
     return sorted(os.listdir('/usr/share/activities/TamTamEdit.activity/common/Resources/Sounds/'))
 
 def audioOut(file=None):
     """Compile a .csd file and start csound to run it. If a string is given as argument, it write a wave file on disk instead of sending sound to hp. (file = [None])"""
     global temp_path
+    import os
     if temp_path is None:
         from sugar import env
+        import os.path
         temp_path = env.get_profile_path() + '/pippy'
         if not os.path.isdir(temp_path):
             os.mkdir(temp_path)
