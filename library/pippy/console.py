@@ -25,7 +25,55 @@ def size():
     rows = int(read_to_delimit(';'))
     cols = int(read_to_delimit('t'))
     termios.tcsetattr(fd, termios.TCSANOW, oldattr) # reset tty
-    return rows, cols
+    return cols, rows
+
+def getpos():
+    """Return the current x, y position of the cursor on the screen.
+
+    The top-left corner is 1,1."""
+    # xterm magic! see http://rtfm.etla.org/xterm/ctlseq.html
+    sys.stdout.flush() # ensure that writes to the terminal have finished
+    import os, tty, termios
+    fd = os.open('/dev/tty', os.O_RDWR|os.O_APPEND)
+    def read_to_delimit(delimit):
+        buf = []
+        while True:
+            c = os.read(fd, 1)
+            if c==delimit: break
+            buf.append(c)
+        return ''.join(buf)
+    oldattr = termios.tcgetattr(fd) # make sure we can restore tty state
+    tty.setraw(fd, termios.TCSANOW) # set to raw mode.
+    os.write(fd, '\x1B[6n')         # Report Cursor Position
+    read_to_delimit('\x1b')         # parse response.
+    read_to_delimit('[')
+    row = int(read_to_delimit(';'))
+    col = int(read_to_delimit('R'))
+    termios.tcsetattr(fd, termios.TCSANOW, oldattr) # reset tty
+    return col, row
+
+def setpos(column, row):
+    """Move to the given position on the screen.
+
+    The top-left corner is 1,1"""
+    # xterm magic! see http://rtfm.etla.org/xterm/ctlseq.html
+    sys.stdout.write('\x1B[%d;%dH' % (row, column))
+
+def up(count=1):
+    """Move the cursor up the given number of rows."""
+    sys.stdout.write('\x1B[%dA' % count)
+
+def down(count=1):
+    """Move the cursor down the given number of rows."""
+    sys.stdout.write('\x1B[%dB' % count)
+
+def forward(count=1):
+    """Move the cursor forward the given number of columns."""
+    sys.stdout.write('\x1B[%dC' % count)
+
+def backward(count=1):
+    """Move the cursor backward the given number of columns."""
+    sys.stdout.write('\x1B[%dD' % count)
 
 def normal():
     """Switch to normal text."""
@@ -83,8 +131,16 @@ def white():
     # magic escape sequence.
     sys.stdout.write('\x1B[37m')
 
+def hide_cursor():
+    """Hide the cursor."""
+    sys.stdout.write('\x1B[?25l')
+
+def show_cursor():
+    """Show the cursor."""
+    sys.stdout.write('\x1B[?25h')
 
 def reset():
     """Clear screen and reset text color."""
     clear()
+    show_cursor()
     sys.stdout.write('\x1B[0;39m')

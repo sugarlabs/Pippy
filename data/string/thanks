@@ -26,7 +26,7 @@ from textwrap import fill
 # order to wrap text to that width -- this changes 
 # when we run as a standalone activity instead of 
 # inside the output pane.
-lines, cols = size()
+cols, lines = size()
 
 while True:
     reset()
