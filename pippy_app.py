@@ -30,7 +30,8 @@ from gettext import gettext as _
 from dbus.service import method, signal
 from dbus.gobject_service import ExportedGObject
 
-from sugar.activity.activity import Activity, ActivityToolbox, get_bundle_path
+from sugar.activity.activity import Activity, ActivityToolbox, \
+     get_bundle_path, get_bundle_name
 from sugar.presence import presenceservice
 
 
@@ -70,6 +71,7 @@ class PippyActivity(Activity):
         vbox = gtk.VBox()
         
         # The sidebar.
+        sidebar = gtk.VBox()
         self.model = gtk.TreeStore(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING)
         treeview = gtk.TreeView(self.model)
         cellrenderer = gtk.CellRendererText()
@@ -81,23 +83,25 @@ class PippyActivity(Activity):
         # Create scrollbars around the view.
         scrolled = gtk.ScrolledWindow()
         scrolled.add(treeview)
-        hbox.pack_start(scrolled)
+        sidebar.pack_start(scrolled)
+        hbox.pack_start(sidebar)
 
-        for root, dirs, files in os.walk(get_bundle_path() + '/data/', topdown=True):
-            for i in dirs:
-                self._logger.debug("dir %s" % i)
-                direntry = { "name": _(i), "path": root + i + "/" }
-                olditer = self.model.insert_before(None, None)
-                self.model.set_value(olditer, 0, direntry)
-                self.model.set_value(olditer, 1, direntry["name"])
+        root = os.path.join(get_bundle_path(), 'data')
+        for d in sorted(os.listdir(root)):
+            if not os.path.isdir(os.path.join(root,d)): continue #skip non-dirs
+            direntry = { "name": _(d.capitalize()),
+                         "path": os.path.join(root,d) + "/" }
+            olditer = self.model.insert_before(None, None)
+            self.model.set_value(olditer, 0, direntry)
+            self.model.set_value(olditer, 1, direntry["name"])
                 
-                for _file in sorted(os.listdir(os.path.join(root, i))):
-                    self._logger.debug("file %s" % _file)
-                    entry = { "name": _(_file.capitalize()),
-                              "path": os.path.join(root, i, _file) }
-                    _iter = self.model.insert_before(olditer, None)
-                    self.model.set_value(_iter, 0, entry)
-                    self.model.set_value(_iter, 1, entry["name"])
+            for _file in sorted(os.listdir(os.path.join(root, d))):
+                if _file.endswith('~'): continue # skip emacs backups
+                entry = { "name": _(_file.capitalize()),
+                          "path": os.path.join(root, d, _file) }
+                _iter = self.model.insert_before(olditer, None)
+                self.model.set_value(_iter, 0, entry)
+                self.model.set_value(_iter, 1, entry["name"])
 
         treeview.expand_all()
 
@@ -137,16 +141,25 @@ class PippyActivity(Activity):
         buttonhbox = gtk.HBox()
 
         # The "go" button
+        goicon = gtk.Image()
+        goicon.set_from_stock(gtk.STOCK_YES, gtk.ICON_SIZE_BUTTON)
         gobutton = gtk.Button(label=_("Run!"))
+        gobutton.set_image(goicon)
         gobutton.connect('clicked', self.gobutton_cb)
-        gobutton.set_size_request(800, 2)
+        gobutton.set_size_request(650, 2)
         buttonhbox.pack_start(gobutton)
 
         # The "stop" button
-        stopbutton = gtk.Button(label=_("Stop!"))
+        stopbutton = gtk.Button(stock=gtk.STOCK_STOP)
         stopbutton.connect('clicked', self.stopbutton_cb)
         stopbutton.set_size_request(200, 2)
-        buttonhbox.pack_end(stopbutton)
+        buttonhbox.pack_start(stopbutton)
+
+        # The "clear" button
+        clearbutton = gtk.Button(stock=gtk.STOCK_CLEAR)
+        clearbutton.connect('clicked', self.clearbutton_cb)
+        clearbutton.set_size_request(150, 2)
+        buttonhbox.pack_end(clearbutton)
 
         vbox.pack_start(buttonhbox)
 
@@ -211,6 +224,14 @@ class PippyActivity(Activity):
         lines = _file.readlines()
         self.text_buffer.set_text("".join(lines))
         self.metadata['title'] = value['name']
+        self.stopbutton_cb(None)
+        self._reset_vte()
+        self.text_view.grab_focus()
+        
+    def clearbutton_cb(self, button):
+        self.save()
+        self.text_buffer.set_text("")
+        self.metadata['title'] = _('%s Activity') % get_bundle_name()
         self.stopbutton_cb(None)
         self._reset_vte()
         self.text_view.grab_focus()
