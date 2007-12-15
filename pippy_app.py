@@ -291,7 +291,8 @@ class PippyActivity(Activity):
             return
         self.stopbutton_cb(None) # try stopping old code first.
         self._reset_vte()
-        self._vte.feed(_("Creating activity bundle...\r\n"))
+        self._vte.feed(_("Creating activity bundle..."))
+        self._vte.feed("\r\n")
         app_temp = mkdtemp('.activity', 'Pippy',
                            '%s/tmp/' % self.get_activity_root())
         sourcefile = os.path.join(app_temp, 'xyzzy.py')
