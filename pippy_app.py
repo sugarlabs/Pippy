@@ -588,6 +588,7 @@ ACTIVITY_INFO_TEMPLATE = """
 [Activity]
 name = %(title)s
 bundle_id = %(id)s
+service_name = %(id)s
 class = %(class)s
 icon = activity-icon
 activity_version = %(version)d
