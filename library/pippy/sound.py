@@ -170,6 +170,7 @@ def getSoundList():
     import os
     return sorted(os.listdir('/usr/share/activities/TamTamEdit.activity/common/Resources/Sounds/'))
 
+temp_path=None
 def audioOut(file=None):
     """Compile a .csd file and start csound to run it. If a string is given as argument, it write a wave file on disk instead of sending sound to hp. (file = [None])"""
     global temp_path
