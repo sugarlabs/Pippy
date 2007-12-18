@@ -30,7 +30,8 @@ from gettext import gettext as _
 from dbus.service import method, signal
 from dbus.gobject_service import ExportedGObject
 
-from sugar.activity.activity import Activity, ActivityToolbox, \
+from activity import ViewSourceActivity
+from sugar.activity.activity import ActivityToolbox, \
      get_bundle_path, get_bundle_name
 from sugar.presence import presenceservice
 
@@ -39,11 +40,11 @@ SERVICE = "org.laptop.Pippy"
 IFACE = SERVICE
 PATH = "/org/laptop/Pippy"
 
-class PippyActivity(Activity):
+class PippyActivity(ViewSourceActivity):
     """Pippy Activity as specified in activity.info"""
     def __init__(self, handle):
         """Set up the Pippy activity."""
-        Activity.__init__(self, handle)
+        super(PippyActivity, self).__init__(handle)
         self._logger = logging.getLogger('pippy-activity')
 
         # Top toolbar with share and close buttons:
@@ -347,11 +348,11 @@ class PippyActivity(Activity):
                 jobject.metadata[k] = v # the dict.update method is missing =(
             jobject.file_path = os.path.join(app_temp, bundle_file[0])
             datastore.write(jobject)
-            jobject.destroy()
             self._vte.feed("\r\n")
             self._vte.feed(_("Activity saved to journal."))
             self._vte.feed("\r\n")
-            # XXX SHOULD SWITCH TO JOURNAL.
+            self.journal_show_object(jobject.object_id)
+            jobject.destroy()
         finally:
             rmtree(app_temp, ignore_errors=True) # clean up!
 
@@ -587,11 +588,12 @@ class HelloTube(ExportedGObject):
 ACTIVITY_INFO_TEMPLATE = """
 [Activity]
 name = %(title)s
-bundle_id = %(id)s
-service_name = %(id)s
+bundle_id = %(bundle_id)s
+service_name = %(bundle_id)s
 class = %(class)s
 icon = activity-icon
 activity_version = %(version)d
+mime_types = %(mime_types)s
 show_launcher = yes
 """
 
@@ -627,7 +629,7 @@ PIPPY_DEFAULT_ICON = \
 
 def pippy_activity_version():
     """Returns the version number of the generated activity bundle."""
-    return 13
+    return 14
 def pippy_activity_extrafiles():
     """Returns a map of 'extra' files which should be included in the
     generated activity bundle."""
@@ -638,7 +640,6 @@ def pippy_activity_extrafiles():
         for root, dirs, files in os.walk(os.path.join(bp, d)):
             for name in files:
                 fn = os.path.join(root, name).replace(bp+'/', '')
-                if fn == 'po/pseudo.po': continue # XXX breaks bundlebuilder
                 extra[fn] = open(os.path.join(root, name), 'r').read()
     extra['activity/activity-default.svg'] = PIPPY_DEFAULT_ICON
     return extra
@@ -652,9 +653,12 @@ def pippy_activity_icon():
 def pippy_activity_class():
     """Return the class which should be started to run this activity."""
     return 'pippy_app.PippyActivity'
-def pippy_activity_id():
+def pippy_activity_bundle_id():
     """Return the bundle_id for the generated activity."""
     return 'org.laptop.Pippy'
+def pippy_activity_mime_types():
+    """Return the mime types handled by the generated activity, as a list."""
+    return 'text/x-python'
 
 ################# ACTIVITY BUNDLER ################
 
@@ -688,26 +692,29 @@ def main():
     module, ext = os.path.splitext(basename)
     # things we look for:
     bundle_info = {
-        'pippy_activity_version': 1,
-        'pippy_activity_extrafiles': {},
-        'pippy_activity_news': 'No news.',
-        'pippy_activity_icon': PIPPY_DEFAULT_ICON,
-        'pippy_activity_class': 'activity.VteActivity',
-        'pippy_activity_id': ('org.laptop.pippy.%s' % pytitle),
+        'version': 1,
+        'extrafiles': {},
+        'news': 'No news.',
+        'icon': PIPPY_DEFAULT_ICON,
+        'class': 'activity.VteActivity',
+        'bundle_id': ('org.laptop.pippy.%s' % pytitle),
+        'mime_types': '',
         }
     # are any of these things in the module?
     try_import = False
     info = readmodule_ex(module, [ sourcedir ] + options.path)
     for func in bundle_info.keys():
-        if func in info: try_import = True
+        p_a_func = 'pippy_activity_%s' % func
+        if p_a_func in info: try_import = True
     if try_import:
         # yes, let's try to execute them to get better info about our bundle
         oldpath = list(sys.path)
         sys.path[0:0] = [ sourcedir ] + options.path
         modobj = __import__(module)
         for func in bundle_info.keys():
-            if func in modobj.__dict__:
-                bundle_info[func] = modobj.__dict__[func]()
+            p_a_func = 'pippy_activity_%s' % func
+            if p_a_func in modobj.__dict__:
+                bundle_info[func] = modobj.__dict__[p_a_func]()
         sys.path = oldpath
 
     # okay!  We've done the hard part.  Now let's build a bundle.
@@ -718,18 +725,15 @@ def main():
         copytree('%s/library' % bundle, '%s/library' % app_temp)
         copy2('%s/activity.py' % bundle, '%s/activity.py' % app_temp)
         # create activity.info file.
-        version = bundle_info['pippy_activity_version']
+        bundle_info['title'] = title
+        bundle_info['pytitle'] = pytitle
         # put 'extra' files in place.
         extrafiles = {
-            'activity/activity.info': ACTIVITY_INFO_TEMPLATE % {
-                'title': title, 'pytitle': pytitle, 'version': version,
-                'class': bundle_info['pippy_activity_class'],
-                'id': bundle_info['pippy_activity_id'],
-                },
-            'activity/activity-icon.svg': bundle_info['pippy_activity_icon'],
-            'NEWS': bundle_info['pippy_activity_news'],
+            'activity/activity.info': ACTIVITY_INFO_TEMPLATE % bundle_info,
+            'activity/activity-icon.svg': bundle_info['icon'],
+            'NEWS': bundle_info['news'],
             }
-        extrafiles.update(bundle_info['pippy_activity_extrafiles'])
+        extrafiles.update(bundle_info['extrafiles'])
         for path, contents in extrafiles.items():
             # safety first!
             assert '..' not in path
@@ -756,8 +760,8 @@ def main():
         sys.argv = oldargv
         os.chdir(olddir)
         # move to destination directory.
-        copy2('%s/%s-%d.xo' % (app_temp, pytitle, version),
-              '%s/%s-%d.xo' % (options.dir, pytitle, version))
+        copy2('%s/%s-%d.xo' % (app_temp, pytitle, bundle_info['version']),
+              '%s/%s-%d.xo' % (options.dir, pytitle, bundle_info['version']))
     finally:
         rmtree(app_temp, ignore_errors=True)
 
@@ -767,6 +771,7 @@ if __name__ == '__main__':
     if False: # change this to True to test within Pippy
         sys.argv = sys.argv + [ '-d','/tmp','Pippy', '/home/olpc/pippy_app.py' ]
     #print _("Working..."),
-    sys.stdout.flush()
+    #sys.stdout.flush()
     main()
     #print _("done!")
+    sys.exit(0)
