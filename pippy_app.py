@@ -294,8 +294,9 @@ class PippyActivity(ViewSourceActivity):
         self._reset_vte()
         self._vte.feed(_("Creating activity bundle..."))
         self._vte.feed("\r\n")
+        TMPDIR='instance' # XXX: should be 'tmp', once trac #1731 is fixed.
         app_temp = mkdtemp('.activity', 'Pippy',
-                           '%s/tmp/' % self.get_activity_root())
+                           os.path.join(self.get_activity_root(), TMPDIR))
         sourcefile = os.path.join(app_temp, 'xyzzy.py')
         # invoke ourself to build the activity bundle.
         try:
@@ -335,6 +336,7 @@ class PippyActivity(ViewSourceActivity):
                 self._logger.debug("Couldn't find bundle: %s"%str(bundle_file))
                 return # something went wrong.
             # hand off to journal
+            os.chmod(app_temp, 755)
             jobject = datastore.create()
             metadata = {
                 'title': '%s Bundle' % title,
