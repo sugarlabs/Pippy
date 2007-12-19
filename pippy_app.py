@@ -144,7 +144,7 @@ class PippyActivity(ViewSourceActivity):
         # The "go" button
         goicon = gtk.Image()
         goicon.set_from_stock(gtk.STOCK_YES, gtk.ICON_SIZE_BUTTON)
-        gobutton = gtk.Button(label=_("Run!"))
+        gobutton = gtk.Button(label=_("_Run!"))
         gobutton.set_image(goicon)
         gobutton.connect('clicked', self.gobutton_cb)
         gobutton.set_size_request(650, 2)
