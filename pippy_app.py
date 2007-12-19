@@ -249,6 +249,7 @@ class PippyActivity(ViewSourceActivity):
         self._vte.feed("\x1B[H\x1B[J\x1B[0;39m")
 
     def gobutton_cb(self, button):
+        from shutil import copy2
         self.stopbutton_cb(button) # try stopping old code first.
         self._reset_vte()
         
@@ -257,6 +258,9 @@ class PippyActivity(ViewSourceActivity):
         
         pippy_app_name = '%s/tmp/pippy_app.py' % self.get_activity_root()
         self._write_text_buffer(pippy_app_name)
+        # write activity.py here too, to support pippy-based activities.
+        copy2('%s/activity.py' % get_bundle_path(),
+              '%s/tmp/activity.py' % self.get_activity_root())
 
         self._pid = self._vte.fork_command \
                     (command="/bin/sh",
@@ -597,6 +601,7 @@ icon = activity-icon
 activity_version = %(version)d
 mime_types = %(mime_types)s
 show_launcher = yes
+%(extra_info)s
 """
 
 PIPPY_ICON = \
@@ -632,7 +637,7 @@ PIPPY_DEFAULT_ICON = \
 def pippy_activity_version():
     """Returns the version number of the generated activity bundle."""
     return 14
-def pippy_activity_extrafiles():
+def pippy_activity_extra_files():
     """Returns a map of 'extra' files which should be included in the
     generated activity bundle."""
     # Cheat here and generate the map from the fs contents.
@@ -695,12 +700,13 @@ def main():
     # things we look for:
     bundle_info = {
         'version': 1,
-        'extrafiles': {},
+        'extra_files': {},
         'news': 'No news.',
         'icon': PIPPY_DEFAULT_ICON,
         'class': 'activity.VteActivity',
         'bundle_id': ('org.laptop.pippy.%s' % pytitle),
         'mime_types': '',
+        'extra_info': '',
         }
     # are any of these things in the module?
     try_import = False
@@ -730,13 +736,13 @@ def main():
         bundle_info['title'] = title
         bundle_info['pytitle'] = pytitle
         # put 'extra' files in place.
-        extrafiles = {
+        extra_files = {
             'activity/activity.info': ACTIVITY_INFO_TEMPLATE % bundle_info,
             'activity/activity-icon.svg': bundle_info['icon'],
             'NEWS': bundle_info['news'],
             }
-        extrafiles.update(bundle_info['extrafiles'])
-        for path, contents in extrafiles.items():
+        extra_files.update(bundle_info['extra_files'])
+        for path, contents in extra_files.items():
             # safety first!
             assert '..' not in path
             dirname, filename = os.path.split(path)
