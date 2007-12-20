@@ -37,11 +37,13 @@ class ViewSourceActivity(activity.Activity):
             jobject.destroy()
         self.journal_show_object(self.__source_object_id)
     def journal_show_object(self, object_id):
-        """Invoke parent class' journal_show_object if it exists."""
-        s = super(ViewSourceActivity, self)
-        if hasattr(s, 'journal_show_object'):
-            s.journal_show_object(object_id)
-
+        """Invoke journal_show_object from sugar.activity.activity if it
+        exists."""
+        try:
+            from sugar.activity.activity import show_object_in_journal
+            show_object_in_journal(object_id)
+        except ImportError:
+            pass # no love from sugar.
 
 class VteActivity(ViewSourceActivity):
     def __init__(self, handle):
