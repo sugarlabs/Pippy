@@ -1,3 +1,9 @@
+15
+
+* "View source" now works on both Pippy and Pippy-generated activities!
+
+(From C. Scott Ananian.)
+
 14
 
 * Add pippy.console.size() to get rows/cols, make "thanks" use it.
