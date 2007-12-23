@@ -1,5 +1,4 @@
-# image: take a picture
-
+# slideshow: show datastore photos 
 import gst, pippy, pygame, sys, time
 from random import *
 
@@ -62,3 +61,4 @@ while pippy.pygame.next_frame():
   screen.fill(bgcolor)
   screen.blit(newImage, newImageRect)
   pygame.display.flip()
+
