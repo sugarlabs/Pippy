@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-14 20:37-0500\n"
-"PO-Revision-Date: 2007-12-19 23:31+0000\n"
+"PO-Revision-Date: 2007-12-23 22:28+0000\n"
 "Last-Translator: Rafael Ortiz <rafael@laptop.org>\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "Empieza!"
 #: pippy_app.py:234
 #, python-format
 msgid "%s Activity"
-msgstr "Actividad"
+msgstr "%0.0s Actividad"
 
 #: pippy_app.py:285
 msgid "Save as Activity Error"
