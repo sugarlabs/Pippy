@@ -2,8 +2,8 @@ from sugar.activity import activity
 
 class ViewSourceActivity(activity.Activity):
     """Activity subclass which handles the 'view source' key."""
-    def __init__(self, handle):
-        super(ViewSourceActivity, self).__init__(handle)
+    def __init__(self, handle, **kwargs):
+        super(ViewSourceActivity, self).__init__(handle, **kwargs)
         self.__source_object_id = None # XXX: persist this across invocations?
         self.connect('key-press-event', self._key_press_cb)
     def _key_press_cb(self, widget, event):
