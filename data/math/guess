@@ -15,4 +15,4 @@ while (N!=R):
     pippy.console.black()
     N = input("Enter a number: ")
     i=i+1
-print "You got it in ", i, "tries"
+print "You got it in", i, "tries"
