@@ -31,7 +31,7 @@ from gettext import gettext as _
 from dbus.service import method, signal
 from dbus.gobject_service import ExportedGObject
 
-from activity import ViewSourceActivity
+from activity import ViewSourceActivity, TARGET_TYPE_TEXT
 from sugar.activity.activity import ActivityToolbox, \
      get_bundle_path, get_bundle_name
 from sugar.presence import presenceservice
@@ -183,6 +183,10 @@ class PippyActivity(ViewSourceActivity):
                              [])
         self._vte.connect('child_exited', self.child_exited_cb)
         self._child_exited_handler = None
+        self._vte.drag_dest_set(gtk.DEST_DEFAULT_ALL,
+                                [ ( "text/plain", 0, TARGET_TYPE_TEXT ) ],
+                                gtk.gdk.ACTION_COPY)
+        self._vte.connect('drag_data_received', self.vte_drop_cb)
         outbox.pack_start(self._vte)
         
         outsb = gtk.VScrollbar(self._vte.get_adjustment())
@@ -224,6 +228,9 @@ class PippyActivity(ViewSourceActivity):
                 # we've already joined
                 self._joined_cb()
 
+    def vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
+        if targetType == TARGET_TYPE_TEXT:
+            self._vte.feed_child(selection.data)
     def selection_cb(self, column):
         self.save()
         model, _iter = column.get_selected()

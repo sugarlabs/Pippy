@@ -45,13 +45,31 @@ class ViewSourceActivity(activity.Activity):
         except ImportError:
             pass # no love from sugar.
 
+TARGET_TYPE_TEXT = 80
 class VteActivity(ViewSourceActivity):
     def __init__(self, handle):
         import gtk, pango, vte
+        from sugar.graphics.toolbutton import ToolButton
+        from gettext import gettext as _
         super(VteActivity, self).__init__(handle)
         toolbox = activity.ActivityToolbox(self)
+        # we don't support share/keep (yet?)
+        toolbar = toolbox.get_activity_toolbar()
+        toolbar.share.hide() # this should share bundle.
+        toolbar.keep.hide()
         self.set_toolbox(toolbox)
         toolbox.show()
+
+        # add 'copy' icon from standard toolbar.
+        edittoolbar = activity.EditToolbar()
+        edittoolbar.copy.set_tooltip(_('Copy selected text to clipboard'))
+        edittoolbar.copy.connect('clicked', self._on_copy_clicked_cb)
+        edittoolbar.paste.connect('clicked', self._on_paste_clicked_cb)
+        # as long as nothing is selected, copy needs to be insensitive.
+        edittoolbar.copy.set_sensitive(False)
+        toolbox.add_toolbar(_('Edit'), edittoolbar)
+        edittoolbar.show()
+        self._copy_button = edittoolbar.copy
 
         # creates vte widget
         self._vte = vte.Terminal()
@@ -62,6 +80,11 @@ class VteActivity(ViewSourceActivity):
         self._vte.set_colors(gtk.gdk.color_parse ('#000000'),
                              gtk.gdk.color_parse ('#E7E7E7'),
                              [])
+        self._vte.connect('selection-changed', self._on_selection_changed_cb)
+        self._vte.drag_dest_set(gtk.DEST_DEFAULT_ALL,
+                                [ ( "text/plain", 0, TARGET_TYPE_TEXT ) ],
+                                gtk.gdk.ACTION_COPY)
+        self._vte.connect('drag_data_received', self._on_drop_cb)
         # ...and its scrollbar
         vtebox = gtk.HBox()
         vtebox.pack_start(self._vte)
@@ -70,8 +93,13 @@ class VteActivity(ViewSourceActivity):
         vtebox.pack_start(vtesb, False, False, 0)
         self.set_canvas(vtebox)
         self.show_all()
+        # hide the buttons we don't use.
+        edittoolbar.undo.hide()
+        edittoolbar.redo.hide()
+        edittoolbar.separator.hide()
 
         # now start subprocess.
+        self._vte.connect('child-exited', self.on_child_exit)
         self._vte.grab_focus()
         bundle_path = activity.get_bundle_path()
         # the 'sleep 1' works around a bug with the command dying before
@@ -82,3 +110,16 @@ class VteActivity(ViewSourceActivity):
                            'python %s/pippy_app.py; sleep 1' % bundle_path],
                      envv=["PYTHONPATH=%s/library" % bundle_path],
                      directory=bundle_path)
+    def _on_copy_clicked_cb(self, widget):
+        if self._vte.get_has_selection():
+            self._vte.copy_clipboard()
+    def _on_paste_clicked_cb(self, widget):
+        self._vte.paste_clipboard()
+    def _on_selection_changed_cb(self, widget):
+        self._copy_button.set_sensitive(self._vte.get_has_selection())
+    def _on_drop_cb(self, widget, context, x, y, selection, targetType, time):
+        if targetType == TARGET_TYPE_TEXT:
+            self._vte.feed_child(selection.data)
+    def on_child_exit(self, widget):
+        """This method is invoked when the user's script exits."""
+        pass # override in subclass
