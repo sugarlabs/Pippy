@@ -123,3 +123,37 @@ class VteActivity(ViewSourceActivity):
     def on_child_exit(self, widget):
         """This method is invoked when the user's script exits."""
         pass # override in subclass
+
+class PyGameActivity(ViewSourceActivity):
+    """Activity wrapper for a pygame."""
+    def __init__(self, handle):
+        # fork pygame before we initialize the activity.
+        import os, pygame, sys
+        pygame.init()
+        windowid = pygame.display.get_wm_info()['wmwindow']
+        self.child_pid = os.fork()
+        if self.child_pid == 0:
+            library_path = os.path.join(activity.get_bundle_path(), 'library')
+            pippy_app_path = os.path.join(activity.get_bundle_path(), 'pippy_app.py')
+            sys.path[0:0] = [ library_path ]
+            g = globals()
+            g['__name__']='__main__'
+            execfile(pippy_app_path, g, g) # start pygame
+            sys.exit(0)
+        super(PyGameActivity, self).__init__(handle)
+        import gobject, gtk, os
+        toolbox = activity.ActivityToolbox(self)
+        # we don't support share/keep (yet?)
+        toolbar = toolbox.get_activity_toolbar()
+        toolbar.share.hide() # this should share bundle.
+        toolbar.keep.hide()
+        self.set_toolbox(toolbox)
+        toolbox.show()
+        socket = gtk.Socket()
+        socket.set_flags(socket.flags() | gtk.CAN_FOCUS)
+        socket.show()
+        self.set_canvas(socket)
+        socket.add_id(windowid)
+        self.show_all()
+        socket.grab_focus()
+        gobject.child_watch_add(self.child_pid, lambda pid, cond: self.close())
