@@ -53,10 +53,7 @@ class VteActivity(ViewSourceActivity):
         from gettext import gettext as _
         super(VteActivity, self).__init__(handle)
         toolbox = activity.ActivityToolbox(self)
-        # we don't support share/keep (yet?)
         toolbar = toolbox.get_activity_toolbar()
-        toolbar.share.hide() # this should share bundle.
-        toolbar.keep.hide()
         self.set_toolbox(toolbox)
         toolbox.show()
 
@@ -94,6 +91,8 @@ class VteActivity(ViewSourceActivity):
         self.set_canvas(vtebox)
         self.show_all()
         # hide the buttons we don't use.
+        toolbar.share.hide() # this should share bundle.
+        toolbar.keep.hide()
         edittoolbar.undo.hide()
         edittoolbar.redo.hide()
         edittoolbar.separator.hide()
@@ -143,10 +142,7 @@ class PyGameActivity(ViewSourceActivity):
         super(PyGameActivity, self).__init__(handle)
         import gobject, gtk, os
         toolbox = activity.ActivityToolbox(self)
-        # we don't support share/keep (yet?)
         toolbar = toolbox.get_activity_toolbar()
-        toolbar.share.hide() # this should share bundle.
-        toolbar.keep.hide()
         self.set_toolbox(toolbox)
         toolbox.show()
         socket = gtk.Socket()
@@ -157,3 +153,6 @@ class PyGameActivity(ViewSourceActivity):
         self.show_all()
         socket.grab_focus()
         gobject.child_watch_add(self.child_pid, lambda pid, cond: self.close())
+        # hide the buttons we don't use.
+        toolbar.share.hide() # this should share bundle.
+        toolbar.keep.hide()
