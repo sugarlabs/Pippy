@@ -39,7 +39,7 @@ msgstr "Empieza!"
 #: pippy_app.py:234
 #, python-format
 msgid "%s Activity"
-msgstr "%0.0s Actividad"
+msgstr "%s Actividad"
 
 #: pippy_app.py:285
 msgid "Save as Activity Error"
