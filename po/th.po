@@ -2,68 +2,68 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-05 03:28-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2007-12-14 20:37-0500\n"
+"PO-Revision-Date: 2007-12-16 11:39+0000\n"
+"Last-Translator: Manatsawin <manatsawin@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.0.1\n"
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
+"X-Generator: Pootle 1.0.2\n"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
-msgstr ""
+msgstr "หยุดการทำงาน"
 
-#: pippy_app.py:57
+#: pippy_app.py:56
 msgid "As Pippy Document"
-msgstr ""
+msgstr "เป็นเอกสาร Pippy"
 
-#: pippy_app.py:62
+#: pippy_app.py:61
 msgid "As Activity Bundle"
-msgstr ""
+msgstr "เป็นชุดกิจกรรม"
 
-#: pippy_app.py:79
+#: pippy_app.py:78
 msgid "Examples"
-msgstr ""
+msgstr "ตัวอย่าง"
 
-#: pippy_app.py:147
-msgid "_Run!"
-msgstr ""
+#: pippy_app.py:146
+msgid "Run!"
+msgstr "รัน!"
 
-#: pippy_app.py:235
+#: pippy_app.py:234
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "กิจกรรม %sx"
 
-#: pippy_app.py:290
+#: pippy_app.py:285
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "บันทึกเป็นข้อผิดพลาดกิจกรรม"
 
-#: pippy_app.py:291
+#: pippy_app.py:286
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
-msgstr ""
+msgstr "โปรดใส่ชื่อกิจกรรมก่อนจะบันทึกเป็นกิจกรรม"
 
-#: pippy_app.py:293
+#: pippy_app.py:288
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
-#: pippy_app.py:299
+#: pippy_app.py:294
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "กำลังสร้างชุดกิจกรรม..."
 
-#: pippy_app.py:358
+#: pippy_app.py:352
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "บันทึกกิจกรรมลงบันทึกประจำวันแล้ว"
+
+#~ msgid "Pippy"
+#~ msgstr "Pippy"
+
+#~ msgid "Stop!"
+#~ msgstr "หยุด!"

@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-05 03:28-0500\n"
-"PO-Revision-Date: 2007-11-22 23:37+0000\n"
-"Last-Translator: Arangel Angov <arangel@slobodensoftver.org.mk>\n"
+"POT-Creation-Date: 2007-12-14 20:37-0500\n"
+"PO-Revision-Date: 2007-12-17 19:09+0000\n"
+"Last-Translator: novica <nnovica@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,58 +16,54 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n==1 || n%10==1 ? 0 : 1;\n"
 "X-Generator: Pootle 1.0.2\n"
 
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
-
 #: library/pippy/game.py:19
 msgid "PAUSED"
-msgstr ""
+msgstr "ПАУЗИРАНО"
 
-#: pippy_app.py:57
+#: pippy_app.py:56
 msgid "As Pippy Document"
-msgstr ""
+msgstr "Како документ на Pippy"
 
-#: pippy_app.py:62
+#: pippy_app.py:61
 msgid "As Activity Bundle"
-msgstr ""
+msgstr "Како сноп на активности"
 
-#: pippy_app.py:79
+#: pippy_app.py:78
 msgid "Examples"
 msgstr "Примери"
 
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
-msgstr "Трчај!"
+#: pippy_app.py:146
+msgid "Run!"
+msgstr "Изврши!"
 
-#: pippy_app.py:235
+#: pippy_app.py:234
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "%s Активност"
 
-#: pippy_app.py:290
+#: pippy_app.py:285
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Сними како грешка во активност"
 
-#: pippy_app.py:291
+#: pippy_app.py:286
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
+"Доделете осмислено име на активноста пред да пробате да ја снимите како "
+"таква."
 
-#: pippy_app.py:293
+#: pippy_app.py:288
 msgid "Ok"
-msgstr ""
+msgstr "Во ред"
 
-#: pippy_app.py:299
+#: pippy_app.py:294
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Создавам сноп на активности..."
 
-#: pippy_app.py:358
+#: pippy_app.py:352
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "Активноста е снимена во дневникот."
 
 #~ msgid "Pippy"
 #~ msgstr "Пипи"

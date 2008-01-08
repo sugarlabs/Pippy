@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-05 03:28-0500\n"
-"PO-Revision-Date: 2007-11-20 19:27+0000\n"
+"POT-Creation-Date: 2007-12-14 20:37-0500\n"
+"PO-Revision-Date: 2007-12-15 13:59+0000\n"
 "Last-Translator: samy boutayeb <s.boutayeb@free.fr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,58 +16,52 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.0.2\n"
 
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
-
 #: library/pippy/game.py:19
 msgid "PAUSED"
-msgstr ""
+msgstr "PAUSE"
 
-#: pippy_app.py:57
+#: pippy_app.py:56
 msgid "As Pippy Document"
-msgstr ""
+msgstr "Comme document Pippy"
 
-#: pippy_app.py:62
+#: pippy_app.py:61
 msgid "As Activity Bundle"
-msgstr ""
+msgstr "Comme paquet activité"
 
-#: pippy_app.py:79
+#: pippy_app.py:78
 msgid "Examples"
 msgstr "Exemples"
 
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
+#: pippy_app.py:146
+msgid "Run!"
 msgstr "Démarrer !"
 
-#: pippy_app.py:235
+#: pippy_app.py:234
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "Activité %s"
 
-#: pippy_app.py:290
+#: pippy_app.py:285
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Erreur de sauvegarde comme activité"
 
-#: pippy_app.py:291
+#: pippy_app.py:286
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
-msgstr ""
+msgstr "Pour enregistrer votre activité, choisissez un nom d'activité parlant."
 
-#: pippy_app.py:293
+#: pippy_app.py:288
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
-#: pippy_app.py:299
+#: pippy_app.py:294
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Création de paquet activité en cours..."
 
-#: pippy_app.py:358
+#: pippy_app.py:352
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "L'activité a été enregistrée dans le journal."
 
 #~ msgid "Pippy"
 #~ msgstr "Pippy"

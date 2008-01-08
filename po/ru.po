@@ -6,69 +6,65 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-05 03:28-0500\n"
-"PO-Revision-Date: 2007-11-27 08:38+0000\n"
-"Last-Translator: Andrei Popov <ceesaxp@gmail.com>\n"
+"POT-Creation-Date: 2007-12-14 20:37-0500\n"
+"PO-Revision-Date: 2007-12-22 21:57+0000\n"
+"Last-Translator: Maxim Osipov <maxim.osipov@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.0.2\n"
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
-msgstr ""
+msgstr "ПАУЗА"
 
-#: pippy_app.py:57
+#: pippy_app.py:56
 msgid "As Pippy Document"
-msgstr ""
+msgstr "Как Документ Пиппи"
 
-#: pippy_app.py:62
+#: pippy_app.py:61
 msgid "As Activity Bundle"
-msgstr ""
+msgstr "Как Активность"
 
-#: pippy_app.py:79
+#: pippy_app.py:78
 msgid "Examples"
 msgstr "Примеры"
 
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
+#: pippy_app.py:146
+msgid "Run!"
 msgstr "Пуск!"
 
-#: pippy_app.py:235
+#: pippy_app.py:234
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "% Активность"
 
-#: pippy_app.py:290
+#: pippy_app.py:285
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Сохранить как Ошибку Активности"
 
-#: pippy_app.py:291
+#: pippy_app.py:286
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
+"Пожалуйста дайте своей активности разумное название прежде чем пытаться "
+"сохранить ее как активность."
 
-#: pippy_app.py:293
+#: pippy_app.py:288
 msgid "Ok"
-msgstr ""
+msgstr "Ок"
 
-#: pippy_app.py:299
+#: pippy_app.py:294
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Создается активность..."
 
-#: pippy_app.py:358
+#: pippy_app.py:352
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "Активность сохранена в журнале."
 
 #~ msgid "Pippy"
 #~ msgstr "Питон Пиппи"

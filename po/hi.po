@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-05 03:28-0500\n"
+"POT-Creation-Date: 2007-12-14 20:37-0500\n"
 "PO-Revision-Date: 2007-11-21 22:51+0530\n"
 "Last-Translator: G Karunakar <karunakar@indlinux.org>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
@@ -15,56 +15,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.0.1\n"
 
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
-
 #: library/pippy/game.py:19
 msgid "PAUSED"
 msgstr ""
 
-#: pippy_app.py:57
+#: pippy_app.py:56
 msgid "As Pippy Document"
 msgstr ""
 
-#: pippy_app.py:62
+#: pippy_app.py:61
 msgid "As Activity Bundle"
 msgstr ""
 
-#: pippy_app.py:79
+#: pippy_app.py:78
 msgid "Examples"
 msgstr "उदाहरण"
 
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
+#: pippy_app.py:146
+msgid "Run!"
 msgstr "दोडो!"
 
-#: pippy_app.py:235
+#: pippy_app.py:234
 #, python-format
 msgid "%s Activity"
 msgstr ""
 
-#: pippy_app.py:290
+#: pippy_app.py:285
 msgid "Save as Activity Error"
 msgstr ""
 
-#: pippy_app.py:291
+#: pippy_app.py:286
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
 
-#: pippy_app.py:293
+#: pippy_app.py:288
 msgid "Ok"
 msgstr ""
 
-#: pippy_app.py:299
+#: pippy_app.py:294
 msgid "Creating activity bundle..."
 msgstr ""
 
-#: pippy_app.py:358
+#: pippy_app.py:352
 msgid "Activity saved to journal."
 msgstr ""
 
