@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-05 03:14-0500\n"
-"PO-Revision-Date: 2007-12-23 22:28+0000\n"
+"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"PO-Revision-Date: 2008-01-18 17:21+0000\n"
 "Last-Translator: Rafael Ortiz <rafael@laptop.org>\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 #: activity.py:26
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "%s Fuente"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
-msgstr "Detenido"
+msgstr "PAUSADO"
 
 #: pippy_app.py:57
 msgid "As Pippy Document"
@@ -75,3 +75,7 @@ msgstr "Actividad Guardada en el diario"
 
 #~ msgid "Stop!"
 #~ msgstr "Para!"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Peppy"

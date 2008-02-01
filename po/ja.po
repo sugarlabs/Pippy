@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-14 20:37-0500\n"
+"POT-Creation-Date: 2008-01-08 18:47+0000\n"
 "PO-Revision-Date: 2008-01-04 08:31+0000\n"
 "Last-Translator: Taizo Shiozaki <taizo@shiozaki.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,17 +20,17 @@ msgstr ""
 msgid "PAUSED"
 msgstr "一時停止中"
 
-#: pippy_app.py:56
+#: pippy_app.py:57
 #, fuzzy
 msgid "As Pippy Document"
 msgstr "Pippyドキュメント"
 
-#: pippy_app.py:61
+#: pippy_app.py:62
 #, fuzzy
 msgid "As Activity Bundle"
 msgstr "アクティビティバンドルとして"
 
-#: pippy_app.py:78
+#: pippy_app.py:79
 #, fuzzy
 msgid "Examples"
 msgstr "例"
@@ -40,35 +40,35 @@ msgstr "例"
 msgid "Run!"
 msgstr "走れ！"
 
-#: pippy_app.py:234
+#: pippy_app.py:235
 #, python-format
 #, fuzzy
 msgid "%s Activity"
 msgstr "%sアクティビティ"
 
-#: pippy_app.py:285
+#: pippy_app.py:290
 #, fuzzy
 msgid "Save as Activity Error"
 msgstr "「アクティビティへ保存」エラー"
 
-#: pippy_app.py:286
+#: pippy_app.py:291
 #, fuzzy
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "わかりやすい名前を付けてから、アクティビティとして保存してください。"
 
-#: pippy_app.py:288
+#: pippy_app.py:293
 #, fuzzy
 msgid "Ok"
 msgstr "はい"
 
-#: pippy_app.py:294
+#: pippy_app.py:299
 #, fuzzy
 msgid "Creating activity bundle..."
 msgstr "アクティビティバンドルを生成中..."
 
-#: pippy_app.py:352
+#: pippy_app.py:358
 #, fuzzy
 msgid "Activity saved to journal."
 msgstr "ジャーナルにアクティビティを保存しました。"
@@ -80,3 +80,16 @@ msgstr "ジャーナルにアクティビティを保存しました。"
 #, fuzzy
 #~ msgid "Stop!"
 #~ msgstr "止まれ！"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr ""
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
+
+#: pippy_app.py:147
+msgid "_Run!"
+msgstr ""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-14 20:37-0500\n"
+"POT-Creation-Date: 2008-01-08 18:47+0000\n"
 "PO-Revision-Date: 2007-12-16 11:39+0000\n"
 "Last-Translator: Manatsawin <manatsawin@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,15 +19,15 @@ msgstr ""
 msgid "PAUSED"
 msgstr "หยุดการทำงาน"
 
-#: pippy_app.py:56
+#: pippy_app.py:57
 msgid "As Pippy Document"
 msgstr "เป็นเอกสาร Pippy"
 
-#: pippy_app.py:61
+#: pippy_app.py:62
 msgid "As Activity Bundle"
 msgstr "เป็นชุดกิจกรรม"
 
-#: pippy_app.py:78
+#: pippy_app.py:79
 msgid "Examples"
 msgstr "ตัวอย่าง"
 
@@ -35,30 +35,30 @@ msgstr "ตัวอย่าง"
 msgid "Run!"
 msgstr "รัน!"
 
-#: pippy_app.py:234
+#: pippy_app.py:235
 #, python-format
 msgid "%s Activity"
 msgstr "กิจกรรม %sx"
 
-#: pippy_app.py:285
+#: pippy_app.py:290
 msgid "Save as Activity Error"
 msgstr "บันทึกเป็นข้อผิดพลาดกิจกรรม"
 
-#: pippy_app.py:286
+#: pippy_app.py:291
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "โปรดใส่ชื่อกิจกรรมก่อนจะบันทึกเป็นกิจกรรม"
 
-#: pippy_app.py:288
+#: pippy_app.py:293
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:294
+#: pippy_app.py:299
 msgid "Creating activity bundle..."
 msgstr "กำลังสร้างชุดกิจกรรม..."
 
-#: pippy_app.py:352
+#: pippy_app.py:358
 msgid "Activity saved to journal."
 msgstr "บันทึกกิจกรรมลงบันทึกประจำวันแล้ว"
 
@@ -67,3 +67,17 @@ msgstr "บันทึกกิจกรรมลงบันทึกประ
 
 #~ msgid "Stop!"
 #~ msgstr "หยุด!"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Pippy"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
+
+#: pippy_app.py:147
+#, fuzzy
+msgid "_Run!"
+msgstr "รัน!"

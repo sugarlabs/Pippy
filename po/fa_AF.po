@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-14 20:37-0500\n"
-"PO-Revision-Date: 2008-01-09 10:30+0000\n"
+"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"PO-Revision-Date: 2008-01-28 04:43-0500\n"
 "Last-Translator: Sohaib Obaidi <ebtihaj_obaidi@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,45 +19,58 @@ msgstr ""
 msgid "PAUSED"
 msgstr "مکث شده"
 
-#: pippy_app.py:56
+#: pippy_app.py:57
 msgid "As Pippy Document"
 msgstr "بحیث سند پیپی"
 
-#: pippy_app.py:61
+#: pippy_app.py:62
 msgid "As Activity Bundle"
 msgstr "بحیث مجموعه فعالیتی"
 
-#: pippy_app.py:78
+#: pippy_app.py:79
 msgid "Examples"
 msgstr "مثال ها"
 
 #: pippy_app.py:146
 msgid "Run!"
-msgstr "بران"
+msgstr "اجرا کن!"
 
-#: pippy_app.py:234
+#: pippy_app.py:235
 #, python-format
 msgid "%s Activity"
-msgstr "% فعالیت"
+msgstr "فعالیت %"
 
-#: pippy_app.py:285
+#: pippy_app.py:290
 msgid "Save as Activity Error"
-msgstr "بحیث یک اشتباه فعالیتی ثبت شود"
+msgstr "بحیث یک خطای فعالیتی ثبت شود"
 
-#: pippy_app.py:286
+#: pippy_app.py:291
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
-msgstr "لطفاً فغالیت خود را قبل از ثبت آن بحیث یک فعالیت یک نام پرمعنی بدهید"
+msgstr "لطفاً فعالیت خود را قبل از ثبت آن بحیث یک فعالیت یک نام پرمعنی بدهید."
 
-#: pippy_app.py:288
+#: pippy_app.py:293
 msgid "Ok"
 msgstr "درست است"
 
-#: pippy_app.py:294
+#: pippy_app.py:299
 msgid "Creating activity bundle..."
-msgstr "در حال ساختن مجموعه فعالیتی"
+msgstr "در حال ساختن مجموعه فعالیتی..."
 
-#: pippy_app.py:352
+#: pippy_app.py:358
 msgid "Activity saved to journal."
-msgstr "فعالیت بحیث یک یادداشت ثبت گردید"
+msgstr "فعالیت بحیث یک یادداشت ثبت گردید."
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "پیپی"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr "منبع %"
+
+#: pippy_app.py:147
+msgid "_Run!"
+msgstr "_اجراکن!"

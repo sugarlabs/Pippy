@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-14 20:37-0500\n"
+"POT-Creation-Date: 2008-01-08 18:47+0000\n"
 "PO-Revision-Date: 2007-12-17 19:09+0000\n"
 "Last-Translator: novica <nnovica@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,15 +20,15 @@ msgstr ""
 msgid "PAUSED"
 msgstr "ПАУЗИРАНО"
 
-#: pippy_app.py:56
+#: pippy_app.py:57
 msgid "As Pippy Document"
 msgstr "Како документ на Pippy"
 
-#: pippy_app.py:61
+#: pippy_app.py:62
 msgid "As Activity Bundle"
 msgstr "Како сноп на активности"
 
-#: pippy_app.py:78
+#: pippy_app.py:79
 msgid "Examples"
 msgstr "Примери"
 
@@ -36,16 +36,16 @@ msgstr "Примери"
 msgid "Run!"
 msgstr "Изврши!"
 
-#: pippy_app.py:234
+#: pippy_app.py:235
 #, python-format
 msgid "%s Activity"
 msgstr "%s Активност"
 
-#: pippy_app.py:285
+#: pippy_app.py:290
 msgid "Save as Activity Error"
 msgstr "Сними како грешка во активност"
 
-#: pippy_app.py:286
+#: pippy_app.py:291
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -53,15 +53,15 @@ msgstr ""
 "Доделете осмислено име на активноста пред да пробате да ја снимите како "
 "таква."
 
-#: pippy_app.py:288
+#: pippy_app.py:293
 msgid "Ok"
 msgstr "Во ред"
 
-#: pippy_app.py:294
+#: pippy_app.py:299
 msgid "Creating activity bundle..."
 msgstr "Создавам сноп на активности..."
 
-#: pippy_app.py:352
+#: pippy_app.py:358
 msgid "Activity saved to journal."
 msgstr "Активноста е снимена во дневникот."
 
@@ -70,3 +70,17 @@ msgstr "Активноста е снимена во дневникот."
 
 #~ msgid "Stop!"
 #~ msgstr "Стој!"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Пипи"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
+
+#: pippy_app.py:147
+#, fuzzy
+msgid "_Run!"
+msgstr "Изврши!"

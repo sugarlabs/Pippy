@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-08 18:47+0000\n"
-"PO-Revision-Date: 2008-01-08 20:08+0000\n"
+"PO-Revision-Date: 2008-01-14 17:26+0000\n"
 "Last-Translator: Jaume <jaume@nualart.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,52 +25,54 @@ msgstr "Com a document Pippy"
 
 #: pippy_app.py:62
 msgid "As Activity Bundle"
-msgstr ""
+msgstr "Com un grup d'activitats"
 
 #: pippy_app.py:79
 msgid "Examples"
-msgstr ""
+msgstr "Ejemples"
 
 #: pippy_app.py:146
 msgid "Run!"
-msgstr ""
+msgstr "Engega!"
 
 #: pippy_app.py:235
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "%s Activitat"
 
 #: pippy_app.py:290
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Desa com a un Error de l'Activitat"
 
 #: pippy_app.py:291
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
+"Si us plau, dóna el nom principal de l'Activitat abans de provar de desar-la "
+"com a Activitat"
 
 #: pippy_app.py:293
 msgid "Ok"
-msgstr ""
+msgstr "D'acord"
 
 #: pippy_app.py:299
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Creant grup d'Activitats ..."
 
 #: pippy_app.py:358
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "L'Activitat s'ha desat al Diari"
 
 #: activity/activity.info:2
 msgid "Pippy"
-msgstr ""
+msgstr "Pippy"
 
 #: activity.py:26
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "%s codi font"
 
 #: pippy_app.py:147
 msgid "_Run!"
-msgstr ""
+msgstr "_Engega!"

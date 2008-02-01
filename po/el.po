@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-14 20:37-0500\n"
-"PO-Revision-Date: 2007-12-21 19:29+0000\n"
-"Last-Translator: John Sarlis <sarlis@sch.gr>\n"
+"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"PO-Revision-Date: 2008-01-13 08:02+0000\n"
+"Last-Translator: Γιάννης Κασκαμανίδης <ttnfy17@yahoo.gr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +20,15 @@ msgstr ""
 msgid "PAUSED"
 msgstr "ΣΤΑΜΑΤΗΜΕΝΟ"
 
-#: pippy_app.py:56
+#: pippy_app.py:57
 msgid "As Pippy Document"
 msgstr "Σαν έγγραφο Pippy"
 
-#: pippy_app.py:61
+#: pippy_app.py:62
 msgid "As Activity Bundle"
 msgstr "Σαν Πακέτο Δραστηριότητας"
 
-#: pippy_app.py:78
+#: pippy_app.py:79
 msgid "Examples"
 msgstr "Παραδείγματα"
 
@@ -36,16 +36,16 @@ msgstr "Παραδείγματα"
 msgid "Run!"
 msgstr "Τρέξε!"
 
-#: pippy_app.py:234
+#: pippy_app.py:235
 #, python-format
 msgid "%s Activity"
 msgstr "Δραστηριότητα %s"
 
-#: pippy_app.py:285
+#: pippy_app.py:290
 msgid "Save as Activity Error"
 msgstr "Αποθήκευση ως Λάθος Δραστηριότητας"
 
-#: pippy_app.py:286
+#: pippy_app.py:291
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -53,15 +53,15 @@ msgstr ""
 "Παρακαλώ δώσε στη δραστηριότητα σου ένα όνομα με κάποιο νόημα πριν "
 "προσπαθήσεις να την αποθηκεύσεις σαν δραστηριότητα."
 
-#: pippy_app.py:288
+#: pippy_app.py:293
 msgid "Ok"
 msgstr "Εντάξει"
 
-#: pippy_app.py:294
+#: pippy_app.py:299
 msgid "Creating activity bundle..."
 msgstr "Δημιουργώ πακέτο δραστηριότητας..."
 
-#: pippy_app.py:352
+#: pippy_app.py:358
 msgid "Activity saved to journal."
 msgstr "Η Δραστηριότητα αποθηκεύτηκε στο Ημερολόγιο"
 
@@ -71,3 +71,17 @@ msgstr "Η Δραστηριότητα αποθηκεύτηκε στο Ημερο
 
 #~ msgid "Stop!"
 #~ msgstr "Σταμάτα!"
+
+# Τι να μεταφράσεις από αυτό;;;;το αφήνω ίδιο
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Pippy"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr "%s Κώδικας"
+
+#: pippy_app.py:147
+msgid "_Run!"
+msgstr "_Τρέξε!"
