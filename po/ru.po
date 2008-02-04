@@ -66,8 +66,6 @@ msgstr "Создается активность..."
 msgid "Activity saved to journal."
 msgstr "Активность сохранена в журнале."
 
-#~ msgid "Pippy"
-#~ msgstr "Питон Пиппи"
 
 #~ msgid "Stop!"
 #~ msgstr "Стоп!"

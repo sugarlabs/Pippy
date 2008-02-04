@@ -65,8 +65,6 @@ msgstr "Erstelle Aktivitäts- Paket..."
 msgid "Activity saved to journal."
 msgstr "Aktivität ins Journal gespeichert."
 
-#~ msgid "Pippy"
-#~ msgstr "Pippy"
 
 #~ msgid "Stop!"
 #~ msgstr "Stopp!"

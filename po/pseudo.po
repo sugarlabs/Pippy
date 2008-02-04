@@ -63,8 +63,6 @@ msgstr ""
 msgid "Activity saved to journal."
 msgstr ""
 
-#~ msgid "Pippy"
-#~ msgstr "[   ]"
 
 #~ msgid "Stop!"
 #~ msgstr "[    ]!"

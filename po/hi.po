@@ -62,8 +62,6 @@ msgstr ""
 msgid "Activity saved to journal."
 msgstr ""
 
-#~ msgid "Pippy"
-#~ msgstr "पिप्पी"
 
 #~ msgid "Stop!"
 #~ msgstr "रुको!"

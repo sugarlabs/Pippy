@@ -65,9 +65,6 @@ msgstr "Δημιουργώ πακέτο δραστηριότητας..."
 msgid "Activity saved to journal."
 msgstr "Η Δραστηριότητα αποθηκεύτηκε στο Ημερολόγιο"
 
-# Τι να μεταφράσεις από αυτό;;;;το αφήνω ίδιο
-#~ msgid "Pippy"
-#~ msgstr "Pippy"
 
 #~ msgid "Stop!"
 #~ msgstr "Σταμάτα!"

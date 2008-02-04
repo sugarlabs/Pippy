@@ -65,8 +65,6 @@ msgstr "Bezig met activiteit bundel maken..."
 msgid "Activity saved to journal."
 msgstr "Activiteit is bewaard in je Dagboek."
 
-#~ msgid "Pippy"
-#~ msgstr "Pippy"
 
 #~ msgid "Stop!"
 #~ msgstr "Stoppen!"

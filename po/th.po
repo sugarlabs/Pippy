@@ -62,8 +62,6 @@ msgstr "กำลังสร้างชุดกิจกรรม..."
 msgid "Activity saved to journal."
 msgstr "บันทึกกิจกรรมลงบันทึกประจำวันแล้ว"
 
-#~ msgid "Pippy"
-#~ msgstr "Pippy"
 
 #~ msgid "Stop!"
 #~ msgstr "หยุด!"

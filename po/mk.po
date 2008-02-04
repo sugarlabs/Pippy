@@ -65,8 +65,6 @@ msgstr "Создавам сноп на активности..."
 msgid "Activity saved to journal."
 msgstr "Активноста е снимена во дневникот."
 
-#~ msgid "Pippy"
-#~ msgstr "Пипи"
 
 #~ msgid "Stop!"
 #~ msgstr "Стој!"

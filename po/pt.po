@@ -65,8 +65,6 @@ msgstr "Criando embrulho de actividade..."
 msgid "Activity saved to journal."
 msgstr "Actividade gravada no Diário."
 
-#~ msgid "Pippy"
-#~ msgstr "Pippy"
 
 #~ msgid "Stop!"
 #~ msgstr "Pára!"

@@ -64,8 +64,6 @@ msgstr "أنشيء نشاط"
 msgid "Activity saved to journal."
 msgstr ""
 
-#~ msgid "Pippy"
-#~ msgstr "بِبِي"
 
 #~ msgid "Stop!"
 #~ msgstr "قف"

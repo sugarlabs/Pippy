@@ -70,8 +70,6 @@ msgstr "Creando una Actividad Empaquetada"
 msgid "Activity saved to journal."
 msgstr "Actividad Guardada en el diario"
 
-#~ msgid "Pippy"
-#~ msgstr "Peppy"
 
 #~ msgid "Stop!"
 #~ msgstr "Para!"

@@ -73,9 +73,6 @@ msgstr "アクティビティバンドルを生成中..."
 msgid "Activity saved to journal."
 msgstr "ジャーナルにアクティビティを保存しました。"
 
-#, fuzzy
-#~ msgid "Pippy"
-#~ msgstr "ピッピー"
 
 #, fuzzy
 #~ msgid "Stop!"

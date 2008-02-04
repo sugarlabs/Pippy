@@ -63,8 +63,6 @@ msgstr "Création de paquet activité en cours..."
 msgid "Activity saved to journal."
 msgstr "L'activité a été enregistrée dans le journal."
 
-#~ msgid "Pippy"
-#~ msgstr "Pippy"
 
 #~ msgid "Stop!"
 #~ msgstr "Arrêter !"
