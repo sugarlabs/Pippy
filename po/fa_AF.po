@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-08 18:47+0000\n"
-"PO-Revision-Date: 2008-01-28 04:43-0500\n"
+"PO-Revision-Date: 2008-02-06 05:51-0500\n"
 "Last-Translator: Sohaib Obaidi <ebtihaj_obaidi@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "اجرا کن!"
 #: pippy_app.py:235
 #, python-format
 msgid "%s Activity"
-msgstr "فعالیت %"
+msgstr "فعالیت %s"
 
 #: pippy_app.py:290
 msgid "Save as Activity Error"
@@ -69,7 +69,7 @@ msgstr "پیپی"
 #: activity.py:26
 #, python-format
 msgid "%s Source"
-msgstr "منبع %"
+msgstr "منبع %s"
 
 #: pippy_app.py:147
 msgid "_Run!"

@@ -40,7 +40,7 @@ msgstr "Пуск!"
 #: pippy_app.py:235
 #, python-format
 msgid "%s Activity"
-msgstr "% Активность"
+msgstr "%s Активность"
 
 #: pippy_app.py:290
 msgid "Save as Activity Error"
