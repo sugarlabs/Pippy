@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,6 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.0.1\n"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -32,8 +37,9 @@ msgstr ""
 msgid "Examples"
 msgstr "Dæmi"
 
-#: pippy_app.py:146
-msgid "Run!"
+#: pippy_app.py:147
+#, fuzzy
+msgid "_Run!"
 msgstr "Keyra!"
 
 #: pippy_app.py:235
@@ -63,20 +69,11 @@ msgstr ""
 msgid "Activity saved to journal."
 msgstr ""
 
+#~ msgid "Run!"
+#~ msgstr "Keyra!"
 
 #~ msgid "Stop!"
 #~ msgstr "Stöðva!"
 
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "Pippi"
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
-
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
-msgstr "Keyra!"
+#~ msgid "Pippy"
+#~ msgstr "Pippi"

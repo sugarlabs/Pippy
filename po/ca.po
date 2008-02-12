@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2008-01-14 17:26+0000\n"
 "Last-Translator: Jaume <jaume@nualart.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,6 +14,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 1.0.2\n"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr "%s codi font"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -31,9 +36,9 @@ msgstr "Com un grup d'activitats"
 msgid "Examples"
 msgstr "Ejemples"
 
-#: pippy_app.py:146
-msgid "Run!"
-msgstr "Engega!"
+#: pippy_app.py:147
+msgid "_Run!"
+msgstr "_Engega!"
 
 #: pippy_app.py:235
 #, python-format
@@ -64,15 +69,8 @@ msgstr "Creant grup d'Activitats ..."
 msgid "Activity saved to journal."
 msgstr "L'Activitat s'ha desat al Diari"
 
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "Pippy"
+#~ msgid "Run!"
+#~ msgstr "Engega!"
 
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr "%s codi font"
-
-#: pippy_app.py:147
-msgid "_Run!"
-msgstr "_Engega!"
+#~ msgid "Pippy"
+#~ msgstr "Pippy"

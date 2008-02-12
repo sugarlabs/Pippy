@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2008-01-13 08:02+0000\n"
 "Last-Translator: Γιάννης Κασκαμανίδης <ttnfy17@yahoo.gr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,6 +15,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.0.2\n"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr "%s Κώδικας"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -32,9 +37,9 @@ msgstr "Σαν Πακέτο Δραστηριότητας"
 msgid "Examples"
 msgstr "Παραδείγματα"
 
-#: pippy_app.py:146
-msgid "Run!"
-msgstr "Τρέξε!"
+#: pippy_app.py:147
+msgid "_Run!"
+msgstr "_Τρέξε!"
 
 #: pippy_app.py:235
 #, python-format
@@ -65,20 +70,12 @@ msgstr "Δημιουργώ πακέτο δραστηριότητας..."
 msgid "Activity saved to journal."
 msgstr "Η Δραστηριότητα αποθηκεύτηκε στο Ημερολόγιο"
 
+#~ msgid "Run!"
+#~ msgstr "Τρέξε!"
 
 #~ msgid "Stop!"
 #~ msgstr "Σταμάτα!"
 
 # Τι να μεταφράσεις από αυτό;;;;το αφήνω ίδιο
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "Pippy"
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr "%s Κώδικας"
-
-#: pippy_app.py:147
-msgid "_Run!"
-msgstr "_Τρέξε!"
+#~ msgid "Pippy"
+#~ msgstr "Pippy"

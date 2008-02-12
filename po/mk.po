@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2007-12-17 19:09+0000\n"
 "Last-Translator: novica <nnovica@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,6 +15,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 || n%10==1 ? 0 : 1;\n"
 "X-Generator: Pootle 1.0.2\n"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -32,8 +37,9 @@ msgstr "Како сноп на активности"
 msgid "Examples"
 msgstr "Примери"
 
-#: pippy_app.py:146
-msgid "Run!"
+#: pippy_app.py:147
+#, fuzzy
+msgid "_Run!"
 msgstr "Изврши!"
 
 #: pippy_app.py:235
@@ -65,20 +71,11 @@ msgstr "Создавам сноп на активности..."
 msgid "Activity saved to journal."
 msgstr "Активноста е снимена во дневникот."
 
+#~ msgid "Run!"
+#~ msgstr "Изврши!"
 
 #~ msgid "Stop!"
 #~ msgstr "Стој!"
 
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "Пипи"
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
-
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
-msgstr "Изврши!"
+#~ msgid "Pippy"
+#~ msgstr "Пипи"

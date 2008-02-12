@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2008-01-13 16:52+0000\n"
 "Last-Translator: Bastiaan Bakker <bastiaan@olpc-nl.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,6 +15,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.0.2\n"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -32,8 +37,9 @@ msgstr "Als Activiteit bundel"
 msgid "Examples"
 msgstr "Voorbeelden"
 
-#: pippy_app.py:146
-msgid "Run!"
+#: pippy_app.py:147
+#, fuzzy
+msgid "_Run!"
 msgstr "Uitvoeren!"
 
 #: pippy_app.py:235
@@ -65,20 +71,11 @@ msgstr "Bezig met activiteit bundel maken..."
 msgid "Activity saved to journal."
 msgstr "Activiteit is bewaard in je Dagboek."
 
+#~ msgid "Run!"
+#~ msgstr "Uitvoeren!"
 
 #~ msgid "Stop!"
 #~ msgstr "Stoppen!"
 
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "Pippy"
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
-
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
-msgstr "Uitvoeren!"
+#~ msgid "Pippy"
+#~ msgstr "Pippy"

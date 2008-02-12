@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2007-11-23 00:07+0000\n"
 "Last-Translator: Adi Roiban <adiroiban@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 1.0.2\n"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -33,8 +38,9 @@ msgstr ""
 msgid "Examples"
 msgstr "Exemple"
 
-#: pippy_app.py:146
-msgid "Run!"
+#: pippy_app.py:147
+#, fuzzy
+msgid "_Run!"
 msgstr "Pornește!"
 
 #: pippy_app.py:235
@@ -64,20 +70,11 @@ msgstr ""
 msgid "Activity saved to journal."
 msgstr ""
 
+#~ msgid "Run!"
+#~ msgstr "Pornește!"
 
 #~ msgid "Stop!"
 #~ msgstr "Oprește!"
 
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "Pippy"
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
-
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
-msgstr "Pornește!"
+#~ msgid "Pippy"
+#~ msgstr "Pippy"

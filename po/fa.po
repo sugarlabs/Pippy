@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2008-01-09 10:30+0000\n"
 "Last-Translator: Sohaib Obaidi <ebtihaj_obaidi@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,6 +14,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 1.0.2\n"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -31,8 +36,9 @@ msgstr "بحیث مجموعه فعالیتی"
 msgid "Examples"
 msgstr "مثال ها"
 
-#: pippy_app.py:146
-msgid "Run!"
+#: pippy_app.py:147
+#, fuzzy
+msgid "_Run!"
 msgstr "بران"
 
 #: pippy_app.py:235
@@ -62,16 +68,5 @@ msgstr "در حال ساختن مجموعه فعالیتی"
 msgid "Activity saved to journal."
 msgstr "فعالیت بحیث یک یادداشت ثبت گردید"
 
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr ""
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
-
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
-msgstr "بران"
+#~ msgid "Run!"
+#~ msgstr "بران"

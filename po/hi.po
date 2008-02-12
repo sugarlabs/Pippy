@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2007-11-21 22:51+0530\n"
 "Last-Translator: G Karunakar <karunakar@indlinux.org>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
@@ -14,6 +14,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.0.1\n"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -31,8 +36,9 @@ msgstr ""
 msgid "Examples"
 msgstr "उदाहरण"
 
-#: pippy_app.py:146
-msgid "Run!"
+#: pippy_app.py:147
+#, fuzzy
+msgid "_Run!"
 msgstr "दोडो!"
 
 #: pippy_app.py:235
@@ -62,20 +68,11 @@ msgstr ""
 msgid "Activity saved to journal."
 msgstr ""
 
+#~ msgid "Run!"
+#~ msgstr "दोडो!"
 
 #~ msgid "Stop!"
 #~ msgstr "रुको!"
 
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "पिप्पी"
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr ""
-
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
-msgstr "दोडो!"
+#~ msgid "Pippy"
+#~ msgstr "पिप्पी"

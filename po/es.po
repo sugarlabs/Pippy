@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2008-01-18 17:21+0000\n"
 "Last-Translator: Rafael Ortiz <rafael@laptop.org>\n"
 "Language-Team: Spanish\n"
@@ -70,10 +70,8 @@ msgstr "Creando una Actividad Empaquetada"
 msgid "Activity saved to journal."
 msgstr "Actividad Guardada en el diario"
 
-
 #~ msgid "Stop!"
 #~ msgstr "Para!"
 
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "Peppy"
+#~ msgid "Pippy"
+#~ msgstr "Peppy"

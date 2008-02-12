@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2008-02-04 08:20-0500\n"
 "Last-Translator: Satyanarayana Murthy Saladi <saladism@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,10 +14,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 1.0.2\n"
-
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "పిప్పీ"
 
 #: activity.py:26
 #, python-format
@@ -70,3 +66,6 @@ msgstr "వ్యపకాల కట్టని తయారు చేస్త
 #: pippy_app.py:358
 msgid "Activity saved to journal."
 msgstr "వ్యపకాన్ని పద్దులో దాచా"
+
+#~ msgid "Pippy"
+#~ msgstr "పిప్పీ"

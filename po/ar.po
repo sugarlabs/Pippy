@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
+"POT-Creation-Date: 2008-02-11 19:42-0500\n"
 "PO-Revision-Date: 2008-02-08 15:57-0500\n"
 "Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
 "Language-Team: arabeyes <ar@li.org>\n"
@@ -16,6 +16,11 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n>=3 && "
 "n<=10 ? 3 : n>=11 && n<=99 ? 4 : 5;\n"
 "X-Generator: Pootle 1.0.2\n"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr "مصْدر %s"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -33,9 +38,10 @@ msgstr "كحزمة ببي"
 msgid "Examples"
 msgstr "أمثلة"
 
-#: pippy_app.py:146
-msgid "Run!"
-msgstr "شغّل"
+#: pippy_app.py:147
+#, fuzzy
+msgid "_Run!"
+msgstr "_شغّل"
 
 #: pippy_app.py:235
 #, python-format
@@ -64,19 +70,11 @@ msgstr "أنشئ حزمة نشاط..."
 msgid "Activity saved to journal."
 msgstr "حُفِظ النشاط في اليوميّات"
 
+#~ msgid "Run!"
+#~ msgstr "شغّل"
+
 #~ msgid "Stop!"
 #~ msgstr "قف"
 
-#: activity/activity.info:2
-msgid "Pippy"
-msgstr "بِبِي"
-
-#: activity.py:26
-#, python-format
-msgid "%s Source"
-msgstr "مصْدر %s"
-
-#: pippy_app.py:147
-#, fuzzy
-msgid "_Run!"
-msgstr "_شغّل"
+#~ msgid "Pippy"
+#~ msgstr "بِبِي"
