@@ -193,10 +193,13 @@ class PippyActivity(ViewSourceActivity):
 
         # get the Presence Service
         self.pservice = presenceservice.get_instance()
-        name, path = self.pservice.get_preferred_connection()
-        self.tp_conn_name = name
-        self.tp_conn_path = path
-        self.conn = telepathy.client.Connection(name, path)
+        try:
+            name, path = self.pservice.get_preferred_connection()
+            self.tp_conn_name = name
+            self.tp_conn_path = path
+            self.conn = telepathy.client.Connection(name, path)
+        except TypeError:
+            self._logger.debug('No Telepathy CM, offline')
         self.initiating = None
         
         self.connect('shared', self._shared_cb)
