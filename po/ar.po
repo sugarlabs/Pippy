@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-11 19:42-0500\n"
-"PO-Revision-Date: 2008-02-08 15:57-0500\n"
+"PO-Revision-Date: 2008-02-21 11:35-0500\n"
 "Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
 "Language-Team: arabeyes <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -39,18 +39,17 @@ msgid "Examples"
 msgstr "أمثلة"
 
 #: pippy_app.py:147
-#, fuzzy
 msgid "_Run!"
 msgstr "_شغّل"
 
 #: pippy_app.py:235
 #, python-format
 msgid "%s Activity"
-msgstr "%s نشاط"
+msgstr "نشاط %s"
 
 #: pippy_app.py:290
 msgid "Save as Activity Error"
-msgstr "تسجيل كهطأ في النشاط"
+msgstr "احفظ كخطأ في النشاط"
 
 #: pippy_app.py:291
 msgid ""
