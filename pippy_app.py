@@ -24,6 +24,7 @@ import pango
 import vte
 import re, os, os.path
 import gobject
+import time
 
 from signal import SIGTERM
 from gettext import gettext as _
@@ -35,6 +36,7 @@ from sugar.activity.activity import ActivityToolbox, \
      get_bundle_path, get_bundle_name
 from sugar.presence import presenceservice
 
+from sugar.presence.tubeconn import TubeConnection
 
 SERVICE = "org.laptop.Pippy"
 IFACE = SERVICE
@@ -382,14 +384,7 @@ class PippyActivity(ViewSourceActivity):
     def _shared_cb(self, activity):
         self._logger.debug('My activity was shared')
         self.initiating = True
-        self._setup()
-
-        for buddy in self._shared_activity.get_joined_buddies():
-            self._logger.debug('Buddy %s is already in the activity' %
-                buddy.props.nick)
-
-        self._shared_activity.connect('buddy-joined', self._buddy_joined_cb)
-        self._shared_activity.connect('buddy-left', self._buddy_left_cb)
+        self._sharing_setup()
 
         self._logger.debug('This is my activity: making a tube...')
         _id = self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].OfferDBusTube(
@@ -397,51 +392,26 @@ class PippyActivity(ViewSourceActivity):
 
     # presence service should be tubes-aware and give us more help
     # with this
-    def _setup(self):
+    def _sharing_setup(self):
         if self._shared_activity is None:
             self._logger.error('Failed to share or join activity')
             return
 
-        bus_name, conn_path, channel_paths =\
-            self._shared_activity.get_channels()
+        self.conn = self._shared_activity.telepathy_conn
+        self.tubes_chan = self._shared_activity.telepathy_tubes_chan
+        self.text_chan = self._shared_activity.telepathy_text_chan
 
-        # Work out what our room is called and whether we have Tubes already
-        room = None
-        tubes_chan = None
-        text_chan = None
-        for channel_path in channel_paths:
-            channel = telepathy.client.Channel(bus_name, channel_path)
-            htype, handle = channel.GetHandle()
-            if htype == telepathy.HANDLE_TYPE_ROOM:
-                self._logger.debug('Found our room: it has handle#%d "%s"',
-                    handle, self.conn.InspectHandles(htype, [handle])[0])
-                room = handle
-                ctype = channel.GetChannelType()
-                if ctype == telepathy.CHANNEL_TYPE_TUBES:
-                    self._logger.debug('Found our Tubes channel at %s', channel_path)
-                    tubes_chan = channel
-                elif ctype == telepathy.CHANNEL_TYPE_TEXT:
-                    self._logger.debug('Found our Text channel at %s', channel_path)
-                    text_chan = channel
+        self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].connect_to_signal(
+             'NewTube', self._new_tube_cb)
 
-        if room is None:
-            self._logger.error("Presence service didn't create a room")
-            return
-        if text_chan is None:
-            self._logger.error("Presence service didn't create a text channel")
-            return
+        self._shared_activity.connect('buddy-joined', self._buddy_joined_cb)
+        self._shared_activity.connect('buddy-left', self._buddy_left_cb)
 
-        # Make sure we have a Tubes channel - PS doesn't yet provide one
-        if tubes_chan is None:
-            self._logger.debug("Didn't find our Tubes channel, requesting one...")
-            tubes_chan = self.conn.request_channel(telepathy.CHANNEL_TYPE_TUBES,
-                telepathy.HANDLE_TYPE_ROOM, room, True)
-
-        self.tubes_chan = tubes_chan
-        self.text_chan = text_chan
-
-        tubes_chan[telepathy.CHANNEL_TYPE_TUBES].connect_to_signal('NewTube',
-            self._new_tube_cb)
+        # Optional - included for example:
+        # Find out who's already in the shared activity:
+        for buddy in self._shared_activity.get_joined_buddies():
+            self._logger.debug('Buddy %s is already in the activity',
+                               buddy.props.nick)
 
     def _list_tubes_reply_cb(self, tubes):
         for tube_info in tubes:
@@ -454,33 +424,28 @@ class PippyActivity(ViewSourceActivity):
         if not self._shared_activity:
             return
 
-        # Find out who's already in the shared activity:
-        for buddy in self._shared_activity.get_joined_buddies():
-            self._logger.debug('Buddy %s is already in the activity' % buddy.props.nick)
-
         self._logger.debug('Joined an existing shared activity')
         self.initiating = False
-        self._setup()
+        self._sharing_setup()
 
         self._logger.debug('This is not my activity: waiting for a tube...')
         self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].ListTubes(
             reply_handler=self._list_tubes_reply_cb,
             error_handler=self._list_tubes_error_cb)
 
-    def _new_tube_cb(self, _id, initiator, type, service, params, state):
+    def _new_tube_cb(self, id, initiator, type, service, params, state):
         self._logger.debug('New tube: ID=%d initator=%d type=%d service=%s '
-                     'params=%r state=%d', _id, initiator, type, service,
+                     'params=%r state=%d', id, initiator, type, service,
                      params, state)
 
         if (type == telepathy.TUBE_TYPE_DBUS and
             service == SERVICE):
             if state == telepathy.TUBE_STATE_LOCAL_PENDING:
-                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(_id)
+                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(id)
 
-            from sugar.presence.tubeconn import TubeConnection
             tube_conn = TubeConnection(self.conn,
                 self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES],
-                _id, group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
+                id, group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
             self.hellotube = HelloTube(tube_conn, self.initiating, self._get_buddy)
 
     def _buddy_joined_cb (self, activity, buddy):
@@ -510,8 +475,7 @@ class PippyActivity(ViewSourceActivity):
 
         # XXX: we're assuming that we have Buddy objects for all contacts -
         # this might break when the server becomes scalable.
-        return self.pservice.get_buddy_by_telepathy_handle(self.tp_conn_name,
-                self.tp_conn_path, handle)
+        return self.pservice.get_buddy_by_telepathy_handle(self.conn.service_name, self.conn.object_path, handle)
 
 class HelloTube(ExportedGObject):
     """The bit that talks over the TUBES!!!"""
@@ -524,14 +488,10 @@ class HelloTube(ExportedGObject):
         self.entered = False  # Have we set up the tube?
         self.helloworld = False  # Have we said Hello and received World?
         self._get_buddy = get_buddy  # Converts handle to Buddy object
-
-        self.ordered_bus_names = []
-
         self.tube.watch_participants(self.participant_change_cb)
 
     def participant_change_cb(self, added, removed):
         self._logger.debug('Adding participants: %r' % added)
-        self._logger.debug('Removing participants: %r' % type(removed))
 
         for handle, bus_name in added:
             buddy = self._get_buddy(handle)
@@ -542,11 +502,6 @@ class HelloTube(ExportedGObject):
             buddy = self._get_buddy(handle)
             if buddy is not None:
                 self._logger.debug('Buddy %s was removed' % buddy.props.nick)
-            try:
-                self.ordered_bus_names.remove(self.tube.participants[handle])
-            except ValueError:
-                # already absent
-                pass
 
         if not self.entered:
             #self.tube.add_signal_receiver(self.insert_cb, 'Insert', IFACE,
@@ -555,7 +510,6 @@ class HelloTube(ExportedGObject):
                 self._logger.debug("I'm initiating the tube, will "
                     "watch for hellos.")
                 self.add_hello_handler()
-                self.ordered_bus_names = [self.tube.get_unique_name()]
             else:
                 self._logger.debug('Hello, everyone! What did I miss?')
                 self.Hello()
@@ -566,16 +520,14 @@ class HelloTube(ExportedGObject):
         """Say Hello to whoever else is in the tube."""
         self._logger.debug('I said Hello.')
 
-    @method(dbus_interface=IFACE, in_signature='as', out_signature='')
-    def World(self, bus_names):
+    @method(dbus_interface=IFACE, in_signature='s', out_signature='')
+    def World(self, game_state):
         """To be called on the incoming XO after they Hello."""
-        if not 1 or self.helloworld:  # XXX remove 1
+        if not self.helloworld:
             self._logger.debug('Somebody said World.')
-            self.ordered_bus_names = bus_names
+            self.helloworld = game_state
             # now I can World others
             self.add_hello_handler()
-
-            #buddy = self._get_buddy(self.tube.bus_name_to_handle[bus_names[0]])
         else:
             self._logger.debug("I've already been welcomed, doing nothing")
 
@@ -586,11 +538,13 @@ class HelloTube(ExportedGObject):
 
     def hello_cb(self, sender=None):
         """Somebody Helloed me. World them."""
+        if sender == self.tube.get_unique_name():
+            # sender is my bus name, so ignore my own signal
+            return
         self._logger.debug('Newcomer %s has joined', sender)
-        self.ordered_bus_names.append(sender)
-        self._logger.debug('Bus names are now: %r', self.ordered_bus_names)
         self._logger.debug('Welcoming newcomer and sending them the game state')
-        self.tube.get_object(sender, PATH).World(self.ordered_bus_names,
+        game_state = str(time.time())
+        self.tube.get_object(sender, PATH).World(game_state,
                                                  dbus_interface=IFACE)
 
 ############# TEMPLATES AND INLINE FILES ##############
