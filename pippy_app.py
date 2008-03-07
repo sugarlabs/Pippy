@@ -42,6 +42,8 @@ SERVICE = "org.laptop.Pippy"
 IFACE = SERVICE
 PATH = "/org/laptop/Pippy"
 
+text_buffer = None
+
 class PippyActivity(ViewSourceActivity):
     """Pippy Activity as specified in activity.info"""
     def __init__(self, handle):
@@ -110,18 +112,19 @@ class PippyActivity(ViewSourceActivity):
 
         # Source buffer
         import gtksourceview2
-        self.text_buffer = gtksourceview2.Buffer()
+        global text_buffer
+        text_buffer = gtksourceview2.Buffer()
         lang_manager = gtksourceview2.language_manager_get_default()
         langs = lang_manager.list_languages()
         for lang in langs:
             for m in lang.get_mime_types():
                 if m == "text/x-python":
-                    self.text_buffer.set_language(lang)
+                    text_buffer.set_language(lang)
 
-        self.text_buffer.set_highlight(True)
+        text_buffer.set_highlight(True)
 
         # The GTK source view window
-        self.text_view = gtksourceview2.View(self.text_buffer)
+        self.text_view = gtksourceview2.View(text_buffer)
         self.text_view.set_size_request(900, 350)
         self.text_view.set_editable(True)
         self.text_view.set_cursor_visible(True)
@@ -228,7 +231,8 @@ class PippyActivity(ViewSourceActivity):
         self._logger.debug("clicked! %s" % value['path'])
         _file = open(value['path'], 'r')
         lines = _file.readlines()
-        self.text_buffer.set_text("".join(lines))
+        global text_buffer
+        text_buffer.set_text("".join(lines))
         self.metadata['title'] = value['name']
         self.stopbutton_cb(None)
         self._reset_vte()
@@ -236,15 +240,17 @@ class PippyActivity(ViewSourceActivity):
         
     def clearbutton_cb(self, button):
         self.save()
-        self.text_buffer.set_text("")
+        global text_buffer
+        text_buffer.set_text("")
         self.metadata['title'] = _('%s Activity') % get_bundle_name()
         self.stopbutton_cb(None)
         self._reset_vte()
         self.text_view.grab_focus()
 
     def _write_text_buffer(self, filename):
-        start, end = self.text_buffer.get_bounds()
-        text = self.text_buffer.get_text(start, end)
+        global text_buffer
+        start, end = text_buffer.get_bounds()
+        text = text_buffer.get_text(start, end)
 
         with open(filename, 'w') as f:
             for line in text:
@@ -372,14 +378,16 @@ class PippyActivity(ViewSourceActivity):
 
     def write_file(self, file_path):
         self.metadata['mime_type'] = 'text/x-python'
-        start, end = self.text_buffer.get_bounds()
-        text = self.text_buffer.get_text(start, end)
+        global text_buffer
+        start, end = text_buffer.get_bounds()
+        text = text_buffer.get_text(start, end)
         _file = open(file_path, 'w')
         _file.write(text)
     
     def read_file(self, file_path):
         text = open(file_path).read()
-        self.text_buffer.set_text(text)
+        global text_buffer
+        text_buffer.set_text(text)
         
     def _shared_cb(self, activity):
         self._logger.debug('My activity was shared')
@@ -525,7 +533,10 @@ class HelloTube(ExportedGObject):
         """To be called on the incoming XO after they Hello."""
         if not self.helloworld:
             self._logger.debug('Somebody said World.')
+            # We have the host's text buffer now; set ours to its contents.
             self.helloworld = game_state
+            global text_buffer
+            text_buffer.set_text(game_state)
             # now I can World others
             self.add_hello_handler()
         else:
@@ -543,7 +554,10 @@ class HelloTube(ExportedGObject):
             return
         self._logger.debug('Newcomer %s has joined', sender)
         self._logger.debug('Welcoming newcomer and sending them the game state')
-        game_state = str(time.time())
+        # Throw our text buffer down the tube, to be caught in World().
+        global text_buffer
+        start, end = text_buffer.get_bounds()
+        game_state = text_buffer.get_text(start, end)
         self.tube.get_object(sender, PATH).World(game_state,
                                                  dbus_interface=IFACE)
 
