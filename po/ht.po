@@ -1,0 +1,73 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-02-12 00:30-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 1.0.1\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr ""
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr ""
+
+#: library/pippy/game.py:19
+msgid "PAUSED"
+msgstr ""
+
+#: pippy_app.py:57
+msgid "As Pippy Document"
+msgstr ""
+
+#: pippy_app.py:62
+msgid "As Activity Bundle"
+msgstr ""
+
+#: pippy_app.py:79
+msgid "Examples"
+msgstr ""
+
+#: pippy_app.py:147
+msgid "_Run!"
+msgstr ""
+
+#: pippy_app.py:235
+#, python-format
+msgid "%s Activity"
+msgstr ""
+
+#: pippy_app.py:290
+msgid "Save as Activity Error"
+msgstr ""
+
+#: pippy_app.py:291
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
+msgstr ""
+
+#: pippy_app.py:293
+msgid "Ok"
+msgstr ""
+
+#: pippy_app.py:299
+msgid "Creating activity bundle..."
+msgstr ""
+
+#: pippy_app.py:358
+msgid "Activity saved to journal."
+msgstr ""
