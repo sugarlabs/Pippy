@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 import os
+import sys
+from gettext import gettext as _
 
 dirs = ['/usr/share/activities/TamTamEdit.activity/common/Resources/Sounds/',
         '/home/olpc/Activities/TamTamEdit.activity/common/Resources/Sounds/']
@@ -172,8 +174,11 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, startt
     scorelines.append('i9 %f %f "%s" %s %s %s %s %s\n' % (float(starttime), float(duration), fullname, str(pitch), str(amplitude), str(lp), str(pitenv), str(ampenv)))
     
 def getSoundList():
-    import os
-    return sorted(os.listdir(finddir()))
+    list = finddir()
+    if list == None:
+        print _("Please install TamTamEdit's sound library.")
+        sys.exit(0)
+    return sorted(os.listdir(list))
 
 temp_path=None
 def audioOut(file=None):

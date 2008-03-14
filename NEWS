@@ -1,3 +1,5 @@
+* Give a friendly error message if the audio library isn't found.
+
 20
 
 * Collaboration works; you get a copy of the host's source buffer.
