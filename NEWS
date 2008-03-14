@@ -1,3 +1,8 @@
+20
+
+* Collaboration works; you get a copy of the host's source buffer.
+* We look for the audio library in /home/olpc as well as /usr/share.
+
 19
 
 * #6475: Fix crash on launch when no telepathy connection (morgs)

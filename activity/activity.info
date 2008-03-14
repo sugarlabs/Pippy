@@ -4,6 +4,6 @@ bundle_id = org.laptop.Pippy
 service_name = org.laptop.Pippy
 class = pippy_app.PippyActivity
 icon = activity-icon
-activity_version = 19
+activity_version = 20
 mime_types = text/x-python
 show_launcher = yes
