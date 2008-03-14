@@ -1,8 +1,8 @@
 #! /usr/bin/env python
+import os
 
-# added frequency modulation genertor
-# audioOut write a wave file if a string is given as argument
-
+dirs = ['/usr/share/activities/TamTamEdit.activity/common/Resources/Sounds/',
+        '/home/olpc/Activities/TamTamEdit.activity/common/Resources/Sounds/']
 orchlines = []
 scorelines = []
 instrlist = []
@@ -15,6 +15,11 @@ def quit(self):
     cs.Reset()
     cs = None            
 """
+
+def finddir():
+    for d in dirs:
+        if os.path.isdir(d):
+            return d
 
 def defAdsr(attack=0.01, decay=0.1, sustain=0.8, release=0.1):
     """Define an ADSR envelope. fnum = defADSR(attack = [0.01], decay = [0.1], sustain = [0.8], release = [0.1])"""
@@ -144,7 +149,7 @@ def playPluck( pitch=100, amplitude=5000, duration=2, starttime=0, pitch_envelop
 
 def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, starttime=0, pitch_envelope='default', amplitude_envelope='default'):
     """Play a wave file (sound = ['horse'], pitch = [1], amplitude = [1], loop = [False], duration = [1], starttime = [0], pitch_envelope=['default'], amplitude_envelope=['default'])"""
-    fullname = '/usr/share/activities/TamTamEdit.activity/common/Resources/Sounds/' + str(sound)
+    fullname = finddir() + str(sound)
 
     if loop == False: lp = 0
     else: lp = 1
@@ -168,7 +173,7 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, startt
     
 def getSoundList():
     import os
-    return sorted(os.listdir('/usr/share/activities/TamTamEdit.activity/common/Resources/Sounds/'))
+    return sorted(os.listdir(finddir()))
 
 temp_path=None
 def audioOut(file=None):
