@@ -351,7 +351,7 @@ class PippyActivity(ViewSourceActivity):
                 self._logger.debug("Couldn't find bundle: %s"%str(bundle_file))
                 return # something went wrong.
             # hand off to journal
-            os.chmod(app_temp, 755)
+            os.chmod(app_temp, 0755)
             jobject = datastore.create()
             metadata = {
                 'title': '%s Bundle' % title,
