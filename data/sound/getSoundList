@@ -1,4 +1,3 @@
 import pippy
 
-for sound in pippy.sound.getSoundList():
-    print sound
+print " ".join(pippy.sound.getSoundList())
