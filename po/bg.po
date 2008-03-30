@@ -6,16 +6,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-11 19:42-0500\n"
-"PO-Revision-Date: 2008-02-08 06:31-0500\n"
-"Last-Translator: Geno Roupsky <groupsky@gmail.com>\n"
+"POT-Creation-Date: 2008-03-16 00:30-0400\n"
+"PO-Revision-Date: 2008-03-30 13:34-0400\n"
+"Last-Translator: Alexander Todorov <atodorov@redhat.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.0.2\n"
+"X-Generator: Pootle 1.1.0rc2\n"
+
+#: activity/activity.info:2
+#, fuzzy
+msgid "Pippy"
+msgstr "Пипи"
 
 #: activity.py:26
+#, python-format
 #, fuzzy, python-format
 msgid "%s Source"
 msgstr "%s изходен код"
@@ -24,54 +30,54 @@ msgstr "%s изходен код"
 msgid "PAUSED"
 msgstr "СПРЯН"
 
-#: pippy_app.py:57
+#: library/pippy/sound.py:179
+msgid "Please install TamTamEdit's sound library."
+msgstr "Моля инсталирайте звуковата библиотека на Там-Там Редактор."
+
+#: pippy_app.py:61
 msgid "As Pippy Document"
 msgstr "Като документ на Pippy"
 
-#: pippy_app.py:62
+#: pippy_app.py:66
 msgid "As Activity Bundle"
 msgstr "Като съвкупност от дейности"
 
-#: pippy_app.py:79
+#: pippy_app.py:83
 msgid "Examples"
 msgstr "Примери"
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 #, fuzzy
 msgid "_Run!"
 msgstr "_Старт!"
 
-#: pippy_app.py:235
+#: pippy_app.py:245
 #, python-format
 msgid "%s Activity"
 msgstr "Занятие %s"
 
-#: pippy_app.py:290
+#: pippy_app.py:301
 #, fuzzy
 msgid "Save as Activity Error"
 msgstr "Запазване като грешка на занятието"
 
-#: pippy_app.py:291
+#: pippy_app.py:302
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "Моля, задайте разумно име преди да запазите като дейност."
 
-#: pippy_app.py:293
+#: pippy_app.py:304
 msgid "Ok"
 msgstr "ОК"
 
-#: pippy_app.py:299
+#: pippy_app.py:310
 msgid "Creating activity bundle..."
 msgstr "Създаване на съвкупност от дейности..."
 
-#: pippy_app.py:358
+#: pippy_app.py:369
 msgid "Activity saved to journal."
 msgstr "Дейността е запазена в дневника."
 
 #~ msgid "Run!"
 #~ msgstr "Старт!"
-
-#, fuzzy
-#~ msgid "Pippy"
-#~ msgstr "Пипи"
