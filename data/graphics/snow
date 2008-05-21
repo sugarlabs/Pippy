@@ -1,0 +1,73 @@
+
+import pippy, pygame, sys
+from pygame.locals import *
+from random import *
+
+# always need to init first thing
+pygame.init()
+
+# XO screen is 1200x900
+size = width, height = 1200, 900
+
+# create the window and keep track of the surface
+# for drawing into
+screen = pygame.display.set_mode(size)
+
+# turn off the cursor
+pygame.mouse.set_visible(False)
+
+bg_color = (0,0,0)
+
+xs = []
+ys = []
+dxs = []
+dys = []
+sizes = []
+nflakes = 1000
+
+while pippy.pygame.next_frame():
+  # if we don't have enough flakes, add one
+  if len(xs) < nflakes:
+    xs.append(randint(0, width))
+    ys.append(0)
+    dxs.append(randint(-2, 2))
+    size = expovariate(1) * 5
+    sizes.append(int(size))
+    dys.append(size * 2)
+
+  # clear the screen
+  screen.fill(bg_color)
+
+  for event in pygame.event.get():
+    if event.type == QUIT:
+      sys.exit()
+    elif event.type == KEYDOWN:
+      if event.key == K_ESCAPE:
+        sys.exit()
+
+  for x, y, size in zip(xs, ys, sizes):
+     c = 40 + int(float(y) / height * 215)
+     pygame.draw.circle(
+       screen, (c, c, c), (x, y), size)
+
+  xs_ = []
+  ys_ = []
+  dxs_ = []
+  dys_ = []
+  sizes_ = []
+
+  for x, y, dx, dy, size in zip(xs, ys, dxs, dys, sizes):
+    if 0 <= x + dx <= width and 0 <= y + dy <= height:
+       xs_.append(x + dx)
+       ys_.append(y + int(dy))
+       dxs_.append(dx)
+       dys_.append(dy)
+       sizes_.append(size)
+
+  xs = xs_
+  ys = ys_
+  dxs = dxs_
+  dys = dys_
+  sizes = sizes_
+
+  pygame.display.flip()
