@@ -36,19 +36,19 @@ def draw_tree(x, y, length, angle):
 
   if length > min_length:
     # draw left branch
-    left_angle = angle - \\
+    left_angle = angle - \
       uniform(min_angle_delta, max_angle_delta)
-    left_length = length * \\
+    left_length = length * \
       uniform(min_factor, max_factor)
     draw_tree(x2, y2, left_length, left_angle)
     # draw middle branch
-    middle_length = length * \\
+    middle_length = length * \
       uniform(min_factor, max_factor)
     draw_tree(x2, y2, middle_length, angle)
     # draw right branch
-    right_angle = angle + \\
+    right_angle = angle + \
       uniform(min_angle_delta, max_angle_delta)
-    right_length = length * \\
+    right_length = length * \
       uniform(min_factor, max_factor)
     draw_tree(x2, y2, right_length, right_angle)
 
