@@ -1,64 +1,65 @@
 # slideshow: show datastore photos 
-import gst, pippy, pygame, sys, time
-from random import *
+def pippy_activity_class(): return 'activity.PyGameActivity'
+if __name__ == '__main__':
+  import gst, pippy, pygame, sys, time
+  from pippy import query
 
-# XO screen is 1200 by 900
-size = width, height = 1200, 900
+  from random import *
 
-# grey background
-bgcolor = (128,128,128)
+  # XO screen is 1200 by 900
+  size = width, height = 1200, 900
 
-# Create a search dict
-search = {}
-search["mime_type"] = "image/jpeg"
+  # grey background
+  bgcolor = (128,128,128)
+  
+  # Create a search dict
+  search = {}
+  search["mime_type"] = "image/jpeg"
 
-from pippy import query
+  # Perform the search and retrieve the jobjects
+  results = query.find(search)
+  # XXX: Fix caching limit in query.py
+  objects = results.read(15)
 
-# Perform the search and retrieve the jobjects
-results = query.find(search)
-# XXX: Fix caching limit in query.py
-objects = results.read(15)
+  if len(objects) == 0:
+    print "No photos found."
+    time.sleep(3)
+    sys.exit()
 
-if len(objects) == 0:
-  print "No photos found."
-  time.sleep(3)
-  sys.exit()
+  def get_image():
+    for jobject in objects:
+      yield jobject.get_file_path()
 
-def get_image():
-  for jobject in objects:
-    yield jobject.get_file_path()
+  next_image = get_image()
 
-next_image = get_image()
+  # pygame always needs to be initialized as the first call
+  pygame.init()
 
-# pygame always needs to be initialized as the first call
-pygame.init()
+  # turn off cursor
+  pygame.mouse.set_visible(False)
 
-# turn off cursor
-pygame.mouse.set_visible(False)
+  # create the pygame window at the desired size and return a Surface object for
+  # drawing in that window.
+  screen = pygame.display.set_mode(size)
 
-# create the pygame window at the desired size and return a Surface object for
-# drawing in that window.
-screen = pygame.display.set_mode(size)
+  # load in previously grabbed frame
+  image = pygame.image.load(next_image.next())
 
-# load in previously grabbed frame
-image = pygame.image.load(next_image.next())
+  while pippy.pygame.next_frame():
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT: sys.exit()
+      elif event.type == pygame.KEYDOWN:
+        try:
+          image = pygame.image.load(next_image.next())
+        except StopIteration:
+          sys.exit()
 
-while pippy.pygame.next_frame():
-  for event in pygame.event.get():
-    if event.type == pygame.QUIT: sys.exit()
-    elif event.type == pygame.KEYDOWN:
-      try:
-        image = pygame.image.load(next_image.next())
-      except StopIteration:
-        sys.exit()
+    # Scale up from 640x480 -> 1280x960
+    newImage = pygame.transform.rotozoom(image, 0, 2.0)
+    newImageRect = newImage.get_rect()
+    newImageRect.centerx = screen.get_rect().centerx
+    newImageRect.centery = screen.get_rect().centery
 
-  # Scale up from 640x480 -> 1280x960
-  newImage = pygame.transform.rotozoom(image, 0, 2.0)
-  newImageRect = newImage.get_rect()
-  newImageRect.centerx = screen.get_rect().centerx
-  newImageRect.centery = screen.get_rect().centery
-
-  screen.fill(bgcolor)
-  screen.blit(newImage, newImageRect)
-  pygame.display.flip()
-
+    screen.fill(bgcolor)
+    screen.blit(newImage, newImageRect)
+    pygame.display.flip()

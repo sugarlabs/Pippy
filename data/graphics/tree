@@ -1,0 +1,71 @@
+
+import pippy, pygame, sys
+from pygame.locals import *
+from random import *
+import math
+
+# always need to init first thing
+pygame.init()
+
+# XO screen is 1200x900
+size = width, height = 1200, 900
+
+# create the window and keep track of the surface
+# for drawing into
+screen = pygame.display.set_mode(size)
+
+# turn off the cursor
+pygame.mouse.set_visible(False)
+
+color = (250,250,250)
+min_factor = 0.8
+max_factor = 0.9
+start_length = 130
+min_length = 40
+min_angle_delta = 0.4
+max_angle_delta = 0.5
+
+# start the screen all black
+bgcolor = (0,0,0)
+screen.fill(bgcolor)
+
+def draw_tree(x, y, length, angle):
+  x2 = x + length * math.sin(angle)
+  y2 = y - length * math.cos(angle)
+  pygame.draw.line(screen, color, (x, y), (x2, y2))
+
+  if length > min_length:
+    # draw left branch
+    left_angle = angle - \
+      uniform(min_angle_delta, max_angle_delta)
+    left_length = length * \
+      uniform(min_factor, max_factor)
+    draw_tree(x2, y2, left_length, left_angle)
+    # draw middle branch
+    middle_length = length * \
+      uniform(min_factor, max_factor)
+    draw_tree(x2, y2, middle_length, angle)
+    # draw right branch
+    right_angle = angle + \
+      uniform(min_angle_delta, max_angle_delta)
+    right_length = length * \
+      uniform(min_factor, max_factor)
+    draw_tree(x2, y2, right_length, right_angle)
+
+# clear the screen
+screen.fill(bgcolor)
+
+# draw a tree, starting at the bottom centre of the
+# screen
+draw_tree((width / 2), height - 20, start_length, 0)
+pygame.display.flip()
+
+while pippy.pygame.next_frame():
+  # chill until a key is pressed
+  for event in pygame.event.get():
+    if event.type == QUIT:
+        sys.exit()
+
+    if event.type == KEYDOWN:
+      if event.key == K_ESCAPE:
+        sys.exit()
