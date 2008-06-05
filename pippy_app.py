@@ -115,13 +115,20 @@ class PippyActivity(ViewSourceActivity):
         global text_buffer
         text_buffer = gtksourceview2.Buffer()
         lang_manager = gtksourceview2.language_manager_get_default()
-        langs = lang_manager.list_languages()
+        if hasattr(lang_manager, 'list_languages'):
+            langs = lang_manager.list_languages()
+        else:
+            lang_ids = lang_manager.get_language_ids()
+            langs = [lang_manager.get_language(lang_id) for lang_id in lang_ids]
         for lang in langs:
             for m in lang.get_mime_types():
                 if m == "text/x-python":
                     text_buffer.set_language(lang)
 
-        text_buffer.set_highlight(True)
+        if hasattr(text_buffer,'set_highlight'):
+            text_buffer.set_highlight(True)
+        else:
+            text_buffer.set_highlight_syntax(True)
 
         # The GTK source view window
         self.text_view = gtksourceview2.View(text_buffer)
