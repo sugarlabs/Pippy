@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-16 00:30-0400\n"
-"PO-Revision-Date: 2008-03-22 06:16-0400\n"
-"Last-Translator: Gerhard Steiner <gerhard.steiner@duichwir.at>\n"
+"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"PO-Revision-Date: 2008-06-07 17:41-0400\n"
+"Last-Translator: Markus Schlager <m.slg@gmx.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,6 +24,14 @@ msgstr "Pippy"
 #, python-format
 msgid "%s Source"
 msgstr "%s Quelle"
+
+#: activity.py:62
+msgid "Copy selected text to clipboard"
+msgstr "Ausgewählten Text in die Zwischenablage kopieren"
+
+#: activity.py:67
+msgid "Edit"
+msgstr "Bearbeiten"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
@@ -49,16 +57,16 @@ msgstr "Beispiele"
 msgid "_Run!"
 msgstr "Los!"
 
-#: pippy_app.py:245
+#: pippy_app.py:252
 #, python-format
 msgid "%s Activity"
 msgstr "%s Aktivität"
 
-#: pippy_app.py:301
+#: pippy_app.py:308
 msgid "Save as Activity Error"
 msgstr "Als Aktivitäts- Fehler speichern"
 
-#: pippy_app.py:302
+#: pippy_app.py:309
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -66,15 +74,15 @@ msgstr ""
 "Gib deiner Aktivität einen aussagekräftigen Namen bevor Du sie als solche "
 "abspeicherst."
 
-#: pippy_app.py:304
+#: pippy_app.py:311
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:310
+#: pippy_app.py:317
 msgid "Creating activity bundle..."
 msgstr "Erstelle Aktivitäts- Paket..."
 
-#: pippy_app.py:369
+#: pippy_app.py:376
 msgid "Activity saved to journal."
 msgstr "Aktivität ins Journal gespeichert."
 
