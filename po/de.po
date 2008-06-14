@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-27 00:30-0400\n"
-"PO-Revision-Date: 2008-06-07 17:41-0400\n"
+"PO-Revision-Date: 2008-06-13 21:14-0400\n"
 "Last-Translator: Markus Schlager <m.slg@gmx.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -43,11 +43,11 @@ msgstr "Bitte die Klangbibliothek von TamTamEdit installieren."
 
 #: pippy_app.py:61
 msgid "As Pippy Document"
-msgstr "Als Pippy Dokument"
+msgstr "Als Pippy-Dokument"
 
 #: pippy_app.py:66
 msgid "As Activity Bundle"
-msgstr "Als Aktivitäts- Paket"
+msgstr "Als Aktivitätspaket"
 
 #: pippy_app.py:83
 msgid "Examples"
@@ -80,7 +80,7 @@ msgstr "Ok"
 
 #: pippy_app.py:317
 msgid "Creating activity bundle..."
-msgstr "Erstelle Aktivitäts- Paket..."
+msgstr "Erstelle Aktivitätspaket..."
 
 #: pippy_app.py:376
 msgid "Activity saved to journal."
