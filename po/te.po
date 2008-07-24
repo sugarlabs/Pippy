@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-11 19:42-0500\n"
-"PO-Revision-Date: 2008-02-04 08:20-0500\n"
+"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"PO-Revision-Date: 2008-07-24 14:30+0100\n"
 "Last-Translator: Satyanarayana Murthy Saladi <saladism@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,57 +15,70 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Pootle 1.0.2\n"
 
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "పిప్పీ"
+
 #: activity.py:26
 #, python-format
 msgid "%s Source"
 msgstr "%s మూలం"
 
+#: activity.py:62
+msgid "Copy selected text to clipboard"
+msgstr "సెలక్ట్ చేసిన వచనానిని క్లిప్​బోర్డ్​కు నకలుచేయి"
+
+#: activity.py:67
+msgid "Edit"
+msgstr "కూర్చు"
+
 #: library/pippy/game.py:19
 msgid "PAUSED"
 msgstr "ఆగినది"
 
-#: pippy_app.py:57
+#: library/pippy/sound.py:179
+msgid "Please install TamTamEdit's sound library."
+msgstr ""
+
+#: pippy_app.py:61
 msgid "As Pippy Document"
 msgstr "పిప్పీ దస్తావేజుగా"
 
-#: pippy_app.py:62
+#: pippy_app.py:66
 msgid "As Activity Bundle"
 msgstr "వ్యాపకాల కట్టగా"
 
-#: pippy_app.py:79
+#: pippy_app.py:83
 msgid "Examples"
 msgstr "ఉదాహరణలు"
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 msgid "_Run!"
 msgstr " నడుపు !"
 
-#: pippy_app.py:235
+#: pippy_app.py:252
 #, python-format
 msgid "%s Activity"
 msgstr "%s వ్యాపకం"
 
-#: pippy_app.py:290
+#: pippy_app.py:308
 msgid "Save as Activity Error"
 msgstr "వ్యాపకంలో పొరబాటుగా బద్రపరచు"
 
-#: pippy_app.py:291
+#: pippy_app.py:309
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "మీ వ్యాపకాన్ని దాచేమొందు దానికి ఒక అర్దవంతమైన పేరుఇవ్వండి."
 
-#: pippy_app.py:293
+#: pippy_app.py:311
 msgid "Ok"
 msgstr "సరి"
 
-#: pippy_app.py:299
+#: pippy_app.py:317
 msgid "Creating activity bundle..."
 msgstr "వ్యపకాల కట్టని తయారు చేస్తున్నా"
 
-#: pippy_app.py:358
+#: pippy_app.py:376
 msgid "Activity saved to journal."
 msgstr "వ్యపకాన్ని పద్దులో దాచా"
-
-#~ msgid "Pippy"
-#~ msgstr "పిప్పీ"
