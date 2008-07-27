@@ -6,79 +6,82 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-11 19:42-0500\n"
-"PO-Revision-Date: 2008-01-04 08:31+0000\n"
-"Last-Translator: Taizo Shiozaki <taizo@shiozaki.com>\n"
+"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"PO-Revision-Date: 2008-07-27 11:26-0400\n"
+"Last-Translator: korakurider <korakurider@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.0.2\n"
+"X-Generator: Pootle 1.1.0rc2\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Pippy"
 
 #: activity.py:26
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "%s ソース"
+
+#: activity.py:62
+msgid "Copy selected text to clipboard"
+msgstr "選択されたテキストをクリップボードにコピー"
+
+#: activity.py:67
+msgid "Edit"
+msgstr "編集"
 
 #: library/pippy/game.py:19
-#, fuzzy
 msgid "PAUSED"
 msgstr "一時停止中"
 
-#: pippy_app.py:57
-#, fuzzy
-msgid "As Pippy Document"
-msgstr "Pippyドキュメント"
+#: library/pippy/sound.py:179
+msgid "Please install TamTamEdit's sound library."
+msgstr "TamTamエディタのサウンドライブラリをインストールしてください"
 
-#: pippy_app.py:62
-#, fuzzy
+#: pippy_app.py:61
+msgid "As Pippy Document"
+msgstr "Pippyドキュメントとして"
+
+#: pippy_app.py:66
 msgid "As Activity Bundle"
 msgstr "アクティビティバンドルとして"
 
-#: pippy_app.py:79
-#, fuzzy
+#: pippy_app.py:83
 msgid "Examples"
 msgstr "例"
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 msgid "_Run!"
-msgstr ""
+msgstr "実行！"
 
-#: pippy_app.py:235
-#, fuzzy, python-format
+#: pippy_app.py:252
+#, python-format
 msgid "%s Activity"
-msgstr "%sアクティビティ"
+msgstr "%s アクティビティ"
 
-#: pippy_app.py:290
-#, fuzzy
+#: pippy_app.py:308
 msgid "Save as Activity Error"
-msgstr "「アクティビティへ保存」エラー"
+msgstr "「アクティビティとして保存」のエラー"
 
-#: pippy_app.py:291
-#, fuzzy
+#: pippy_app.py:309
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "わかりやすい名前を付けてから、アクティビティとして保存してください。"
 
-#: pippy_app.py:293
-#, fuzzy
+#: pippy_app.py:311
 msgid "Ok"
-msgstr "はい"
+msgstr "了解"
 
-#: pippy_app.py:299
-#, fuzzy
+#: pippy_app.py:317
 msgid "Creating activity bundle..."
 msgstr "アクティビティバンドルを生成中..."
 
-#: pippy_app.py:358
-#, fuzzy
+#: pippy_app.py:376
 msgid "Activity saved to journal."
 msgstr "ジャーナルにアクティビティを保存しました。"
-
-#, fuzzy
-#~ msgid "Run!"
-#~ msgstr "走れ！"
 
 #, fuzzy
 #~ msgid "Stop!"
