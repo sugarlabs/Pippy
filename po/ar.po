@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-11 19:42-0500\n"
-"PO-Revision-Date: 2008-02-21 11:35-0500\n"
+"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"PO-Revision-Date: 2008-07-31 17:49-0400\n"
 "Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
 "Language-Team: arabeyes <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,57 +15,73 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n>=3 && "
 "n<=10 ? 3 : n>=11 && n<=99 ? 4 : 5;\n"
-"X-Generator: Pootle 1.0.2\n"
+"X-Generator: Pootle 1.1.0rc2\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "بِبِي"
 
 #: activity.py:26
 #, python-format
 msgid "%s Source"
 msgstr "مصْدر %s"
 
+#: activity.py:62
+msgid "Copy selected text to clipboard"
+msgstr "انسخ النص المحدد إلى الحافظة"
+
+#: activity.py:67
+msgid "Edit"
+msgstr "حرّر"
+
 #: library/pippy/game.py:19
 msgid "PAUSED"
 msgstr "متوقف"
 
-#: pippy_app.py:57
+#: library/pippy/sound.py:179
+msgid "Please install TamTamEdit's sound library."
+msgstr "من فضلك ثبّت مكتبة صوت \"طمطم\""
+
+#: pippy_app.py:61
 msgid "As Pippy Document"
 msgstr "كمستند ببي"
 
-#: pippy_app.py:62
+#: pippy_app.py:66
 msgid "As Activity Bundle"
 msgstr "كحزمة ببي"
 
-#: pippy_app.py:79
+#: pippy_app.py:83
 msgid "Examples"
 msgstr "أمثلة"
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 msgid "_Run!"
 msgstr "_شغّل"
 
-#: pippy_app.py:235
+#: pippy_app.py:252
 #, python-format
 msgid "%s Activity"
 msgstr "نشاط %s"
 
-#: pippy_app.py:290
+#: pippy_app.py:308
 msgid "Save as Activity Error"
 msgstr "احفظ كخطأ في النشاط"
 
-#: pippy_app.py:291
+#: pippy_app.py:309
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "من فضلك اعطِ لنشاطك اسما ذو معنى قبل أن تحاول حِفضها كنشاط."
 
-#: pippy_app.py:293
+#: pippy_app.py:311
 msgid "Ok"
 msgstr "موافق"
 
-#: pippy_app.py:299
+#: pippy_app.py:317
 msgid "Creating activity bundle..."
 msgstr "أنشئ حزمة نشاط..."
 
-#: pippy_app.py:358
+#: pippy_app.py:376
 msgid "Activity saved to journal."
 msgstr "حُفِظ النشاط في اليوميّات"
 
@@ -74,6 +90,3 @@ msgstr "حُفِظ النشاط في اليوميّات"
 
 #~ msgid "Stop!"
 #~ msgstr "قف"
-
-#~ msgid "Pippy"
-#~ msgstr "بِبِي"
