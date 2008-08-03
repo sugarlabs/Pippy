@@ -1,0 +1,86 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"PO-Revision-Date: 2008-07-11 01:58-0400\n"
+"Last-Translator: Denis Oštir <denis.ostir@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.1.0rc2\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Pippy"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr "%s izvora"
+
+#: activity.py:62
+msgid "Copy selected text to clipboard"
+msgstr "Kopiraj izbran tekst na odložišče"
+
+#: activity.py:67
+msgid "Edit"
+msgstr "Uredi"
+
+#: library/pippy/game.py:19
+msgid "PAUSED"
+msgstr "USTAVLJENO"
+
+#: library/pippy/sound.py:179
+msgid "Please install TamTamEdit's sound library."
+msgstr "Namestite TamTamEdit's zvočno knjižnico"
+
+#: pippy_app.py:61
+msgid "As Pippy Document"
+msgstr "Kot Pippy dokument"
+
+#: pippy_app.py:66
+msgid "As Activity Bundle"
+msgstr "Kot Pippy paket"
+
+#: pippy_app.py:83
+msgid "Examples"
+msgstr "Primeri"
+
+#: pippy_app.py:152
+msgid "_Run!"
+msgstr "_Zaženi!"
+
+#: pippy_app.py:252
+#, python-format
+msgid "%s Activity"
+msgstr "%s aktivnosti"
+
+#: pippy_app.py:308
+msgid "Save as Activity Error"
+msgstr "Shrani kot napako aktvinosti"
+
+#: pippy_app.py:309
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
+msgstr ""
+"Prosim daj tvoji aktivnosti primerno ime, preden jo poskušaš shraniti kot "
+"aktivnost."
+
+#: pippy_app.py:311
+msgid "Ok"
+msgstr "V redu"
+
+#: pippy_app.py:317
+msgid "Creating activity bundle..."
+msgstr "Ustvarjam paket aktivnosti ..."
+
+#: pippy_app.py:376
+msgid "Activity saved to journal."
+msgstr "Aktivnost je shranjena v beležko."
