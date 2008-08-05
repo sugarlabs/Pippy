@@ -2,68 +2,83 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-11 19:42-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"PO-Revision-Date: 2008-07-18 07:25-0400\n"
+"Last-Translator: Carine Umutesi <carine.umutesi@rita.rw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.0.1\n"
+"X-Generator: Pootle 1.1.0rc2\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Pippy"
 
 #: activity.py:26
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "%s Isooko"
+
+#: activity.py:62
+msgid "Copy selected text to clipboard"
+msgstr "Koporora inyandiko yatoranyijwe ku kibaho"
+
+#: activity.py:67
+msgid "Edit"
+msgstr "Hindura"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
-msgstr ""
+msgstr "Bihagaritswe by'akanya gato"
 
-#: pippy_app.py:57
+#: library/pippy/sound.py:179
+msgid "Please install TamTamEdit's sound library."
+msgstr "Nyamuneka shyiramo ububiko bw`amajwi"
+
+#: pippy_app.py:61
 msgid "As Pippy Document"
-msgstr ""
+msgstr "As Pippy Document"
 
-#: pippy_app.py:62
+#: pippy_app.py:66
 msgid "As Activity Bundle"
-msgstr ""
+msgstr "Nk`igikorwa gifatika"
 
-#: pippy_app.py:79
+#: pippy_app.py:83
 msgid "Examples"
-msgstr ""
+msgstr "Ingero"
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 msgid "_Run!"
-msgstr ""
+msgstr "_Kwiruka!"
 
-#: pippy_app.py:235
+#: pippy_app.py:252
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "%s Igikorwa"
 
-#: pippy_app.py:290
+#: pippy_app.py:308
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Bika nkaho ari Ikosa ry`Igikorwa"
 
-#: pippy_app.py:291
-msgid ""
-"Please give your activity a meaningful name before attempting to save it as "
-"an activity."
+#: pippy_app.py:309
+msgid "Please give your activity a meaningful name before attempting to save it as an activity."
 msgstr ""
+"Banza utange izina risobanutse ku gikorwa cyawe mbere yo kugerageza kubika "
+"nk'igikorwa"
 
-#: pippy_app.py:293
+#: pippy_app.py:311
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
-#: pippy_app.py:299
+#: pippy_app.py:317
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Rema ihuriro ry'ibikorwa"
 
-#: pippy_app.py:358
+#: pippy_app.py:376
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "Igikorwa kibitswe mu kinyamakuru"
