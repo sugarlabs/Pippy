@@ -1,3 +1,9 @@
+* Use a protected update_url.
+* Updated license information in files; added 'license' field.
+* Reverted bundlebuilder change: using .start("Pippy") makes modern
+  bundlebuilder complain:
+    WARNING:root:bundle_name deprecated, now comes from activity.info
+
 26
 
 * Bundlebuilder API change -- use .start("Pippy") instead of .start().
