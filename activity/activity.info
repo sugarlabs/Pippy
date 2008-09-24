@@ -7,3 +7,4 @@ icon = activity-icon
 activity_version = 26
 mime_types = text/x-python
 show_launcher = yes
+license = GPLv2+
