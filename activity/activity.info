@@ -8,3 +8,4 @@ activity_version = 26
 mime_types = text/x-python
 show_launcher = yes
 license = GPLv2+
+update_url = http://wiki.laptop.org/go/Activities/G1G1
