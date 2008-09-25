@@ -748,7 +748,7 @@ def main():
         olddir = os.getcwd()
         oldargv = sys.argv
         os.chdir(app_temp)
-        sys.argv = [ 'setup.py', 'dist' ]
+        sys.argv = [ 'setup.py', 'dist_xo' ]
         bundlebuilder.start(pytitle)
         sys.argv = oldargv
         os.chdir(olddir)
