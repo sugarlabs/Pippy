@@ -1,3 +1,7 @@
+28
+
+* Trac #8665: Bundle-building was broken by a Sugar API change (trac #8136)
+
 27
 
 * Use a protected update_url.
