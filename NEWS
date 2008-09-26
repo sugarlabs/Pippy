@@ -1,3 +1,7 @@
+29
+
+* Trac #8665, cont: further fixes for bundle-building.
+
 28
 
 * Trac #8665: Bundle-building was broken by a Sugar API change (trac #8136)
