@@ -749,11 +749,11 @@ def main():
         oldargv = sys.argv
         os.chdir(app_temp)
         sys.argv = [ 'setup.py', 'dist_xo' ]
-        bundlebuilder.start(pytitle)
+        bundlebuilder.start()
         sys.argv = oldargv
         os.chdir(olddir)
         # move to destination directory.
-        copy2('%s/%s-%d.xo' % (app_temp, pytitle, bundle_info['version']),
+        copy2('%s/dist/%s-%d.xo' % (app_temp, pytitle, bundle_info['version']),
               '%s/%s-%d.xo' % (options.dir, pytitle, bundle_info['version']))
     finally:
         rmtree(app_temp, ignore_errors=True)
