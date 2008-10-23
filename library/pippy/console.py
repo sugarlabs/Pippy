@@ -92,7 +92,7 @@ def underlined():
     sys.stdout.write('\x1B[4m')
 
 def inverse():
-    """Switch to underlined text."""
+    """Switch to inverse text."""
     sys.stdout.write('\x1B[7m')
 
 def black():
