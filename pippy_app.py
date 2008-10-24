@@ -181,6 +181,7 @@ class PippyActivity(ViewSourceActivity):
         
         # The vte python window
         self._vte = vte.Terminal()
+        self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
         self._vte.set_size_request(200, 300)
         font = 'Monospace 10'
@@ -267,6 +268,8 @@ class PippyActivity(ViewSourceActivity):
         text = text_buffer.get_text(start, end)
 
         with open(filename, 'w') as f:
+            f.write('#!/usr/bin/python\n')
+            f.write('# -*- coding: utf-8 -*-\n')
             for line in text:
                 f.write(line)
     def _reset_vte(self):
