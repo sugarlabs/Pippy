@@ -1,4 +1,6 @@
-# Copyright 2007 One Laptop per Child Association, Inc.
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# Copyright 2007-8 One Laptop per Child Association, Inc.
 # Written by C. Scott Ananian <cscott@laptop.org>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -174,3 +176,26 @@ class PyGameActivity(ViewSourceActivity):
         # hide the buttons we don't use.
         toolbar.share.hide() # this should share bundle.
         toolbar.keep.hide()
+
+def _main():
+    """Launch this activity from the command line."""
+    from sugar.activity import activityfactory
+    from sugar.activity.registry import ActivityInfo
+    from sugar.bundle.activitybundle import ActivityBundle
+    import os, os.path
+    ab = ActivityBundle(os.path.dirname(__file__) or '.')
+    ai = ActivityInfo(name=ab.get_name(),
+                      icon=None,
+                      bundle_id=ab.get_bundle_id(),
+                      version=ab.get_activity_version(),
+                      path=ab.get_path(),
+                      show_launcher=ab.get_show_launcher(),
+                      command=ab.get_command(),
+                      favorite=True,
+                      installation_time=ab.get_installation_time(),
+                      position_x=0, position_y=0)
+    env = activityfactory.get_environment(ai)
+    cmd_args = activityfactory.get_command(ai)
+    os.execvpe(cmd_args[0], cmd_args, env)
+
+if __name__=='__main__': _main()
