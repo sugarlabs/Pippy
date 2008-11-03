@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 # Copyright 2007 Chris Ball, based on Collabora's "hellomesh" demo.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -43,6 +45,10 @@ IFACE = SERVICE
 PATH = "/org/laptop/Pippy"
 
 text_buffer = None
+# magic prefix to use utf-8 source encoding
+PYTHON_PREFIX="""#!/usr/bin/python
+# -*- coding: utf-8 -*-
+"""
 
 class PippyActivity(ViewSourceActivity):
     """Pippy Activity as specified in activity.info"""
@@ -268,8 +274,10 @@ class PippyActivity(ViewSourceActivity):
         text = text_buffer.get_text(start, end)
 
         with open(filename, 'w') as f:
-            f.write('#!/usr/bin/python\n')
-            f.write('# -*- coding: utf-8 -*-\n')
+            # write utf-8 coding prefix if there's not already one
+            if re.match(r'coding[:=]\s*([-\w.]+)',
+                        '\n'.join(text.splitlines()[:2])) is None:
+                f.write(PYTHON_PREFIX)
             for line in text:
                 f.write(line)
     def _reset_vte(self):
@@ -403,6 +411,8 @@ class PippyActivity(ViewSourceActivity):
     
     def read_file(self, file_path):
         text = open(file_path).read()
+        # discard the '#!/usr/bin/python' and 'coding: utf-8' lines, if present
+        text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
         global text_buffer
         text_buffer.set_text(text)
         
