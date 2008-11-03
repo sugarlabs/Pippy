@@ -746,8 +746,8 @@ def main():
         copy2(sourcefile, '%s/pippy_app.py' % app_temp)
         # write MANIFEST file.
         with open('%s/MANIFEST' % app_temp, 'w') as f:
-            for dirpath, dirnames, filenames in os.walk(app_temp):
-                for name in filenames:
+            for dirpath, dirnames, filenames in sorted(os.walk(app_temp)):
+                for name in sorted(filenames):
                     fn = os.path.join(dirpath, name).replace(app_temp+'/', '')
                     if fn=='MANIFEST': continue
                     f.write('%s\n' % fn)
