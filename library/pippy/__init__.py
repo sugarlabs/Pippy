@@ -1,6 +1,8 @@
 """Pippy standard library."""
 import pippy.console as console
 import pippy.game as pygame
+import pippy.physics as physics
+
 try:
     import pippy.sound as sound
 except ImportError:
