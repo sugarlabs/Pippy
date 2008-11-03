@@ -137,7 +137,7 @@ class PippyActivity(ViewSourceActivity):
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
         self.text_view.set_wrap_mode(gtk.WRAP_CHAR)
-        self.text_view.modify_font(pango.FontDescription("Monospace 10"))
+        self.text_view.modify_font(pango.FontDescription("Monospace 8"))
 
         # We could change the color theme here, if we want to.
         #mgr = gtksourceview2.style_manager_get_default()
@@ -184,7 +184,7 @@ class PippyActivity(ViewSourceActivity):
         self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
         self._vte.set_size_request(200, 300)
-        font = 'Monospace 10'
+        font = 'Monospace 8'
         self._vte.set_font(pango.FontDescription(font))
         self._vte.set_colors(gtk.gdk.color_parse ('#000000'),
                              gtk.gdk.color_parse ('#E7E7E7'),
