@@ -624,7 +624,7 @@ PIPPY_DEFAULT_ICON = \
 
 def pippy_activity_version():
     """Returns the version number of the generated activity bundle."""
-    return 14
+    return 29
 def pippy_activity_extra_files():
     """Returns a map of 'extra' files which should be included in the
     generated activity bundle."""
@@ -654,6 +654,10 @@ def pippy_activity_bundle_id():
 def pippy_activity_mime_types():
     """Return the mime types handled by the generated activity, as a list."""
     return 'text/x-python'
+def pippy_activity_extra_info():
+    return """
+license = GPLv2+
+update_url = http://wiki.laptop.org/go/Activities/G1G1"""
 
 ################# ACTIVITY BUNDLER ################
 
