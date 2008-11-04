@@ -1,3 +1,9 @@
+* Resync Pippy's "Pippy metadata" with its activity.info, etc. (cscott)
+* New default activity icon (Madeleine Ball)
+* Trac #6323: Pippy's terminal and code editor font sizes are too big (brian)
+* Add pippy.physics package (brian)
+* Allow UTF-8 in Pippy source files. (cscott)
+
 29
 
 * Trac #8665, cont: further fixes for bundle-building.
