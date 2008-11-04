@@ -11,7 +11,7 @@ screen = pygame.display.set_mode((1200,900))
 # set up the physics world (instance of Elements)
 world = physics.Elements(screen.get_size())
 world.renderer.set_surface(screen)
-        
+       
 # set up initial physics objects
 world.add.ground()
 world.add.ball((600,0), 50)
@@ -33,6 +33,17 @@ while pippy.pygame.next_frame() and world.run_physics:
 
         elif event.type == KEYDOWN:
             sys.exit()
+
+        elif event.type == MOUSEBUTTONDOWN and event.button == 1:
+            bodylist = world.get_bodies_at_pos(event.pos, include_static=False)
+            if bodylist and len(bodylist) > 0:
+                world.add.mouseJoint(bodylist[0], event.pos)
+
+        elif event.type == MOUSEBUTTONUP and event.button == 1:
+            world.add.remove_mouseJoint()
+
+        elif event.type == MOUSEMOTION and event.buttons[0]:
+            world.mouse_move(event.pos)
 
     # clear display with a color
     # (r,g,b), where 0<=value<256
