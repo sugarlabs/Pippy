@@ -7,6 +7,7 @@ data/graphics/bounce
 data/graphics/camera
 data/graphics/jump
 data/graphics/lines
+data/graphics/physics
 data/graphics/pong
 data/graphics/slideshow
 data/graphics/snow
@@ -16,7 +17,6 @@ data/math/guess
 data/math/pascal
 data/math/sierpinski
 data/math/times
-data/physics/shapes
 data/python/function
 data/python/if
 data/python/interpreter
