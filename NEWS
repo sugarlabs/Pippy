@@ -1,3 +1,5 @@
+30
+
 * Allow playing sounds identified by full filesystem path in
   pippy.sound (cscott)
 * Resync Pippy's "Pippy metadata" with its activity.info, etc. (cscott)
