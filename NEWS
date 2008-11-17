@@ -1,7 +1,9 @@
+* Allow playing sounds identified by full filesystem path in
+  pippy.sound (cscott)
 * Resync Pippy's "Pippy metadata" with its activity.info, etc. (cscott)
 * New default activity icon (Madeleine Ball)
 * Trac #6323: Pippy's terminal and code editor font sizes are too big (brian)
-* Add pippy.physics package (brian)
+* Add pippy.physics package and graphics/physics example (brian)
 * Allow UTF-8 in Pippy source files. (cscott)
 
 29
