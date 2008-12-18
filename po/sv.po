@@ -1,0 +1,84 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"PO-Revision-Date: 2008-10-03 08:33-0400\n"
+"Last-Translator: Mattias Ohlsson <mattias_oh@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 1.1.1rc4\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Pippy"
+
+#: activity.py:26
+#, python-format
+msgid "%s Source"
+msgstr "%s källkod"
+
+#: activity.py:62
+msgid "Copy selected text to clipboard"
+msgstr "Kopiera markerad text"
+
+#: activity.py:67
+msgid "Edit"
+msgstr "Redigera"
+
+#: library/pippy/game.py:19
+msgid "PAUSED"
+msgstr "PAUSAD"
+
+#: library/pippy/sound.py:179
+msgid "Please install TamTamEdit's sound library."
+msgstr "Installera TamTamRedigerarens ljudbibliotek"
+
+#: pippy_app.py:61
+msgid "As Pippy Document"
+msgstr "Som ett Pippydokument"
+
+#: pippy_app.py:66
+msgid "As Activity Bundle"
+msgstr "Som en aktivitet"
+
+#: pippy_app.py:83
+msgid "Examples"
+msgstr "Exempel"
+
+#: pippy_app.py:152
+msgid "_Run!"
+msgstr "_Kör!"
+
+#: pippy_app.py:252
+#, python-format
+msgid "%s Activity"
+msgstr "%s Aktivitet"
+
+#: pippy_app.py:308
+msgid "Save as Activity Error"
+msgstr "Spara som aktivitetsfel"
+
+#: pippy_app.py:309
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
+msgstr "Ge din aktivitet ett betydelsefullt namn innan du sparar den."
+
+#: pippy_app.py:311
+msgid "Ok"
+msgstr "Ok"
+
+#: pippy_app.py:317
+msgid "Creating activity bundle..."
+msgstr "Skapar en aktivitet..."
+
+#: pippy_app.py:376
+msgid "Activity saved to journal."
+msgstr "Aktiviteten har sparats i dagboken"
