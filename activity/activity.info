@@ -4,6 +4,9 @@ bundle_id = org.laptop.Pippy
 service_name = org.laptop.Pippy
 class = pippy_app.PippyActivity
 icon = activity-icon
-activity_version = 25
+activity_version = 30
 mime_types = text/x-python
 show_launcher = yes
+
+license = GPLv2+
+update_url = http://wiki.laptop.org/go/Activities/G1G1

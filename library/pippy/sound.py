@@ -151,7 +151,10 @@ def playPluck( pitch=100, amplitude=5000, duration=2, starttime=0, pitch_envelop
 
 def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1, starttime=0, pitch_envelope='default', amplitude_envelope='default'):
     """Play a wave file (sound = ['horse'], pitch = [1], amplitude = [1], loop = [False], duration = [1], starttime = [0], pitch_envelope=['default'], amplitude_envelope=['default'])"""
-    fullname = finddir() + str(sound)
+    if '/' in sound:
+        fullname = sound
+    else:
+        fullname = finddir() + str(sound)
 
     if loop == False: lp = 0
     else: lp = 1

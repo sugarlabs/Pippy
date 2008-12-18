@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 # Copyright 2007 Chris Ball, based on Collabora's "hellomesh" demo.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -43,6 +45,10 @@ IFACE = SERVICE
 PATH = "/org/laptop/Pippy"
 
 text_buffer = None
+# magic prefix to use utf-8 source encoding
+PYTHON_PREFIX="""#!/usr/bin/python
+# -*- coding: utf-8 -*-
+"""
 
 class PippyActivity(ViewSourceActivity):
     """Pippy Activity as specified in activity.info"""
@@ -137,7 +143,7 @@ class PippyActivity(ViewSourceActivity):
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
         self.text_view.set_wrap_mode(gtk.WRAP_CHAR)
-        self.text_view.modify_font(pango.FontDescription("Monospace 10"))
+        self.text_view.modify_font(pango.FontDescription("Monospace 8"))
 
         # We could change the color theme here, if we want to.
         #mgr = gtksourceview2.style_manager_get_default()
@@ -181,9 +187,10 @@ class PippyActivity(ViewSourceActivity):
         
         # The vte python window
         self._vte = vte.Terminal()
+        self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
         self._vte.set_size_request(200, 300)
-        font = 'Monospace 10'
+        font = 'Monospace 8'
         self._vte.set_font(pango.FontDescription(font))
         self._vte.set_colors(gtk.gdk.color_parse ('#000000'),
                              gtk.gdk.color_parse ('#E7E7E7'),
@@ -267,6 +274,10 @@ class PippyActivity(ViewSourceActivity):
         text = text_buffer.get_text(start, end)
 
         with open(filename, 'w') as f:
+            # write utf-8 coding prefix if there's not already one
+            if re.match(r'coding[:=]\s*([-\w.]+)',
+                        '\n'.join(text.splitlines()[:2])) is None:
+                f.write(PYTHON_PREFIX)
             for line in text:
                 f.write(line)
     def _reset_vte(self):
@@ -400,6 +411,8 @@ class PippyActivity(ViewSourceActivity):
     
     def read_file(self, file_path):
         text = open(file_path).read()
+        # discard the '#!/usr/bin/python' and 'coding: utf-8' lines, if present
+        text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
         global text_buffer
         text_buffer.set_text(text)
         
@@ -601,19 +614,38 @@ PIPPY_ICON = \
 """
 
 PIPPY_DEFAULT_ICON = \
-"""<?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd' [
-	<!ENTITY stroke_color "#010101">
-	<!ENTITY fill_color "#FFFFFF">
-]><svg enable-background="new 0 0 55 55" height="55px" version="1.1"
-     viewBox="0 0 55 55" width="55px" x="0px" y="0px" xml:space="preserve"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-><g display="block" id="activity-icon"><path
-       d="M 28.497,48.507 C 34.485,48.507 43.377,45.669 43.377,37.322 C 43.377,32.6795 41.44125,30.14375 39.104125,28.651125 C 36.767,27.1585 38.482419,26.816027 39.758087,25.662766 C 39.42248,24.275242 37.206195,22.826987 36.262179,21.037968 C 34.005473,20.582994 27.526,19.113 30.314,19.113 C 30.314,19.113 36.946,22.777 42.58,19.853 C 44.168,19.03 47.012,15.185 47.012,12.533 C 47.012,9.88 37.831,6.814 35.045,6.814 C 32.257,6.814 29.886,10.661 29.886,10.661 C 24.312,10.661 12.043878,16.258005 12.043878,21.564005 C 12.043878,24.216505 16.585399,30.069973 19.144694,33.736352 C 22.438716,38.455279 27.257,31.3065 30.444,31.885 C 33.407,32.354 35.885,34.105 35.322,37.323 C 34.865,39.936 32.327,42.629 26.961,42.629 C 22.709,42.629 13.661,42.41 12.216,38.55 C 11.287,36.064 12.384,33.345 13.778,33.345 L 13.751,33.185 C 12.331,33.027 8.203,33.345 8.203,38.65 C 8.202,45.452 17.347,48.507 28.497,48.507 z "
- fill="&fill_color;" stroke="&stroke_color;" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" />
-	<path d="M42.579,19.854c-2.623-0.287-6.611-2-7.467-5.022" fill="none" stroke="&stroke_color;" stroke-linecap="round" stroke-width="3"/>
-	<circle cx="35.805" cy="10.96" fill="&stroke_color;" r="1.676"/>
-</g></svg><!-- " -->
+"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+        <!ENTITY ns_svg "http://www.w3.org/2000/svg">
+        <!ENTITY ns_xlink "http://www.w3.org/1999/xlink">
+        <!ENTITY stroke_color "#000000">
+        <!ENTITY fill_color "#FFFFFF">
+]><!--"-->
+<svg  version="1.1" id="Pippy_activity" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="47.585" height="49.326"
+         viewBox="0 0 47.585 49.326" overflow="visible" enable-background="new 0 0 47.585 49.326" xml:space="preserve">
+
+<path
+   fill="&fill_color;" stroke="&stroke_color;" stroke-width="2"   d="M 30.689595,16.460324 L 24.320145,12.001708 L 2.7550028,23.830689 L 23.319231,38.662412 L 45.157349,26.742438 L 36.877062,21.100925"   id="path3195" />
+<path
+   fill="&fill_color;" stroke="&stroke_color;" stroke-width="2"
+   nodetypes="cscscssscsssssccc"
+   d="M 12.201296,21.930888 C 13.063838,20.435352 17.035411,18.617621 20.372026,18.965837 C 22.109464,19.147161 24.231003,20.786115 24.317406,21.584638 C 24.401593,22.43057 25.386617,24.647417 26.88611,24.600494 C 28.114098,24.562065 28.61488,23.562481 28.992123,22.444401 C 28.992123,22.444401 28.564434,17.493894 31.897757,15.363536 C 32.836646,14.763482 35.806711,14.411448 37.249047,15.221493 C 38.691382,16.031536 37.648261,19.495598 36.785717,20.991133 C 35.923174,22.48667 32.967872,24.980813 32.967872,24.980813 C 31.242783,27.971884 29.235995,28.5001 26.338769,28.187547 C 23.859153,27.920046 22.434219,26.128159 21.837191,24.708088 C 21.323835,23.487033 20.047743,22.524906 18.388178,22.52176 C 17.218719,22.519542 14.854476,23.017137 16.212763,25.620664 C 16.687174,26.53 18.919175,28.917592 21.08204,29.521929 C 22.919903,30.035455 26.713699,31.223552 30.30027,31.418089 C 26.770532,33.262079 21.760623,32.530604 18.909599,31.658168 C 17.361253,30.887002 9.0350995,26.651992 12.201296,21.930888 z "
+   id="path2209" />
+<path
+   fill="&fill_color;" stroke="&stroke_color;" stroke-width="1"
+   d="M 37.832194,18.895786 C 36.495131,19.851587 34.017797,22.097672 32.3528,21.069911"
+   id="path2211"
+   transform-center-y="-3.6171625"
+   transform-center-x="-0.50601649" />
+<circle
+   fill="&stroke_color;" stroke="none" stroke-width="0"
+   cx="33.926998"
+   cy="6.073"
+   r="1.927"
+   id="circle2213"
+   transform="matrix(0.269108,-0.4665976,-0.472839,-0.2655557,26.503175,35.608682)"
+   />
+</svg>
 """
 
 ############# ACTIVITY META-INFORMATION ###############
@@ -621,7 +653,7 @@ PIPPY_DEFAULT_ICON = \
 
 def pippy_activity_version():
     """Returns the version number of the generated activity bundle."""
-    return 14
+    return 29
 def pippy_activity_extra_files():
     """Returns a map of 'extra' files which should be included in the
     generated activity bundle."""
@@ -651,6 +683,10 @@ def pippy_activity_bundle_id():
 def pippy_activity_mime_types():
     """Return the mime types handled by the generated activity, as a list."""
     return 'text/x-python'
+def pippy_activity_extra_info():
+    return """
+license = GPLv2+
+update_url = http://wiki.laptop.org/go/Activities/G1G1"""
 
 ################# ACTIVITY BUNDLER ################
 
@@ -739,8 +775,8 @@ def main():
         copy2(sourcefile, '%s/pippy_app.py' % app_temp)
         # write MANIFEST file.
         with open('%s/MANIFEST' % app_temp, 'w') as f:
-            for dirpath, dirnames, filenames in os.walk(app_temp):
-                for name in filenames:
+            for dirpath, dirnames, filenames in sorted(os.walk(app_temp)):
+                for name in sorted(filenames):
                     fn = os.path.join(dirpath, name).replace(app_temp+'/', '')
                     if fn=='MANIFEST': continue
                     f.write('%s\n' % fn)
@@ -748,12 +784,12 @@ def main():
         olddir = os.getcwd()
         oldargv = sys.argv
         os.chdir(app_temp)
-        sys.argv = [ 'setup.py', 'dist' ]
-        bundlebuilder.start(pytitle)
+        sys.argv = [ 'setup.py', 'dist_xo' ]
+        bundlebuilder.start()
         sys.argv = oldargv
         os.chdir(olddir)
         # move to destination directory.
-        copy2('%s/%s-%d.xo' % (app_temp, pytitle, bundle_info['version']),
+        copy2('%s/dist/%s-%d.xo' % (app_temp, pytitle, bundle_info['version']),
               '%s/%s-%d.xo' % (options.dir, pytitle, bundle_info['version']))
     finally:
         rmtree(app_temp, ignore_errors=True)

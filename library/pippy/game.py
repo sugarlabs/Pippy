@@ -1,4 +1,8 @@
 """pygame support for pippy."""
+# Copyright (C) 2007-8 One Laptop Per Child Association, Inc.
+# Licensed under the terms of the GNU GPL v2 or later; see
+# /usr/share/licenses/common-licenses/GPLv2+ for details.
+# Written by C. Scott Ananian <cscott@laptop.org>
 
 def pause():
     """Display a "Paused" screen and suspend."""

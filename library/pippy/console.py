@@ -1,4 +1,8 @@
 """Console helpers for pippy."""
+# Copyright (C) 2007 One Laptop Per Child Association, Inc.
+# Licensed under the terms of the GNU GPL v2 or later; see
+# /usr/share/licenses/common-licenses/GPLv2+ for details.
+# Written by C. Scott Ananian <cscott@laptop.org>
 import sys
 def clear():
     """Clear screen on console."""
@@ -88,7 +92,7 @@ def underlined():
     sys.stdout.write('\x1B[4m')
 
 def inverse():
-    """Switch to underlined text."""
+    """Switch to inverse text."""
     sys.stdout.write('\x1B[7m')
 
 def black():

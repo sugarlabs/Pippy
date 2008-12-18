@@ -1,3 +1,22 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# Copyright 2007-8 One Laptop per Child Association, Inc.
+# Written by C. Scott Ananian <cscott@laptop.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+"""Pippy activity helper classes."""
 from sugar.activity import activity
 
 class ViewSourceActivity(activity.Activity):
@@ -47,6 +66,7 @@ class ViewSourceActivity(activity.Activity):
 
 TARGET_TYPE_TEXT = 80
 class VteActivity(ViewSourceActivity):
+    """Activity subclass built around the Vte terminal widget."""
     def __init__(self, handle):
         import gtk, pango, vte
         from sugar.graphics.toolbutton import ToolButton
@@ -156,3 +176,26 @@ class PyGameActivity(ViewSourceActivity):
         # hide the buttons we don't use.
         toolbar.share.hide() # this should share bundle.
         toolbar.keep.hide()
+
+def _main():
+    """Launch this activity from the command line."""
+    from sugar.activity import activityfactory
+    from sugar.activity.registry import ActivityInfo
+    from sugar.bundle.activitybundle import ActivityBundle
+    import os, os.path
+    ab = ActivityBundle(os.path.dirname(__file__) or '.')
+    ai = ActivityInfo(name=ab.get_name(),
+                      icon=None,
+                      bundle_id=ab.get_bundle_id(),
+                      version=ab.get_activity_version(),
+                      path=ab.get_path(),
+                      show_launcher=ab.get_show_launcher(),
+                      command=ab.get_command(),
+                      favorite=True,
+                      installation_time=ab.get_installation_time(),
+                      position_x=0, position_y=0)
+    env = activityfactory.get_environment(ai)
+    cmd_args = activityfactory.get_command(ai)
+    os.execvpe(cmd_args[0], cmd_args, env)
+
+if __name__=='__main__': _main()
