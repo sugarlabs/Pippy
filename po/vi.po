@@ -2,72 +2,86 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 18:47+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"PO-Revision-Date: 2009-02-13 07:54-0500\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.0.1\n"
+"X-Generator: Pootle 1.1.0rc2\n"
 
+# Tên: không nên dịch
 #: activity/activity.info:2
 msgid "Pippy"
-msgstr ""
+msgstr "Pippy"
 
 #: activity.py:26
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "Nguồn %s"
+
+#: activity.py:62
+msgid "Copy selected text to clipboard"
+msgstr "Sao chép sang bảng nháp đoạn văn đã chọn"
+
+#: activity.py:67
+msgid "Edit"
+msgstr "Sửa"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
-msgstr ""
+msgstr "BỊ TẠM DỪNG"
 
-#: pippy_app.py:57
+#: library/pippy/sound.py:179
+msgid "Please install TamTamEdit's sound library."
+msgstr "Hãy cài đặt thư viện âm thanh của TamTamEdit."
+
+#: pippy_app.py:61
 msgid "As Pippy Document"
-msgstr ""
+msgstr "Dạng tài liệu Pippy"
 
-#: pippy_app.py:62
+#: pippy_app.py:66
 msgid "As Activity Bundle"
-msgstr ""
+msgstr "Dạng bộ hoạt động"
 
-#: pippy_app.py:79
+#: pippy_app.py:83
 msgid "Examples"
-msgstr ""
+msgstr "Ví dụ"
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 msgid "_Run!"
-msgstr ""
+msgstr "_Chạy !"
 
-#: pippy_app.py:235
+#: pippy_app.py:252
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "Hoạt động %s"
 
-#: pippy_app.py:290
+#: pippy_app.py:308
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Lưu dạng Lỗi hoạt động"
 
-#: pippy_app.py:291
+#: pippy_app.py:309
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
+"Hãy đặt một tên có ý nghĩa cho hoạt động trước khi thử lưu nó dạng hoạt "
+"động."
 
-#: pippy_app.py:293
+#: pippy_app.py:311
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
-#: pippy_app.py:299
+#: pippy_app.py:317
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Đang tạo bộ hoạt động..."
 
-#: pippy_app.py:358
+#: pippy_app.py:376
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "Hoạt động đã được lưu vào nhật ký."
