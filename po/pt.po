@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-27 00:30-0400\n"
-"PO-Revision-Date: 2008-08-26 08:35-0400\n"
+"PO-Revision-Date: 2009-02-20 14:38-0500\n"
 "Last-Translator: Eduardo H. Silva <HoboPrimate@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,11 +23,11 @@ msgstr "Pippy"
 #: activity.py:26
 #, python-format
 msgid "%s Source"
-msgstr "Fonte de %s"
+msgstr "Código fonte de %s"
 
 #: activity.py:62
 msgid "Copy selected text to clipboard"
-msgstr "Copiar o texto selecionado para a área de transferência"
+msgstr "Copiar o texto seleccionado para a área de transferência"
 
 #: activity.py:67
 msgid "Edit"
@@ -43,11 +43,11 @@ msgstr "Por favor instala a biblioteca de som do TamTamEdit"
 
 #: pippy_app.py:61
 msgid "As Pippy Document"
-msgstr "Como Documento Pippy"
+msgstr "Como documento Pippy"
 
 #: pippy_app.py:66
 msgid "As Activity Bundle"
-msgstr "Como Pacote de Actividade"
+msgstr "Como Actividade empacotada"
 
 #: pippy_app.py:83
 msgid "Examples"
@@ -80,7 +80,7 @@ msgstr "Ok"
 
 #: pippy_app.py:317
 msgid "Creating activity bundle..."
-msgstr "Criando pacote de actividade..."
+msgstr "A criar uma actividade empacotada..."
 
 #: pippy_app.py:376
 msgid "Activity saved to journal."
