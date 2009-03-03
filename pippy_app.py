@@ -302,7 +302,7 @@ class PippyActivity(ViewSourceActivity):
                     (command="/bin/sh",
                      argv=["/bin/sh", "-c",
                            "python %s; sleep 1" % pippy_app_name],
-                     envv=["PYTHONPATH=%s/library" % get_bundle_path()],
+                     envv=["PYTHONPATH=%s/library:%s" % (get_bundle_path(), os.getenv("PYTHONPATH", ""))],
                      directory=get_bundle_path())
 
     def stopbutton_cb(self, button):
