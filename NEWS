@@ -1,3 +1,7 @@
+32 (Soas-only release)
+* Trac #607 (SugarLabs), Font size needs to be 10 for Soas
+    (font size of 8 recommended for XO-1 users)
+
 31
 
 * Trac #350 (SugarLabs), Python path set improperly
