@@ -1,5 +1,6 @@
 33
 * Include XOlympics physics game example
+* Use default Sugar-specified font sizes
 
 32 
 * Trac #607 (SugarLabs), Font size needs to be 10 for Soas
