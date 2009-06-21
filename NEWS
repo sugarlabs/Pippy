@@ -1,8 +1,9 @@
-32
+33
+* Include XOlympics physics game example
 
-32 (Soas-only release)
+32 
 * Trac #607 (SugarLabs), Font size needs to be 10 for Soas
-    (font size of 8 recommended for XO-1 users)
+    (font size of 8 for XO-1 users)
 
 31
 
