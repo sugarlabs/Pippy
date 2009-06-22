@@ -146,6 +146,9 @@ class PippyActivity(ViewSourceActivity):
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
         self.text_view.set_wrap_mode(gtk.WRAP_CHAR)
+        self.text_view.set_insert_spaces_instead_of_tabs(True)
+        self.text_view.set_tab_width(2)
+        self.text_view.set_auto_indent(True)
         self.text_view.modify_font(pango.FontDescription("Monospace " + 
             str(font_zoom(style.FONT_SIZE))))
 
