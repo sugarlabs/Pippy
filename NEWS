@@ -1,3 +1,7 @@
+34
+* Editor: enable autotabbing, space tabs,
+     and tab size = 2 (to ensure compatability with examples)
+
 33
 * Include XOlympics physics game example
 * Use default Sugar-specified font sizes
