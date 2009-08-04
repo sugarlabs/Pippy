@@ -20,8 +20,6 @@
 from __future__ import with_statement
 import gtk
 import logging
-import telepathy
-import telepathy.client
 import pango
 import vte
 import re, os, os.path
@@ -31,21 +29,14 @@ import time
 from port.style import font_zoom
 from signal import SIGTERM
 from gettext import gettext as _
-from dbus.service import method, signal
-from dbus.gobject_service import ExportedGObject
 
 from activity import ViewSourceActivity, TARGET_TYPE_TEXT
 from sugar.activity.activity import ActivityToolbox, \
      get_bundle_path, get_bundle_name
 from sugar.graphics import style
 
-from sugar.presence import presenceservice
-
-from sugar.presence.tubeconn import TubeConnection
-
-SERVICE = "org.laptop.Pippy"
-IFACE = SERVICE
-PATH = "/org/laptop/Pippy"
+import groupthink.sugar_tools
+import groupthink.gtk_tools
 
 text_buffer = None
 # magic prefix to use utf-8 source encoding
@@ -53,11 +44,16 @@ PYTHON_PREFIX="""#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
 
-class PippyActivity(ViewSourceActivity):
+groupthink_mimetype = 'pickle/groupthink-pippy'
+
+class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     """Pippy Activity as specified in activity.info"""
-    def __init__(self, handle):
-        """Set up the Pippy activity."""
-        super(PippyActivity, self).__init__(handle)
+    def early_setup(self):
+        global text_buffer
+        import gtksourceview2
+        text_buffer = gtksourceview2.Buffer()
+
+    def initialize_display(self):
         self._logger = logging.getLogger('pippy-activity')
 
         # Top toolbar with share and close buttons:
@@ -81,11 +77,11 @@ class PippyActivity(ViewSourceActivity):
         toolbox.show()
 
         # Main layout.
-        hbox = gtk.HBox()
+        self.hbox = gtk.HBox()
         vbox = gtk.VBox()
         
         # The sidebar.
-        sidebar = gtk.VBox()
+        self.sidebar = gtk.VBox()
         self.model = gtk.TreeStore(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING)
         treeview = gtk.TreeView(self.model)
         cellrenderer = gtk.CellRendererText()
@@ -97,8 +93,8 @@ class PippyActivity(ViewSourceActivity):
         # Create scrollbars around the view.
         scrolled = gtk.ScrolledWindow()
         scrolled.add(treeview)
-        sidebar.pack_start(scrolled)
-        hbox.pack_start(sidebar)
+        self.sidebar.pack_start(scrolled)
+        self.hbox.pack_start(self.sidebar)
 
         root = os.path.join(get_bundle_path(), 'data')
         for d in sorted(os.listdir(root)):
@@ -122,7 +118,6 @@ class PippyActivity(ViewSourceActivity):
         # Source buffer
         import gtksourceview2
         global text_buffer
-        text_buffer = gtksourceview2.Buffer()
         lang_manager = gtksourceview2.language_manager_get_default()
         if hasattr(lang_manager, 'list_languages'):
             langs = lang_manager.list_languages()
@@ -214,40 +209,13 @@ class PippyActivity(ViewSourceActivity):
         outsb.show()
         outbox.pack_start(outsb, False, False, 0)
         vbox.pack_end(outbox)
-        hbox.pack_end(vbox)
-        self.set_canvas(hbox)
-        self.show_all()
-
+        self.hbox.pack_end(vbox)
+        return self.hbox
         
-        self.hellotube = None
-
-        # get the Presence Service
-        self.pservice = presenceservice.get_instance()
-        try:
-            name, path = self.pservice.get_preferred_connection()
-            self.tp_conn_name = name
-            self.tp_conn_path = path
-            self.conn = telepathy.client.Connection(name, path)
-        except TypeError:
-            self._logger.debug('No Telepathy CM, offline')
-        self.initiating = None
-        
-        self.connect('shared', self._shared_cb)
-
-        # Buddy object for you
-        owner = self.pservice.get_owner()
-        self.owner = owner
-
-        if self._shared_activity:
-            # we are joining the activity
-            self.connect('joined', self._joined_cb)
-            self._shared_activity.connect('buddy-joined',
-                                          self._buddy_joined_cb)
-            self._shared_activity.connect('buddy-left',
-                                          self._buddy_left_cb)
-            if self.get_shared():
-                # we've already joined
-                self._joined_cb()
+    def when_shared(self):
+        self.hbox.remove(self.sidebar)
+        global text_buffer
+        self.cloud.sharefield = groupthink.gtk_tools.TextBufferSharePoint(text_buffer)
 
     def vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
@@ -408,193 +376,28 @@ class PippyActivity(ViewSourceActivity):
     def dismiss_alert_cb(self, alert, response_id):
         self.remove_alert(alert)
 
-    def write_file(self, file_path):
-        self.metadata['mime_type'] = 'text/x-python'
-        global text_buffer
-        start, end = text_buffer.get_bounds()
-        text = text_buffer.get_text(start, end)
+    def save_to_journal(self, file_path, cloudstring):
         _file = open(file_path, 'w')
-        _file.write(text)
-    
-    def read_file(self, file_path):
-        text = open(file_path).read()
-        # discard the '#!/usr/bin/python' and 'coding: utf-8' lines, if present
-        text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
-        global text_buffer
-        text_buffer.set_text(text)
-        
-    def _shared_cb(self, activity):
-        self._logger.debug('My activity was shared')
-        self.initiating = True
-        self._sharing_setup()
-
-        self._logger.debug('This is my activity: making a tube...')
-        _id = self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].OfferDBusTube(
-            SERVICE, {})
-
-    # presence service should be tubes-aware and give us more help
-    # with this
-    def _sharing_setup(self):
-        if self._shared_activity is None:
-            self._logger.error('Failed to share or join activity')
-            return
-
-        self.conn = self._shared_activity.telepathy_conn
-        self.tubes_chan = self._shared_activity.telepathy_tubes_chan
-        self.text_chan = self._shared_activity.telepathy_text_chan
-
-        self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].connect_to_signal(
-             'NewTube', self._new_tube_cb)
-
-        self._shared_activity.connect('buddy-joined', self._buddy_joined_cb)
-        self._shared_activity.connect('buddy-left', self._buddy_left_cb)
-
-        # Optional - included for example:
-        # Find out who's already in the shared activity:
-        for buddy in self._shared_activity.get_joined_buddies():
-            self._logger.debug('Buddy %s is already in the activity',
-                               buddy.props.nick)
-
-    def _list_tubes_reply_cb(self, tubes):
-        for tube_info in tubes:
-            self._new_tube_cb(*tube_info)
-
-    def _list_tubes_error_cb(self, e):
-        self._logger.error('ListTubes() failed: %s', e)
-
-    def _joined_cb(self, activity):
         if not self._shared_activity:
-            return
-
-        self._logger.debug('Joined an existing shared activity')
-        self.initiating = False
-        self._sharing_setup()
-
-        self._logger.debug('This is not my activity: waiting for a tube...')
-        self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].ListTubes(
-            reply_handler=self._list_tubes_reply_cb,
-            error_handler=self._list_tubes_error_cb)
-
-    def _new_tube_cb(self, id, initiator, type, service, params, state):
-        self._logger.debug('New tube: ID=%d initator=%d type=%d service=%s '
-                     'params=%r state=%d', id, initiator, type, service,
-                     params, state)
-
-        if (type == telepathy.TUBE_TYPE_DBUS and
-            service == SERVICE):
-            if state == telepathy.TUBE_STATE_LOCAL_PENDING:
-                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(id)
-
-            tube_conn = TubeConnection(self.conn,
-                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES],
-                id, group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
-            self.hellotube = HelloTube(tube_conn, self.initiating, self._get_buddy)
-
-    def _buddy_joined_cb (self, activity, buddy):
-        self._logger.debug('Buddy %s joined' % buddy.props.nick)
-
-    def _buddy_left_cb (self, activity, buddy):
-        self._logger.debug('Buddy %s left' % buddy.props.nick)
-
-    def _get_buddy(self, cs_handle):
-        """Get a Buddy from a channel specific handle."""
-        self._logger.debug('Trying to find owner of handle %u...', cs_handle)
-        group = self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP]
-        my_csh = group.GetSelfHandle()
-        self._logger.debug('My handle in that group is %u', my_csh)
-        if my_csh == cs_handle:
-            handle = self.conn.GetSelfHandle()
-            self._logger.debug('CS handle %u belongs to me, %u', cs_handle, handle)
-        elif group.GetGroupFlags() & telepathy.CHANNEL_GROUP_FLAG_CHANNEL_SPECIFIC_HANDLES:
-            handle = group.GetHandleOwners([cs_handle])[0]
-            self._logger.debug('CS handle %u belongs to %u', cs_handle, handle)
-        else:
-            handle = cs_handle
-            self._logger.debug('non-CS handle %u belongs to itself', handle)
-
-            # XXX: deal with failure to get the handle owner
-            assert handle != 0
-
-        # XXX: we're assuming that we have Buddy objects for all contacts -
-        # this might break when the server becomes scalable.
-        return self.pservice.get_buddy_by_telepathy_handle(self.conn.service_name, self.conn.object_path, handle)
-
-class HelloTube(ExportedGObject):
-    """The bit that talks over the TUBES!!!"""
-
-    def __init__(self, tube, is_initiator, get_buddy):
-        super(HelloTube, self).__init__(tube, PATH)
-        self._logger = logging.getLogger('pippy-activity.HelloTube')
-        self.tube = tube
-        self.is_initiator = is_initiator
-        self.entered = False  # Have we set up the tube?
-        self.helloworld = False  # Have we said Hello and received World?
-        self._get_buddy = get_buddy  # Converts handle to Buddy object
-        self.tube.watch_participants(self.participant_change_cb)
-
-    def participant_change_cb(self, added, removed):
-        self._logger.debug('Adding participants: %r' % added)
-
-        for handle, bus_name in added:
-            buddy = self._get_buddy(handle)
-            if buddy is not None:
-                self._logger.debug('Buddy %s was added' % buddy.props.nick)
-
-        for handle in removed:
-            buddy = self._get_buddy(handle)
-            if buddy is not None:
-                self._logger.debug('Buddy %s was removed' % buddy.props.nick)
-
-        if not self.entered:
-            #self.tube.add_signal_receiver(self.insert_cb, 'Insert', IFACE,
-            #    path=PATH, sender_keyword='sender')
-            if self.is_initiator:
-                self._logger.debug("I'm initiating the tube, will "
-                    "watch for hellos.")
-                self.add_hello_handler()
-            else:
-                self._logger.debug('Hello, everyone! What did I miss?')
-                self.Hello()
-        self.entered = True
-
-    @signal(dbus_interface=IFACE, signature='')
-    def Hello(self):
-        """Say Hello to whoever else is in the tube."""
-        self._logger.debug('I said Hello.')
-
-    @method(dbus_interface=IFACE, in_signature='s', out_signature='')
-    def World(self, game_state):
-        """To be called on the incoming XO after they Hello."""
-        if not self.helloworld:
-            self._logger.debug('Somebody said World.')
-            # We have the host's text buffer now; set ours to its contents.
-            self.helloworld = game_state
+            self.metadata['mime_type'] = 'text/x-python'
             global text_buffer
-            text_buffer.set_text(game_state)
-            # now I can World others
-            self.add_hello_handler()
+            start, end = text_buffer.get_bounds()
+            text = text_buffer.get_text(start, end)
+            _file.write(text)
         else:
-            self._logger.debug("I've already been welcomed, doing nothing")
-
-    def add_hello_handler(self):
-        self._logger.debug('Adding hello handler.')
-        self.tube.add_signal_receiver(self.hello_cb, 'Hello', IFACE,
-            path=PATH, sender_keyword='sender')
-
-    def hello_cb(self, sender=None):
-        """Somebody Helloed me. World them."""
-        if sender == self.tube.get_unique_name():
-            # sender is my bus name, so ignore my own signal
-            return
-        self._logger.debug('Newcomer %s has joined', sender)
-        self._logger.debug('Welcoming newcomer and sending them the game state')
-        # Throw our text buffer down the tube, to be caught in World().
-        global text_buffer
-        start, end = text_buffer.get_bounds()
-        game_state = text_buffer.get_text(start, end)
-        self.tube.get_object(sender, PATH).World(game_state,
-                                                 dbus_interface=IFACE)
-
+            self.metadata['mime_type'] = groupthink_mimetype
+            _file.write(cloudstring)
+    
+    def load_from_journal(self, file_path):
+        if self.metadata['mime_type'] == 'text/x-python':
+            text = open(file_path).read()
+            # discard the '#!/usr/bin/python' and 'coding: utf-8' lines, if present
+            text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
+            global text_buffer
+            text_buffer.set_text(text)
+        elif self.metadata['mime_type'] == groupthink_mimetype:
+            return open(file_path).read()
+        
 ############# TEMPLATES AND INLINE FILES ##############
 ACTIVITY_INFO_TEMPLATE = """
 [Activity]
@@ -660,14 +463,14 @@ PIPPY_DEFAULT_ICON = \
 
 def pippy_activity_version():
     """Returns the version number of the generated activity bundle."""
-    return 29
+    return 34
 def pippy_activity_extra_files():
     """Returns a map of 'extra' files which should be included in the
     generated activity bundle."""
     # Cheat here and generate the map from the fs contents.
     extra = {}
     bp = get_bundle_path()
-    for d in [ 'po', 'data' ]: # everybody gets library already
+    for d in ['po', 'data', 'groupthink', 'post' ]: # everybody gets library already
         for root, dirs, files in os.walk(os.path.join(bp, d)):
             for name in files:
                 fn = os.path.join(root, name).replace(bp+'/', '')
@@ -689,7 +492,7 @@ def pippy_activity_bundle_id():
     return 'org.laptop.Pippy'
 def pippy_activity_mime_types():
     """Return the mime types handled by the generated activity, as a list."""
-    return 'text/x-python'
+    return ['text/x-python', groupthink_mimetype]
 def pippy_activity_extra_info():
     return """
 license = GPLv2+
