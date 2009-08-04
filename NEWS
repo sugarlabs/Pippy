@@ -1,3 +1,7 @@
+35
+* Add collaborative editing with Groupthink
+* Fix self-generated bundles by including port/ (and now groupthink/)
+
 34
 * Editor: enable autotabbing, space tabs,
      and tab size = 2 (to ensure compatability with examples)
