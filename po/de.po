@@ -7,14 +7,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-27 00:30-0400\n"
-"PO-Revision-Date: 2008-06-13 21:14-0400\n"
-"Last-Translator: Markus Schlager <m.slg@gmx.de>\n"
+"PO-Revision-Date: 2010-02-26 04:32+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.1.0rc2\n"
+"X-Generator: Pootle 2.0.1\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -55,7 +56,7 @@ msgstr "Beispiele"
 
 #: pippy_app.py:152
 msgid "_Run!"
-msgstr "Los!"
+msgstr "_Los!"
 
 #: pippy_app.py:252
 #, python-format
@@ -84,7 +85,7 @@ msgstr "Erstelle Aktivitätspaket..."
 
 #: pippy_app.py:376
 msgid "Activity saved to journal."
-msgstr "Aktivität ins Journal gespeichert."
+msgstr "Aktivität ins Tagebuch gespeichert."
 
 #~ msgid "Run!"
 #~ msgstr "Los!"
