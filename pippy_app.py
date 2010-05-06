@@ -38,9 +38,9 @@ from activity import ViewSourceActivity, TARGET_TYPE_TEXT
 from sugar.activity.activity import ActivityToolbox, \
      get_bundle_path, get_bundle_name
 from sugar.graphics import style
+from sugar.graphics.toolbutton import ToolButton
 
 from sugar.presence import presenceservice
-
 from sugar.presence.tubeconn import TubeConnection
 
 SERVICE = "org.laptop.Pippy"
@@ -53,6 +53,10 @@ PYTHON_PREFIX="""#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
 
+# get screen sizes
+SIZE_X = gtk.gdk.screen_width()
+SIZE_Y = gtk.gdk.screen_height()
+
 class PippyActivity(ViewSourceActivity):
     """Pippy Activity as specified in activity.info"""
     def __init__(self, handle):
@@ -62,6 +66,7 @@ class PippyActivity(ViewSourceActivity):
 
         # Top toolbar with share and close buttons:
         toolbox = ActivityToolbox(self)
+        activity_toolbar = toolbox.get_activity_toolbar()
         # add 'make bundle' entry to 'keep' palette.
         palette = toolbox.get_activity_toolbar().keep.get_palette()
         # XXX: should clear out old palette entries?
@@ -77,13 +82,61 @@ class PippyActivity(ViewSourceActivity):
         menu_item.connect('activate', self.makebutton_cb)
         palette.menu.append(menu_item)
         menu_item.show()
+
+        # The "go" button
+        goicon_bw = gtk.Image()
+        goicon_bw.set_from_file("%s/icons/run_bw.svg" % os.getcwd())
+        goicon_color = gtk.Image()
+        goicon_color.set_from_file("%s/icons/run_color.svg" % os.getcwd())
+        gobutton = ToolButton(label=_("_Run!"))
+        gobutton.props.accelerator = _('<alt>r')
+        gobutton.set_icon_widget(goicon_bw)
+        gobutton.set_tooltip("Run")
+        gobutton.connect('clicked', self.flash_cb, dict({'bw':goicon_bw,
+            'color':goicon_color}))
+        gobutton.connect('clicked', self.gobutton_cb)
+        activity_toolbar.insert(gobutton, 2)
+
+        # The "stop" button
+        stopicon_bw = gtk.Image()
+        stopicon_bw.set_from_file("%s/icons/stopit_bw.svg" % os.getcwd())
+        stopicon_color = gtk.Image()
+        stopicon_color.set_from_file("%s/icons/stopit_color.svg" % os.getcwd())
+        stopbutton = ToolButton(label=_("_Stop"))
+        stopbutton.props.accelerator = _('<alt>s')
+        stopbutton.set_icon_widget(stopicon_bw)
+        stopbutton.connect('clicked', self.flash_cb, dict({'bw':stopicon_bw,
+            'color':stopicon_color}))
+        stopbutton.connect('clicked', self.stopbutton_cb)
+        stopbutton.set_tooltip("Stop Running")
+        activity_toolbar.insert(stopbutton, 3)
+
+        # The "clear" button
+        clearicon_bw = gtk.Image()
+        clearicon_bw.set_from_file("%s/icons/eraser_bw.svg" % os.getcwd())
+        clearicon_color = gtk.Image()
+        clearicon_color.set_from_file("%s/icons/eraser_color.svg" % os.getcwd())
+        clearbutton = ToolButton(label=_("_Clear"))
+        clearbutton.props.accelerator = _('<alt>c')
+        clearbutton.set_icon_widget(clearicon_bw)
+        clearbutton.connect('clicked', self.clearbutton_cb)
+        clearbutton.connect('clicked', self.flash_cb, dict({'bw':clearicon_bw,
+            'color':clearicon_color}))
+        clearbutton.set_tooltip("Clear")
+        activity_toolbar.insert(clearbutton, 4)
+
+        # A vertical toolbar separator
+        separator = gtk.SeparatorToolItem()
+        separator.set_draw(True)
+        activity_toolbar.insert(separator, 5)
+
         self.set_toolbox(toolbox)
         toolbox.show()
 
         # Main layout.
-        hbox = gtk.HBox()
-        vbox = gtk.VBox()
-        
+        hpane = gtk.HPaned()
+        vpane = gtk.VPaned()
+
         # The sidebar.
         sidebar = gtk.VBox()
         self.model = gtk.TreeStore(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING)
@@ -92,13 +145,13 @@ class PippyActivity(ViewSourceActivity):
         treecolumn = gtk.TreeViewColumn(_("Examples"), cellrenderer, text=1)
         treeview.get_selection().connect("changed", self.selection_cb)
         treeview.append_column(treecolumn)
-        treeview.set_size_request(220, 900)
+        treeview.set_size_request(int(SIZE_X * 0.3), SIZE_Y)
 
         # Create scrollbars around the view.
         scrolled = gtk.ScrolledWindow()
         scrolled.add(treeview)
         sidebar.pack_start(scrolled)
-        hbox.pack_start(sidebar)
+        hpane.add1(sidebar)
 
         root = os.path.join(get_bundle_path(), 'data')
         for d in sorted(os.listdir(root)):
@@ -108,7 +161,7 @@ class PippyActivity(ViewSourceActivity):
             olditer = self.model.insert_before(None, None)
             self.model.set_value(olditer, 0, direntry)
             self.model.set_value(olditer, 1, direntry["name"])
-                
+
             for _file in sorted(os.listdir(os.path.join(root, d))):
                 if _file.endswith('~'): continue # skip emacs backups
                 entry = { "name": _(_file.capitalize()),
@@ -141,7 +194,7 @@ class PippyActivity(ViewSourceActivity):
 
         # The GTK source view window
         self.text_view = gtksourceview2.View(text_buffer)
-        self.text_view.set_size_request(900, 350)
+        self.text_view.set_size_request(0, int(SIZE_Y * 0.5))
         self.text_view.set_editable(True)
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
@@ -161,42 +214,15 @@ class PippyActivity(ViewSourceActivity):
         codesw.set_policy(gtk.POLICY_AUTOMATIC,
                       gtk.POLICY_AUTOMATIC)
         codesw.add(self.text_view)
-        vbox.pack_start(codesw)
-
-        # An hbox for the buttons
-        buttonhbox = gtk.HBox()
-
-        # The "go" button
-        goicon = gtk.Image()
-        goicon.set_from_stock(gtk.STOCK_YES, gtk.ICON_SIZE_BUTTON)
-        gobutton = gtk.Button(label=_("_Run!"))
-        gobutton.set_image(goicon)
-        gobutton.connect('clicked', self.gobutton_cb)
-        gobutton.set_size_request(650, 2)
-        buttonhbox.pack_start(gobutton)
-
-        # The "stop" button
-        stopbutton = gtk.Button(stock=gtk.STOCK_STOP)
-        stopbutton.connect('clicked', self.stopbutton_cb)
-        stopbutton.set_size_request(200, 2)
-        buttonhbox.pack_start(stopbutton)
-
-        # The "clear" button
-        clearbutton = gtk.Button(stock=gtk.STOCK_CLEAR)
-        clearbutton.connect('clicked', self.clearbutton_cb)
-        clearbutton.set_size_request(150, 2)
-        buttonhbox.pack_end(clearbutton)
-
-        vbox.pack_start(buttonhbox)
+        vpane.add1(codesw)
 
         # An hbox to hold the vte window and its scrollbar.
         outbox = gtk.HBox()
-        
+
         # The vte python window
         self._vte = vte.Terminal()
         self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
-        self._vte.set_size_request(200, 300)
         font = 'Monospace ' + str(font_zoom(style.FONT_SIZE))
         self._vte.set_font(pango.FontDescription(font))
         self._vte.set_colors(gtk.gdk.color_parse ('#000000'),
@@ -209,16 +235,15 @@ class PippyActivity(ViewSourceActivity):
                                 gtk.gdk.ACTION_COPY)
         self._vte.connect('drag_data_received', self.vte_drop_cb)
         outbox.pack_start(self._vte)
-        
+
         outsb = gtk.VScrollbar(self._vte.get_adjustment())
         outsb.show()
         outbox.pack_start(outsb, False, False, 0)
-        vbox.pack_end(outbox)
-        hbox.pack_end(vbox)
-        self.set_canvas(hbox)
+        vpane.add2(outbox)
+        hpane.add2(vpane)
+        self.set_canvas(hpane)
         self.show_all()
 
-        
         self.hellotube = None
 
         # get the Presence Service
@@ -231,7 +256,7 @@ class PippyActivity(ViewSourceActivity):
         except TypeError:
             self._logger.debug('No Telepathy CM, offline')
         self.initiating = None
-        
+
         self.connect('shared', self._shared_cb)
 
         # Buddy object for you
@@ -265,7 +290,17 @@ class PippyActivity(ViewSourceActivity):
         self.stopbutton_cb(None)
         self._reset_vte()
         self.text_view.grab_focus()
-        
+
+    def timer_cb(self, button, icons):
+        button.set_icon_widget(icons['bw'])
+        button.show_all()
+        return False
+
+    def flash_cb(self, button, icons):
+        button.set_icon_widget(icons['color'])
+        button.show_all()
+        gobject.timeout_add(400, self.timer_cb, button, icons)
+
     def clearbutton_cb(self, button):
         self.save()
         global text_buffer
@@ -295,10 +330,10 @@ class PippyActivity(ViewSourceActivity):
         from shutil import copy2
         self.stopbutton_cb(button) # try stopping old code first.
         self._reset_vte()
-        
+
         # FIXME: We're losing an odd race here
         # gtk.main_iteration(block=False)
-        
+
         pippy_app_name = '%s/tmp/pippy_app.py' % self.get_activity_root()
         self._write_text_buffer(pippy_app_name)
         # write activity.py here too, to support pippy-based activities.
@@ -415,14 +450,14 @@ class PippyActivity(ViewSourceActivity):
         text = text_buffer.get_text(start, end)
         _file = open(file_path, 'w')
         _file.write(text)
-    
+
     def read_file(self, file_path):
         text = open(file_path).read()
         # discard the '#!/usr/bin/python' and 'coding: utf-8' lines, if present
         text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
         global text_buffer
         text_buffer.set_text(text)
-        
+
     def _shared_cb(self, activity):
         self._logger.debug('My activity was shared')
         self.initiating = True
