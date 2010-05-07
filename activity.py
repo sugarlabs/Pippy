@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright 2007-8 One Laptop per Child Association, Inc.
+# Copyright (C) 2007,2008 One Laptop per Child Association, Inc.
 # Written by C. Scott Ananian <cscott@laptop.org>
 #
 # This program is free software; you can redistribute it and/or modify
