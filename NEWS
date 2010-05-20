@@ -1,4 +1,4 @@
-?
+36
 * Add COPYING based on activity.info license field, verify source file
   licenses, include LICENSE from Elements upstream SVN, fixes
   Sugarlabs.org #1571 and laptop.org #9181. (James Cameron)
