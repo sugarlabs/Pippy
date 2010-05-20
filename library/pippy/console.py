@@ -26,16 +26,8 @@ def size():
     os.write(fd, '\x1B[18t')        # write the 'query screen size' command
     read_to_delimit('\x1b')         # parse response.
     read_to_delimit('[')
-    size = read_to_delimit('t')
-    # Output can be '8;rows;cols' or 'rows;cols' depending on vte version.
-    # (SL #843)
-    values = size.split(';')
-    if len(values) == 3:
-        rows = int(values[1])
-        cols = int(values[2])
-    else:
-        rows = int(values[0])
-        cols = int(values[1])
+    rows = int(read_to_delimit(';'))
+    cols = int(read_to_delimit('t'))
     termios.tcsetattr(fd, termios.TCSANOW, oldattr) # reset tty
     return cols, rows
 
