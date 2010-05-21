@@ -1,4 +1,8 @@
-# slideshow: show datastore photos 
+# slideshow: show datastore photos
+
+# FIXME: does not currently work, because no objects are returned by
+# the journal query.
+
 def pippy_activity_class(): return 'activity.PyGameActivity'
 if __name__ == '__main__':
   import gst, pippy, pygame, sys, time
@@ -6,12 +10,9 @@ if __name__ == '__main__':
 
   from random import *
 
-  # XO screen is 1200 by 900
-  size = width, height = 1200, 900
-
   # grey background
-  bgcolor = (128,128,128)
-  
+  bgcolor = (128, 128, 128)
+
   # Create a search dict
   search = {}
   search["mime_type"] = "image/jpeg"
@@ -38,9 +39,9 @@ if __name__ == '__main__':
   # turn off cursor
   pygame.mouse.set_visible(False)
 
-  # create the pygame window at the desired size and return a Surface object for
+  # create the pygame window and return a Surface object for
   # drawing in that window.
-  screen = pygame.display.set_mode(size)
+  screen = pygame.display.set_mode()
 
   # load in previously grabbed frame
   image = pygame.image.load(next_image.next())

@@ -12,19 +12,19 @@ for i in xrange(0,50):
     print "_|_"
     print "   "
     pippy.wait()
-    
+
     pippy.console.clear()
     print "_o_"
     print " | "
     print "/ \\"
     pippy.wait()
-    
+
     pippy.console.clear()
     print " o "
     print "/|\\"
     print "| |"
     pippy.wait()
-    
+
     pippy.console.clear()
     print "_o_"
     print " | "

@@ -1,50 +1,57 @@
-# image: take a picture
+# camera: take a picture, animate it on screen
 
 import gst, pippy, pygame, sys, time
-from random import *
-
-# XO screen is 1200 by 900
-size = width, height = 1200, 900
 
 # grey background
-bgcolor = (128,128,128)
+bgcolor = (128, 128, 128)
 
 # grab a frame from camera to file
 pipeline = gst.parse_launch('v4l2src ! ffmpegcolorspace ! jpegenc ! filesink location=/tmp/pippypic.jpg')
 pipeline.set_state(gst.STATE_PLAYING)
 
-# pygame always needs to be initialized as the first call
+# start using pygame
 pygame.init()
 
 # turn off cursor
 pygame.mouse.set_visible(False)
 
-# create the pygame window at the desired size and return a Surface object for
+# create the pygame window and return a Surface object for
 # drawing in that window.
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode()
 
+# pause for a second to allow the camera frame to be grabbed
 time.sleep(1)
+
+# stop the camera frame grabbing
 pipeline.set_state(gst.STATE_NULL)
 
-# load in previously grabbed frame
+# load in the grabbed camera frame
 image = pygame.image.load("/tmp/pippypic.jpg")
 
 angle = 0.0
 scale = 2.0
 
 while pippy.pygame.next_frame():
+  # every time we animate, check for quit or keydown events and exit
   for event in pygame.event.get():
     if event.type == pygame.QUIT: sys.exit()
     elif event.type == pygame.KEYDOWN: sys.exit()
 
-  newImage = pygame.transform.rotozoom(image, angle,scale)
+  # angle and scale the image
+  newImage = pygame.transform.rotozoom(image, angle, scale)
   newImageRect = newImage.get_rect()
   newImageRect.centerx = screen.get_rect().centerx
   newImageRect.centery = screen.get_rect().centery
 
+  # display the angled and scaled image
   screen.fill(bgcolor)
   screen.blit(newImage, newImageRect)
   pygame.display.flip()
 
+  # choose a new angle and scale
   angle = angle + 5.0
   scale = scale * 0.95
+
+  # finish once the scale becomes very very small
+  if scale < 0.001:
+    break

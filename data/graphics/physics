@@ -6,12 +6,12 @@ from pippy import physics
 
 # initialize pygame first thing
 pygame.init()
-screen = pygame.display.set_mode((1200,900))
- 
+screen = pygame.display.set_mode()
+
 # set up the physics world (instance of Elements)
 world = physics.Elements(screen.get_size())
 world.renderer.set_surface(screen)
-       
+
 # set up initial physics objects
 world.add.ground()
 world.add.ball((600,0), 50)
@@ -19,9 +19,9 @@ world.add.rect((500,0), 25, 300, dynamic=True, density=1.0, restitution=0.16, fr
 
 # add 20 more balls
 balls = 0
-while(balls<20):
-    world.add.ball((balls*5+200,balls*5), 50)
-    balls+=1
+while(balls < 20):
+    world.add.ball((balls*5+200, balls*5), 50)
+    balls += 1
 
 # begin physics simulation
 world.run_physics = True
@@ -46,8 +46,8 @@ while pippy.pygame.next_frame() and world.run_physics:
             world.mouse_move(event.pos)
 
     # clear display with a color
-    # (r,g,b), where 0<=value<256
-    screen.fill((80,160,240))
+    # (red, green, blue), where 0 <= value < 256
+    screen.fill((80, 160, 240))
 
     # update & draw physics world
     world.update()
@@ -55,4 +55,3 @@ while pippy.pygame.next_frame() and world.run_physics:
 
     # update the display
     pygame.display.flip()
-

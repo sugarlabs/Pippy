@@ -13,7 +13,7 @@ from pygame.color import *
 from pippy.physics import box2d
 
 class XOlympicsGame:
-    def __init__(self,screen):
+    def __init__(self):
         self.rightscore = self.leftscore = 0
         self.forcespeed = 75
         self.jumpforce = 20
@@ -27,31 +27,34 @@ class XOlympicsGame:
         self.rightJump = False
         self.updateList = []
 
-        self.screen = pygame.display.set_mode((1200,900)) 
+        self.screen = pygame.display.set_mode()
+        self.width, self.height = self.screen.get_size()
 
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(None, 24) # font object
 
         # set up the world (instance of Elements)
         self.world = physics.Elements(self.screen.get_size())
         self.world.renderer.set_surface(self.screen)
         # set up static environment
-        self.world.set_color((0, 255, 0))  
+        self.world.set_color((0, 255, 0))
         self.world.add.ground()
-        self.ball = self.world.add.ball((600, 0), 50)
+        self.ball = self.world.add.ball((self.width / 2, 0), 50)
         # add the left border and player (red)
-        self.world.set_color((255, 0, 0))  
-        self.world.add.rect((0,-20), 25, 900, dynamic=False, density=1.0, restitution=0.16, friction=0.5)   
-        self.leftplayer = self.world.add.poly(( 264.0, 81.0 ),  ((-109.9405166666667, -64.244016666666653), (110.60718333333335, -63.089316666666605), (-0.66666666666668561, 127.33333333333337)) , dynamic=True, density=1.0, restitution=0.16, friction=0.5, screenCoord=False)
-        # add the right border and player (blue) 
-        self.world.set_color((0, 0, 255))  
-        self.world.add.rect((1180,-20), 25, 900, dynamic=False, density=1.0, restitution=0.16, friction=0.5)   
-        self.rightplayer = self.world.add.poly(( 885.0, 78.0 ),  [(108.94051666666667, -65.976066666666611), (2.6666666666666288, 127.33333333333337), (-111.60718333333341, -61.357266666666646)] , dynamic=True, density=1.0, restitution=0.16, friction=0.5, screenCoord=False)
-        # we're getting 2 grounds - grey and green. wtf.  
-        self.leftplayer.linearDamping = 0.07
-        self.test = self.leftplayer.GetWorldCenter() 
+        self.world.set_color((255, 0, 0))
+        self.world.add.rect((0, -20), 25, self.height,
+                                      dynamic=False, density=1.0,
+                                      restitution=0.16, friction=0.5)
+        self.leftplayer = self.world.add.poly(( self.width * 0.25, 81.0 ),  [(-109.9405166666667, -64.244016666666653), (110.60718333333335, -63.089316666666605), (-0.66666666666668561, 127.33333333333337)] , dynamic=True, density=1.0, restitution=0.16, friction=0.5, screenCoord=False)
+        # add the right border and player (blue)
+        self.world.set_color((0, 0, 255))
+        self.world.add.rect((self.width, -20), 25, self.height,
+                                      dynamic=False, density=1.0,
+                                      restitution=0.16, friction=0.5)
+        self.rightplayer = self.world.add.poly(( self.width * 0.75, 81.0 ),  [(108.94051666666667, -65.976066666666611), (2.6666666666666288, 127.33333333333337), (-111.60718333333341, -61.357266666666646)] , dynamic=True, density=1.0, restitution=0.16, friction=0.5, screenCoord=False)
+        # we're getting 2 grounds - grey and green. why?
+
     def run(self):
-        self.running = True    
+        self.running = True
         while self.running:
 
             for event in pygame.event.get():
@@ -84,11 +87,11 @@ class XOlympicsGame:
                 if (event.type == KEYDOWN and (event.key == K_UP or event.key == K_KP9)):
                     self.rightJump = True
                 if (event.type == KEYUP and (event.key == K_UP or event.key == K_KP9)):
-                    self.rightJump = False            
+                    self.rightJump = False
                 if (event.type == KEYDOWN and (event.key == K_DOWN or event.key == K_KP3)):
                     self.rightDPress = True
                 if (event.type == KEYUP and (event.key == K_DOWN or event.key == K_KP3)):
-                    self.rightDPress = False             
+                    self.rightDPress = False
 
             if self.leftLPress:
                 self.leftplayer.ApplyForce(box2d.b2Vec2(-self.forcespeed,0), self.leftplayer.GetWorldCenter())
@@ -102,49 +105,46 @@ class XOlympicsGame:
             if self.rightRPress:
                 self.rightplayer.ApplyForce(box2d.b2Vec2(self.forcespeed,0), self.rightplayer.GetWorldCenter())
             if self.rightDPress:
-	            self.rightplayer.ApplyImpulse(box2d.b2Vec2(0,-self.jumpforce), self.rightplayer.GetWorldCenter())
+                self.rightplayer.ApplyImpulse(box2d.b2Vec2(0,-self.jumpforce), self.rightplayer.GetWorldCenter())
             if self.rightJump:
                 if self.rightplayer.GetWorldCenter().y < 0.75:
-	                self.rightplayer.ApplyImpulse(box2d.b2Vec2(0,self.jumpforce), self.rightplayer.GetWorldCenter())
+                    self.rightplayer.ApplyImpulse(box2d.b2Vec2(0,self.jumpforce), self.rightplayer.GetWorldCenter())
             if self.leftDPress:
 	            self.leftplayer.ApplyImpulse(box2d.b2Vec2(0,-self.jumpforce), self.leftplayer.GetWorldCenter())
 
-           # Clear Display
+            # Clear Display
             if self.ball.GetWorldCenter().x < 1:
                 self.leftscore += 1
                 print "Goal Blue!", self.leftscore
                 self.world.set_color((0, 0, 255))
-                self.ball = self.world.add.ball((600, 0), 50)
+                self.ball = self.world.add.ball((self.width/2, 0), 50)
             elif self.ball.GetWorldCenter().x > 11:
+                # FIXME: the 11 above works only when display width is
+                # 1200 pixels
                 self.rightscore += 1
                 print "Goal Red!", self.rightscore
                 self.world.set_color((255, 0, 0))
-                self.ball = self.world.add.ball((600, 0), 50)
+                self.ball = self.world.add.ball((self.width/2, 0), 50)
 
-            self.screen.fill((255,255,255)) 
+            self.screen.fill((255,255,255))
             # Update & Draw World
             self.world.update()
             self.world.draw()
-           
+
             # Flip Display
-            pygame.display.flip()  
-            
+            pygame.display.flip()
+
             # Try to stay at 30 FPS
-            self.clock.tick(30) # originally 50    
+            self.clock.tick(30) # originally 50
 
 def main():
-    toolbarheight = 0
-    tabheight = 0
     pygame.init()
     pygame.display.init()
-    x,y  = pygame.display.list_modes()[0]
-    screen = pygame.display.set_mode((x,y-toolbarheight))#-tabheight))
     # create an instance of the game
-    game = XOlympicsGame(screen) 
+    game = XOlympicsGame()
     # start the main loop
     game.run()
 
-# make sure that main get's called
+# make sure that main is called
 if __name__ == '__main__':
     main()
-
