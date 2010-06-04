@@ -1,7 +1,15 @@
-?
+36
 * Add COPYING based on activity.info license field, verify source file
   licenses, include LICENSE from Elements upstream SVN, fixes
   Sugarlabs.org #1571 and laptop.org #9181. (James Cameron)
+* Fixed pippy layout so that it doesn't break at any resolution other 
+  than 1200x900. (Anish Mangal)
+* Moved the start, stop and run buttons to the activity toolbar. 
+  (Anish Mangal)
+
+35
+* Add collaborative editing with Groupthink
+* Fix self-generated bundles by including port/ (and now groupthink/)
 
 34
 * Editor: enable autotabbing, space tabs,

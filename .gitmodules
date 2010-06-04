@@ -1,0 +1,3 @@
+[submodule "dobject"]
+	path = dobject
+	url = git://dev.laptop.org/projects/dobject
