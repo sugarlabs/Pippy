@@ -54,7 +54,7 @@ while pippy.pygame.next_frame():
     elif event.type == KEYDOWN:
       sys.exit()
 
-  # fill the screen with white
+  # fill the screen with almost white
   screen.fill((250, 250, 250))
 
   # draw the text

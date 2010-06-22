@@ -46,7 +46,6 @@ while pippy.pygame.next_frame() and world.run_physics:
             world.mouse_move(event.pos)
 
     # clear display with a color
-    # (red, green, blue), where 0 <= value < 256
     screen.fill((80, 160, 240))
 
     # update & draw physics world

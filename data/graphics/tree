@@ -61,8 +61,8 @@ screen.fill(bgcolor)
 draw_tree((width / 2), height - 20, start_length, 0)
 pygame.display.flip()
 
+# do nothing visible until the escape key is pressed
 while pippy.pygame.next_frame():
-  # chill until escape key is pressed
   for event in pygame.event.get():
     if event.type == QUIT:
         sys.exit()

@@ -37,18 +37,18 @@ while pippy.pygame.next_frame():
     if event.type == pygame.QUIT: sys.exit()
     elif event.type == pygame.KEYDOWN: sys.exit()
 
-  # angle and scale the image
+  # rotate and scale the image
   newImage = pygame.transform.rotozoom(image, angle, scale)
   newImageRect = newImage.get_rect()
   newImageRect.centerx = screen.get_rect().centerx
   newImageRect.centery = screen.get_rect().centery
 
-  # display the angled and scaled image
+  # display the rotated and scaled image
   screen.fill(bgcolor)
   screen.blit(newImage, newImageRect)
   pygame.display.flip()
 
-  # choose a new angle and scale
+  # choose a new rotation angle and scale
   angle = angle + 5.0
   scale = scale * 0.95
 
