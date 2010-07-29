@@ -2,82 +2,36 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="44"
    height="44"
-   id="svg2"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="eraser_color.svg">
-  <metadata
-     id="metadata11">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="640"
-     inkscape:window-height="504"
-     id="namedview9"
-     showgrid="false"
-     inkscape:zoom="5.4883721"
-     inkscape:cx="25"
-     inkscape:cy="21.5"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="svg2" />
+   id="svg2">
   <defs
-     id="defs5">
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 21.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="50 : 21.5 : 1"
-       inkscape:persp3d-origin="25 : 14.333333 : 1"
-       id="perspective13" />
-  </defs>
+     id="defs5" />
   <g
-     id="g2819"
-     transform="matrix(0.87909457,0,0,1,0.01627991,0)">
+     transform="matrix(0.87909457,0,0,1,0.01627991,0)"
+     id="g2819">
     <path
-       style="fill:#c44000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
+       d="m 36.61535,27.125 0,-8.375 12.5,-13.5 -1.5,10.5 -11,11.375 z"
        id="path2394"
-       d="m 36.61535,27.125 0,-8.375 12.5,-13.5 -1.5,10.5 -11,11.375 z" />
+       style="fill:#c44000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none" />
     <path
-       style="fill:#c44000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 15.61535,18.75 13.5,-13.5 20,0 -12.5,13.5 -21,0 z"
        id="path2390"
-       d="m 15.61535,18.75 13.5,-13.5 20,0 -12.5,13.5 -21,0 z" />
+       style="fill:#c44000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <path
-       style="fill:#c4a000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
+       d="m 23.416068,39.75 2.692998,-10 10.506284,-11 0,8.375 -13.199282,12.625 z"
        id="path2392"
-       d="m 23.416068,39.75 2.692998,-10 10.506284,-11 0,8.375 -13.199282,12.625 z" />
+       style="fill:#c4a000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none" />
     <path
-       style="fill:#c4a000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
+       d="m 4.5650808,29.75 11.0502692,-11 21,0 -10.86535,11 -21.1849192,0 z"
        id="path2388"
-       d="m 4.5650808,29.75 11.0502692,-11 21,0 -10.86535,11 -21.1849192,0 z" />
+       style="fill:#c4a000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none" />
     <path
-       style="fill:#e0d000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
+       d="m 0.88464991,39.75 3.59066429,-10 21.1849188,0 -2.603231,10 -22.17235209,0 z"
        id="path2384"
-       d="m 0.88464991,39.75 3.59066429,-10 21.1849188,0 -2.603231,10 -22.17235209,0 z" />
+       style="fill:#e0d000;fill-opacity:1;stroke:#a00000;stroke-width:1.5;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none" />
   </g>
 </svg>
