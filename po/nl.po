@@ -2,19 +2,24 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-27 00:30-0400\n"
-"PO-Revision-Date: 2008-06-29 16:52-0400\n"
-"Last-Translator: Myckel Habets <myckel@sdf.lonestar.org>\n"
+"PO-Revision-Date: 2010-06-22 15:25+0200\n"
+"Last-Translator: whe <heppew@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.1.0rc2\n"
+"X-Generator: Pootle 2.0.3\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -27,7 +32,7 @@ msgstr "%s Bron"
 
 #: activity.py:62
 msgid "Copy selected text to clipboard"
-msgstr "Kopieer geselecteerde tekst naar klembord."
+msgstr "Kopieer geselecteerde tekst naar klembord"
 
 #: activity.py:67
 msgid "Edit"
@@ -39,7 +44,7 @@ msgstr "GEPAUZEERD"
 
 #: library/pippy/sound.py:179
 msgid "Please install TamTamEdit's sound library."
-msgstr "Installeer a.u.b. TamTamEdit's geluidsbibliotheek."
+msgstr "Installeer aub TamTamEdit's geluidsbibliotheek."
 
 #: pippy_app.py:61
 msgid "As Pippy Document"
@@ -55,7 +60,7 @@ msgstr "Voorbeelden"
 
 #: pippy_app.py:152
 msgid "_Run!"
-msgstr "Uitvoe_ren!"
+msgstr "_Uitvoeren!"
 
 #: pippy_app.py:252
 #, python-format
