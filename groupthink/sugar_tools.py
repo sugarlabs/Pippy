@@ -28,6 +28,13 @@ import gobject
 
 import groupthink_base as groupthink
 
+OLD_TOOLBAR = False
+try:
+    from sugar.graphics.toolbarbox import ToolbarBox, ToolbarButton
+    from sugar.activity.widgets import ActivityToolbarButton
+except ImportError:
+    OLD_TOOLBAR = True
+
 def exhaust_event_loop():
     while gtk.events_pending():
         gtk.main_iteration()
@@ -69,11 +76,17 @@ class GroupActivity(Activity):
         else:
             self.message = self.message_preparing
 
-        # top toolbar with share and close buttons:
-        toolbox = ActivityToolbox(self)
-        self.set_toolbox(toolbox)
-        toolbox.show()
-        
+        if OLD_TOOLBAR:
+            self.toolbox = ActivityToolbox(self)
+            self.set_toolbox(self.toolbox)
+            self.toolbox.show()
+            self.set_toolbox(self.toolbox)
+        else:
+            toolbar_box = ToolbarBox()
+            self.activity_button = ActivityToolbarButton(self)
+            toolbar_box.toolbar.insert(self.activity_button, 0)
+            self.set_toolbar_box(toolbar_box)
+
         v = gtk.VBox()
         self.startup_label = gtk.Label(self.message)
         v.pack_start(self.startup_label)

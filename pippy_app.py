@@ -30,9 +30,10 @@ from port.style import font_zoom
 from signal import SIGTERM
 from gettext import gettext as _
 
+from sugar.activity import activity
 from activity import ViewSourceActivity, TARGET_TYPE_TEXT
 from sugar.activity.activity import ActivityToolbox, \
-     get_bundle_path, get_bundle_name
+     EditToolbar, get_bundle_path, get_bundle_name
 from sugar.graphics import style
 from sugar.graphics.toolbutton import ToolButton
 
@@ -44,6 +45,13 @@ text_buffer = None
 PYTHON_PREFIX="""#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
+
+OLD_TOOLBAR = False
+try:
+    from sugar.graphics.toolbarbox import ToolbarBox, ToolbarButton
+    from sugar.activity.widgets import StopButton
+except ImportError:
+    OLD_TOOLBAR = True
 
 # get screen sizes
 SIZE_X = gtk.gdk.screen_width()
@@ -62,10 +70,14 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._logger = logging.getLogger('pippy-activity')
 
         # Top toolbar with share and close buttons:
-        toolbox = ActivityToolbox(self)
-        activity_toolbar = toolbox.get_activity_toolbar()
+
+        if OLD_TOOLBAR:
+            activity_toolbar = self.toolbox.get_activity_toolbar()
+        else:
+            activity_toolbar = self.activity_button.page
+
         # add 'make bundle' entry to 'keep' palette.
-        palette = toolbox.get_activity_toolbar().keep.get_palette()
+        palette = activity_toolbar.keep.get_palette()
         # XXX: should clear out old palette entries?
         from sugar.graphics.menuitem import MenuItem
         from sugar.graphics.icon import Icon
@@ -80,6 +92,32 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         palette.menu.append(menu_item)
         menu_item.show()
 
+        self._edit_toolbar = activity.EditToolbar()
+
+        if OLD_TOOLBAR:
+            activity_toolbar = gtk.Toolbar()
+            self.toolbox.add_toolbar('Actions', activity_toolbar)
+            self.toolbox.set_current_toolbar(1)
+            self.toolbox.add_toolbar(_('Edit'), self._edit_toolbar)
+        else:
+            edit_toolbar_button = ToolbarButton()
+            edit_toolbar_button.set_page(self._edit_toolbar)
+            edit_toolbar_button.props.icon_name = 'toolbar-edit'
+            edit_toolbar_button.props.label = _('Edit')
+            self.get_toolbar_box().toolbar.insert(edit_toolbar_button, -1)
+
+        self._edit_toolbar.show()
+
+        self._edit_toolbar.undo.connect('clicked', self.__undobutton_cb)
+        self._edit_toolbar.redo.connect('clicked', self.__redobutton_cb)
+        self._edit_toolbar.copy.connect('clicked', self.__copybutton_cb)
+        self._edit_toolbar.paste.connect('clicked', self.__pastebutton_cb)
+
+        if OLD_TOOLBAR:
+            actions_toolbar = activity_toolbar
+        else:
+            actions_toolbar = self.get_toolbar_box().toolbar
+
         # The "go" button
         goicon_bw = gtk.Image()
         goicon_bw.set_from_file("%s/icons/run_bw.svg" % os.getcwd())
@@ -92,7 +130,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         gobutton.connect('clicked', self.flash_cb, dict({'bw':goicon_bw,
             'color':goicon_color}))
         gobutton.connect('clicked', self.gobutton_cb)
-        activity_toolbar.insert(gobutton, 2)
+        actions_toolbar.insert(gobutton, -1)
 
         # The "stop" button
         stopicon_bw = gtk.Image()
@@ -106,7 +144,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             'color':stopicon_color}))
         stopbutton.connect('clicked', self.stopbutton_cb)
         stopbutton.set_tooltip("Stop Running")
-        activity_toolbar.insert(stopbutton, 3)
+        actions_toolbar.insert(stopbutton, -1)
 
         # The "clear" button
         clearicon_bw = gtk.Image()
@@ -120,16 +158,19 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         clearbutton.connect('clicked', self.flash_cb, dict({'bw':clearicon_bw,
             'color':clearicon_color}))
         clearbutton.set_tooltip("Clear")
-        activity_toolbar.insert(clearbutton, 4)
+        actions_toolbar.insert(clearbutton, -1)
 
-        # A vertical toolbar separator
-        separator = gtk.SeparatorToolItem()
-        separator.set_draw(True)
-        activity_toolbar.insert(separator, 5)
-        activity_toolbar.show_all()
+        activity_toolbar.show()
 
-        self.set_toolbox(toolbox)
-        toolbox.show()
+        if not OLD_TOOLBAR:
+            separator = gtk.SeparatorToolItem()
+            separator.props.draw = False
+            separator.set_expand(True)
+            self.get_toolbar_box().toolbar.insert(separator, -1)
+            separator.show()
+
+            stop = StopButton(self)
+            self.get_toolbar_box().toolbar.insert(stop, -1)
 
         # Main layout.
         self.hpane = gtk.HPaned()
@@ -244,6 +285,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.hpane.remove(self.hpane.get_child1())
         global text_buffer
         self.cloud.sharefield = groupthink.gtk_tools.TextBufferSharePoint(text_buffer)
+        # HACK : There are issues with undo/redoing while in shared
+        # mode. So disable the 'undo' and 'redo' buttons when the activity
+        # is shared.
+        self._edit_toolbar.undo.set_sensitive(False)
+        self._edit_toolbar.redo.set_sensitive(False)
 
     def vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
@@ -296,6 +342,25 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def _reset_vte(self):
         self._vte.grab_focus()
         self._vte.feed("\x1B[H\x1B[J\x1B[0;39m")
+
+    def __undobutton_cb(self, button):
+        global text_buffer
+        if text_buffer.can_undo():
+            text_buffer.undo()
+
+    def __redobutton_cb(self, button):
+        global text_buffer
+        if text_buffer.can_redo():
+            text_buffer.redo()
+
+    def __copybutton_cb(self, button):
+        global text_buffer
+        text_buffer.copy_clipboard(gtk.Clipboard())
+
+    def __pastebutton_cb(self, button):
+        global text_buffer
+        text_buffer.paste_clipboard(gtk.Clipboard(), None, True)
+
 
     def gobutton_cb(self, button):
         from shutil import copy2
