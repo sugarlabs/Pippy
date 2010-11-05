@@ -4,7 +4,7 @@ bundle_id = org.laptop.Pippy
 service_name = org.laptop.Pippy
 exec = sugar-activity pippy_app.PippyActivity
 icon = activity-icon
-activity_version = 37
+activity_version = 38
 mime_types = text/x-python, pickle/groupthink-pippy
 show_launcher = yes
 

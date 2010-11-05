@@ -1,3 +1,10 @@
+38
+* Fix svg icons for Pippy
+* Add EditToolbar & modify toolbars for <=0.84 compatibility 
+  (Gonzalo and Anish)
+* Remove the 'dobject'/groupthink submodule
+* Switch activity.info from class to exec
+
 37
 * Remove broken slideshow until it is fixed #2054 (James Cameron)
 * Adapt pippy examples to screen dimensions (except xolyimpics), 
