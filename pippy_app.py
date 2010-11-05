@@ -96,7 +96,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         if OLD_TOOLBAR:
             activity_toolbar = gtk.Toolbar()
-            self.toolbox.add_toolbar('Actions', activity_toolbar)
+            self.toolbox.add_toolbar(_('Actions'), activity_toolbar)
             self.toolbox.set_current_toolbar(1)
             self.toolbox.add_toolbar(_('Edit'), self._edit_toolbar)
         else:
