@@ -1,4 +1,4 @@
-# Copyright (C) 2007,2008 One Laptop per Child Association, Inc.
+# Copyright (C) 2007,2008,2010 One Laptop per Child Association, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@
 """Pippy standard library."""
 import pippy.console as console
 import pippy.game as pygame
-#import pippy.physics as physics
 
 try:
     import pippy.sound as sound
 except ImportError:
-    pass # this module fails to import on non-XOs.
+    pass  # this module fails to import on non-XOs.
+
 
 def wait(delay=0.1):
     """Pause briefly, for animations."""

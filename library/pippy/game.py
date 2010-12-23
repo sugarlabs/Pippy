@@ -16,6 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+
 def pause():
     """Display a "Paused" screen and suspend."""
     from gettext import gettext as _
@@ -25,19 +26,19 @@ def pause():
     old_screen = screen.copy()  # save this for later.
 
     # dim the screen and display the 'paused' message in the center.
-    BLACK = (0,0,0)
-    WHITE = (255,255,255)
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
     dimmed = screen.copy()
     dimmed.set_alpha(128)
     screen.fill(BLACK)
-    screen.blit(dimmed, (0,0))
-    font = pygame.font.Font(None, 36) # 36px high
+    screen.blit(dimmed, (0, 0))
+    font = pygame.font.Font(None, 36)  # 36px high
     msg = _("PAUSED")
     msg_surf = font.render(msg, True, BLACK, WHITE)
+
     def center(rect, screen):
-        rect.center = (screen.get_width()/2, screen.get_height()/2)
-    
-    rect = pygame.Rect((0,0),msg_surf.get_size())
+        rect.center = (screen.get_width() / 2, screen.get_height() / 2)
+    rect = pygame.Rect((0, 0), msg_surf.get_size())
     rect.inflate_ip(rect.width, rect.height)
     center(rect, screen)
     screen.fill(WHITE, rect)
@@ -48,17 +49,19 @@ def pause():
 
     # SUSPEND
     try:
-        raise RuntimeError() # XXX don't try this yet. we should use ohm.
-        open('/sys/power/state','w').write('mem')
-    except: # couldn't suspend (no permissions?)
+        raise RuntimeError()  # XXX don't try this yet. we should use ohm.
+        open('/sys/power/state', 'w').write('mem')
+    except:  # couldn't suspend (no permissions?)
         pygame.event.post(pygame.event.wait())
 
     pygame.display.set_caption(caption, icon_caption)
-    screen.blit(old_screen, (0,0))
+    screen.blit(old_screen, (0, 0))
     pygame.display.flip()
 
-_last_event_time=0
-_default_clock=None
+_last_event_time = 0
+_default_clock = None
+
+
 def next_frame(max_fps=20, idle_timeout=20, clock=None, pause=pause):
     """Limit maximum frame rate of pygame.  Returns True.
 
@@ -76,9 +79,8 @@ def next_frame(max_fps=20, idle_timeout=20, clock=None, pause=pause):
     if pygame.event.peek(xrange(pygame.NOEVENT, pygame.USEREVENT)):
         # we're not idle anymore.
         _last_event_time = pygame.time.get_ticks()
-    elif (pygame.time.get_ticks() - _last_event_time) >= idle_timeout*1000:
+    elif (pygame.time.get_ticks() - _last_event_time) >= idle_timeout * 1000:
         # we've been idle for a long time.  Pause & suspend.
         pause()
         _last_event_time = pygame.time.get_ticks()
-        
     return True
