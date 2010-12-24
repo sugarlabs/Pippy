@@ -1,3 +1,11 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # Spanish translations for PACKAGE package.
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -7,14 +15,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-27 00:30-0400\n"
-"PO-Revision-Date: 2008-06-22 18:22-0400\n"
-"Last-Translator: Maria del Pilar Saenz Rodriguez <mapisaro@gmail.com>\n"
+"PO-Revision-Date: 2010-02-26 09:00+0200\n"
+"Last-Translator: Alexander Dupuy <alex.dupuy@mac.com>\n"
 "Language-Team: Spanish\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.1.0rc2\n"
+"X-Generator: Pootle 2.0.1\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -39,7 +48,7 @@ msgstr "PAUSADO"
 
 #: library/pippy/sound.py:179
 msgid "Please install TamTamEdit's sound library."
-msgstr "Por favor instale la librería de sonido de TamTamEdit"
+msgstr "Por favor instale la librería de sonido de TamTamEdit."
 
 #: pippy_app.py:61
 msgid "As Pippy Document"
@@ -55,7 +64,7 @@ msgstr "Ejemplos"
 
 #: pippy_app.py:152
 msgid "_Run!"
-msgstr "_Empieza!"
+msgstr "¡_Empieza!"
 
 #: pippy_app.py:252
 #, python-format
@@ -80,11 +89,11 @@ msgstr "Bien"
 
 #: pippy_app.py:317
 msgid "Creating activity bundle..."
-msgstr "Creando una Actividad Empaquetada"
+msgstr "Creando una actividad empaquetada..."
 
 #: pippy_app.py:376
 msgid "Activity saved to journal."
-msgstr "Actividad Guardada en el diario"
+msgstr "Actividad guardada en el diario."
 
 #~ msgid "Stop!"
 #~ msgstr "Para!"
