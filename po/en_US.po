@@ -1,73 +1,94 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # English translations for PACKAGE package.
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # root <rafael@laptop.org>, 2007.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-11 19:42-0500\n"
-"PO-Revision-Date: 2007-09-29 01:32-0400\n"
-"Last-Translator: root <rafael@laptop.org>\n"
+"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"PO-Revision-Date: 2009-01-16 01:52-0500\n"
+"Last-Translator: Chris Leonard <cjl@laptop.org>\n"
 "Language-Team: English\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.1.0rc2\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Pippy"
 
 #: activity.py:26
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "%s Source"
+
+#: activity.py:62
+msgid "Copy selected text to clipboard"
+msgstr "Copy selected text to clipboard"
+
+#: activity.py:67
+msgid "Edit"
+msgstr "Edit"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
-msgstr ""
+msgstr "PAUSED"
 
-#: pippy_app.py:57
+#: library/pippy/sound.py:179
+msgid "Please install TamTamEdit's sound library."
+msgstr "Please install TamTamEdit's sound library."
+
+#: pippy_app.py:61
 msgid "As Pippy Document"
-msgstr ""
+msgstr "As Pippy Document"
 
-#: pippy_app.py:62
+#: pippy_app.py:66
 msgid "As Activity Bundle"
-msgstr ""
+msgstr "As Activity Bundle"
 
-#: pippy_app.py:79
+#: pippy_app.py:83
 msgid "Examples"
 msgstr "Examples"
 
-#: pippy_app.py:147
-#, fuzzy
+#: pippy_app.py:152
 msgid "_Run!"
-msgstr "Run!"
+msgstr " Run!"
 
-#: pippy_app.py:235
+#: pippy_app.py:252
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "%s Activity"
 
-#: pippy_app.py:290
+#: pippy_app.py:308
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Save as Activity Error"
 
-#: pippy_app.py:291
+#: pippy_app.py:309
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
 
-#: pippy_app.py:293
+#: pippy_app.py:311
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
-#: pippy_app.py:299
+#: pippy_app.py:317
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Creating activity bundle..."
 
-#: pippy_app.py:358
+#: pippy_app.py:376
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "Activity saved to journal."
 
 #~ msgid "Stop!"
 #~ msgstr "Stop!"
