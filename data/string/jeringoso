@@ -1,0 +1,21 @@
+# jeringoso is an innocent spanish way to talk used by kids,
+# you need to add an "p" before earch spanish vowel (a,e,i,o,u) and
+# the same vowel after the "p"
+# then you got a funny way to talk that parents will not understand.
+# ref: http://en.wikipedia.org/wiki/Jeringonza
+
+# first we define the spanish vowels
+vowels = ['a', 'e', 'i', 'o', 'u']
+
+# then we ask for a string to make the replacements
+text = raw_input("Please input your text to translate to jeringoso:")
+length = len(text)
+jeringoso = ""
+for i in range(length):
+    char = text[i]
+    if char in vowels:
+        jeringoso = jeringoso + char + "p" + char
+    else:
+        jeringoso = jeringoso + char
+
+print jeringoso
