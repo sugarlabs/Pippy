@@ -4,9 +4,6 @@ import pippy, pygame, sys
 from pygame.locals import *
 from random import *
 
-# XO screen is 1200x900
-size = width, height = 1200, 900
-
 # always need to init first thing
 pygame.init()
 
@@ -15,7 +12,11 @@ pygame.mouse.set_visible(False)
 
 # create the window and keep track of the surface
 # for drawing into
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode()
+
+# ask for screen's width and height
+size = width, height = screen.get_size()
+
 # start the screen all black
 screen.fill((0,0,0))
 
@@ -48,7 +49,7 @@ while pippy.pygame.next_frame():
   pygame.display.flip()
 
   # update the end points and the color
-  for i in range(2): 
+  for i in range(2):
     start[i] = start[i] + mvect_start[i]
     end[i]   = end[i]   + mvect_end[i]
 

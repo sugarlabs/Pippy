@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright 2007 Chris Ball, based on Collabora's "hellomesh" demo.
+# Copyright (C) 2007,2008,2009 Chris Ball, based on Collabora's
+# "hellomesh" demo.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,96 +21,200 @@
 from __future__ import with_statement
 import gtk
 import logging
-import telepathy
-import telepathy.client
 import pango
 import vte
-import re, os, os.path
+import re
+import os
 import gobject
 import time
 
+from port.style import font_zoom
 from signal import SIGTERM
 from gettext import gettext as _
-from dbus.service import method, signal
-from dbus.gobject_service import ExportedGObject
 
+from sugar.activity import activity
 from activity import ViewSourceActivity, TARGET_TYPE_TEXT
 from sugar.activity.activity import ActivityToolbox, \
-     get_bundle_path, get_bundle_name
-from sugar.presence import presenceservice
+     EditToolbar, get_bundle_path, get_bundle_name
+from sugar.graphics import style
+from sugar.graphics.toolbutton import ToolButton
 
-from sugar.presence.tubeconn import TubeConnection
-
-SERVICE = "org.laptop.Pippy"
-IFACE = SERVICE
-PATH = "/org/laptop/Pippy"
+import groupthink.sugar_tools
+import groupthink.gtk_tools
 
 text_buffer = None
 # magic prefix to use utf-8 source encoding
-PYTHON_PREFIX="""#!/usr/bin/python
+PYTHON_PREFIX = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
 
-class PippyActivity(ViewSourceActivity):
+OLD_TOOLBAR = False
+try:
+    from sugar.graphics.toolbarbox import ToolbarBox, ToolbarButton
+    from sugar.activity.widgets import StopButton
+except ImportError:
+    OLD_TOOLBAR = True
+
+# get screen sizes
+SIZE_X = gtk.gdk.screen_width()
+SIZE_Y = gtk.gdk.screen_height()
+
+groupthink_mimetype = 'pickle/groupthink-pippy'
+
+
+class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     """Pippy Activity as specified in activity.info"""
-    def __init__(self, handle):
-        """Set up the Pippy activity."""
-        super(PippyActivity, self).__init__(handle)
+    def early_setup(self):
+        global text_buffer
+        import gtksourceview2
+        text_buffer = gtksourceview2.Buffer()
+
+    def initialize_display(self):
         self._logger = logging.getLogger('pippy-activity')
 
         # Top toolbar with share and close buttons:
-        toolbox = ActivityToolbox(self)
+
+        if OLD_TOOLBAR:
+            activity_toolbar = self.toolbox.get_activity_toolbar()
+        else:
+            activity_toolbar = self.activity_button.page
+
         # add 'make bundle' entry to 'keep' palette.
-        palette = toolbox.get_activity_toolbar().keep.get_palette()
+        palette = activity_toolbar.keep.get_palette()
         # XXX: should clear out old palette entries?
         from sugar.graphics.menuitem import MenuItem
         from sugar.graphics.icon import Icon
         menu_item = MenuItem(_('As Pippy Document'))
-        menu_item.set_image(Icon(file=('%s/activity/activity-icon.svg' % get_bundle_path()), icon_size=gtk.ICON_SIZE_MENU))
+        menu_item.set_image(Icon(file=('%s/activity/activity-icon.svg' %
+                                       get_bundle_path()),
+                                 icon_size=gtk.ICON_SIZE_MENU))
         menu_item.connect('activate', self.keepbutton_cb)
         palette.menu.append(menu_item)
         menu_item.show()
         menu_item = MenuItem(_('As Activity Bundle'))
-        menu_item.set_image(Icon(file=('%s/activity/activity-default.svg' % get_bundle_path()), icon_size=gtk.ICON_SIZE_MENU))
+        menu_item.set_image(Icon(file=('%s/activity/activity-default.svg' %
+                                       get_bundle_path()),
+                                 icon_size=gtk.ICON_SIZE_MENU))
         menu_item.connect('activate', self.makebutton_cb)
         palette.menu.append(menu_item)
         menu_item.show()
-        self.set_toolbox(toolbox)
-        toolbox.show()
+
+        self._edit_toolbar = activity.EditToolbar()
+
+        if OLD_TOOLBAR:
+            activity_toolbar = gtk.Toolbar()
+            self.toolbox.add_toolbar(_('Actions'), activity_toolbar)
+            self.toolbox.set_current_toolbar(1)
+            self.toolbox.add_toolbar(_('Edit'), self._edit_toolbar)
+        else:
+            edit_toolbar_button = ToolbarButton()
+            edit_toolbar_button.set_page(self._edit_toolbar)
+            edit_toolbar_button.props.icon_name = 'toolbar-edit'
+            edit_toolbar_button.props.label = _('Edit')
+            self.get_toolbar_box().toolbar.insert(edit_toolbar_button, -1)
+
+        self._edit_toolbar.show()
+
+        self._edit_toolbar.undo.connect('clicked', self.__undobutton_cb)
+        self._edit_toolbar.redo.connect('clicked', self.__redobutton_cb)
+        self._edit_toolbar.copy.connect('clicked', self.__copybutton_cb)
+        self._edit_toolbar.paste.connect('clicked', self.__pastebutton_cb)
+
+        if OLD_TOOLBAR:
+            actions_toolbar = activity_toolbar
+        else:
+            actions_toolbar = self.get_toolbar_box().toolbar
+
+        # The "go" button
+        goicon_bw = gtk.Image()
+        goicon_bw.set_from_file("%s/icons/run_bw.svg" % os.getcwd())
+        goicon_color = gtk.Image()
+        goicon_color.set_from_file("%s/icons/run_color.svg" % os.getcwd())
+        gobutton = ToolButton(label=_("_Run!"))
+        gobutton.props.accelerator = _('<alt>r')
+        gobutton.set_icon_widget(goicon_bw)
+        gobutton.set_tooltip("Run")
+        gobutton.connect('clicked', self.flash_cb, dict({'bw': goicon_bw,
+            'color': goicon_color}))
+        gobutton.connect('clicked', self.gobutton_cb)
+        actions_toolbar.insert(gobutton, -1)
+
+        # The "stop" button
+        stopicon_bw = gtk.Image()
+        stopicon_bw.set_from_file("%s/icons/stopit_bw.svg" % os.getcwd())
+        stopicon_color = gtk.Image()
+        stopicon_color.set_from_file("%s/icons/stopit_color.svg" % os.getcwd())
+        stopbutton = ToolButton(label=_("_Stop"))
+        stopbutton.props.accelerator = _('<alt>s')
+        stopbutton.set_icon_widget(stopicon_bw)
+        stopbutton.connect('clicked', self.flash_cb, dict({'bw': stopicon_bw,
+            'color': stopicon_color}))
+        stopbutton.connect('clicked', self.stopbutton_cb)
+        stopbutton.set_tooltip("Stop Running")
+        actions_toolbar.insert(stopbutton, -1)
+
+        # The "clear" button
+        clearicon_bw = gtk.Image()
+        clearicon_bw.set_from_file("%s/icons/eraser_bw.svg" % os.getcwd())
+        clearicon_color = gtk.Image()
+        clearicon_color.set_from_file("%s/icons/eraser_color.svg" %
+                                      os.getcwd())
+        clearbutton = ToolButton(label=_("_Clear"))
+        clearbutton.props.accelerator = _('<alt>c')
+        clearbutton.set_icon_widget(clearicon_bw)
+        clearbutton.connect('clicked', self.clearbutton_cb)
+        clearbutton.connect('clicked', self.flash_cb, dict({'bw': clearicon_bw,
+            'color': clearicon_color}))
+        clearbutton.set_tooltip("Clear")
+        actions_toolbar.insert(clearbutton, -1)
+
+        activity_toolbar.show()
+
+        if not OLD_TOOLBAR:
+            separator = gtk.SeparatorToolItem()
+            separator.props.draw = False
+            separator.set_expand(True)
+            self.get_toolbar_box().toolbar.insert(separator, -1)
+            separator.show()
+
+            stop = StopButton(self)
+            self.get_toolbar_box().toolbar.insert(stop, -1)
 
         # Main layout.
-        hbox = gtk.HBox()
-        vbox = gtk.VBox()
-        
+        self.hpane = gtk.HPaned()
+        self.vpane = gtk.VPaned()
+
         # The sidebar.
-        sidebar = gtk.VBox()
+        self.sidebar = gtk.VBox()
         self.model = gtk.TreeStore(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING)
         treeview = gtk.TreeView(self.model)
         cellrenderer = gtk.CellRendererText()
         treecolumn = gtk.TreeViewColumn(_("Examples"), cellrenderer, text=1)
         treeview.get_selection().connect("changed", self.selection_cb)
         treeview.append_column(treecolumn)
-        treeview.set_size_request(220, 900)
+        treeview.set_size_request(int(SIZE_X * 0.3), SIZE_Y)
 
         # Create scrollbars around the view.
         scrolled = gtk.ScrolledWindow()
         scrolled.add(treeview)
-        sidebar.pack_start(scrolled)
-        hbox.pack_start(sidebar)
+        self.sidebar.pack_start(scrolled)
+        self.hpane.add1(self.sidebar)
 
         root = os.path.join(get_bundle_path(), 'data')
         for d in sorted(os.listdir(root)):
-            if not os.path.isdir(os.path.join(root,d)): continue #skip non-dirs
-            direntry = { "name": _(d.capitalize()),
-                         "path": os.path.join(root,d) + "/" }
+            if not os.path.isdir(os.path.join(root, d)):
+                continue  # skip non-dirs
+            direntry = {"name": _(d.capitalize()),
+                        "path": os.path.join(root, d) + "/"}
             olditer = self.model.insert_before(None, None)
             self.model.set_value(olditer, 0, direntry)
             self.model.set_value(olditer, 1, direntry["name"])
-                
+
             for _file in sorted(os.listdir(os.path.join(root, d))):
-                if _file.endswith('~'): continue # skip emacs backups
-                entry = { "name": _(_file.capitalize()),
-                          "path": os.path.join(root, d, _file) }
+                if _file.endswith('~'):
+                    continue  # skip emacs backups
+                entry = {"name": _(_file.capitalize()),
+                         "path": os.path.join(root, d, _file)}
                 _iter = self.model.insert_before(olditer, None)
                 self.model.set_value(_iter, 0, entry)
                 self.model.set_value(_iter, 1, entry["name"])
@@ -119,31 +224,35 @@ class PippyActivity(ViewSourceActivity):
         # Source buffer
         import gtksourceview2
         global text_buffer
-        text_buffer = gtksourceview2.Buffer()
         lang_manager = gtksourceview2.language_manager_get_default()
         if hasattr(lang_manager, 'list_languages'):
             langs = lang_manager.list_languages()
         else:
             lang_ids = lang_manager.get_language_ids()
-            langs = [lang_manager.get_language(lang_id) for lang_id in lang_ids]
+            langs = [lang_manager.get_language(lang_id)
+                     for lang_id in lang_ids]
         for lang in langs:
             for m in lang.get_mime_types():
                 if m == "text/x-python":
                     text_buffer.set_language(lang)
 
-        if hasattr(text_buffer,'set_highlight'):
+        if hasattr(text_buffer, 'set_highlight'):
             text_buffer.set_highlight(True)
         else:
             text_buffer.set_highlight_syntax(True)
 
         # The GTK source view window
         self.text_view = gtksourceview2.View(text_buffer)
-        self.text_view.set_size_request(900, 350)
+        self.text_view.set_size_request(0, int(SIZE_Y * 0.5))
         self.text_view.set_editable(True)
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
         self.text_view.set_wrap_mode(gtk.WRAP_CHAR)
-        self.text_view.modify_font(pango.FontDescription("Monospace 8"))
+        self.text_view.set_insert_spaces_instead_of_tabs(True)
+        self.text_view.set_tab_width(2)
+        self.text_view.set_auto_indent(True)
+        self.text_view.modify_font(pango.FontDescription("Monospace " +
+            str(font_zoom(style.FONT_SIZE))))
 
         # We could change the color theme here, if we want to.
         #mgr = gtksourceview2.style_manager_get_default()
@@ -154,101 +263,54 @@ class PippyActivity(ViewSourceActivity):
         codesw.set_policy(gtk.POLICY_AUTOMATIC,
                       gtk.POLICY_AUTOMATIC)
         codesw.add(self.text_view)
-        vbox.pack_start(codesw)
-
-        # An hbox for the buttons
-        buttonhbox = gtk.HBox()
-
-        # The "go" button
-        goicon = gtk.Image()
-        goicon.set_from_stock(gtk.STOCK_YES, gtk.ICON_SIZE_BUTTON)
-        gobutton = gtk.Button(label=_("_Run!"))
-        gobutton.set_image(goicon)
-        gobutton.connect('clicked', self.gobutton_cb)
-        gobutton.set_size_request(650, 2)
-        buttonhbox.pack_start(gobutton)
-
-        # The "stop" button
-        stopbutton = gtk.Button(stock=gtk.STOCK_STOP)
-        stopbutton.connect('clicked', self.stopbutton_cb)
-        stopbutton.set_size_request(200, 2)
-        buttonhbox.pack_start(stopbutton)
-
-        # The "clear" button
-        clearbutton = gtk.Button(stock=gtk.STOCK_CLEAR)
-        clearbutton.connect('clicked', self.clearbutton_cb)
-        clearbutton.set_size_request(150, 2)
-        buttonhbox.pack_end(clearbutton)
-
-        vbox.pack_start(buttonhbox)
+        self.vpane.add1(codesw)
 
         # An hbox to hold the vte window and its scrollbar.
         outbox = gtk.HBox()
-        
+
         # The vte python window
         self._vte = vte.Terminal()
         self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
-        self._vte.set_size_request(200, 300)
-        font = 'Monospace 8'
+        font = 'Monospace ' + str(font_zoom(style.FONT_SIZE))
         self._vte.set_font(pango.FontDescription(font))
-        self._vte.set_colors(gtk.gdk.color_parse ('#000000'),
-                             gtk.gdk.color_parse ('#E7E7E7'),
+        self._vte.set_colors(gtk.gdk.color_parse('#000000'),
+                             gtk.gdk.color_parse('#E7E7E7'),
                              [])
         self._vte.connect('child_exited', self.child_exited_cb)
         self._child_exited_handler = None
         self._vte.drag_dest_set(gtk.DEST_DEFAULT_ALL,
-                                [ ( "text/plain", 0, TARGET_TYPE_TEXT ) ],
+                                [("text/plain", 0, TARGET_TYPE_TEXT)],
                                 gtk.gdk.ACTION_COPY)
         self._vte.connect('drag_data_received', self.vte_drop_cb)
         outbox.pack_start(self._vte)
-        
+
         outsb = gtk.VScrollbar(self._vte.get_adjustment())
         outsb.show()
         outbox.pack_start(outsb, False, False, 0)
-        vbox.pack_end(outbox)
-        hbox.pack_end(vbox)
-        self.set_canvas(hbox)
-        self.show_all()
+        self.vpane.add2(outbox)
+        self.hpane.add2(self.vpane)
+        return self.hpane
 
-        
-        self.hellotube = None
-
-        # get the Presence Service
-        self.pservice = presenceservice.get_instance()
-        try:
-            name, path = self.pservice.get_preferred_connection()
-            self.tp_conn_name = name
-            self.tp_conn_path = path
-            self.conn = telepathy.client.Connection(name, path)
-        except TypeError:
-            self._logger.debug('No Telepathy CM, offline')
-        self.initiating = None
-        
-        self.connect('shared', self._shared_cb)
-
-        # Buddy object for you
-        owner = self.pservice.get_owner()
-        self.owner = owner
-
-        if self._shared_activity:
-            # we are joining the activity
-            self.connect('joined', self._joined_cb)
-            self._shared_activity.connect('buddy-joined',
-                                          self._buddy_joined_cb)
-            self._shared_activity.connect('buddy-left',
-                                          self._buddy_left_cb)
-            if self.get_shared():
-                # we've already joined
-                self._joined_cb()
+    def when_shared(self):
+        self.hpane.remove(self.hpane.get_child1())
+        global text_buffer
+        self.cloud.sharefield = \
+            groupthink.gtk_tools.TextBufferSharePoint(text_buffer)
+        # HACK : There are issues with undo/redoing while in shared
+        # mode. So disable the 'undo' and 'redo' buttons when the activity
+        # is shared.
+        self._edit_toolbar.undo.set_sensitive(False)
+        self._edit_toolbar.redo.set_sensitive(False)
 
     def vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
             self._vte.feed_child(selection.data)
+
     def selection_cb(self, column):
         self.save()
         model, _iter = column.get_selected()
-        value = model.get_value(_iter,0)
+        value = model.get_value(_iter, 0)
         self._logger.debug("clicked! %s" % value['path'])
         _file = open(value['path'], 'r')
         lines = _file.readlines()
@@ -258,7 +320,17 @@ class PippyActivity(ViewSourceActivity):
         self.stopbutton_cb(None)
         self._reset_vte()
         self.text_view.grab_focus()
-        
+
+    def timer_cb(self, button, icons):
+        button.set_icon_widget(icons['bw'])
+        button.show_all()
+        return False
+
+    def flash_cb(self, button, icons):
+        button.set_icon_widget(icons['color'])
+        button.show_all()
+        gobject.timeout_add(400, self.timer_cb, button, icons)
+
     def clearbutton_cb(self, button):
         self.save()
         global text_buffer
@@ -280,36 +352,56 @@ class PippyActivity(ViewSourceActivity):
                 f.write(PYTHON_PREFIX)
             for line in text:
                 f.write(line)
+
     def _reset_vte(self):
         self._vte.grab_focus()
         self._vte.feed("\x1B[H\x1B[J\x1B[0;39m")
 
+    def __undobutton_cb(self, button):
+        global text_buffer
+        if text_buffer.can_undo():
+            text_buffer.undo()
+
+    def __redobutton_cb(self, button):
+        global text_buffer
+        if text_buffer.can_redo():
+            text_buffer.redo()
+
+    def __copybutton_cb(self, button):
+        global text_buffer
+        text_buffer.copy_clipboard(gtk.Clipboard())
+
+    def __pastebutton_cb(self, button):
+        global text_buffer
+        text_buffer.paste_clipboard(gtk.Clipboard(), None, True)
+
     def gobutton_cb(self, button):
         from shutil import copy2
-        self.stopbutton_cb(button) # try stopping old code first.
+        self.stopbutton_cb(button)  # try stopping old code first.
         self._reset_vte()
-        
+
         # FIXME: We're losing an odd race here
         # gtk.main_iteration(block=False)
-        
+
         pippy_app_name = '%s/tmp/pippy_app.py' % self.get_activity_root()
         self._write_text_buffer(pippy_app_name)
         # write activity.py here too, to support pippy-based activities.
         copy2('%s/activity.py' % get_bundle_path(),
               '%s/tmp/activity.py' % self.get_activity_root())
 
-        self._pid = self._vte.fork_command \
-                    (command="/bin/sh",
-                     argv=["/bin/sh", "-c",
-                           "python %s; sleep 1" % pippy_app_name],
-                     envv=["PYTHONPATH=%s/library" % get_bundle_path()],
-                     directory=get_bundle_path())
+        self._pid = self._vte.fork_command(
+            command="/bin/sh",
+            argv=["/bin/sh", "-c",
+                  "python %s; sleep 1" % pippy_app_name],
+            envv=["PYTHONPATH=%s/library:%s" % (get_bundle_path(),
+                                                os.getenv("PYTHONPATH", ""))],
+            directory=get_bundle_path())
 
     def stopbutton_cb(self, button):
         try:
             os.kill(self._pid, SIGTERM)
         except:
-            pass # process must already be dead.
+            pass  # process must already be dead.
 
     def keepbutton_cb(self, __):
         self.copy()
@@ -323,18 +415,19 @@ class PippyActivity(ViewSourceActivity):
             from sugar.graphics.alert import Alert
             from sugar.graphics.icon import Icon
             alert = Alert()
-            alert.props.title =_ ('Save as Activity Error')
-            alert.props.msg = _('Please give your activity a meaningful name before attempting to save it as an activity.')
+            alert.props.title = _('Save as Activity Error')
+            alert.props.msg = _('Please give your activity a meaningful name '
+                                'before attempting to save it as an activity.')
             ok_icon = Icon(icon_name='dialog-ok')
             alert.add_button(gtk.RESPONSE_OK, _('Ok'), ok_icon)
             alert.connect('response', self.dismiss_alert_cb)
             self.add_alert(alert)
             return
-        self.stopbutton_cb(None) # try stopping old code first.
+        self.stopbutton_cb(None)  # try stopping old code first.
         self._reset_vte()
         self._vte.feed(_("Creating activity bundle..."))
         self._vte.feed("\r\n")
-        TMPDIR='instance' # XXX: should be 'tmp', once trac #1731 is fixed.
+        TMPDIR = 'instance'  # XXX: should be 'tmp', once trac #1731 is fixed.
         app_temp = mkdtemp('.activity', 'Pippy',
                            os.path.join(self.get_activity_root(), TMPDIR))
         sourcefile = os.path.join(app_temp, 'xyzzy.py')
@@ -345,24 +438,26 @@ class PippyActivity(ViewSourceActivity):
             # hook up a callback for when the bundle builder is done.
             # we can't use gobject.child_watch_add because vte will reap our
             # children before we can.
-            self._child_exited_handler = lambda: self.bundle_cb(title, app_temp)
+            self._child_exited_handler = \
+                lambda: self.bundle_cb(title, app_temp)
             # invoke bundle builder
-            self._pid = self._vte.fork_command \
-                    (command="/usr/bin/python",
-                     argv=["/usr/bin/python",
-                           "%s/pippy_app.py" % get_bundle_path(),
-                           '-p', '%s/library' % get_bundle_path(),
-                           '-d', app_temp,
-                           title, sourcefile],
-                     directory=app_temp)
+            self._pid = self._vte.fork_command(
+                command="/usr/bin/python",
+                argv=["/usr/bin/python",
+                      "%s/pippy_app.py" % get_bundle_path(),
+                      '-p', '%s/library' % get_bundle_path(),
+                      '-d', app_temp,
+                      title, sourcefile],
+                directory=app_temp)
         except:
-            rmtree(app_temp, ignore_errors=True) # clean up!
+            rmtree(app_temp, ignore_errors=True)  # clean up!
             raise
 
     def child_exited_cb(self, *args):
         """Called whenever a child exits.  If there's a handler, run it."""
         h, self._child_exited_handler = self._child_exited_handler, None
-        if h is not None: h()
+        if h is not None:
+            h()
 
     def bundle_cb(self, title, app_temp):
         """Called when we're done building a bundle for a source file."""
@@ -371,10 +466,12 @@ class PippyActivity(ViewSourceActivity):
         from sugar.datastore import datastore
         try:
             # find the .xo file: were we successful?
-            bundle_file=[ f for f in os.listdir(app_temp) if f.endswith('.xo') ]
+            bundle_file = [f for f in os.listdir(app_temp) \
+                           if f.endswith('.xo')]
             if len(bundle_file) != 1:
-                self._logger.debug("Couldn't find bundle: %s"%str(bundle_file))
-                return # something went wrong.
+                self._logger.debug("Couldn't find bundle: %s" %
+                                   str(bundle_file))
+                return  # something went wrong.
             # hand off to journal
             os.chmod(app_temp, 0755)
             jobject = datastore.create()
@@ -387,7 +484,7 @@ class PippyActivity(ViewSourceActivity):
                 'mime_type': 'application/vnd.olpc-sugar',
             }
             for k, v in metadata.items():
-                jobject.metadata[k] = v # the dict.update method is missing =(
+                jobject.metadata[k] = v  # the dict.update method is missing =(
             jobject.file_path = os.path.join(app_temp, bundle_file[0])
             datastore.write(jobject)
             self._vte.feed("\r\n")
@@ -396,197 +493,33 @@ class PippyActivity(ViewSourceActivity):
             self.journal_show_object(jobject.object_id)
             jobject.destroy()
         finally:
-            rmtree(app_temp, ignore_errors=True) # clean up!
+            rmtree(app_temp, ignore_errors=True)  # clean up!
 
     def dismiss_alert_cb(self, alert, response_id):
         self.remove_alert(alert)
 
-    def write_file(self, file_path):
-        self.metadata['mime_type'] = 'text/x-python'
-        global text_buffer
-        start, end = text_buffer.get_bounds()
-        text = text_buffer.get_text(start, end)
+    def save_to_journal(self, file_path, cloudstring):
         _file = open(file_path, 'w')
-        _file.write(text)
-    
-    def read_file(self, file_path):
-        text = open(file_path).read()
-        # discard the '#!/usr/bin/python' and 'coding: utf-8' lines, if present
-        text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
-        global text_buffer
-        text_buffer.set_text(text)
-        
-    def _shared_cb(self, activity):
-        self._logger.debug('My activity was shared')
-        self.initiating = True
-        self._sharing_setup()
-
-        self._logger.debug('This is my activity: making a tube...')
-        _id = self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].OfferDBusTube(
-            SERVICE, {})
-
-    # presence service should be tubes-aware and give us more help
-    # with this
-    def _sharing_setup(self):
-        if self._shared_activity is None:
-            self._logger.error('Failed to share or join activity')
-            return
-
-        self.conn = self._shared_activity.telepathy_conn
-        self.tubes_chan = self._shared_activity.telepathy_tubes_chan
-        self.text_chan = self._shared_activity.telepathy_text_chan
-
-        self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].connect_to_signal(
-             'NewTube', self._new_tube_cb)
-
-        self._shared_activity.connect('buddy-joined', self._buddy_joined_cb)
-        self._shared_activity.connect('buddy-left', self._buddy_left_cb)
-
-        # Optional - included for example:
-        # Find out who's already in the shared activity:
-        for buddy in self._shared_activity.get_joined_buddies():
-            self._logger.debug('Buddy %s is already in the activity',
-                               buddy.props.nick)
-
-    def _list_tubes_reply_cb(self, tubes):
-        for tube_info in tubes:
-            self._new_tube_cb(*tube_info)
-
-    def _list_tubes_error_cb(self, e):
-        self._logger.error('ListTubes() failed: %s', e)
-
-    def _joined_cb(self, activity):
         if not self._shared_activity:
-            return
-
-        self._logger.debug('Joined an existing shared activity')
-        self.initiating = False
-        self._sharing_setup()
-
-        self._logger.debug('This is not my activity: waiting for a tube...')
-        self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].ListTubes(
-            reply_handler=self._list_tubes_reply_cb,
-            error_handler=self._list_tubes_error_cb)
-
-    def _new_tube_cb(self, id, initiator, type, service, params, state):
-        self._logger.debug('New tube: ID=%d initator=%d type=%d service=%s '
-                     'params=%r state=%d', id, initiator, type, service,
-                     params, state)
-
-        if (type == telepathy.TUBE_TYPE_DBUS and
-            service == SERVICE):
-            if state == telepathy.TUBE_STATE_LOCAL_PENDING:
-                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(id)
-
-            tube_conn = TubeConnection(self.conn,
-                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES],
-                id, group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
-            self.hellotube = HelloTube(tube_conn, self.initiating, self._get_buddy)
-
-    def _buddy_joined_cb (self, activity, buddy):
-        self._logger.debug('Buddy %s joined' % buddy.props.nick)
-
-    def _buddy_left_cb (self, activity, buddy):
-        self._logger.debug('Buddy %s left' % buddy.props.nick)
-
-    def _get_buddy(self, cs_handle):
-        """Get a Buddy from a channel specific handle."""
-        self._logger.debug('Trying to find owner of handle %u...', cs_handle)
-        group = self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP]
-        my_csh = group.GetSelfHandle()
-        self._logger.debug('My handle in that group is %u', my_csh)
-        if my_csh == cs_handle:
-            handle = self.conn.GetSelfHandle()
-            self._logger.debug('CS handle %u belongs to me, %u', cs_handle, handle)
-        elif group.GetGroupFlags() & telepathy.CHANNEL_GROUP_FLAG_CHANNEL_SPECIFIC_HANDLES:
-            handle = group.GetHandleOwners([cs_handle])[0]
-            self._logger.debug('CS handle %u belongs to %u', cs_handle, handle)
-        else:
-            handle = cs_handle
-            self._logger.debug('non-CS handle %u belongs to itself', handle)
-
-            # XXX: deal with failure to get the handle owner
-            assert handle != 0
-
-        # XXX: we're assuming that we have Buddy objects for all contacts -
-        # this might break when the server becomes scalable.
-        return self.pservice.get_buddy_by_telepathy_handle(self.conn.service_name, self.conn.object_path, handle)
-
-class HelloTube(ExportedGObject):
-    """The bit that talks over the TUBES!!!"""
-
-    def __init__(self, tube, is_initiator, get_buddy):
-        super(HelloTube, self).__init__(tube, PATH)
-        self._logger = logging.getLogger('pippy-activity.HelloTube')
-        self.tube = tube
-        self.is_initiator = is_initiator
-        self.entered = False  # Have we set up the tube?
-        self.helloworld = False  # Have we said Hello and received World?
-        self._get_buddy = get_buddy  # Converts handle to Buddy object
-        self.tube.watch_participants(self.participant_change_cb)
-
-    def participant_change_cb(self, added, removed):
-        self._logger.debug('Adding participants: %r' % added)
-
-        for handle, bus_name in added:
-            buddy = self._get_buddy(handle)
-            if buddy is not None:
-                self._logger.debug('Buddy %s was added' % buddy.props.nick)
-
-        for handle in removed:
-            buddy = self._get_buddy(handle)
-            if buddy is not None:
-                self._logger.debug('Buddy %s was removed' % buddy.props.nick)
-
-        if not self.entered:
-            #self.tube.add_signal_receiver(self.insert_cb, 'Insert', IFACE,
-            #    path=PATH, sender_keyword='sender')
-            if self.is_initiator:
-                self._logger.debug("I'm initiating the tube, will "
-                    "watch for hellos.")
-                self.add_hello_handler()
-            else:
-                self._logger.debug('Hello, everyone! What did I miss?')
-                self.Hello()
-        self.entered = True
-
-    @signal(dbus_interface=IFACE, signature='')
-    def Hello(self):
-        """Say Hello to whoever else is in the tube."""
-        self._logger.debug('I said Hello.')
-
-    @method(dbus_interface=IFACE, in_signature='s', out_signature='')
-    def World(self, game_state):
-        """To be called on the incoming XO after they Hello."""
-        if not self.helloworld:
-            self._logger.debug('Somebody said World.')
-            # We have the host's text buffer now; set ours to its contents.
-            self.helloworld = game_state
+            self.metadata['mime_type'] = 'text/x-python'
             global text_buffer
-            text_buffer.set_text(game_state)
-            # now I can World others
-            self.add_hello_handler()
+            start, end = text_buffer.get_bounds()
+            text = text_buffer.get_text(start, end)
+            _file.write(text)
         else:
-            self._logger.debug("I've already been welcomed, doing nothing")
+            self.metadata['mime_type'] = groupthink_mimetype
+            _file.write(cloudstring)
 
-    def add_hello_handler(self):
-        self._logger.debug('Adding hello handler.')
-        self.tube.add_signal_receiver(self.hello_cb, 'Hello', IFACE,
-            path=PATH, sender_keyword='sender')
-
-    def hello_cb(self, sender=None):
-        """Somebody Helloed me. World them."""
-        if sender == self.tube.get_unique_name():
-            # sender is my bus name, so ignore my own signal
-            return
-        self._logger.debug('Newcomer %s has joined', sender)
-        self._logger.debug('Welcoming newcomer and sending them the game state')
-        # Throw our text buffer down the tube, to be caught in World().
-        global text_buffer
-        start, end = text_buffer.get_bounds()
-        game_state = text_buffer.get_text(start, end)
-        self.tube.get_object(sender, PATH).World(game_state,
-                                                 dbus_interface=IFACE)
+    def load_from_journal(self, file_path):
+        if self.metadata['mime_type'] == 'text/x-python':
+            text = open(file_path).read()
+            # discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
+            # if present
+            text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
+            global text_buffer
+            text_buffer.set_text(text)
+        elif self.metadata['mime_type'] == groupthink_mimetype:
+            return open(file_path).read()
 
 ############# TEMPLATES AND INLINE FILES ##############
 ACTIVITY_INFO_TEMPLATE = """
@@ -651,44 +584,60 @@ PIPPY_DEFAULT_ICON = \
 ############# ACTIVITY META-INFORMATION ###############
 # this is used by Pippy to generate a bundle for itself.
 
+
 def pippy_activity_version():
     """Returns the version number of the generated activity bundle."""
-    return 29
+    return 38
+
+
 def pippy_activity_extra_files():
     """Returns a map of 'extra' files which should be included in the
     generated activity bundle."""
     # Cheat here and generate the map from the fs contents.
     extra = {}
     bp = get_bundle_path()
-    for d in [ 'po', 'data' ]: # everybody gets library already
+    for d in ['po', 'data', 'groupthink', 'post']:  # everybody gets library
         for root, dirs, files in os.walk(os.path.join(bp, d)):
             for name in files:
-                fn = os.path.join(root, name).replace(bp+'/', '')
+                fn = os.path.join(root, name).replace(bp + '/', '')
                 extra[fn] = open(os.path.join(root, name), 'r').read()
     extra['activity/activity-default.svg'] = PIPPY_DEFAULT_ICON
     return extra
+
+
 def pippy_activity_news():
     """Return the NEWS file for this activity."""
     # Cheat again.
     return open(os.path.join(get_bundle_path(), 'NEWS')).read()
+
+
 def pippy_activity_icon():
     """Return an SVG document specifying the icon for this activity."""
     return PIPPY_ICON
+
+
 def pippy_activity_class():
     """Return the class which should be started to run this activity."""
     return 'pippy_app.PippyActivity'
+
+
 def pippy_activity_bundle_id():
     """Return the bundle_id for the generated activity."""
     return 'org.laptop.Pippy'
+
+
 def pippy_activity_mime_types():
     """Return the mime types handled by the generated activity, as a list."""
-    return 'text/x-python'
+    return ['text/x-python', groupthink_mimetype]
+
+
 def pippy_activity_extra_info():
     return """
 license = GPLv2+
 update_url = http://wiki.laptop.org/go/Activities/G1G1"""
 
 ################# ACTIVITY BUNDLER ################
+
 
 def main():
     """Create a bundle from a pippy-style source file"""
@@ -700,7 +649,7 @@ def main():
     from sugar.activity import bundlebuilder
     import sys
     parser = OptionParser(usage='%prog [options] [title] [sourcefile]')
-    parser.add_option('-d', '--dir', dest='dir',default='.',metavar='DIR',
+    parser.add_option('-d', '--dir', dest='dir', default='.', metavar='DIR',
                       help='Put generated bundle in the specified directory.')
     parser.add_option('-p', '--pythonpath', dest='path', action='append',
                       default=[], metavar='DIR',
@@ -712,11 +661,12 @@ def main():
     sourcefile = args[1]
     pytitle = re.sub(r'[^A-Za-z0-9_]', '', title)
     if re.match(r'[0-9]', pytitle) is not None:
-        pytitle = '_' + pytitle # first character cannot be numeric
+        pytitle = '_' + pytitle  # first character cannot be numeric
     # first take a gander at the source file and see if it's got extra info
     # for us.
     sourcedir, basename = os.path.split(sourcefile)
-    if not sourcedir: sourcedir = '.'
+    if not sourcedir:
+        sourcedir = '.'
     module, ext = os.path.splitext(basename)
     # things we look for:
     bundle_info = {
@@ -731,14 +681,15 @@ def main():
         }
     # are any of these things in the module?
     try_import = False
-    info = readmodule_ex(module, [ sourcedir ] + options.path)
+    info = readmodule_ex(module, [sourcedir] + options.path)
     for func in bundle_info.keys():
         p_a_func = 'pippy_activity_%s' % func
-        if p_a_func in info: try_import = True
+        if p_a_func in info:
+            try_import = True
     if try_import:
         # yes, let's try to execute them to get better info about our bundle
         oldpath = list(sys.path)
-        sys.path[0:0] = [ sourcedir ] + options.path
+        sys.path[0:0] = [sourcedir] + options.path
         modobj = __import__(module)
         for func in bundle_info.keys():
             p_a_func = 'pippy_activity_%s' % func
@@ -748,7 +699,7 @@ def main():
 
     # okay!  We've done the hard part.  Now let's build a bundle.
     # create a new temp dir in which to create the bundle.
-    app_temp = mkdtemp('.activity', 'Pippy') # hope TMPDIR is set correctly!
+    app_temp = mkdtemp('.activity', 'Pippy')  # hope TMPDIR is set correctly!
     bundle = get_bundle_path()
     try:
         copytree('%s/library' % bundle, '%s/library' % app_temp)
@@ -768,7 +719,8 @@ def main():
             assert '..' not in path
             dirname, filename = os.path.split(path)
             dirname = os.path.join(app_temp, dirname)
-            if not os.path.exists(dirname): os.makedirs(dirname)
+            if not os.path.exists(dirname):
+                os.makedirs(dirname)
             with open(os.path.join(dirname, filename), 'w') as f:
                 f.write(contents)
         # put script into $app_temp/pippy_app.py
@@ -777,14 +729,16 @@ def main():
         with open('%s/MANIFEST' % app_temp, 'w') as f:
             for dirpath, dirnames, filenames in sorted(os.walk(app_temp)):
                 for name in sorted(filenames):
-                    fn = os.path.join(dirpath, name).replace(app_temp+'/', '')
-                    if fn=='MANIFEST': continue
+                    fn = os.path.join(dirpath, name)
+                    fn = fn.replace(app_temp + '/', '')
+                    if fn == 'MANIFEST':
+                        continue
                     f.write('%s\n' % fn)
         # invoke bundle builder
         olddir = os.getcwd()
         oldargv = sys.argv
         os.chdir(app_temp)
-        sys.argv = [ 'setup.py', 'dist_xo' ]
+        sys.argv = ['setup.py', 'dist_xo']
         bundlebuilder.start()
         sys.argv = oldargv
         os.chdir(olddir)
@@ -797,8 +751,9 @@ def main():
 if __name__ == '__main__':
     from gettext import gettext as _
     import sys
-    if False: # change this to True to test within Pippy
-        sys.argv = sys.argv + [ '-d','/tmp','Pippy', '/home/olpc/pippy_app.py' ]
+    if False:  # change this to True to test within Pippy
+        sys.argv = sys.argv + ['-d', '/tmp', 'Pippy',
+                               '/home/olpc/pippy_app.py']
     #print _("Working..."),
     #sys.stdout.flush()
     main()

@@ -2,4 +2,4 @@ import pippy
 
 pippy.sound.playSine(pitch=1000, amplitude=5000)
 pippy.sound.audioOut()
-        
+

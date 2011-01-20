@@ -1,7 +1,7 @@
 # pong: hit the ball with the paddle
 #
 # use the escape key to exit
-# 
+#
 # on the XO, the escape key is the top lefthand key,
 # circle with an x in it.
 
@@ -12,40 +12,40 @@ from random import *
 # always need to init first thing
 pygame.init()
 
-# XO screen is 1200x900
-size = width, height = 1200, 900
-
 # create the window and keep track of the surface
 # for drawing into
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode()
+
+# ask for screen's width and height
+size = width, height = screen.get_size()
 
 # turn off the cursor
 pygame.mouse.set_visible(False)
 
 # turn on key repeating (repeat 40 times per second)
-pygame.key.set_repeat(25,25)
+pygame.key.set_repeat(25, 25)
 
 # start the screen all black
-bgcolor = (0,0,0)
+bgcolor = (0, 0, 0)
 screen.fill(bgcolor)
 
 # paddle constants
 paddle_width = 20
 paddle_length = 100
 paddle_radius = paddle_length / 2
-paddle_color = (250,250,250)
+paddle_color = (250, 250, 250)
 step = 6 # paddle moves 3 pixels at a go
 
 # ball constants
-ball_color = (250,250,250)
+ball_color = (250, 250, 250)
 ball_radius = 25
 
 # game constants
 fsize = 48
 msg = "Press 'g' to start game"
 
-font=pygame.font.Font(None, fsize)
-text = font.render(msg, True, (250,250,250))
+font = pygame.font.Font(None, fsize)
+text = font.render(msg, True, (250, 250, 250))
 textRect = text.get_rect()
 textRect.centerx = screen.get_rect().centerx
 textRect.centery = screen.get_rect().centery
@@ -100,7 +100,7 @@ while pippy.pygame.next_frame():
                 or event.key == 259 \
                 or event.key == 258: # down
                   paddle_location = paddle_location + step
-  
+
             # make sure the paddle is in-bounds
             if paddle_location - paddle_radius < 0:
               paddle_location = paddle_radius
@@ -113,7 +113,7 @@ while pippy.pygame.next_frame():
             # draw the paddle on the right side of the screen
             pygame.draw.line(screen,
   	                     paddle_color,
-                             (width - paddle_width, paddle_location - 
+                             (width - paddle_width, paddle_location -
                               paddle_radius),
                              (width - paddle_width,
                               paddle_location+paddle_radius),
@@ -124,7 +124,8 @@ while pippy.pygame.next_frame():
 
             # draw the unused balls
             for i in range(balls):
-              pygame.draw.circle(screen, ball_color, (int(round(30+i*ball_radius*2.4)), 30), 
+              pygame.draw.circle(screen, ball_color,
+                                 (int(round(30+i*ball_radius*2.4)), 30),
                                  ball_radius)
 
             # update the display

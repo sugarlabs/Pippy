@@ -2,10 +2,10 @@
 name = Pippy
 bundle_id = org.laptop.Pippy
 service_name = org.laptop.Pippy
-class = pippy_app.PippyActivity
+exec = sugar-activity pippy_app.PippyActivity
 icon = activity-icon
-activity_version = 30
-mime_types = text/x-python
+activity_version = 38
+mime_types = text/x-python, pickle/groupthink-pippy
 show_launcher = yes
 
 license = GPLv2+

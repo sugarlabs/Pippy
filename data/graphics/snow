@@ -1,3 +1,4 @@
+# snow
 
 import pippy, pygame, sys
 from pygame.locals import *
@@ -6,17 +7,17 @@ from random import *
 # always need to init first thing
 pygame.init()
 
-# XO screen is 1200x900
-size = width, height = 1200, 900
-
 # create the window and keep track of the surface
 # for drawing into
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode()
+
+# ask for screen's width and height
+width, height = screen.get_size()
 
 # turn off the cursor
 pygame.mouse.set_visible(False)
 
-bg_color = (0,0,0)
+bg_color = (0, 0, 0)
 
 xs = []
 ys = []

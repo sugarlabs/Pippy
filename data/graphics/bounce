@@ -2,7 +2,15 @@
 
 import pippy, pygame, sys
 from pygame.locals import *
-from random import *
+
+# the text to bounce around the screen
+msg = "Hello!"
+
+# the size of the text, in pixels
+fsize = 36
+
+# vector for motion, will control speed and angle
+mvect = [3, 2]
 
 # always need to init first thing
 pygame.init()
@@ -10,20 +18,12 @@ pygame.init()
 # turn off cursor
 pygame.mouse.set_visible(False)
 
-# XO screen is 1200x900
-size = width, height = 1200, 900
-
-# we'll use 36 pixel high text
-fsize = 36
-
-# vector for motion, will control speed and angle
-mvect = [3,2]
-
 # create the window and keep track of the surface
 # for drawing into
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode()
 
-msg = "Hello!"
+# ask for screen's width and height
+size = width, height = screen.get_size()
 
 # create a Font object from a file, or use the default
 # font if the file name is None. size param is height
@@ -35,7 +35,7 @@ font = pygame.font.Font(None, fsize)
 # Font.render draws text onto a new surface.
 #
 # usage: Font.render(text, antialias, color, bg=None)
-text = font.render(msg, True, (10,10,10))
+text = font.render(msg, True, (10, 10, 10))
 
 # the Rect object is used for positioning
 textRect = text.get_rect()
@@ -46,6 +46,7 @@ textRect.top = 0;
 
 while pippy.pygame.next_frame():
 
+  # every time we move the text, check for quit or keydown events and exit
   for event in pygame.event.get():
     if event.type == QUIT:
       sys.exit()
@@ -53,8 +54,9 @@ while pippy.pygame.next_frame():
     elif event.type == KEYDOWN:
       sys.exit()
 
-  screen.fill((250,250,250))
-  
+  # fill the screen with almost white
+  screen.fill((250, 250, 250))
+
   # draw the text
   screen.blit(text, textRect)
 

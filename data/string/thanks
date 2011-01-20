@@ -17,14 +17,14 @@ table = {
           'Directors & Advisors':   'Howard Anderson, Rebecca Allen, Ayo Kusamotu, Jose Maria Aznar, V. Michael Bove, Jr., Rodrigo Mesquita, Seymour Papert, Ted Selker, Ethan Beard (Google); John Roese (Nortel); Dandy Hsu (Quanta); Marcelo Claure (Brightstar); Gary Dillabough (eBay); Gustavo Arenas (AMD); Mike Evans (Red Hat); Ed Horowitz (SES Astra); Jeremy Philips (NewsCorp); Scott Soong (Chi Lin); Sehat Sutardja (Marvell); Joe Jacobson (MIT Media Lab); Steve Kaufman (Riverside); and Tom Meredith (MFI)',
           'Pippy':                  'Chris Ball, C. Scott Ananian'
        }
- 
+
 import random, time
 from pippy.console import *
 from textwrap import fill
 
-# Determine the number of columns in our window in 
-# order to wrap text to that width -- this changes 
-# when we run as a standalone activity instead of 
+# Determine the number of columns in our window in
+# order to wrap text to that width -- this changes
+# when we run as a standalone activity instead of
 # inside the output pane.
 cols, lines = size()
 
@@ -36,5 +36,9 @@ while True:
     random.choice([red, green, yellow, blue, magenta, cyan])()
     #random.choice([normal, bold, underlined, inverse])()
     print '\n', fill("%s:    %s" % (subsystem, table[subsystem]), int(cols))
+    table.pop(subsystem)
+    if len(table) == 0:
+        break
 
     time.sleep(3)
+reset()

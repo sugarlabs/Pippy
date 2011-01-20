@@ -1,3 +1,44 @@
+38
+* Fix svg icons for Pippy
+* Add EditToolbar & modify toolbars for <=0.84 compatibility 
+  (Gonzalo and Anish)
+* Remove the 'dobject'/groupthink submodule
+* Switch activity.info from class to exec
+
+37
+* Remove broken slideshow until it is fixed #2054 (James Cameron)
+* Adapt pippy examples to screen dimensions (except xolyimpics), 
+  dev.laptop.org #9260 (James Cameron)
+
+36
+* Add COPYING based on activity.info license field, verify source file
+  licenses, include LICENSE from Elements upstream SVN, fixes
+  Sugarlabs.org #1571 and laptop.org #9181. (James Cameron)
+* Fixed pippy layout so that it doesn't break at any resolution other 
+  than 1200x900. (Anish Mangal)
+* Moved the start, stop and run buttons to the activity toolbar. 
+  (Anish Mangal)
+
+35
+* Add collaborative editing with Groupthink
+* Fix self-generated bundles by including port/ (and now groupthink/)
+
+34
+* Editor: enable autotabbing, space tabs,
+     and tab size = 2 (to ensure compatability with examples)
+
+33
+* Include XOlympics physics game example
+* Use default Sugar-specified font sizes
+
+32 
+* Trac #607 (SugarLabs), Font size needs to be 10 for Soas
+    (font size of 8 for XO-1 users)
+
+31
+
+* Trac #350 (SugarLabs), Python path set improperly
+ 
 30
 
 * Allow playing sounds identified by full filesystem path in
