@@ -7,6 +7,4 @@ icon = activity-icon
 activity_version = 38
 mime_types = text/x-python, pickle/groupthink-pippy
 show_launcher = yes
-
 license = GPLv2+
-update_url = http://wiki.laptop.org/go/Activities/G1G1
