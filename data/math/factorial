@@ -3,8 +3,8 @@ import time
 # define a factorial function in recursive flavor
 def factorial_recursive(number):
     result = 1
-    if n > 0:
-        result = n * factorial_recursive(number-1)
+    if number > 0:
+        result = number * factorial_recursive(number-1)
         print "factorizing: ", number, " result: ", result
     return result
 
