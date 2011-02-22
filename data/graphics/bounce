@@ -1,10 +1,12 @@
 # bounce: move some text around the screen
 
-import pippy, pygame, sys
+import pippy
+import pygame
+import sys
 from pygame.locals import *
 
 # the text to bounce around the screen
-msg = "Hello!"
+msg = 'Hello!'
 
 # the size of the text, in pixels
 fsize = 36
@@ -41,46 +43,46 @@ text = font.render(msg, True, (10, 10, 10))
 textRect = text.get_rect()
 
 # start at the top left
-textRect.left = 0;
-textRect.top = 0;
+textRect.left = 0
+textRect.top = 0
 
 while pippy.pygame.next_frame():
 
-  # every time we move the text, check for quit or keydown events and exit
-  for event in pygame.event.get():
-    if event.type == QUIT:
-      sys.exit()
+    # every time we move the text, check for quit or keydown events and exit
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            sys.exit()
 
-    elif event.type == KEYDOWN:
-      sys.exit()
+        elif event.type == KEYDOWN:
+            sys.exit()
 
-  # fill the screen with almost white
-  screen.fill((250, 250, 250))
+    # fill the screen with almost white
+    screen.fill((250, 250, 250))
 
-  # draw the text
-  screen.blit(text, textRect)
+    # draw the text
+    screen.blit(text, textRect)
 
-  # update the display
-  pygame.display.flip()
+    # update the display
+    pygame.display.flip()
 
-  # move the text
-  #
-  # Rect.move returns a new Rect while
-  # Rect.move_ip moves in place, so we'll use
-  # the latter
-  textRect.move_ip(mvect)
+    # move the text
+    #
+    # Rect.move returns a new Rect while
+    # Rect.move_ip moves in place, so we'll use
+    # the latter
+    textRect.move_ip(mvect)
 
-  # bounce off edges
-  if textRect.left < 0 :
-    textRect.left = 0
-    mvect[0] = -1 * mvect[0]
-  elif textRect.right >= size[0] :
-    textRect.right = size[0] - 1
-    mvect[0] = -1 * mvect[0]
+    # bounce off edges
+    if textRect.left < 0:
+        textRect.left = 0
+        mvect[0] = -1 * mvect[0]
+    elif textRect.right >= size[0]:
+        textRect.right = size[0] - 1
+        mvect[0] = -1 * mvect[0]
 
-  if textRect.top < 0 :
-    textRect.top = 0
-    mvect[1] = -1 * mvect[1]
-  elif textRect.bottom >= size[1] :
-    textRect.bottom = size[1] - 1
-    mvect[1] = -1 * mvect[1]
+    if textRect.top < 0:
+        textRect.top = 0
+        mvect[1] = -1 * mvect[1]
+    elif textRect.bottom >= size[1]:
+        textRect.bottom = size[1] - 1
+        mvect[1] = -1 * mvect[1]

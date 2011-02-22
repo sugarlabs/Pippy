@@ -1,6 +1,8 @@
 # lines: make lots of lines on the screen
 
-import pippy, pygame, sys
+import pippy
+import pygame
+import sys
 from pygame.locals import *
 from random import *
 
@@ -18,84 +20,84 @@ screen = pygame.display.set_mode()
 size = width, height = screen.get_size()
 
 # start the screen all black
-screen.fill((0,0,0))
+screen.fill((0, 0, 0))
 
 # we need starting endpoints for the line and seed motion vectors
-start=[randint(0,size[0]), randint(0,size[1])]
-end  =[randint(0,size[0]), randint(0,size[1])]
+start = [randint(0, size[0]), randint(0, size[1])]
+end = [randint(0, size[0]), randint(0, size[1])]
 
 # randomize the motion, 1..3 in each direction, positive or negative, but
 # never 0
-mvect_start = [choice((-1,1)) * randint(1,3), choice((-1,1)) * randint(1,3)]
-mvect_end   = [choice((-1,1)) * randint(1,3), choice((-1,1)) * randint(1,3)]
+mvect_start = [choice((-1, 1)) * randint(1, 3), choice((-1, 1)) * randint(1, 3)]
+mvect_end = [choice((-1, 1)) * randint(1, 3), choice((-1, 1)) * randint(1, 3)]
 
 # start with a random color and color direction
-color = [randint(0,255), randint(0,255), randint(0,255)]
-direction = [choice((-1,1)), choice((-1,1)), choice((-1,1))]
+color = [randint(0, 255), randint(0, 255), randint(0, 255)]
+direction = [choice((-1, 1)), choice((-1, 1)), choice((-1, 1))]
 
 while pippy.pygame.next_frame():
 
-  for event in pygame.event.get():
-    if event.type == QUIT:
-      sys.exit()
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            sys.exit()
 
-    elif event.type == KEYDOWN:
-      sys.exit()
+        elif event.type == KEYDOWN:
+            sys.exit()
 
-  # draw the line using the current values and width=3
-  pygame.draw.line(screen, color, start, end, 3)
+    # draw the line using the current values and width=3
+    pygame.draw.line(screen, color, start, end, 3)
 
-  # update the display
-  pygame.display.flip()
+    # update the display
+    pygame.display.flip()
 
-  # update the end points and the color
-  for i in range(2):
-    start[i] = start[i] + mvect_start[i]
-    end[i]   = end[i]   + mvect_end[i]
+    # update the end points and the color
+    for i in range(2):
+        start[i] = start[i] + mvect_start[i]
+        end[i] = end[i] + mvect_end[i]
 
-  for i in range(3):
-    color[i] = color[i] + direction[i]
+    for i in range(3):
+        color[i] = color[i] + direction[i]
 
-  # check if anything has gone out of range and
-  # if so, bring back to edge and reverse the
-  # corresponding motion vector
-  if start[0] < 0 :
-    start[0] = 0
-    mvect_start[0] = -1 * mvect_start[0]
-  elif start[0] >= size[0] :
-    start[0] = size[0] - 1
-    mvect_start[0] = -1 * mvect_start[0]
+    # check if anything has gone out of range and
+    # if so, bring back to edge and reverse the
+    # corresponding motion vector
+    if start[0] < 0:
+        start[0] = 0
+        mvect_start[0] = (-1) * mvect_start[0]
+    elif start[0] >= size[0]:
+        start[0] = size[0] - 1
+        mvect_start[0] = (-1) * mvect_start[0]
 
-  if start[1] < 0 :
-    start[1] = 0
-    mvect_start[1] = -1 * mvect_start[1]
-  elif start[1] >= size[1] :
-    start[1] = size[1] - 1
-    mvect_start[1] = -1 * mvect_start[1]
+    if start[1] < 0:
+        start[1] = 0
+        mvect_start[1] = (-1) * mvect_start[1]
+    elif start[1] >= size[1]:
+        start[1] = size[1] - 1
+        mvect_start[1] = (-1) * mvect_start[1]
 
-  if end[0] < 0 :
-    end[0] = 0
-    mvect_end[0] = -1 * mvect_end[0]
-  elif end[0] >= size[0] :
-    end[0] = size[0] - 1
-    mvect_end[0] = -1 * mvect_end[0]
+    if end[0] < 0:
+        end[0] = 0
+        mvect_end[0] = (-1) * mvect_end[0]
+    elif end[0] >= size[0]:
+        end[0] = size[0] - 1
+        mvect_end[0] = (-1) * mvect_end[0]
 
-  if end[1] < 0 :
-    end[1] = 0
-    mvect_end[1] = -1 * mvect_end[1]
-  elif end[1] >= size[1] :
-    end[1] = size[1] - 1
-    mvect_end[1] = -1 * mvect_end[1]
+    if end[1] < 0:
+        end[1] = 0
+        mvect_end[1] = (-1) * mvect_end[1]
+    elif end[1] >= size[1]:
+        end[1] = size[1] - 1
+        mvect_end[1] = (-1) * mvect_end[1]
 
-  for i in range(3) :
-    if color[i] < 0:
-      color[i] = 0
-      direction[i] = direction[i] * -1
-    elif color[i] >= 255 :
-      color[i] = 255
-      direction[i] = direction[i] * -1
+    for i in range(3):
+        if color[i] < 0:
+            color[i] = 0
+            direction[i] = direction[i] * (-1)
+        elif color[i] >= 255:
+            color[i] = 255
+            direction[i] = direction[i] * (-1)
 
-  # randomly change the color directon on occasion
-  if randint(0,511) == 128:
-      for i in range(3):
-         direction[i] = choice((-1,1))
+    # randomly change the color directon on occasion
+    if randint(0, 511) == 128:
+        for i in range(3):
+            direction[i] = choice((-1, 1))

@@ -1,10 +1,11 @@
-import pippy, random
+import pippy
+import random
 
 for i in range(25):
-    pitch = random.randint(500,2000)
+    pitch = random.randint(500, 2000)
     amplitude = 5000
     duration = 0.1
-    starttime = i * 0.1
-    pippy.sound.playSine(pitch, amplitude, duration, starttime)
-pippy.sound.audioOut()
+    start_time = i * 0.1
+    pippy.sound.playSine(pitch, amplitude, duration, start_time)
 
+pippy.sound.audioOut()

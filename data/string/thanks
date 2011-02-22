@@ -15,10 +15,11 @@ table = {
           'Finance & Legal':        'Eben Moglen, Bruce Parker, William Kolb, John Sare, Sandra Lee, Richard Bernstein, Jaclyn Tsai, Jaime Cheng, Robert Fadel, Charles Kane (Grasshopper), Kathy Paur, Andriani Ferti',
           'PR and Media':           'Larry Weber, Jackie Lustig, Jodi Petrie, George Snell, Kyle Austin, Hilary Meserole, Erick A. Betancourt, Michael Borosky, Sylvain Lefebvre, Martin Le Sauteur',
           'Directors & Advisors':   'Howard Anderson, Rebecca Allen, Ayo Kusamotu, Jose Maria Aznar, V. Michael Bove, Jr., Rodrigo Mesquita, Seymour Papert, Ted Selker, Ethan Beard (Google); John Roese (Nortel); Dandy Hsu (Quanta); Marcelo Claure (Brightstar); Gary Dillabough (eBay); Gustavo Arenas (AMD); Mike Evans (Red Hat); Ed Horowitz (SES Astra); Jeremy Philips (NewsCorp); Scott Soong (Chi Lin); Sehat Sutardja (Marvell); Joe Jacobson (MIT Media Lab); Steve Kaufman (Riverside); and Tom Meredith (MFI)',
-          'Pippy':                  'Chris Ball, C. Scott Ananian'
+          'Pippy':                  'Chris Ball, C. Scott Ananian, James Cameron, Anish Mangal'
        }
 
-import random, time
+import random
+import time
 from pippy.console import *
 from textwrap import fill
 

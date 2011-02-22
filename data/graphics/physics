@@ -1,6 +1,9 @@
 # physics
 
-import pippy, pygame, sys, math
+import pippy
+import pygame
+import sys
+import math
 from pygame.locals import *
 from pippy import physics
 
@@ -14,13 +17,13 @@ world.renderer.set_surface(screen)
 
 # set up initial physics objects
 world.add.ground()
-world.add.ball((600,0), 50)
-world.add.rect((500,0), 25, 300, dynamic=True, density=1.0, restitution=0.16, friction=0.5)
+world.add.ball((600, 0), 50)
+world.add.rect((500, 0), 25, 300, dynamic=True, density=1.0, restitution=0.16, friction=0.5)
 
 # add 20 more balls
 balls = 0
 while(balls < 20):
-    world.add.ball((balls*5+200, balls*5), 50)
+    world.add.ball(((balls * 5) + 200, balls * 5), 50)
     balls += 1
 
 # begin physics simulation

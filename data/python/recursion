@@ -1,10 +1,10 @@
-def countbackwards(number):
-    print "I have the number", number
+def count_backwards(number):
+    print 'I have the number', number
     if number > 0:
-        print "Calling countbackwards again!"
-        countbackwards(number-1)
+        print 'Calling count_backwards again!'
+        count_backwards(number - 1)
     else:
-        print "I am done counting"
+        print 'I am done counting'
 
-number = input("Enter a number: ")
-countbackwards(number)
+number = input('Enter a number: ')
+count_backwards(number)

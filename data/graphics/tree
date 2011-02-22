@@ -1,6 +1,8 @@
 # tree
 
-import pippy, pygame, sys
+import pippy
+import pygame
+import sys
 from pygame.locals import *
 from random import *
 import math
@@ -27,31 +29,31 @@ min_angle_delta = 0.4
 max_angle_delta = 0.5
 
 # start the screen all black
-bgcolor = (0,0,0)
+bgcolor = (0, 0, 0)
 screen.fill(bgcolor)
 
 def draw_tree(x, y, length, angle):
-  x2 = x + length * math.sin(angle)
-  y2 = y - length * math.cos(angle)
-  pygame.draw.line(screen, color, (x, y), (x2, y2))
+    x2 = x + length * math.sin(angle)
+    y2 = y - length * math.cos(angle)
+    pygame.draw.line(screen, color, (x, y), (x2, y2))
 
-  if length > min_length:
-    # draw left branch
-    left_angle = angle - \
-      uniform(min_angle_delta, max_angle_delta)
-    left_length = length * \
-      uniform(min_factor, max_factor)
-    draw_tree(x2, y2, left_length, left_angle)
-    # draw middle branch
-    middle_length = length * \
-      uniform(min_factor, max_factor)
-    draw_tree(x2, y2, middle_length, angle)
-    # draw right branch
-    right_angle = angle + \
-      uniform(min_angle_delta, max_angle_delta)
-    right_length = length * \
-      uniform(min_factor, max_factor)
-    draw_tree(x2, y2, right_length, right_angle)
+    if length > min_length:
+        # draw left branch
+        left_angle = angle - \
+            uniform(min_angle_delta, max_angle_delta)
+        left_length = length * \
+            uniform(min_factor, max_factor)
+        draw_tree(x2, y2, left_length, left_angle)
+        # draw middle branch
+        middle_length = length * \
+            uniform(min_factor, max_factor)
+        draw_tree(x2, y2, middle_length, angle)
+        # draw right branch
+        right_angle = angle + \
+            uniform(min_angle_delta, max_angle_delta)
+        right_length = length * \
+            uniform(min_factor, max_factor)
+        draw_tree(x2, y2, right_length, right_angle)
 
 # clear the screen
 screen.fill(bgcolor)
@@ -63,10 +65,10 @@ pygame.display.flip()
 
 # do nothing visible until the escape key is pressed
 while pippy.pygame.next_frame():
-  for event in pygame.event.get():
-    if event.type == QUIT:
-        sys.exit()
+    for event in pygame.event.get():
+        if event.type == QUIT:
+                sys.exit()
 
-    if event.type == KEYDOWN:
-      if event.key == K_ESCAPE:
-        sys.exit()
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                sys.exit()

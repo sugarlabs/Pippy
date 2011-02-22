@@ -1,6 +1,10 @@
 # camera: take a picture, animate it on screen
 
-import gst, pippy, pygame, sys, time
+import gst
+import pippy
+import pygame
+import sys
+import time
 
 # grey background
 bgcolor = (128, 128, 128)
@@ -26,32 +30,34 @@ time.sleep(1)
 pipeline.set_state(gst.STATE_NULL)
 
 # load in the grabbed camera frame
-image = pygame.image.load("/tmp/pippypic.jpg")
+image = pygame.image.load('/tmp/pippypic.jpg')
 
 angle = 0.0
 scale = 2.0
 
 while pippy.pygame.next_frame():
-  # every time we animate, check for quit or keydown events and exit
-  for event in pygame.event.get():
-    if event.type == pygame.QUIT: sys.exit()
-    elif event.type == pygame.KEYDOWN: sys.exit()
+    # every time we animate, check for quit or keydown events and exit
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            sys.exit()
 
-  # rotate and scale the image
-  newImage = pygame.transform.rotozoom(image, angle, scale)
-  newImageRect = newImage.get_rect()
-  newImageRect.centerx = screen.get_rect().centerx
-  newImageRect.centery = screen.get_rect().centery
+    # rotate and scale the image
+    newImage = pygame.transform.rotozoom(image, angle, scale)
+    newImageRect = newImage.get_rect()
+    newImageRect.centerx = screen.get_rect().centerx
+    newImageRect.centery = screen.get_rect().centery
 
-  # display the rotated and scaled image
-  screen.fill(bgcolor)
-  screen.blit(newImage, newImageRect)
-  pygame.display.flip()
+    # display the rotated and scaled image
+    screen.fill(bgcolor)
+    screen.blit(newImage, newImageRect)
+    pygame.display.flip()
 
-  # choose a new rotation angle and scale
-  angle = angle + 5.0
-  scale = scale * 0.95
+    # choose a new rotation angle and scale
+    angle = angle + 5.0
+    scale = scale * 0.95
 
-  # finish once the scale becomes very very small
-  if scale < 0.001:
-    break
+    # finish once the scale becomes very very small
+    if scale < 0.001:
+        break

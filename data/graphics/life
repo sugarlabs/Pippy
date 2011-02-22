@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 # This is the game life http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 
-import os, time, random
-
-#
-# we need a function to load cells in the neighborhood
-#
+import os
+import time
+import random
 
 def LoadCells(rows, cols):
+    """ We need a function to load cells in the neighborhood """
     grid = []
     col = [0] * cols
     # first we load an empty grid
@@ -21,54 +20,49 @@ def LoadCells(rows, cols):
             grid[x][y] = cell
     return grid
 
-#
-# here we draw the grid
-#
-
 def DrawGrid(grid):
+    """ Here we draw the grid """
     rows = len(grid)
     cols = len(grid[1])
     for x in range(rows):
         for y in range(cols):
                 if grid[x][y] != 1:
-                    print ".",
+                    print '.',
                 else:
-                    print "o",
-        print "\n",
-
-#
-# count neighbors arround a single cell
-#
+                    print 'o',
+        print '\n',
 
 def CountNeighbors(grid, x, y):
+    """ Count neighbors arround a single cell"""
+
     neighbors = 0
     rows = len(grid)
     cols = len(grid[1])
 
-    if x < rows-1 and grid[x+1][y] == 1:
+    if x < (rows - 1) and grid[x + 1][y] == 1:
         neighbors += 1
-    if x > 0 and grid[x-1][y] == 1:
+    if x > 0 and grid[x - 1][y] == 1:
         neighbors += 1
-    if y < cols-1 and grid[x][y+1] == 1:
+    if y < (cols - 1) and grid[x][y + 1] == 1:
         neighbors += 1
-    if y > 0 and grid[x][y-1] == 1:
+    if y > 0 and grid[x][y - 1] == 1:
         neighbors += 1
-    if x < rows-1 and y < cols-1 and grid[x+1][y+1] == 1:
+    if x < (rows - 1) and y < (cols - 1) and grid[x + 1][y + 1] == 1:
         neighbors += 1
-    if x > 0 and y > 0  and grid[x-1][y-1] == 1:
+    if x > 0 and y > 0  and grid[x - 1][y - 1] == 1:
         neighbors += 1
-    if x > 0 and y < cols-1 and grid[x-1][y+1] == 1:
+    if x > 0 and y < (cols - 1) and grid[x - 1][y + 1] == 1:
         neighbors += 1
-    if x < rows-1 and y > 0 and grid[x+1][y-1] == 1:
+    if x < (rows - 1) and y > 0 and grid[x + 1][y - 1] == 1:
         neighbors += 1
 
     return neighbors
 
-# here we define a single iteration
-# if we have between 3 and 6 neighbors the single cell lives
-# in other case the cell dies
-
 def Iteration(grid):
+    """ here we define a single iteration
+    if we have between 3 and 6 neighbors the single cell lives
+    in other case the cell dies
+    """
     rows = len(grid)
     cols = len(grid[1])
     neighbors = 0
@@ -82,21 +76,18 @@ def Iteration(grid):
                 if neighbors == 3:
                     grid[x][y] = 1
 
-#
-# iterate n pulses and draws the result of each one
-#
-
 def Iterator(rows, cols, pulses):
+    """ Iterate n pulses and draws the result of each one """
     pulse = 1
     grid = LoadCells(rows, cols)
     while pulse <= pulses:
         os.system('clear')
-        print "Pulse: ", pulse
+        print 'Pulse: ', pulse
         Iteration(grid)
         DrawGrid(grid)
         pulse += 1
         time.sleep(0.2)
 
-number = input("Please input the number of rows and cols (unique number):")
-pulses = input("Please input the number of pulses:")
+number = input('Please input the number of rows and cols (unique number):')
+pulses = input('Please input the number of pulses:')
 Iterator(number, number, pulses)

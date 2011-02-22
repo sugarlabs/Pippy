@@ -1,4 +1,4 @@
-def square(x): 
+def square(x):
     print x * x
 
 square(3)

@@ -1,34 +1,35 @@
 import time
 
-# define a factorial function in recursive flavor
 def factorial_recursive(number):
+    """ Define a factorial function in recursive flavor """
     result = 1
     if number > 0:
-        result = number * factorial_recursive(number-1)
-        print "factorizing: ", number, " result: ", result
+        result = number * factorial_recursive(number - 1)
+        print 'factorizing: ', number, ' result: ', result
     return result
 
-# define a factorial function in iterative flavor
 def factorial_iterative(number):
+    """ Define a factorial function in iterative flavor """
     result = 1
-    for i in range(1, number+1):
+    for i in range(1, number + 1):
         result = result * i
-        print "factorizing: ", i, " result: ", result
+        print 'factorizing: ', i, ' result: ', result
     return result
 
 def calculate(number, type):
+    """ Calculate factorial using recursive and iterative methods """
     start = time.time()
     if type == 0:
-        type_s = "recursive"
-        result = factorial_recursive(number)
+        type_s = 'recursive'
+        factorial_recursive(number)
     else:
-        type_s = "iterative"
-        result = factorial_iterative(number)
+        type_s = 'iterative'
+        factorial_iterative(number)
     delta = time.time() - start
-    print "Type: ", type_s, " in: ", 1/delta
+    print 'Type: ', type_s, ' in: ', 1 / delta
 
-# ask for a number to factorize
-number = input("Please input a number:")
-print "Calculating..."
+# ask for a number to compute the factorial of
+number = input('Please input a number:')
+print 'Calculating...'
 calculate(number, 0)
 calculate(number, 1)
