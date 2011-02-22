@@ -1,3 +1,7 @@
+39
+* Factorial example fix
+* pep8 and pylint cleanup for examples
+
 38
 * Fix svg icons for Pippy
 * Add EditToolbar & modify toolbars for <=0.84 compatibility 

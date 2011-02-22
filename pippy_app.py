@@ -587,7 +587,7 @@ PIPPY_DEFAULT_ICON = \
 
 def pippy_activity_version():
     """Returns the version number of the generated activity bundle."""
-    return 38
+    return 39
 
 
 def pippy_activity_extra_files():
