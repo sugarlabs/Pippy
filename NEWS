@@ -1,3 +1,8 @@
+40
+
+*Fix Pippy sound library on non-OLPC OS systems (SL#638)
+*Run graphics (pygame) examples in full screen mode (OLPC#10688)
+
 39
 * Factorial example fix
 * pep8 and pylint cleanup for examples
