@@ -21,7 +21,7 @@ pygame.mouse.set_visible(False)
 
 # create the pygame window and return a Surface object for
 # drawing in that window.
-screen = pygame.display.set_mode()
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 # pause for a second to allow the camera frame to be grabbed
 time.sleep(1)

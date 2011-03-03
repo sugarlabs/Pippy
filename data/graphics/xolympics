@@ -30,7 +30,7 @@ class XOlympicsGame:
         self.rightJump = False
         self.updateList = []
 
-        self.screen = pygame.display.set_mode()
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.width, self.height = self.screen.get_size()
 
         self.clock = pygame.time.Clock()
