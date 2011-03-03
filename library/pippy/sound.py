@@ -14,12 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+import errno
 import os
 import sys
 from gettext import gettext as _
 
-dirs = ['/usr/share/activities/TamTamEdit.activity/common/Resources/Sounds/',
-        '/home/olpc/Activities/TamTamEdit.activity/common/Resources/Sounds/']
+import sugar.env
+
+
+tamtam_subdir = '/TamTamEdit.activity/common/Resources/Sounds/'
+sound_candidate_dirs = [
+    os.path.expandvars('$SUGAR_PATH/activities') + tamtam_subdir,
+    sugar.env.get_user_activities_path() + tamtam_subdir,
+]
+
 orchlines = []
 scorelines = []
 instrlist = []
@@ -34,10 +42,18 @@ def quit(self):
 """
 
 
+class SoundLibraryNotFoundError(Exception):
+    def __init__(self):
+        Exception.__init__(self, _('Cannot find TamTamEdit sound library.'
+                                   ' Did you install TamTamEdit?'))
+
+
 def finddir():
-    for d in dirs:
-        if os.path.isdir(d):
-            return d
+    for directory in sound_candidate_dirs:
+        if os.path.isdir(directory):
+            return directory
+
+    raise SoundLibraryNotFoundError()
 
 
 def defAdsr(attack=0.01, decay=0.1, sustain=0.8, release=0.1):
@@ -290,11 +306,7 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1,
 
 
 def getSoundList():
-    list = finddir()
-    if list == None:
-        print _("Please install TamTamEdit's sound library.")
-        sys.exit(0)
-    return sorted(os.listdir(list))
+    return sorted(os.listdir(finddir()))
 
 temp_path = None
 
