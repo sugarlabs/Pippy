@@ -1,5 +1,6 @@
 import time
 
+
 def factorial_recursive(number):
     """ Define a factorial function in recursive flavor """
     result = 1
@@ -8,6 +9,7 @@ def factorial_recursive(number):
         print 'factorizing: ', number, ' result: ', result
     return result
 
+
 def factorial_iterative(number):
     """ Define a factorial function in iterative flavor """
     result = 1
@@ -15,6 +17,7 @@ def factorial_iterative(number):
         result = result * i
         print 'factorizing: ', i, ' result: ', result
     return result
+
 
 def calculate(number, type):
     """ Calculate factorial using recursive and iterative methods """
