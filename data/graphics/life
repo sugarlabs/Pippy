@@ -5,6 +5,7 @@ import os
 import time
 import random
 
+
 def LoadCells(rows, cols):
     """ We need a function to load cells in the neighborhood """
     grid = []
@@ -20,6 +21,7 @@ def LoadCells(rows, cols):
             grid[x][y] = cell
     return grid
 
+
 def DrawGrid(grid):
     """ Here we draw the grid """
     rows = len(grid)
@@ -31,6 +33,7 @@ def DrawGrid(grid):
                 else:
                     print 'o',
         print '\n',
+
 
 def CountNeighbors(grid, x, y):
     """ Count neighbors arround a single cell"""
@@ -58,6 +61,7 @@ def CountNeighbors(grid, x, y):
 
     return neighbors
 
+
 def Iteration(grid):
     """ here we define a single iteration
     if we have between 3 and 6 neighbors the single cell lives
@@ -75,6 +79,7 @@ def Iteration(grid):
             else:
                 if neighbors == 3:
                     grid[x][y] = 1
+
 
 def Iterator(rows, cols, pulses):
     """ Iterate n pulses and draws the result of each one """
