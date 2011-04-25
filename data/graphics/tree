@@ -32,6 +32,7 @@ max_angle_delta = 0.5
 bgcolor = (0, 0, 0)
 screen.fill(bgcolor)
 
+
 def draw_tree(x, y, length, angle):
     x2 = x + length * math.sin(angle)
     y2 = y - length * math.cos(angle)

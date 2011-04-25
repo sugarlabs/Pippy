@@ -36,7 +36,7 @@ paddle_width = 20
 paddle_length = 100
 paddle_radius = paddle_length / 2
 paddle_color = (250, 250, 250)
-step = 6 # paddle moves 3 pixels at a go
+step = 6  # paddle moves 3 pixels at a go
 
 # ball constants
 ball_color = (250, 250, 250)
@@ -68,7 +68,7 @@ while pippy.pygame.next_frame():
             if idle_event.key == K_ESCAPE:
                 sys.exit()
 
-            if idle_event.key == 103: # g key
+            if idle_event.key == 103:  # g key
 
                 # play a game!
 
@@ -85,7 +85,7 @@ while pippy.pygame.next_frame():
                     ball_limit = size
                     balls = balls - 1
 
-                    while ball_position[0] + ball_radius < ball_limit[0]: # in play
+                    while ball_position[0] + ball_radius < ball_limit[0]:  # in play
 
                         for event in pygame.event.get():
                             if event.type == QUIT:
@@ -96,11 +96,11 @@ while pippy.pygame.next_frame():
                                     sys.exit()
                                 elif event.key == 273 \
                                     or event.key == 265 \
-                                    or event.key == 264: # up
+                                    or event.key == 264:  # up
                                     paddle_location = paddle_location - step
                                 elif event.key == 274 \
                                     or event.key == 259 \
-                                    or event.key == 258: # down
+                                    or event.key == 258:  # down
                                     paddle_location = paddle_location + step
 
                         # make sure the paddle is in-bounds
