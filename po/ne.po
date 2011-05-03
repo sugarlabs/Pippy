@@ -2,87 +2,123 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 00:30-0400\n"
-"PO-Revision-Date: 2009-03-02 04:53-0500\n"
-"Last-Translator: Pradosh Kharel <pradosh@olenepal.org>\n"
+"POT-Creation-Date: 2011-03-04 00:46-0500\n"
+"PO-Revision-Date: 2011-02-10 08:37+0200\n"
+"Last-Translator: Shaswot <shaswot.kharel@olenepal.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ne\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.1.0rc2\n"
+"X-Generator: Pootle 2.0.3\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "पिप्पी"
 
-#: activity.py:26
+#: activity.py:49
 #, python-format
 msgid "%s Source"
 msgstr "%s श्रोत"
 
-#: activity.py:62
+#: activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "सेलेक्ट गरिएको पाठलाई क्लिपबोर्डमा प्रतिलिपि बनाउने"
 
-#: activity.py:67
+#: activity.py:96 pippy_app.py:108 pippy_app.py:113
 msgid "Edit"
 msgstr "सम्पादन"
 
-#: library/pippy/game.py:19
+#: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "रोकिएको छ"
 
-#: library/pippy/sound.py:179
-msgid "Please install TamTamEdit's sound library."
-msgstr "कृपया ट्याम्को सम्पादनको आवाज संग्रह ।"
+#: library/pippy/sound.py:47
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
 
-#: pippy_app.py:61
+#: pippy_app.py:87
 msgid "As Pippy Document"
 msgstr "पिप्पी डकुमेन्ट जस्तै"
 
-#: pippy_app.py:66
+#: pippy_app.py:94
 msgid "As Activity Bundle"
 msgstr "क्रियाकलाप पोका जस्तै"
 
-#: pippy_app.py:83
-msgid "Examples"
-msgstr "उदाहरणहरु"
+#: pippy_app.py:106
+msgid "Actions"
+msgstr "कार्य"
 
-#: pippy_app.py:152
+#: pippy_app.py:133
 msgid "_Run!"
 msgstr "_चलाउ!"
 
-#: pippy_app.py:252
+#: pippy_app.py:134
+msgid "<alt>r"
+msgstr "<alt>r"
+
+#: pippy_app.py:147
+msgid "_Stop"
+msgstr "_Stop"
+
+#: pippy_app.py:148
+msgid "<alt>s"
+msgstr "<alt>s"
+
+#: pippy_app.py:162
+msgid "_Clear"
+msgstr "_Clear"
+
+#: pippy_app.py:163
+msgid "<alt>c"
+msgstr "<alt>c"
+
+#: pippy_app.py:192
+msgid "Examples"
+msgstr "उदाहरणहरु"
+
+#: pippy_app.py:338
 #, python-format
 msgid "%s Activity"
 msgstr "%s क्रियाकलाप"
 
-#: pippy_app.py:308
+#: pippy_app.py:418
 msgid "Save as Activity Error"
 msgstr "क्रियाकलाप त्रुटिको रुपमा बचत गर"
 
-#: pippy_app.py:309
+#: pippy_app.py:419
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "क्रियाकलाप बचत गर्नु अघि उचित नाम देऊ"
 
-#: pippy_app.py:311
+#: pippy_app.py:422
 msgid "Ok"
 msgstr "हुन्छ"
 
-#: pippy_app.py:317
+#: pippy_app.py:428
 msgid "Creating activity bundle..."
 msgstr "क्रियाकलाप पोका बनाउँदै..."
 
-#: pippy_app.py:376
+#: pippy_app.py:491
 msgid "Activity saved to journal."
 msgstr "क्रियाकलाप खातामा बचत भयो।"
+
+#~ msgid "Please install TamTamEdit's sound library."
+#~ msgstr "कृपया ट्याम्को सम्पादनको आवाज संग्रह ।"
 
 #~ msgid "Run!"
 #~ msgstr "चलाउ!"

@@ -1,3 +1,15 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # translation of pippy-activity.po to Hindi
 # G Karunakar <karunakar@indlinux.org>, 2007.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
@@ -6,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 00:30-0400\n"
+"POT-Creation-Date: 2011-03-04 00:46-0500\n"
 "PO-Revision-Date: 2010-03-22 22:50+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
@@ -21,70 +33,97 @@ msgstr ""
 msgid "Pippy"
 msgstr "पिप्पी"
 
-#: activity.py:26
+#: activity.py:49
 #, python-format
 msgid "%s Source"
 msgstr "%s स्रोत"
 
-#: activity.py:62
+#: activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "चुने गए पाठ को क्लिपबोर्ड पर नकल करें"
 
-#: activity.py:67
+#: activity.py:96 pippy_app.py:108 pippy_app.py:113
 msgid "Edit"
 msgstr "संपादन"
 
-#: library/pippy/game.py:19
+#: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "विराम"
 
-#: library/pippy/sound.py:179
-msgid "Please install TamTamEdit's sound library."
-msgstr "कुपया टॅम टॅम एडिट की संगीत पुस्तककालय का संपादन  करे."
+#: library/pippy/sound.py:47
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
 
-#: pippy_app.py:61
+#: pippy_app.py:87
 msgid "As Pippy Document"
 msgstr "पीप्पी दस्तावेज की तरह"
 
-#: pippy_app.py:66
+#: pippy_app.py:94
 msgid "As Activity Bundle"
 msgstr "क्रिया की गठरी की तरह"
 
-#: pippy_app.py:83
-msgid "Examples"
-msgstr "उदाहरण"
+#: pippy_app.py:106
+msgid "Actions"
+msgstr ""
 
-#: pippy_app.py:152
+#: pippy_app.py:133
 msgid "_Run!"
 msgstr "चलाएँ! (_R)"
 
-#: pippy_app.py:252
+#: pippy_app.py:134
+msgid "<alt>r"
+msgstr ""
+
+#: pippy_app.py:147
+msgid "_Stop"
+msgstr ""
+
+#: pippy_app.py:148
+msgid "<alt>s"
+msgstr ""
+
+#: pippy_app.py:162
+msgid "_Clear"
+msgstr ""
+
+#: pippy_app.py:163
+msgid "<alt>c"
+msgstr ""
+
+#: pippy_app.py:192
+msgid "Examples"
+msgstr "उदाहरण"
+
+#: pippy_app.py:338
 #, python-format
 msgid "%s Activity"
 msgstr "%s क्रिया"
 
-#: pippy_app.py:308
+#: pippy_app.py:418
 msgid "Save as Activity Error"
 msgstr "क्रिया त्रुटि जैसे सहेजें"
 
-#: pippy_app.py:309
+#: pippy_app.py:419
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
 "अपनी क्रिया को सहेजने की कोशिश करने से पहले कृपया इसे कोई अर्थयुक्त नाम दें."
 
-#: pippy_app.py:311
+#: pippy_app.py:422
 msgid "Ok"
 msgstr "ठीक है"
 
-#: pippy_app.py:317
+#: pippy_app.py:428
 msgid "Creating activity bundle..."
 msgstr "क्रिया संग्रह बनाया जा रहा है..."
 
-#: pippy_app.py:376
+#: pippy_app.py:491
 msgid "Activity saved to journal."
 msgstr "क्रिया दैनिकी में सहेजा गया."
+
+#~ msgid "Please install TamTamEdit's sound library."
+#~ msgstr "कुपया टॅम टॅम एडिट की संगीत पुस्तककालय का संपादन  करे."
 
 #~ msgid "Run!"
 #~ msgstr "दोडो!"

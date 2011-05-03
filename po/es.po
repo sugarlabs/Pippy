@@ -14,6 +14,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # Spanish translations for PACKAGE package.
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -22,16 +26,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-25 00:31-0500\n"
-"PO-Revision-Date: 2011-01-31 00:53+0200\n"
-"Last-Translator: Rafael Ortiz <rafael@laptop.org>\n"
+"POT-Creation-Date: 2011-03-04 00:46-0500\n"
+"PO-Revision-Date: 2011-04-10 18:35+0200\n"
+"Last-Translator: Gustavo S <ibarrags@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.3\n"
+"X-Generator: Pootle 2.0.1\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -54,9 +58,11 @@ msgstr "Editar"
 msgid "PAUSED"
 msgstr "PAUSADO"
 
-#: library/pippy/sound.py:295
-msgid "Please install TamTamEdit's sound library."
-msgstr "Por favor instale la librería de sonido de TamTamEdit."
+#: library/pippy/sound.py:47
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
+"No se pudo encontrar la librería de audio de la Actividad TamTamEdit. ¿Ha "
+"instalado la Actividad TamTamEdit ?"
 
 #: pippy_app.py:87
 msgid "As Pippy Document"
@@ -68,7 +74,7 @@ msgstr "Como Actividad empaquetada"
 
 #: pippy_app.py:106
 msgid "Actions"
-msgstr " Acciones"
+msgstr "Acciones"
 
 #: pippy_app.py:133
 msgid "_Run!"
@@ -88,7 +94,7 @@ msgstr "<alt>s"
 
 #: pippy_app.py:162
 msgid "_Clear"
-msgstr "_Limpiar "
+msgstr "_Limpiar"
 
 #: pippy_app.py:163
 msgid "<alt>c"
@@ -126,6 +132,9 @@ msgstr "Creando una actividad empaquetada..."
 #: pippy_app.py:491
 msgid "Activity saved to journal."
 msgstr "Actividad guardada en el diario."
+
+#~ msgid "Please install TamTamEdit's sound library."
+#~ msgstr "Por favor instale la librería de sonido de TamTamEdit."
 
 #~ msgid "Stop!"
 #~ msgstr "Para!"

@@ -2,84 +2,85 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-27 00:30-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2008-09-15 13:25-0400\n"
+"Last-Translator: lacrete <le_teaseur@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.0.1\n"
+"X-Generator: Pootle 1.1.0rc2\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
-msgstr ""
+msgstr "Pippy"
 
 #: activity.py:26
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "% Sous"
 
 #: activity.py:62
 msgid "Copy selected text to clipboard"
-msgstr ""
+msgstr "Kopye tèks ou chwazi a sou ekritwa"
 
 #: activity.py:67
 msgid "Edit"
-msgstr ""
+msgstr "Korije"
 
 #: library/pippy/game.py:19
 msgid "PAUSED"
-msgstr ""
+msgstr "Poz"
 
 #: library/pippy/sound.py:179
 msgid "Please install TamTamEdit's sound library."
-msgstr ""
+msgstr "Souple enstale korektè TamTam librèri son."
 
 #: pippy_app.py:61
 msgid "As Pippy Document"
-msgstr ""
+msgstr "Kòm dokiman Pippy"
 
 #: pippy_app.py:66
 msgid "As Activity Bundle"
-msgstr ""
+msgstr "Kòm pakè aktivite"
 
 #: pippy_app.py:83
 msgid "Examples"
-msgstr ""
+msgstr "Egzanp yo"
 
 #: pippy_app.py:152
 msgid "_Run!"
-msgstr ""
+msgstr "_Fè mache!"
 
 #: pippy_app.py:252
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "%s Aktivite"
 
 #: pippy_app.py:308
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Sove kòm Aktivite Erè"
 
 #: pippy_app.py:309
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
+"Souple bay aktivite ou-a yon non siyifikatif avan ou tante sove-l kòm yon "
+"aktivite."
 
 #: pippy_app.py:311
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: pippy_app.py:317
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "pakè aktivite an kreyasyon..."
 
 #: pippy_app.py:376
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "Aktivite sove nan jounal."
