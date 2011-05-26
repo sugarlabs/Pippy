@@ -22,12 +22,44 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-27 00:30-0400\n"
-"PO-Revision-Date: 2010-03-28 23:13+0200\n"
+"POT-Creation-Date: 2011-03-04 00:46-0500\n"
+"PO-Revision-Date: 2011-04-14 22:37+0200\n"
 "Last-Translator: Markus <m.slg@gmx.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -35,59 +67,87 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.3\n"
+"X-Generator: Pootle 2.0.1\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "Pippy"
 
-#: activity.py:26
+#: activity.py:49
 #, python-format
 msgid "%s Source"
 msgstr "%s Quelle"
 
-#: activity.py:62
+#: activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "Ausgewählten Text in die Zwischenablage kopieren"
 
-#: activity.py:67
+#: activity.py:96 pippy_app.py:108 pippy_app.py:113
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: library/pippy/game.py:19
+#: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "ANGEHALTEN"
 
-#: library/pippy/sound.py:179
-msgid "Please install TamTamEdit's sound library."
-msgstr "Bitte die Klangbibliothek von TamTamEdit installieren."
+#: library/pippy/sound.py:47
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
+"Kann die TamTamEdit-Klangbibliothek nicht finden. Hast du TamTamEdit "
+"installiert?"
 
-#: pippy_app.py:61
+#: pippy_app.py:87
 msgid "As Pippy Document"
 msgstr "Als Pippy-Dokument"
 
-#: pippy_app.py:66
+#: pippy_app.py:94
 msgid "As Activity Bundle"
 msgstr "Als Aktivitätspaket"
 
-#: pippy_app.py:83
-msgid "Examples"
-msgstr "Beispiele"
+#: pippy_app.py:106
+msgid "Actions"
+msgstr "Aktionen"
 
-#: pippy_app.py:152
+#: pippy_app.py:133
 msgid "_Run!"
 msgstr "_Los!"
 
-#: pippy_app.py:252
+#: pippy_app.py:134
+msgid "<alt>r"
+msgstr "<alt>l"
+
+#: pippy_app.py:147
+msgid "_Stop"
+msgstr "_Stopp!"
+
+#: pippy_app.py:148
+msgid "<alt>s"
+msgstr "<alt>s"
+
+# (Markus S.) war '_Säubern'
+#: pippy_app.py:162
+msgid "_Clear"
+msgstr "_Leeren"
+
+# (Markus S.) sollte zu 'Leeren' passen, aber 'l' ist schon zuvor belegt.
+#: pippy_app.py:163
+msgid "<alt>c"
+msgstr "<alt>e"
+
+#: pippy_app.py:192
+msgid "Examples"
+msgstr "Beispiele"
+
+#: pippy_app.py:338
 #, python-format
 msgid "%s Activity"
 msgstr "%s Aktivität"
 
-#: pippy_app.py:308
+#: pippy_app.py:418
 msgid "Save as Activity Error"
 msgstr "Als Aktivitätsfehler speichern"
 
-#: pippy_app.py:309
+#: pippy_app.py:419
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -95,17 +155,20 @@ msgstr ""
 "Gib deiner Aktivität einen aussagekräftigen Namen, bevor du sie als solche "
 "abspeicherst."
 
-#: pippy_app.py:311
+#: pippy_app.py:422
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:317
+#: pippy_app.py:428
 msgid "Creating activity bundle..."
 msgstr "Erstelle Aktivitätspaket..."
 
-#: pippy_app.py:376
+#: pippy_app.py:491
 msgid "Activity saved to journal."
 msgstr "Aktivität ins Tagebuch gespeichert."
+
+#~ msgid "Please install TamTamEdit's sound library."
+#~ msgstr "Bitte die Klangbibliothek von TamTamEdit installieren."
 
 #~ msgid "Run!"
 #~ msgstr "Los!"
