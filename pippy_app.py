@@ -634,7 +634,7 @@ def pippy_activity_mime_types():
 def pippy_activity_extra_info():
     return """
 license = GPLv2+
-update_url = http://wiki.laptop.org/go/Activities/G1G1"""
+update_url = http://activities.sugarlabs.org """
 
 ################# ACTIVITY BUNDLER ################
 
