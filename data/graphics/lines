@@ -1,4 +1,5 @@
 # lines: make lots of lines on the screen
+# pep8-ignore: E501
 
 import pippy
 import pygame
