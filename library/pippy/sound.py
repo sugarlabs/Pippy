@@ -21,8 +21,9 @@ from gettext import gettext as _
 
 import sugar.env
 
+tp= '/TamTamEdit.activity/'
+tamtam_subdir = str(os.path.join(tp, 'common', 'Resources', 'Sounds'))
 
-tamtam_subdir = '/TamTamEdit.activity/common/Resources/Sounds/'
 sound_candidate_dirs = [
     os.path.expandvars('$SUGAR_PATH/activities') + tamtam_subdir,
     sugar.env.get_user_activities_path() + tamtam_subdir,
