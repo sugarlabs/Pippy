@@ -427,7 +427,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._reset_vte()
         self._vte.feed(_("Creating activity bundle..."))
         self._vte.feed("\r\n")
-        TMPDIR = 'instance'  # XXX: should be 'tmp', once trac #1731 is fixed.
+        TMPDIR = 'instance' 
         app_temp = mkdtemp('.activity', 'Pippy',
                            os.path.join(self.get_activity_root(), TMPDIR))
         sourcefile = os.path.join(app_temp, 'xyzzy.py')
