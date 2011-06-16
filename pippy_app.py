@@ -99,6 +99,12 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         palette.menu.append(menu_item)
         menu_item.show()
 
+        menu_item = MenuItem(_('As Pippy Example'))  # pippy example option 
+        menu_item.set_image(Icon(file=('%s/activity/activity-icon.svg' % get_bundle_path()), icon_size=gtk.ICON_SIZE_MENU)) 
+        menu_item.connect('activate', self.saveexamplebutton_cb) 
+        palette.menu.append(menu_item) 
+        menu_item.show()
+
         self._edit_toolbar = activity.EditToolbar()
 
         if OLD_TOOLBAR:
@@ -210,6 +216,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self.model.set_value(olditer, 0, direntry)
             self.model.set_value(olditer, 1, direntry["name"])
 
+
             for _file in sorted(os.listdir(os.path.join(root, d))):
                 if _file.endswith('~'):
                     continue  # skip emacs backups
@@ -218,6 +225,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 _iter = self.model.insert_before(olditer, None)
                 self.model.set_value(_iter, 0, entry)
                 self.model.set_value(_iter, 1, entry["name"])
+        # Adding local examples 
+        #d = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'],'data') 
+        direntry_examples  = { "name": _("My examples"), 
+                               "path": os.path.join(root, d) + "/" } 
+        self.example_iter = self.model.insert_before(None, None) 
+        self.model.set_value(self.example_iter, 0, direntry_examples) 
+        self.model.set_value(self.example_iter, 1, direntry_examples["name"]) 
 
         treeview.expand_all()
 
@@ -453,6 +467,41 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             rmtree(app_temp, ignore_errors=True)  # clean up!
             raise
 
+    def saveexamplebutton_cb(self, __):
+        # get the name of this pippy program.
+        title = self.metadata['title']
+        if title == _('Pippy Activity'):
+                 from sugar.graphics.alert import Alert
+                 from sugar.graphics.icon import Icon
+                 alert = Alert()
+                 alert.props.title =_ ('Save as Example Error')
+                 alert.props.msg = _('Please give your activity a meaningful name before attempting to save it as an example.')
+                 ok_icon = Icon(icon_name='dialog-ok')
+                 alert.add_button(gtk.RESPONSE_OK, _('Ok'), ok_icon)
+                 alert.connect('response', self.dismiss_alert_cb)
+                 self.add_alert(alert)
+                 return
+        self.stopbutton_cb(None) # try stopping old code first.
+        self._reset_vte()
+        self._vte.feed(_("Creating example..."))
+        self._vte.feed("\r\n")
+        local_data = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'],'data')
+        local_file = os.path.join(local_data,title)
+        if os.path.exists(local_file):
+            from sugar.graphics.alert import ConfirmationAlert
+            alert = ConfirmationAlert()
+            alert.props.title =_ ('Save as Example Warning')
+            alert.props.msg = _('This example already exists. Do you want to overwrite it?')
+            alert.connect('response', self.confirmation_alert_cb, local_file)
+            self.add_alert(alert)
+        else:
+                self.write_file(local_file)
+                self._reset_vte()
+                self._vte.feed(_("Saved as example."))
+                self._vte.feed("\r\n")
+                self.add_to_example_list(local_file)
+                                  
+
     def child_exited_cb(self, *args):
         """Called whenever a child exits.  If there's a handler, run it."""
         h, self._child_exited_handler = self._child_exited_handler, None
@@ -497,6 +546,25 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def dismiss_alert_cb(self, alert, response_id):
         self.remove_alert(alert)
+
+    
+    def confirmation_alert_cb(self, alert, response_id, local_file):  #callback for conf alert
+        self.remove_alert(alert)
+        if response_id is gtk.RESPONSE_OK:
+                    self.write_file(local_file)
+                    self._reset_vte()
+                    self._vte.feed(_("Saved as example."))
+                    self._vte.feed("\r\n")
+        else:
+             self._reset_vte()
+
+    def add_to_example_list(self,local_file):  # def for add example                    
+        entry = { "name": _(os.path.basename(local_file)),
+                  "path": local_file }
+        _iter = self.model.insert_before(self.example_iter, None)
+        self.model.set_value(_iter, 0, entry)
+        self.model.set_value(_iter, 1, entry["name"])
+                                    
 
     def save_to_journal(self, file_path, cloudstring):
         _file = open(file_path, 'w')
