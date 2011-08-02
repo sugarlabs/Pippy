@@ -56,18 +56,20 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Fructose-de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2011-04-14 22:37+0200\n"
-"Last-Translator: Markus <m.slg@gmx.de>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2011-06-29 00:32-0400\n"
+"PO-Revision-Date: 2011-07-17 23:01+0100\n"
+"Last-Translator: Markus Schlager <m.slg@gmx.de>\n"
+"Language-Team: Deutsch <LL@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.1\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: Germany\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -76,13 +78,15 @@ msgstr "Pippy"
 #: activity.py:49
 #, python-format
 msgid "%s Source"
-msgstr "%s Quelle"
+msgstr "%s Quelltext"
 
 #: activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "Ausgewählten Text in die Zwischenablage kopieren"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: activity.py:96
+#: pippy_app.py:114
+#: pippy_app.py:119
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -90,11 +94,9 @@ msgstr "Bearbeiten"
 msgid "PAUSED"
 msgstr "ANGEHALTEN"
 
-#: library/pippy/sound.py:47
+#: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
-"Kann die TamTamEdit-Klangbibliothek nicht finden. Hast du TamTamEdit "
-"installiert?"
+msgstr "Kann die TamTamEdit-Klangbibliothek nicht finden. Hast du TamTamEdit installiert?"
 
 #: pippy_app.py:87
 msgid "As Pippy Document"
@@ -104,66 +106,100 @@ msgstr "Als Pippy-Dokument"
 msgid "As Activity Bundle"
 msgstr "Als Aktivitätspaket"
 
-#: pippy_app.py:106
+#: pippy_app.py:102
+msgid "As Pippy Example"
+msgstr "Als Pippy-Beispiel"
+
+#: pippy_app.py:112
 msgid "Actions"
 msgstr "Aktionen"
 
-#: pippy_app.py:133
+#: pippy_app.py:139
 msgid "_Run!"
 msgstr "_Los!"
 
-#: pippy_app.py:134
+#: pippy_app.py:140
 msgid "<alt>r"
 msgstr "<alt>l"
 
-#: pippy_app.py:147
+#: pippy_app.py:153
 msgid "_Stop"
 msgstr "_Stopp!"
 
-#: pippy_app.py:148
+#: pippy_app.py:154
 msgid "<alt>s"
 msgstr "<alt>s"
 
 # (Markus S.) war '_Säubern'
-#: pippy_app.py:162
+#: pippy_app.py:168
 msgid "_Clear"
 msgstr "_Leeren"
 
 # (Markus S.) sollte zu 'Leeren' passen, aber 'l' ist schon zuvor belegt.
-#: pippy_app.py:163
+#: pippy_app.py:169
 msgid "<alt>c"
 msgstr "<alt>e"
 
-#: pippy_app.py:192
+#: pippy_app.py:198
 msgid "Examples"
 msgstr "Beispiele"
 
-#: pippy_app.py:338
+#: pippy_app.py:230
+msgid "My examples"
+msgstr "Meine Beispiele"
+
+#: pippy_app.py:352
 #, python-format
 msgid "%s Activity"
 msgstr "%s Aktivität"
 
-#: pippy_app.py:418
+#: pippy_app.py:432
 msgid "Save as Activity Error"
 msgstr "Als Aktivitätsfehler speichern"
 
-#: pippy_app.py:419
-msgid ""
-"Please give your activity a meaningful name before attempting to save it as "
-"an activity."
-msgstr ""
-"Gib deiner Aktivität einen aussagekräftigen Namen, bevor du sie als solche "
-"abspeicherst."
+#: pippy_app.py:433
+msgid "Please give your activity a meaningful name before attempting to save it as an activity."
+msgstr "Gib deiner Aktivität einen aussagekräftigen Namen, bevor du sie als solche abspeicherst."
 
-#: pippy_app.py:422
+#: pippy_app.py:436
+#: pippy_app.py:480
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:428
+#: pippy_app.py:442
 msgid "Creating activity bundle..."
 msgstr "Erstelle Aktivitätspaket..."
 
-#: pippy_app.py:491
+#: pippy_app.py:473
+msgid "Pippy Activity"
+msgstr "Pippy-Aktivität"
+
+#: pippy_app.py:477
+msgid "Save as Example Error"
+msgstr "Als Beispielfehler speichern"
+
+#: pippy_app.py:478
+msgid "Please give your activity a meaningful name before attempting to save it as an example."
+msgstr "Gib deiner Aktivität einen aussagekräftigen Namen, bevor du sie als Beispiel abzuspeichern versuchst."
+
+#: pippy_app.py:486
+msgid "Creating example..."
+msgstr "Erstelle Beispiel..."
+
+#: pippy_app.py:493
+msgid "Save as Example Warning"
+msgstr "Als Beispielwarnung speichern"
+
+#: pippy_app.py:494
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "Dieses Beispiel existiert bereits. Willst du es überschreiben?"
+
+#: pippy_app.py:500
+#: pippy_app.py:556
+msgid "Saved as example."
+msgstr "Als Beispiel gespeichert."
+
+#: pippy_app.py:540
 msgid "Activity saved to journal."
 msgstr "Aktivität ins Tagebuch gespeichert."
 

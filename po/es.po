@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2011-04-10 18:35+0200\n"
-"Last-Translator: Gustavo S <ibarrags@gmail.com>\n"
+"POT-Creation-Date: 2011-06-16 00:32-0400\n"
+"PO-Revision-Date: 2011-07-23 22:00+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "%s Fuente"
 msgid "Copy selected text to clipboard"
 msgstr "Copiar el texto seleccionado al portapapeles"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: activity.py:96 pippy_app.py:114 pippy_app.py:119
 msgid "Edit"
 msgstr "Editar"
 
@@ -58,11 +58,11 @@ msgstr "Editar"
 msgid "PAUSED"
 msgstr "PAUSADO"
 
-#: library/pippy/sound.py:47
+#: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 "No se pudo encontrar la librería de audio de la Actividad TamTamEdit. ¿Ha "
-"instalado la Actividad TamTamEdit ?"
+"instalado la Actividad TamTamEdit?"
 
 #: pippy_app.py:87
 msgid "As Pippy Document"
@@ -72,48 +72,56 @@ msgstr "Como documento Pippy"
 msgid "As Activity Bundle"
 msgstr "Como Actividad empaquetada"
 
-#: pippy_app.py:106
+#: pippy_app.py:102
+msgid "As Pippy Example"
+msgstr "Como el ejemplo de Pippy"
+
+#: pippy_app.py:112
 msgid "Actions"
 msgstr "Acciones"
 
-#: pippy_app.py:133
+#: pippy_app.py:139
 msgid "_Run!"
 msgstr "¡_Empieza!"
 
-#: pippy_app.py:134
+#: pippy_app.py:140
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: pippy_app.py:147
+#: pippy_app.py:153
 msgid "_Stop"
 msgstr "_Parar"
 
-#: pippy_app.py:148
+#: pippy_app.py:154
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:162
+#: pippy_app.py:168
 msgid "_Clear"
 msgstr "_Limpiar"
 
-#: pippy_app.py:163
+#: pippy_app.py:169
 msgid "<alt>c"
 msgstr "<alt>c"
 
-#: pippy_app.py:192
+#: pippy_app.py:198
 msgid "Examples"
 msgstr "Ejemplos"
 
-#: pippy_app.py:338
+#: pippy_app.py:230
+msgid "My examples"
+msgstr "Mis ejemplos"
+
+#: pippy_app.py:352
 #, python-format
 msgid "%s Activity"
 msgstr "%s Actividad"
 
-#: pippy_app.py:418
+#: pippy_app.py:432
 msgid "Save as Activity Error"
 msgstr "Guardar como error de la Actividad"
 
-#: pippy_app.py:419
+#: pippy_app.py:433
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -121,15 +129,47 @@ msgstr ""
 "Por favor de a su actividad un nombre con significado antes de intentar "
 "guardarlo como una actividad."
 
-#: pippy_app.py:422
+#: pippy_app.py:436 pippy_app.py:480
 msgid "Ok"
 msgstr "Bien"
 
-#: pippy_app.py:428
+#: pippy_app.py:442
 msgid "Creating activity bundle..."
 msgstr "Creando una actividad empaquetada..."
 
-#: pippy_app.py:491
+#: pippy_app.py:473
+msgid "Pippy Activity"
+msgstr "Actividad Pippy"
+
+#: pippy_app.py:477
+msgid "Save as Example Error"
+msgstr "Guardar como Ejemplo Erróneo"
+
+#: pippy_app.py:478
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"Por favor de a su actividad un nombre con significado antes de intentar "
+"guardarlo como un ejemplo."
+
+#: pippy_app.py:486
+msgid "Creating example..."
+msgstr "Generando ejemplo..."
+
+#: pippy_app.py:493
+msgid "Save as Example Warning"
+msgstr "Guardar como Ejemplo de Advertencia"
+
+#: pippy_app.py:494
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "Este ejemplo ya existe. Deseas sobreescribirlo?"
+
+#: pippy_app.py:500 pippy_app.py:556
+msgid "Saved as example."
+msgstr "Guardado como ejemplo."
+
+#: pippy_app.py:540
 msgid "Activity saved to journal."
 msgstr "Actividad guardada en el diario."
 
