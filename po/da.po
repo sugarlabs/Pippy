@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2011-04-06 03:38+0200\n"
+"POT-Creation-Date: 2011-06-16 00:32-0400\n"
+"PO-Revision-Date: 2011-06-19 20:14+0200\n"
 "Last-Translator: Aputsiaq <aj@isit.gl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: da\n"
@@ -38,7 +38,7 @@ msgstr "%s Kilde"
 msgid "Copy selected text to clipboard"
 msgstr "Kopiér valgte tekst til udklipsholder"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: activity.py:96 pippy_app.py:114 pippy_app.py:119
 msgid "Edit"
 msgstr "Redigér"
 
@@ -46,7 +46,7 @@ msgstr "Redigér"
 msgid "PAUSED"
 msgstr "PÅ PAUSE"
 
-#: library/pippy/sound.py:47
+#: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 "Kan ikke finde lydbiblioteket for TamTamEdit. Har du installeret TamTamEdit?"
@@ -59,48 +59,56 @@ msgstr "Som et Pippy-dokument"
 msgid "As Activity Bundle"
 msgstr "Som et aktivitetsbundt"
 
-#: pippy_app.py:106
+#: pippy_app.py:102
+msgid "As Pippy Example"
+msgstr "Som Pippy-eksempel"
+
+#: pippy_app.py:112
 msgid "Actions"
 msgstr "Handlinger"
 
-#: pippy_app.py:133
+#: pippy_app.py:139
 msgid "_Run!"
 msgstr "_Kør!"
 
-#: pippy_app.py:134
+#: pippy_app.py:140
 msgid "<alt>r"
 msgstr "<alt>k"
 
-#: pippy_app.py:147
+#: pippy_app.py:153
 msgid "_Stop"
 msgstr "_Stop"
 
-#: pippy_app.py:148
+#: pippy_app.py:154
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:162
+#: pippy_app.py:168
 msgid "_Clear"
 msgstr "_Ryd"
 
-#: pippy_app.py:163
+#: pippy_app.py:169
 msgid "<alt>c"
 msgstr "<alt>r"
 
-#: pippy_app.py:192
+#: pippy_app.py:198
 msgid "Examples"
 msgstr "Eksempler"
 
-#: pippy_app.py:338
+#: pippy_app.py:230
+msgid "My examples"
+msgstr "Mine eksempler"
+
+#: pippy_app.py:352
 #, python-format
 msgid "%s Activity"
 msgstr "%s Aktivitet"
 
-#: pippy_app.py:418
+#: pippy_app.py:432
 msgid "Save as Activity Error"
 msgstr "Gem som aktivitetsfejl"
 
-#: pippy_app.py:419
+#: pippy_app.py:433
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -108,14 +116,46 @@ msgstr ""
 "Giv venligst din aktivitet et meningsfuldt navn før du forsøger at gemme det "
 "som en aktivitet."
 
-#: pippy_app.py:422
+#: pippy_app.py:436 pippy_app.py:480
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:428
+#: pippy_app.py:442
 msgid "Creating activity bundle..."
 msgstr "Opretter aktivitetsbundt..."
 
-#: pippy_app.py:491
+#: pippy_app.py:473
+msgid "Pippy Activity"
+msgstr "Pippy-aktivitet"
+
+#: pippy_app.py:477
+msgid "Save as Example Error"
+msgstr "Gem som Eksempel-fejl"
+
+#: pippy_app.py:478
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"Giv venligst din aktivitet et meningsfuldt navn før du forsøger at gemme det "
+"som et eksempel."
+
+#: pippy_app.py:486
+msgid "Creating example..."
+msgstr "Opretter eksempel..."
+
+#: pippy_app.py:493
+msgid "Save as Example Warning"
+msgstr "Gem som Eksempel-advarsel"
+
+#: pippy_app.py:494
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "Dette eksempel eksisterer allerede. Ønsker du at overskrive det?"
+
+#: pippy_app.py:500 pippy_app.py:556
+msgid "Saved as example."
+msgstr "Gemt som eksempel."
+
+#: pippy_app.py:540
 msgid "Activity saved to journal."
 msgstr "Aktivitet gemt i journal."
