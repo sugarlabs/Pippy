@@ -1,3 +1,11 @@
+41
+
+*New Translations by aman0115, samybt, aputsiaq, khaled, cjl, Myckel, mschlager
+*Division by zero fix for when elapsed time is zero on fast systems, OLPC#11176 James Cameron <quozl@laptop.org>
+*Regen pot, pep8 fixes, Adding save as example option, based on geirea patch on SL#1496,
+Better way to go to TamTamEdit, updating url_update info, removing service_name, Rafael Ortiz <rafael@activitycentral.com>
+*Update MAINTAINERS file, Anish Mangal <anish@sugarlabs.org>
+
 40
 
 *Fix Pippy sound library on non-OLPC OS systems (SL#638)
