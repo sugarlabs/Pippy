@@ -14,11 +14,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2011-03-03 10:34+0200\n"
+"POT-Creation-Date: 2011-08-02 09:26-0500\n"
+"PO-Revision-Date: 2011-08-29 18:44+0200\n"
 "Last-Translator: samy boutayeb <s.boutayeb@free.fr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fr\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,93 +29,138 @@ msgstr ""
 msgid "Pippy"
 msgstr "Pippy"
 
-#: activity.py:49
+#: /home/rafael/Activities/pippy/activity.py:49
 #, python-format
 msgid "%s Source"
 msgstr "Source %s"
 
-#: activity.py:91
+#: /home/rafael/Activities/pippy/activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "Copier le texte sélectionné vers le presse-papier"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: /home/rafael/Activities/pippy/activity.py:96
+#: /home/rafael/Activities/pippy/pippy_app.py:114
+#: /home/rafael/Activities/pippy/pippy_app.py:119
 msgid "Edit"
 msgstr "Editer"
 
-#: library/pippy/game.py:36
-msgid "PAUSED"
-msgstr "PAUSE"
-
-#: library/pippy/sound.py:47
-msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
-
-#: pippy_app.py:87
+#: /home/rafael/Activities/pippy/pippy_app.py:87
 msgid "As Pippy Document"
 msgstr "Comme document Pippy"
 
-#: pippy_app.py:94
+#: /home/rafael/Activities/pippy/pippy_app.py:94
 msgid "As Activity Bundle"
 msgstr "Comme paquet activité"
 
-#: pippy_app.py:106
+#: /home/rafael/Activities/pippy/pippy_app.py:102
+msgid "As Pippy Example"
+msgstr "Comme exemple Pippy"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:112
 msgid "Actions"
 msgstr "Actions"
 
-#: pippy_app.py:133
+#: /home/rafael/Activities/pippy/pippy_app.py:139
 msgid "_Run!"
 msgstr "_Démarrer !"
 
-#: pippy_app.py:134
+#: /home/rafael/Activities/pippy/pippy_app.py:140
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: pippy_app.py:147
+#: /home/rafael/Activities/pippy/pippy_app.py:153
 msgid "_Stop"
 msgstr "_Arrêt"
 
-#: pippy_app.py:148
+#: /home/rafael/Activities/pippy/pippy_app.py:154
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:162
+#: /home/rafael/Activities/pippy/pippy_app.py:168
 msgid "_Clear"
 msgstr "_Effacer"
 
-#: pippy_app.py:163
+#: /home/rafael/Activities/pippy/pippy_app.py:169
 msgid "<alt>c"
 msgstr "<alt>c"
 
-#: pippy_app.py:192
+#: /home/rafael/Activities/pippy/pippy_app.py:198
 msgid "Examples"
 msgstr "Exemples"
 
-#: pippy_app.py:338
+#: /home/rafael/Activities/pippy/pippy_app.py:230
+msgid "My examples"
+msgstr "Mes exemples"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:352
 #, python-format
 msgid "%s Activity"
 msgstr "Activité %s"
 
-#: pippy_app.py:418
+#: /home/rafael/Activities/pippy/pippy_app.py:432
 msgid "Save as Activity Error"
 msgstr "Erreur de sauvegarde comme activité"
 
-#: pippy_app.py:419
+#: /home/rafael/Activities/pippy/pippy_app.py:433
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "Pour enregistrer votre activité, choisissez un nom d'activité parlant."
 
-#: pippy_app.py:422
+#: /home/rafael/Activities/pippy/pippy_app.py:436
+#: /home/rafael/Activities/pippy/pippy_app.py:480
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:428
+#: /home/rafael/Activities/pippy/pippy_app.py:442
 msgid "Creating activity bundle..."
 msgstr "Création de paquet activité en cours..."
 
-#: pippy_app.py:491
+#: /home/rafael/Activities/pippy/pippy_app.py:473
+msgid "Pippy Activity"
+msgstr "Activité Pippy"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:477
+msgid "Save as Example Error"
+msgstr "Enregistrer comme exemple d'erreur"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:478
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"Pour enregistrer votre activité comme exemple, choisissez un nom d'activité "
+"parlant."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:486
+msgid "Creating example..."
+msgstr "Création d'un exemple..."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:493
+msgid "Save as Example Warning"
+msgstr "Enregistrer comme exemple d'avertissement"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:494
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "Cet exemple existe déjà. Voulez-vous le remplacer ?"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:500
+#: /home/rafael/Activities/pippy/pippy_app.py:556
+msgid "Saved as example."
+msgstr "Enregistré comme exemple."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:540
 msgid "Activity saved to journal."
 msgstr "L'activité a été enregistrée dans le journal."
+
+#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
+"Bibliothèque audio TamTamEdit introuvable. Avez-vous installé TamTamEdit ?"
+
+#: /home/rafael/Activities/pippy/library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "PAUSE"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "Merci d'installer la librairie de sons de TamTamEdit."

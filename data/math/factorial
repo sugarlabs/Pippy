@@ -29,7 +29,10 @@ def calculate(number, type):
         type_s = 'iterative'
         factorial_iterative(number)
     delta = time.time() - start
-    print 'Type: ', type_s, ' in: ', 1 / delta
+    if delta > 0:
+        print 'Type: ', type_s, ' in: ', 1 / delta
+    else:
+        print 'Type: ', type_s
 
 # ask for a number to compute the factorial of
 number = input('Please input a number:')
