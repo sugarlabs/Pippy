@@ -1,0 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-02 09:26-0500\n"
+"PO-Revision-Date: 2011-08-29 07:41+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Pootle 2.0.1\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/activity.py:49
+#, python-format
+msgid "%s Source"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/activity.py:91
+msgid "Copy selected text to clipboard"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/activity.py:96
+#: /home/rafael/Activities/pippy/pippy_app.py:114
+#: /home/rafael/Activities/pippy/pippy_app.py:119
+msgid "Edit"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:87
+msgid "As Pippy Document"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:94
+msgid "As Activity Bundle"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:102
+msgid "As Pippy Example"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:112
+msgid "Actions"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:139
+msgid "_Run!"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:140
+msgid "<alt>r"
+msgstr "<alt>r"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:153
+msgid "_Stop"
+msgstr "_Arsaviñ"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:154
+msgid "<alt>s"
+msgstr "<alt>s"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:168
+msgid "_Clear"
+msgstr "_Skarzhañ"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:169
+#, fuzzy
+msgid "<alt>c"
+msgstr "<alt>r"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:198
+msgid "Examples"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:230
+msgid "My examples"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:352
+#, python-format
+msgid "%s Activity"
+msgstr "%s Oberiantiz"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:432
+msgid "Save as Activity Error"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:433
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:436
+#: /home/rafael/Activities/pippy/pippy_app.py:480
+msgid "Ok"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:442
+msgid "Creating activity bundle..."
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:473
+msgid "Pippy Activity"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:477
+msgid "Save as Example Error"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:478
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:486
+msgid "Creating example..."
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:493
+msgid "Save as Example Warning"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:494
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:500
+#: /home/rafael/Activities/pippy/pippy_app.py:556
+msgid "Saved as example."
+msgstr ""
+
+#: /home/rafael/Activities/pippy/pippy_app.py:540
+msgid "Activity saved to journal."
+msgstr ""
+
+#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
+
+#: /home/rafael/Activities/pippy/library/pippy/game.py:36
+msgid "PAUSED"
+msgstr ""
