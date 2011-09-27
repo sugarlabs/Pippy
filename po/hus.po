@@ -1,0 +1,161 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-02 09:26-0500\n"
+"PO-Revision-Date: 2011-09-04 09:36+0200\n"
+"Last-Translator: Francisco <fordazmx@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.1\n"
+
+# Si se acepta mi sugerencia de "Tsán", deberán cambiar todas las cadenas que contengan "Pippy"
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Pippy"
+
+#: /home/rafael/Activities/pippy/activity.py:49
+#, python-format
+msgid "%s Source"
+msgstr "%s Elel"
+
+#: /home/rafael/Activities/pippy/activity.py:91
+msgid "Copy selected text to clipboard"
+msgstr "K'ot'biy tákudh dhuchlab ba' an kitnom-úw"
+
+#: /home/rafael/Activities/pippy/activity.py:96
+#: /home/rafael/Activities/pippy/pippy_app.py:114
+#: /home/rafael/Activities/pippy/pippy_app.py:119
+msgid "Edit"
+msgstr "Jalk'uy"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:87
+msgid "As Pippy Document"
+msgstr "Etil i dhuchlab Pippy"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:94
+msgid "As Activity Bundle"
+msgstr "Etil i dhu'badh t'ojlab"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:102
+msgid "As Pippy Example"
+msgstr "Etil in t'iplabil a Pippy"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:112
+msgid "Actions"
+msgstr "Pakdhá t'ojlabchik"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:139
+msgid "_Run!"
+msgstr "¡_Tujuw!"
+
+# Aquí la traducción no es literal, porque se debe tomar en cuenta la letra que lleva antepuesta el guion bajo _
+# Esto es difícil de explicar, son cuestiones de programación. Zurik
+#: /home/rafael/Activities/pippy/pippy_app.py:140
+msgid "<alt>r"
+msgstr "<alt>r"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:153
+msgid "_Stop"
+msgstr "_Kuba'"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:154
+msgid "<alt>s"
+msgstr "<alt>s"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:168
+msgid "_Clear"
+msgstr "T'_oka'"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:169
+msgid "<alt>c"
+msgstr "<alt>o"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:198
+msgid "Examples"
+msgstr "T'iplabchik"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:230
+msgid "My examples"
+msgstr "U t'iplabilchik"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:352
+#, python-format
+msgid "%s Activity"
+msgstr "%s T'ojlab"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:432
+msgid "Save as Activity Error"
+msgstr "Ka dhaya' etil jun i k'ibts'ontaláb ti t'ojláb"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:433
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
+msgstr ""
+"Ka t'aja' an alwa'talab abal ok'xidh ti ka dhaya' etil jun i t'ojlab ka "
+"punchij jun in éxbadh bij."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:436
+#: /home/rafael/Activities/pippy/pippy_app.py:480
+msgid "Ok"
+msgstr "Alwa'"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:442
+msgid "Creating activity bundle..."
+msgstr "Dhayk'al jun i t'ojlab axi dhayk'adh ti yan..."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:473
+msgid "Pippy Activity"
+msgstr "T'ojlab Pippy"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:477
+msgid "Save as Example Error"
+msgstr "Ka dhaya' etil jun i uk'pidh t'ojlab"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:478
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"Ka t'aja' an alwa'talab abal ok'xidh ti ka dhaya' jun i t'ojlab etil jun i "
+"t'iplab ka punchij jun in éxbadh bij."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:486
+msgid "Creating example..."
+msgstr "Dhayk'andhal jun i t'iplab..."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:493
+msgid "Save as Example Warning"
+msgstr "Ka dhaya' etil jun i T'ipodh Ok'xidh olchixtaláb"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:494
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "Axi t'iplab wa'tsits. a le' ka. A le' ka wichk'ow ka dhucha'?"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:500
+#: /home/rafael/Activities/pippy/pippy_app.py:556
+msgid "Saved as example."
+msgstr "Dhayach etil i t'iplab."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:540
+msgid "Activity saved to journal."
+msgstr "T'ojláb dhayach ti chudhel dhuchadh úw."
+
+#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
+"Yab i ejtow ki ela' an dhaykol ats'at dhuchlab xin k'al an t'ojlab "
+"TamTamEdit. ¿A punk'uyámal an t'ojlab TamTamEdit?"
+
+#: /home/rafael/Activities/pippy/library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "TONK'IDH"
