@@ -27,13 +27,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2008-07-08 00:07-0400\n"
-"Last-Translator: Odontsetseg Bat-Erdene <obat-erdene@suffolk.edu>\n"
+"PO-Revision-Date: 2011-09-27 12:52+0200\n"
+"Last-Translator: Cris Anderson <anderson861@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: mn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.1.0rc2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -127,7 +129,7 @@ msgstr "Үйл ажиллагааны бүрдэл бүтээгдэж байна
 
 #: pippy_app.py:491
 msgid "Activity saved to journal."
-msgstr "Үйл ажиллагаа бүртгэлийн дэвтэрт хадгалагдлаа. "
+msgstr "Үйл ажиллагаа бүртгэлийн дэвтэрт хадгалагдлаа."
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "TamTamEdit-ийн дууны архивыг суулгана уу."
