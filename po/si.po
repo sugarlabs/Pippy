@@ -15,13 +15,15 @@ msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2008-07-18 06:33-0400\n"
-"Last-Translator: Rashan Anushka <rashan.uoc@gmail.com>\n"
+"PO-Revision-Date: 2011-09-28 08:13+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: Sinhalese <en@li.org>\n"
+"Language: si\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.1.0rc2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -45,8 +47,9 @@ msgid "PAUSED"
 msgstr "විරාමයක් ගෙන ඇත"
 
 #: library/pippy/sound.py:47
+#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
+msgstr "TamTamEdit ශබ්ද පුස්තකාලය සොයාගැනීමට නොහැක. ඔබ TamTamEdit ස්ථාපනය කලාද?"
 
 #: pippy_app.py:87
 msgid "As Pippy Document"
@@ -57,32 +60,38 @@ msgid "As Activity Bundle"
 msgstr "ක්‍රියාකාරකම් පොදියක් ලෙස"
 
 #: pippy_app.py:106
+#: /home/rafael/Activities/pippy/pippy_app.py:112
 msgid "Actions"
-msgstr ""
+msgstr "ක්‍රියා"
 
 #: pippy_app.py:133
 msgid "_Run!"
 msgstr "දුවන්න!(_R)"
 
 #: pippy_app.py:134
+#: /home/rafael/Activities/pippy/pippy_app.py:140
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
 #: pippy_app.py:147
+#: /home/rafael/Activities/pippy/pippy_app.py:153
 msgid "_Stop"
-msgstr ""
+msgstr "_Stop"
 
 #: pippy_app.py:148
+#: /home/rafael/Activities/pippy/pippy_app.py:154
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
 #: pippy_app.py:162
+#, fuzzy
 msgid "_Clear"
-msgstr ""
+msgstr "_Clear"
 
 #: pippy_app.py:163
+#: /home/rafael/Activities/pippy/pippy_app.py:169
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
 #: pippy_app.py:192
 msgid "Examples"
