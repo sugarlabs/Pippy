@@ -14,110 +14,154 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2009-06-04 02:23-0400\n"
-"Last-Translator: Deependra Ariyadewa <deependra@gmail.com>\n"
+"POT-Creation-Date: 2011-08-02 09:26-0500\n"
+"PO-Revision-Date: 2011-07-03 13:54+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ta\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.1\n"
+"X-Generator: Pootle 2.0.1\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "பிப்பி"
 
-#: activity.py:49
+#: /home/rafael/Activities/pippy/activity.py:49
 #, python-format
 msgid "%s Source"
-msgstr "% வளம்"
+msgstr "%s வளம்"
 
-#: activity.py:91
+#: /home/rafael/Activities/pippy/activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "மறைப்பலகையில்உரையை தெரிவு செய்து பிரதிசெய்தல்"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: /home/rafael/Activities/pippy/activity.py:96
+#: /home/rafael/Activities/pippy/pippy_app.py:114
+#: /home/rafael/Activities/pippy/pippy_app.py:119
 msgid "Edit"
 msgstr "திருத்துக"
 
-#: library/pippy/game.py:36
-msgid "PAUSED"
-msgstr "இடைநிறுத்து"
-
-#: library/pippy/sound.py:47
-msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
-
-#: pippy_app.py:87
+#: /home/rafael/Activities/pippy/pippy_app.py:87
 msgid "As Pippy Document"
 msgstr "பிப்பி ஆவணங்கள்"
 
-#: pippy_app.py:94
+#: /home/rafael/Activities/pippy/pippy_app.py:94
 msgid "As Activity Bundle"
 msgstr "செயற்பாட்டுத்தொகுதி"
 
-#: pippy_app.py:106
-msgid "Actions"
-msgstr ""
+#: /home/rafael/Activities/pippy/pippy_app.py:102
+msgid "As Pippy Example"
+msgstr "பிப்பி மாதறியான உதாரணம்"
 
-#: pippy_app.py:133
+#: /home/rafael/Activities/pippy/pippy_app.py:112
+msgid "Actions"
+msgstr "செயல்கள்"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:139
 msgid "_Run!"
 msgstr "ஓடு!"
 
-#: pippy_app.py:134
+#: /home/rafael/Activities/pippy/pippy_app.py:140
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
-#: pippy_app.py:147
+#: /home/rafael/Activities/pippy/pippy_app.py:153
 msgid "_Stop"
-msgstr ""
+msgstr "_நிறுத்து"
 
-#: pippy_app.py:148
+#: /home/rafael/Activities/pippy/pippy_app.py:154
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
-#: pippy_app.py:162
+#: /home/rafael/Activities/pippy/pippy_app.py:168
 msgid "_Clear"
-msgstr ""
+msgstr "_நீக்கு"
 
-#: pippy_app.py:163
+#: /home/rafael/Activities/pippy/pippy_app.py:169
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
-#: pippy_app.py:192
+#: /home/rafael/Activities/pippy/pippy_app.py:198
 msgid "Examples"
 msgstr "உதாரணங்கள்"
 
-#: pippy_app.py:338
+#: /home/rafael/Activities/pippy/pippy_app.py:230
+msgid "My examples"
+msgstr "என்னுடைய உதாரணங்கள்"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:352
 #, python-format
 msgid "%s Activity"
 msgstr "%s செயற்பாடு"
 
-#: pippy_app.py:418
+#: /home/rafael/Activities/pippy/pippy_app.py:432
 msgid "Save as Activity Error"
 msgstr "செயற்பாட்டு தவறை மாற்றிசேமிக்கவும்"
 
-#: pippy_app.py:419
+#: /home/rafael/Activities/pippy/pippy_app.py:433
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
-" தயவுசெய்து உங்கள்செயற்பாட்டிற்கு அர்த்தமுள்ளபெயரை வழங்கியபின்னர் "
-"முயற்சித்து அச்செயற்பாட்டை சேமிக்க"
+"தயவுசெய்து உங்கள்செயற்பாட்டிற்கு அர்த்தமுள்ளபெயரை வழங்கியபின்னர் முயற்சித்து "
+"அச்செயற்பாட்டை சேமிக்க"
 
-#: pippy_app.py:422
+#: /home/rafael/Activities/pippy/pippy_app.py:436
+#: /home/rafael/Activities/pippy/pippy_app.py:480
 msgid "Ok"
 msgstr "சரி"
 
-#: pippy_app.py:428
+#: /home/rafael/Activities/pippy/pippy_app.py:442
 msgid "Creating activity bundle..."
 msgstr "ஆக்கபூர்வ செயற்பாட்டுத்தொகுதி"
 
-#: pippy_app.py:491
+#: /home/rafael/Activities/pippy/pippy_app.py:473
+msgid "Pippy Activity"
+msgstr "பிப்பியின் செயற்பாடு"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:477
+msgid "Save as Example Error"
+msgstr "உதாரண தவறாக சேமி"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:478
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"தயவுசெய்து உங்கள்செயற்பாட்டிற்கு அர்த்தமுள்ளபெயரை வழங்கியபின்னர் முயற்சித்து "
+"அச்செயற்பாட்டை சேமிக்க"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:486
+msgid "Creating example..."
+msgstr "உதாரணங்கள் உருவாக்கம்..."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:493
+msgid "Save as Example Warning"
+msgstr "எச்சரிக்கான உதாரணமாக சேமி"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:494
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "இந்த உதாரணம் ஏற்கனவேயுள்ளது. உங்களுக்கு மீண்டும் மாற்றி எழுத வேண்டுமா?"
+
+#: /home/rafael/Activities/pippy/pippy_app.py:500
+#: /home/rafael/Activities/pippy/pippy_app.py:556
+msgid "Saved as example."
+msgstr "உதாரணமாக சேமி."
+
+#: /home/rafael/Activities/pippy/pippy_app.py:540
 msgid "Activity saved to journal."
 msgstr "செயற்பாட்டைநாட்குறிப்பேட்டில்சேமி"
+
+#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr "ஒலிக்கான TamTamEdit library காணவில்லை. TamTamEdit யை நிறுவி உள்ளீர்களா?"
+
+#: /home/rafael/Activities/pippy/library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "இடைநிறுத்து"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "தயவு செய்து   TAMTAMEDIT`S ஒலியை    நூலகத்தில்  சேமிக்க"
