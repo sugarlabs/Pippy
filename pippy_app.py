@@ -226,12 +226,19 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 self.model.set_value(_iter, 0, entry)
                 self.model.set_value(_iter, 1, entry["name"])
         # Adding local examples 
-        #d = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'],'data') 
+        root = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'],'data')
         direntry_examples  = { "name": _("My examples"), 
-                               "path": os.path.join(root, d) + "/" } 
+                               "path": root + "/" }
         self.example_iter = self.model.insert_before(None, None) 
         self.model.set_value(self.example_iter, 0, direntry_examples) 
         self.model.set_value(self.example_iter, 1, direntry_examples["name"]) 
+        for _file in sorted(os.listdir(root)):
+            file_name = os.path.join(root, _file)
+            if os.path.isfile(file_name):
+                entry = {"name": _file, "path": file_name}
+                _iter = self.model.insert_before(self.example_iter, None)
+                self.model.set_value(_iter, 0, entry)
+                self.model.set_value(_iter, 1, entry["name"])
 
         treeview.expand_all()
 
