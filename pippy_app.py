@@ -72,38 +72,37 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def initialize_display(self):
         self._logger = logging.getLogger('pippy-activity')
 
-        # Top toolbar with share and close buttons:
+        # Activity toolbar with title input, share button and export buttons:
 
         if OLD_TOOLBAR:
             activity_toolbar = self.toolbox.get_activity_toolbar()
         else:
             activity_toolbar = self.activity_button.page
 
-        # add 'make bundle' entry to 'keep' palette.
-        palette = activity_toolbar.keep.get_palette()
-        # XXX: should clear out old palette entries?
-        from sugar.graphics.menuitem import MenuItem
-        from sugar.graphics.icon import Icon
-        menu_item = MenuItem(_('As Pippy Document'))
-        menu_item.set_image(Icon(file=('%s/activity/activity-icon.svg' %
-                                       get_bundle_path()),
-                                 icon_size=gtk.ICON_SIZE_MENU))
-        menu_item.connect('activate', self.keepbutton_cb)
-        palette.menu.append(menu_item)
-        menu_item.show()
-        menu_item = MenuItem(_('As Activity Bundle'))
-        menu_item.set_image(Icon(file=('%s/activity/activity-default.svg' %
-                                       get_bundle_path()),
-                                 icon_size=gtk.ICON_SIZE_MENU))
-        menu_item.connect('activate', self.makebutton_cb)
-        palette.menu.append(menu_item)
-        menu_item.show()
+        # Hide keep button for Sugar versions prior to 0.94:
+        activity_toolbar.keep.hide()
 
-        menu_item = MenuItem(_('As Pippy Example'))  # pippy example option 
-        menu_item.set_image(Icon(file=('%s/activity/activity-icon.svg' % get_bundle_path()), icon_size=gtk.ICON_SIZE_MENU)) 
-        menu_item.connect('activate', self.saveexamplebutton_cb) 
-        palette.menu.append(menu_item) 
-        menu_item.show()
+        separator = gtk.SeparatorToolItem()
+        separator.show()
+        activity_toolbar.insert(separator, -1)
+
+        export_doc_button = ToolButton('pippy-export_doc')
+        export_doc_button.set_tooltip(_("Export as Pippy Document"))
+        export_doc_button.connect('clicked', self._export_document_cb)
+        export_doc_button.show()
+        activity_toolbar.insert(export_doc_button, -1)
+
+        export_example_button = ToolButton('pippy-export_example')
+        export_example_button.set_tooltip(_("Export as Pippy Example"))
+        export_example_button.connect('clicked', self._export_example_cb)
+        export_example_button.show()
+        activity_toolbar.insert(export_example_button, -1)
+
+        create_bundle_button = ToolButton('pippy-create_bundle')
+        create_bundle_button.set_tooltip(_("Create Activity Bundle"))
+        create_bundle_button.connect('clicked', self._create_bundle_cb)
+        create_bundle_button.show()
+        activity_toolbar.insert(create_bundle_button, -1)
 
         self._edit_toolbar = activity.EditToolbar()
 
@@ -424,10 +423,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         except:
             pass  # process must already be dead.
 
-    def keepbutton_cb(self, __):
+    def _export_document_cb(self, __):
         self.copy()
 
-    def makebutton_cb(self, __):
+    def _create_bundle_cb(self, __):
         from shutil import copytree, copy2, rmtree
         from tempfile import mkdtemp
         # get the name of this pippy program.
@@ -474,7 +473,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             rmtree(app_temp, ignore_errors=True)  # clean up!
             raise
 
-    def saveexamplebutton_cb(self, __):
+    def _export_example_cb(self, __):
         # get the name of this pippy program.
         title = self.metadata['title']
         if title == _('Pippy Activity'):
