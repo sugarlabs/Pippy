@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2011-09-27 12:52+0200\n"
+"PO-Revision-Date: 2011-10-11 18:46+0200\n"
 "Last-Translator: Cris Anderson <anderson861@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: mn\n"
@@ -84,7 +84,7 @@ msgstr ""
 
 #: pippy_app.py:147
 msgid "_Stop"
-msgstr ""
+msgstr "_Зогсоох"
 
 #: pippy_app.py:148
 msgid "<alt>s"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: pippy_app.py:162
 msgid "_Clear"
-msgstr ""
+msgstr "_Арилгах"
 
 #: pippy_app.py:163
 msgid "<alt>c"
