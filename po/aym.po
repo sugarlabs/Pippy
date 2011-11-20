@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-02 09:26-0500\n"
-"PO-Revision-Date: 2011-11-19 07:06+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2011-11-19 16:56+0200\n"
+"Last-Translator: EdgarQuispeChambi <quispedgar@yahoo.es>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: aym\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr "¡Jasma!"
 #  "<alt>r"
 #: /home/rafael/Activities/pippy/pippy_app.py:140
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
 #  "_Parar"
 #: /home/rafael/Activities/pippy/pippy_app.py:153
@@ -74,7 +74,7 @@ msgstr "Sayt'ayaña"
 #  "<alt>s"
 #: /home/rafael/Activities/pippy/pippy_app.py:154
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
 #  "_Limpiar"
 #: /home/rafael/Activities/pippy/pippy_app.py:168
@@ -84,7 +84,7 @@ msgstr "Q'umachaña"
 #  "<alt>c"
 #: /home/rafael/Activities/pippy/pippy_app.py:169
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
 #  "Ejemplos"
 #: /home/rafael/Activities/pippy/pippy_app.py:198
