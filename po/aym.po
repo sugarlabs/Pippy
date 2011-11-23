@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-02 09:26-0500\n"
-"PO-Revision-Date: 2011-11-19 16:56+0200\n"
-"Last-Translator: EdgarQuispeChambi <quispedgar@yahoo.es>\n"
+"PO-Revision-Date: 2011-11-23 07:32+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: aym\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "Lurañanaka"
 #  "¡_Empieza!"
 #: /home/rafael/Activities/pippy/pippy_app.py:139
 msgid "_Run!"
-msgstr "¡Jasma!"
+msgstr "_¡Jasma!"
 
 #  "<alt>r"
 #: /home/rafael/Activities/pippy/pippy_app.py:140
@@ -69,7 +69,7 @@ msgstr "<alt>r"
 #  "_Parar"
 #: /home/rafael/Activities/pippy/pippy_app.py:153
 msgid "_Stop"
-msgstr "Sayt'ayaña"
+msgstr "_Sayt'ayaña"
 
 #  "<alt>s"
 #: /home/rafael/Activities/pippy/pippy_app.py:154
@@ -79,7 +79,7 @@ msgstr "<alt>s"
 #  "_Limpiar"
 #: /home/rafael/Activities/pippy/pippy_app.py:168
 msgid "_Clear"
-msgstr "Q'umachaña"
+msgstr "_Q'umachaña"
 
 #  "<alt>c"
 #: /home/rafael/Activities/pippy/pippy_app.py:169
