@@ -1,0 +1,182 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-02 09:26-0500\n"
+"PO-Revision-Date: 2011-11-23 07:32+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: aym\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.5\n"
+
+#  "Peppy"
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Pippy"
+
+#  "%s Fuente"
+#: /home/rafael/Activities/pippy/activity.py:49
+#, python-format
+msgid "%s Source"
+msgstr "%s Tunu"
+
+#  "Copiar el texto seleccionado al portapapeles"
+#: /home/rafael/Activities/pippy/activity.py:91
+msgid "Copy selected text to clipboard"
+msgstr "Talliqaña ajllita qillqanaka laphi k'ipiru"
+
+#  "Editar"
+#: /home/rafael/Activities/pippy/activity.py:96
+#: /home/rafael/Activities/pippy/pippy_app.py:114
+#: /home/rafael/Activities/pippy/pippy_app.py:119
+msgid "Edit"
+msgstr "Chiqachaña"
+
+#  "Como documento Pippy"
+#: /home/rafael/Activities/pippy/pippy_app.py:87
+msgid "As Pippy Document"
+msgstr "Pippy qillqatajama"
+
+#  "Como Actividad empaquetada"
+#: /home/rafael/Activities/pippy/pippy_app.py:94
+msgid "As Activity Bundle"
+msgstr "Wakichäwinakajama"
+
+#  "Como el ejemplo de Pippy"
+#: /home/rafael/Activities/pippy/pippy_app.py:102
+msgid "As Pippy Example"
+msgstr "Pippy uñanchajama"
+
+#  "Acciones"
+#: /home/rafael/Activities/pippy/pippy_app.py:112
+msgid "Actions"
+msgstr "Lurañanaka"
+
+#  "¡_Empieza!"
+#: /home/rafael/Activities/pippy/pippy_app.py:139
+msgid "_Run!"
+msgstr "_¡Jasma!"
+
+#  "<alt>r"
+#: /home/rafael/Activities/pippy/pippy_app.py:140
+msgid "<alt>r"
+msgstr "<alt>r"
+
+#  "_Parar"
+#: /home/rafael/Activities/pippy/pippy_app.py:153
+msgid "_Stop"
+msgstr "_Sayt'ayaña"
+
+#  "<alt>s"
+#: /home/rafael/Activities/pippy/pippy_app.py:154
+msgid "<alt>s"
+msgstr "<alt>s"
+
+#  "_Limpiar"
+#: /home/rafael/Activities/pippy/pippy_app.py:168
+msgid "_Clear"
+msgstr "_Q'umachaña"
+
+#  "<alt>c"
+#: /home/rafael/Activities/pippy/pippy_app.py:169
+msgid "<alt>c"
+msgstr "<alt>c"
+
+#  "Ejemplos"
+#: /home/rafael/Activities/pippy/pippy_app.py:198
+msgid "Examples"
+msgstr "Uñancha"
+
+#  "Mis ejemplos"
+#: /home/rafael/Activities/pippy/pippy_app.py:230
+msgid "My examples"
+msgstr "Uñanchaja"
+
+#  "%s Actividad"
+#: /home/rafael/Activities/pippy/pippy_app.py:352
+#, python-format
+msgid "%s Activity"
+msgstr "%s Lurawi"
+
+#  "Guardar como error de la Actividad"
+#: /home/rafael/Activities/pippy/pippy_app.py:432
+msgid "Save as Activity Error"
+msgstr "Lurawi pantjatkipana imtata"
+
+#  "Por favor de a su actividad un nombre con significado antes de intentar "
+#  "guardarlo como una actividad."
+#: /home/rafael/Activities/pippy/pippy_app.py:433
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
+msgstr "Mira suma, lurawima suma sutichata ukhat imtata lurawijama."
+
+#  "Bien"
+#: /home/rafael/Activities/pippy/pippy_app.py:436
+#: /home/rafael/Activities/pippy/pippy_app.py:480
+msgid "Ok"
+msgstr "Waliki"
+
+#  "Creando una actividad empaquetada..."
+#: /home/rafael/Activities/pippy/pippy_app.py:442
+msgid "Creating activity bundle..."
+msgstr "Lurawinaka lurapji..."
+
+#  "Actividad Pippy"
+#: /home/rafael/Activities/pippy/pippy_app.py:473
+msgid "Pippy Activity"
+msgstr "Pippy lurawi"
+
+#  "Guardar como Ejemplo Erróneo"
+#: /home/rafael/Activities/pippy/pippy_app.py:477
+msgid "Save as Example Error"
+msgstr "Pantjatjama imtjata"
+
+#  "Por favor de a su actividad un nombre con significado antes de intentar "
+#  "guardarlo como un ejemplo."
+#: /home/rafael/Activities/pippy/pippy_app.py:478
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr "Mira suma, lurawima suma sutichata ukhat imtata lurawijama."
+
+#  "Generando ejemplo..."
+#: /home/rafael/Activities/pippy/pippy_app.py:486
+msgid "Creating example..."
+msgstr "Uñanchayapjiwa..."
+
+#  "Guardar como Ejemplo de Advertencia"
+#: /home/rafael/Activities/pippy/pippy_app.py:493
+msgid "Save as Example Warning"
+msgstr "Imañtata ma sañjama"
+
+#  "Este ejemplo ya existe. Deseas sobreescribirlo?"
+#: /home/rafael/Activities/pippy/pippy_app.py:494
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "Uñanchaña utjiwa. ¿Cchaqayañacha?"
+
+#  "Guardado como ejemplo."
+#: /home/rafael/Activities/pippy/pippy_app.py:500
+#: /home/rafael/Activities/pippy/pippy_app.py:556
+msgid "Saved as example."
+msgstr "Ma uñanchajama imtataskiwa."
+
+#  "Actividad guardada en el diario."
+#: /home/rafael/Activities/pippy/pippy_app.py:540
+msgid "Activity saved to journal."
+msgstr "Lurawi sapüru luräwiru imtataskiwa."
+
+#  "No se pudo encontrar la librería de audio de la Actividad TamTamEdit. ¿Ha "
+#  "instalado la Actividad TamTamEdit?"
+#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr "Tam TamEdit istañanaka jani utkiti. ¿Tam TamEdit uchastati?"
+
+#  "PAUSADO"
+#: /home/rafael/Activities/pippy/library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "Suyt'ayaña"
