@@ -9,10 +9,6 @@ import time
 # grey background
 bgcolor = (128, 128, 128)
 
-# grab a frame from camera to file
-pipeline = gst.parse_launch('v4l2src ! ffmpegcolorspace ! jpegenc ! filesink location=/tmp/pippypic.jpg')
-pipeline.set_state(gst.STATE_PLAYING)
-
 # start using pygame
 pygame.init()
 
@@ -23,15 +19,22 @@ pygame.mouse.set_visible(False)
 # drawing in that window.
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
-# pause for a second to allow the camera frame to be grabbed
-time.sleep(1)
+# grab a frame from camera to file
+pipeline = gst.parse_launch('v4l2src ! ffmpegcolorspace ! jpegenc ! filesink location=/tmp/pippypic.jpg')
+pipeline.set_state(gst.STATE_PLAYING)
+
+# keep trying to load in the grabbed camera frame until it works
+while True:
+  try:
+    image = pygame.image.load('/tmp/pippypic.jpg')
+    break
+  except pygame.error:
+    time.sleep(1)
 
 # stop the camera frame grabbing
 pipeline.set_state(gst.STATE_NULL)
 
-# load in the grabbed camera frame
-image = pygame.image.load('/tmp/pippypic.jpg')
-
+# set initial rotation angle and scale
 angle = 0.0
 scale = 2.0
 
