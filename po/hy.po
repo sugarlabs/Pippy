@@ -14,155 +14,160 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-02 09:26-0500\n"
-"PO-Revision-Date: 2011-07-25 18:28+0200\n"
-"Last-Translator: <anush.mkrtchyan@ca1492.com>\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"PO-Revision-Date: 2011-12-19 04:46+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: hy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "Պիտոն Պիպպի"
 
-#: /home/rafael/Activities/pippy/activity.py:49
+#: activity.py:49
 #, python-format
 msgid "%s Source"
 msgstr "%s Աղբյուր"
 
-#: /home/rafael/Activities/pippy/activity.py:91
+# Բուֆերում
+#: activity.py:91
 msgid "Copy selected text to clipboard"
-msgstr "Պատճենել ընտրած տեքստը"
+msgstr "Պատճենել ընտրած տեքստը փոխանակման բուֆերի վրա"
 
-#: /home/rafael/Activities/pippy/activity.py:96
-#: /home/rafael/Activities/pippy/pippy_app.py:114
-#: /home/rafael/Activities/pippy/pippy_app.py:119
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
 msgstr "Խմբագրել"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:87
-msgid "As Pippy Document"
-msgstr "Պիպպիի փաստաթղթի նման"
+#: library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "ԴԱԴԱՐԵՑՎԱԾ"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:94
-msgid "As Activity Bundle"
-msgstr "Ինչպես գործողություների հավաքածու"
+#: library/pippy/sound.py:48
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr "TamTamEdit -ի ձայնդարանը չեմ գտնում: Դուք տեղադրե՞լ եք TamTamEdit - ը:"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:102
-msgid "As Pippy Example"
-msgstr "Պիպպիի օրինակի նման"
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr "Արտահանել ինչպես Պիպի փաստաթուղթ"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:112
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr "Արտահանել ինչպես Պիպի օրինակ"
+
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr "Ստեղծել նոր գործունեության փաթեթ"
+
+#: pippy_app.py:111
 msgid "Actions"
 msgstr "Գործողություններ"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:139
+#: pippy_app.py:138
 msgid "_Run!"
-msgstr "_Run!"
+msgstr "_մեկնարկիր!"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:140
+#: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:153
+#: pippy_app.py:152
 msgid "_Stop"
 msgstr "_Կանգ"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:154
+#: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:168
+#: pippy_app.py:167
 msgid "_Clear"
 msgstr "_Մաքրել"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:169
+#: pippy_app.py:168
 msgid "<alt>c"
 msgstr "<alt>c"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:198
+#: pippy_app.py:197
 msgid "Examples"
 msgstr "Օրինակներ"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:230
+#: pippy_app.py:229
 msgid "My examples"
 msgstr "Իմ օրինակները"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:352
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
-msgstr "%s Գործողություն"
+msgstr "%s Գործունեություն"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:432
+#: pippy_app.py:438
 msgid "Save as Activity Error"
-msgstr "Հիշել որպես գործողության վրիպում"
+msgstr "Հիշել որպես գործունեության խափանում"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:433
+#: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
-"Տվեք Ձեր գործողությանը իմաստալից անվանում մինչև այն պահպանելը որպես "
-"գործողություն:"
+"Տվեք Ձեր գործունեությանն իմաստալից անվանում` մինչև այն որպես գործունեություն "
+"պահպանելը:"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:436
-#: /home/rafael/Activities/pippy/pippy_app.py:480
+#: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "OK"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:442
+#: pippy_app.py:448
 msgid "Creating activity bundle..."
-msgstr "Գործողություների հավաքածուի ստեղծում..."
+msgstr "Գործունեություների փաթեթի ստեղծում..."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:473
+#: pippy_app.py:479
 msgid "Pippy Activity"
-msgstr "Պիպպիի գործողությունը"
+msgstr "Պիպպիի գործունեություն"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:477
+#: pippy_app.py:483
 msgid "Save as Example Error"
-msgstr "Պահպանել որպես Սխալ Օրինակ"
+msgstr "Պահպանել որպես Օրինակի Սխալ"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:478
+#: pippy_app.py:484
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr ""
-"Տվեք Ձեր գործողությանը իմաստալից անվանում մինչև այն պահպանելը որպես օրինակ:"
+"Տվեք Ձեր գործունեությանը իմաստալից անվանում` մինչև այն որպես օրինակ "
+"պահպանելը:"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:486
+#: pippy_app.py:492
 msgid "Creating example..."
 msgstr "Օրինակի ստեղծում..."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:493
+#: pippy_app.py:499
 msgid "Save as Example Warning"
-msgstr "Պահպանել որպես օրինակի նախազգուշացում"
+msgstr "Պահպանել որպես նախազգուշացման օրինակ:"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:494
+#: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr "Այս օրինակը արդեն կա, ուզում եք փոխարինել այն նորով"
+msgstr "Այս օրինակն արդեն կա: Ուզո՞ւմ եք այն փոխարինել նորով:"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:500
-#: /home/rafael/Activities/pippy/pippy_app.py:556
+#: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
 msgstr "Պահպանված է որպես օրինակ:"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:540
+#: pippy_app.py:546
 msgid "Activity saved to journal."
-msgstr "Գործողությունը պահված է մատյանում:"
+msgstr "Գործունեությունը պահված է մատյանում:"
 
-#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
-msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
-"TamTamEdit -ի ձայնային գրադարանը չի գտնվում: Դուք տեղադրե՞լ եք TamTamEdit - "
-"ը:"
+#~ msgid "As Pippy Document"
+#~ msgstr "Պիպպիի փաստաթղթի նման"
 
-#: /home/rafael/Activities/pippy/library/pippy/game.py:36
-msgid "PAUSED"
-msgstr "ԴԱԴԱՐԱՑՐԱԾ"
+#~ msgid "As Activity Bundle"
+#~ msgstr "Ինչպես գործողություների հավաքածու"
+
+#~ msgid "As Pippy Example"
+#~ msgstr "Պիպպիի օրինակի նման"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "Խնդրում եմ տեղադրեք TamTamEdit's ձայների գրադարանը"
