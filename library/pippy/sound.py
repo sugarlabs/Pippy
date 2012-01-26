@@ -17,11 +17,21 @@
 import errno
 import os
 import sys
+import sugar.env
+from sugar.activity import registry
 from gettext import gettext as _
 
-import sugar.env
 
-tp= '/TamTamEdit.activity/'
+#Retrieve and ActivityRegistry Object
+ar = registry.get_registry()
+# search for activities with name  'pippy'
+aiList = ar.find_activity('pippy')
+# for each ActivityInfo object (representing each activity) found, print out the activity name. 
+for ai in aiList:
+        print ai.path
+
+#tp= '/TamTamEdit.activity/'
+tp = ai.path
 tamtam_subdir = str(os.path.join(tp, 'common', 'Resources', 'Sounds'))
 
 sound_candidate_dirs = [
