@@ -14,14 +14,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2007-12-16 11:39+0000\n"
-"Last-Translator: Manatsawin <manatsawin@gmail.com>\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"PO-Revision-Date: 2011-11-23 03:34+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.0.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -30,91 +32,134 @@ msgstr "Pippy"
 #: activity.py:49
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "%s Source"
 
 #: activity.py:91
 msgid "Copy selected text to clipboard"
-msgstr ""
+msgstr "คัดลอกตัวอักษรที่เลือกไว้ลงใน clipboard"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
-msgstr ""
+msgstr "แก้ไข"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "หยุดการทำงาน"
 
-#: library/pippy/sound.py:47
+#: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
+msgstr "ไม่พบ ไลบารี่เสียงของ TamTamEdit คุณได้ติดตั้ง TamTamEdit แล้วหรือยัง?"
 
-#: pippy_app.py:87
-msgid "As Pippy Document"
-msgstr "เป็นเอกสาร Pippy"
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr "ส่งออกเป็นเอกสาร Pippy"
 
-#: pippy_app.py:94
-msgid "As Activity Bundle"
-msgstr "เป็นชุดกิจกรรม"
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr "ส่งออกไฟล์เป็น Pippy Example"
 
-#: pippy_app.py:106
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr "สร้าง Activity Bundle"
+
+#: pippy_app.py:111
 msgid "Actions"
-msgstr ""
+msgstr "การกระทำ"
 
-#: pippy_app.py:133
-#, fuzzy
+#: pippy_app.py:138
 msgid "_Run!"
-msgstr "รัน!"
+msgstr "_Run!"
 
-#: pippy_app.py:134
+#: pippy_app.py:139
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 msgid "_Stop"
-msgstr ""
+msgstr "_หยุด"
 
-#: pippy_app.py:148
+#: pippy_app.py:153
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
-#: pippy_app.py:162
+#: pippy_app.py:167
 msgid "_Clear"
-msgstr ""
+msgstr "_ล้าง"
 
-#: pippy_app.py:163
+#: pippy_app.py:168
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
-#: pippy_app.py:192
+#: pippy_app.py:197
 msgid "Examples"
 msgstr "ตัวอย่าง"
 
-#: pippy_app.py:338
+#: pippy_app.py:229
+msgid "My examples"
+msgstr "ตัวอย่างของฉัน"
+
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr "กิจกรรม %sx"
 
-#: pippy_app.py:418
+#: pippy_app.py:438
 msgid "Save as Activity Error"
 msgstr "บันทึกเป็นข้อผิดพลาดกิจกรรม"
 
-#: pippy_app.py:419
+#: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "โปรดใส่ชื่อกิจกรรมก่อนจะบันทึกเป็นกิจกรรม"
 
-#: pippy_app.py:422
+#: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:428
+#: pippy_app.py:448
 msgid "Creating activity bundle..."
 msgstr "กำลังสร้างชุดกิจกรรม..."
 
-#: pippy_app.py:491
+#: pippy_app.py:479
+msgid "Pippy Activity"
+msgstr "กิจกรรม Pippy"
+
+#: pippy_app.py:483
+msgid "Save as Example Error"
+msgstr "บันทึกเป็นตัวอย่างของ error"
+
+#: pippy_app.py:484
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr "โปรดใส่ชื่อกิจกรรมก่อนจะบันทึกเป็นตัวอย่าง"
+
+#: pippy_app.py:492
+msgid "Creating example..."
+msgstr "สร้างตัวอย่าง..."
+
+#: pippy_app.py:499
+msgid "Save as Example Warning"
+msgstr "บันทึกเป็นตัวอย่างสำหรับเตือน"
+
+#: pippy_app.py:500
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "ตัวอย่างนี้มีอยู่แล้ว คุณต้องการจะบันทึกซ้ำหรือไม่"
+
+#: pippy_app.py:506 pippy_app.py:562
+msgid "Saved as example."
+msgstr "เก็บเป็นตัวอย่าง"
+
+#: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "บันทึกกิจกรรมลงบันทึกประจำวันแล้ว"
+
+#~ msgid "As Pippy Document"
+#~ msgstr "เป็นเอกสาร Pippy"
+
+#~ msgid "As Activity Bundle"
+#~ msgstr "เป็นชุดกิจกรรม"
 
 #~ msgid "Run!"
 #~ msgstr "รัน!"
