@@ -1,7 +1,5 @@
-#! /usr/bin/env python
 # Copyright (C) 2007,2008 One Laptop per Child Association, Inc.
 #
-# This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
@@ -18,38 +16,39 @@ import errno
 import os
 import sys
 import sugar.env
-from sugar.activity import registry
 from gettext import gettext as _
+from sugar.activity import activity
 
+path = activity.get_bundle_path()
+path = path.split("/" )[0:-1]
+path = "/".join(path)
 
-#Retrieve and ActivityRegistry Object
-ar = registry.get_registry()
-# search for activities with name  'pippy'
-aiList = ar.find_activity('pippy')
-# for each ActivityInfo object (representing each activity) found, print out the activity name. 
-for ai in aiList:
-        print ai.path
+#ff = open("/tmp/rafael.txt", "a")
+ff.write(path + "\n")
+for f in os.listdir(path):
+    #ff.write(f + "\n")
 
-#tp= '/TamTamEdit.activity/'
-tp = ai.path
-tamtam_subdir = str(os.path.join(tp, 'common', 'Resources', 'Sounds'))
+    if f == 'TamTamEdit.activity':
+        bundle_dir = os.path.join(path, f)
+        tamtam_subdir = str(os.path.join(bundle_dir, 'common', 'Resources', 'Sounds'))
+        sound_candidate_dirs = [
+            os.path.expandvars('$SUGAR_PATH/activities') + tamtam_subdir,
+            #sugar.env.get_user_activities_path() + tamtam_subdir
+             tamtam_subdir
+        ]
+        ff.write(str(sound_candidate_dirs) + "\n")
+        orchlines = []
+        scorelines = []
+        instrlist = []
+        fnum = [100]
 
-sound_candidate_dirs = [
-    os.path.expandvars('$SUGAR_PATH/activities') + tamtam_subdir,
-    sugar.env.get_user_activities_path() + tamtam_subdir,
-]
-
-orchlines = []
-scorelines = []
-instrlist = []
-fnum = [100]
-
+ff.close()
 """XXX: This function seems to be broken. (CSA)
 def quit(self):
-    perf.Stop()
-    perf.Join()
-    cs.Reset()
-    cs = None
+perf.Stop()
+perf.Join()
+cs.Reset()
+cs = None
 """
 
 
