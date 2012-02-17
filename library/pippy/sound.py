@@ -23,7 +23,7 @@ from gettext import gettext as _
 from sugar.activity import activity
 
 path = activity.get_bundle_path()
-path = path.split("/" )[0:-1]
+path = path.split("/")[0:-1]
 path = "/".join(path)
 
 for f in os.listdir(path):
