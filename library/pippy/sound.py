@@ -26,26 +26,20 @@ path = activity.get_bundle_path()
 path = path.split("/" )[0:-1]
 path = "/".join(path)
 
-#ff = open("/tmp/rafael.txt", "a")
-ff.write(path + "\n")
 for f in os.listdir(path):
-    #ff.write(f + "\n")
 
     if f == 'TamTamEdit.activity':
         bundle_dir = os.path.join(path, f)
         tamtam_subdir = str(os.path.join(bundle_dir, 'common', 'Resources', 'Sounds'))
         sound_candidate_dirs = [
             os.path.expandvars('$SUGAR_PATH/activities') + tamtam_subdir,
-            #sugar.env.get_user_activities_path() + tamtam_subdir
              tamtam_subdir
         ]
-        ff.write(str(sound_candidate_dirs) + "\n")
         orchlines = []
         scorelines = []
         instrlist = []
         fnum = [100]
 
-ff.close()
 """XXX: This function seems to be broken. (CSA)
 def quit(self):
 perf.Stop()
