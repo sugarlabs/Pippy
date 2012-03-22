@@ -15,14 +15,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-08 00:32-0400\n"
-"PO-Revision-Date: 2008-11-25 05:20-0500\n"
-"Last-Translator: Alice Zhang <zhl924505@gmail.com>\n"
+"PO-Revision-Date: 2012-03-22 00:44+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.1.0rc2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -159,7 +160,7 @@ msgstr ""
 # Using the existing words for "activity" and "journal" here.
 #: pippy_app.py:546
 msgid "Activity saved to journal."
-msgstr "活动保存到日志"
+msgstr "活动保存到日志。"
 
 #~ msgid "As Pippy Document"
 #~ msgstr "储存为pippy文件"
