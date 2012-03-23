@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-08 00:32-0400\n"
-"PO-Revision-Date: 2012-01-14 23:06+0200\n"
+"PO-Revision-Date: 2012-03-23 21:02+0200\n"
 "Last-Translator: Eduardo H. <hoboprimate@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt\n"
@@ -32,11 +32,11 @@ msgstr "Pippy"
 #: activity.py:49
 #, python-format
 msgid "%s Source"
-msgstr "Código fonte de %s"
+msgstr "Código-fonte de %s"
 
 #: activity.py:91
 msgid "Copy selected text to clipboard"
-msgstr "Copiar o texto seleccionado para a área de transferência"
+msgstr "Copiar o texto selecionado para a área de transferência"
 
 #: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
@@ -62,7 +62,7 @@ msgstr "Exportar como Exemplo Pippy"
 
 #: pippy_app.py:102
 msgid "Create Activity Bundle"
-msgstr "Criar Pacote de Actividade"
+msgstr "Criar Pacote de Atividade"
 
 #: pippy_app.py:111
 msgid "Actions"
@@ -70,7 +70,7 @@ msgstr "Acções"
 
 #: pippy_app.py:138
 msgid "_Run!"
-msgstr "_Executar!"
+msgstr "Executar!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
@@ -78,7 +78,7 @@ msgstr "<alt>r"
 
 #: pippy_app.py:152
 msgid "_Stop"
-msgstr "_Parar"
+msgstr "Parar"
 
 #: pippy_app.py:153
 msgid "<alt>s"
@@ -86,7 +86,7 @@ msgstr "<alt>s"
 
 #: pippy_app.py:167
 msgid "_Clear"
-msgstr "_Limpar"
+msgstr "Limpar"
 
 #: pippy_app.py:168
 msgid "<alt>c"
@@ -103,19 +103,19 @@ msgstr "Os meus exemplos"
 #: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
-msgstr "Actividade %s"
+msgstr "Atividade %s"
 
 #: pippy_app.py:438
 msgid "Save as Activity Error"
-msgstr "Erro ao Guardar como Actividade"
+msgstr "Erro a Guardar como Atividade"
 
 #: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
-"Por favor dá à tua actividade um nome relevante antes de tentares gravá-la "
-"como uma actividade."
+"Por favor dá à tua atividade um nome relevante antes de tentares guardá-la "
+"como uma atividade."
 
 #: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
@@ -123,22 +123,22 @@ msgstr "Ok"
 
 #: pippy_app.py:448
 msgid "Creating activity bundle..."
-msgstr "A criar uma actividade empacotada..."
+msgstr "A criar pacote de atividade..."
 
 #: pippy_app.py:479
 msgid "Pippy Activity"
-msgstr "Actividade Pippy"
+msgstr "Atividade Pippy"
 
 #: pippy_app.py:483
 msgid "Save as Example Error"
-msgstr "Gravar como exemplo de erro"
+msgstr "Erro a Guardar como Exemplo"
 
 #: pippy_app.py:484
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr ""
-"Por favor dá à tua actividade um nome relevante antes de tentares gravá-la "
+"Por favor dá à tua atividade um nome relevante antes de tentares guardá-la "
 "como um exemplo."
 
 #: pippy_app.py:492
@@ -147,19 +147,19 @@ msgstr "A criar exemplo..."
 
 #: pippy_app.py:499
 msgid "Save as Example Warning"
-msgstr "Gravar como aviso de exemplo"
+msgstr "Aviso ao Guardar como Exemplo"
 
 #: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr "Este exemplo já exite. Queres sobrescrevê-lo?"
+msgstr "Este exemplo já existe. Queres substituí-lo?"
 
 #: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
-msgstr "Gravado como exemplo."
+msgstr "Guardado como exemplo."
 
 #: pippy_app.py:546
 msgid "Activity saved to journal."
-msgstr "Actividade guardada no diário."
+msgstr "Atividade guardada no diário."
 
 #~ msgid "As Pippy Document"
 #~ msgstr "Como documento Pippy"
