@@ -18,94 +18,102 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-02 09:26-0500\n"
-"PO-Revision-Date: 2011-07-21 20:55+0200\n"
-"Last-Translator: Myckel Habets <myckel@sdf.lonestar.org>\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"PO-Revision-Date: 2011-10-25 19:46+0200\n"
+"Last-Translator: whe <heppew@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "Pippy"
 
-#: /home/rafael/Activities/pippy/activity.py:49
+#: activity.py:49
 #, python-format
 msgid "%s Source"
 msgstr "%s Bron"
 
-#: /home/rafael/Activities/pippy/activity.py:91
+#: activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "Kopieer geselecteerde tekst naar klembord"
 
-#: /home/rafael/Activities/pippy/activity.py:96
-#: /home/rafael/Activities/pippy/pippy_app.py:114
-#: /home/rafael/Activities/pippy/pippy_app.py:119
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
 msgstr "Bewerken"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:87
-msgid "As Pippy Document"
-msgstr "Als Pippy document"
+#: library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "GEPAUZEERD"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:94
-msgid "As Activity Bundle"
-msgstr "Als Activiteit bundel"
-
-#: /home/rafael/Activities/pippy/pippy_app.py:102
-msgid "As Pippy Example"
+#: library/pippy/sound.py:48
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
+"Kan TamTamEdit geluidsbibliotheek niet vinden. Heb je TamTamEdit "
+"geïnstalleerd?"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:112
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr "Uitvoer als Pippy Document"
+
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr "Uitvoer als Pippy Voorbeeld"
+
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr "Maakt Activiteitbundel Aan"
+
+#: pippy_app.py:111
 msgid "Actions"
 msgstr "Acties"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:139
+#: pippy_app.py:138
 msgid "_Run!"
 msgstr "_Uitvoeren!"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:140
+#: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:153
+#: pippy_app.py:152
 msgid "_Stop"
 msgstr "_Stop"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:154
+#: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:168
+#: pippy_app.py:167
 msgid "_Clear"
 msgstr "_Wissen"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:169
+#: pippy_app.py:168
 msgid "<alt>c"
 msgstr "<alt>c"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:198
+#: pippy_app.py:197
 msgid "Examples"
 msgstr "Voorbeelden"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:230
+#: pippy_app.py:229
 msgid "My examples"
-msgstr ""
+msgstr "Mijn voorbeelden"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:352
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr "%s Activiteit"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:432
+#: pippy_app.py:438
 msgid "Save as Activity Error"
 msgstr "Fout bij bewaren als Activiteit"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:433
+#: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -113,62 +121,55 @@ msgstr ""
 "Geef je activiteit een betekenisvolle naam voordat je hem bewaart als "
 "activiteit."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:436
-#: /home/rafael/Activities/pippy/pippy_app.py:480
+#: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "Ok"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:442
+#: pippy_app.py:448
 msgid "Creating activity bundle..."
 msgstr "Bezig met activiteit bundel maken..."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:473
+#: pippy_app.py:479
 msgid "Pippy Activity"
-msgstr ""
+msgstr "Pippy Activiteit"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:477
+#: pippy_app.py:483
 msgid "Save as Example Error"
-msgstr ""
+msgstr "Bewaar als Voorbeeld Fout"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:478
-#, fuzzy
+#: pippy_app.py:484
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr ""
-"Geef je activiteit een betekenisvolle naam voordat je hem bewaart als "
-"activiteit."
+"Geef je activiteit een betekenisvolle naam voordat je hem bewaart "
+"alsvoorbeeld."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:486
+#: pippy_app.py:492
 msgid "Creating example..."
-msgstr ""
+msgstr "Voorbeeld aanmaken..."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:493
+#: pippy_app.py:499
 msgid "Save as Example Warning"
-msgstr ""
+msgstr "Bewaar als Voorbeeld Waarschuwing"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:494
+#: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr ""
+msgstr "Dit voorbeeld bestaat al. Wil je het overschrijven?"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:500
-#: /home/rafael/Activities/pippy/pippy_app.py:556
+#: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
-msgstr ""
+msgstr "Bewaard als voorbeeld."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:540
+#: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "Activiteit is bewaard in je dagboek."
 
-#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
-msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
-"Kan TamTamEdit geluidsbibliotheek niet vinden. Heb je TamTamEdit "
-"geïnstalleerd?"
+#~ msgid "As Pippy Document"
+#~ msgstr "Als Pippy document"
 
-#: /home/rafael/Activities/pippy/library/pippy/game.py:36
-msgid "PAUSED"
-msgstr "GEPAUZEERD"
+#~ msgid "As Activity Bundle"
+#~ msgstr "Als Activiteit bundel"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "Installeer aub TamTamEdit's geluidsbibliotheek."
