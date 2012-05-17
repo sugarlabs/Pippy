@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2010-03-22 22:50+0200\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"PO-Revision-Date: 2011-10-13 05:26+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
 "Language: hi\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.3\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -42,7 +42,7 @@ msgstr "%s स्रोत"
 msgid "Copy selected text to clipboard"
 msgstr "चुने गए पाठ को क्लिपबोर्ड पर नकल करें"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
 msgstr "संपादन"
 
@@ -50,77 +50,125 @@ msgstr "संपादन"
 msgid "PAUSED"
 msgstr "विराम"
 
-#: library/pippy/sound.py:47
+#: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
+msgstr "टमटम आवाज़ कोष नहीं मिला, क्या आपने यह कम्पूटर में अवस्थापन किया है ?"
 
-#: pippy_app.py:87
-msgid "As Pippy Document"
-msgstr "पीप्पी दस्तावेज की तरह"
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr "Pippy दस्तावेज़ के रूप में निर्या"
 
-#: pippy_app.py:94
-msgid "As Activity Bundle"
-msgstr "क्रिया की गठरी की तरह"
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr "Pippy उदाहरण के रूप में निर्यात"
 
-#: pippy_app.py:106
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr "गतिविधि बंडल बनाएँ"
+
+#: pippy_app.py:111
 msgid "Actions"
-msgstr ""
+msgstr "क्रियाएं"
 
-#: pippy_app.py:133
+#: pippy_app.py:138
 msgid "_Run!"
 msgstr "चलाएँ! (_R)"
 
-#: pippy_app.py:134
+#: pippy_app.py:139
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 msgid "_Stop"
-msgstr ""
+msgstr "_रुकें"
 
-#: pippy_app.py:148
+#: pippy_app.py:153
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
-#: pippy_app.py:162
+#: pippy_app.py:167
 msgid "_Clear"
-msgstr ""
+msgstr "_साफ"
 
-#: pippy_app.py:163
+#: pippy_app.py:168
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
-#: pippy_app.py:192
+#: pippy_app.py:197
 msgid "Examples"
 msgstr "उदाहरण"
 
-#: pippy_app.py:338
+#: pippy_app.py:229
+msgid "My examples"
+msgstr "मेरे उदहारण"
+
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr "%s क्रिया"
 
-#: pippy_app.py:418
+#: pippy_app.py:438
 msgid "Save as Activity Error"
 msgstr "क्रिया त्रुटि जैसे सहेजें"
 
-#: pippy_app.py:419
+#: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
 "अपनी क्रिया को सहेजने की कोशिश करने से पहले कृपया इसे कोई अर्थयुक्त नाम दें."
 
-#: pippy_app.py:422
+#: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "ठीक है"
 
-#: pippy_app.py:428
+#: pippy_app.py:448
 msgid "Creating activity bundle..."
 msgstr "क्रिया संग्रह बनाया जा रहा है..."
 
-#: pippy_app.py:491
+#: pippy_app.py:479
+msgid "Pippy Activity"
+msgstr "Pippy गतिविधि"
+
+#: pippy_app.py:483
+msgid "Save as Example Error"
+msgstr "उदाहरण त्रुटि के रूप में सहेजें"
+
+#: pippy_app.py:484
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"अपनी क्रिया को सहेजने की कोशिश करने से पहले कृपया इसे कोई अर्थयुक्त नाम दें."
+
+#: pippy_app.py:492
+msgid "Creating example..."
+msgstr "उदहारण बना रहा (रही) हूँ..."
+
+#: pippy_app.py:499
+msgid "Save as Example Warning"
+msgstr "उदहारण गलती की तरह सहेजें"
+
+#: pippy_app.py:500
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "यहाँ उदहारण पहेले से मौजूद है, क्या आप इसे बदलना चाहेंगे ?"
+
+#: pippy_app.py:506 pippy_app.py:562
+msgid "Saved as example."
+msgstr "उदहारण की तरह सहेजा गया."
+
+#: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "क्रिया दैनिकी में सहेजा गया."
+
+#~ msgid "As Pippy Document"
+#~ msgstr "पीप्पी दस्तावेज की तरह"
+
+#~ msgid "As Activity Bundle"
+#~ msgstr "क्रिया की गठरी की तरह"
+
+#~ msgid "As Pippy Example"
+#~ msgstr "Pippy उदाहरण के रूप में"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "कुपया टॅम टॅम एडिट की संगीत पुस्तककालय का संपादन  करे."

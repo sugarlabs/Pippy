@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
 "PO-Revision-Date: 2011-10-11 18:46+0200\n"
 "Last-Translator: Cris Anderson <anderson861@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr "%s Эх үүсвэр"
 msgid "Copy selected text to clipboard"
 msgstr "Сонгогдсон бичвэрийг самбарт хуулах"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
 msgstr "Засварлах"
 
@@ -58,60 +58,68 @@ msgstr "Засварлах"
 msgid "PAUSED"
 msgstr "ТҮР ЗОГССОН"
 
-#: library/pippy/sound.py:47
+#: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 
-#: pippy_app.py:87
-msgid "As Pippy Document"
-msgstr "Пиппид тохирох бичвэрээр"
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr ""
 
-#: pippy_app.py:94
-msgid "As Activity Bundle"
-msgstr "Үйл ажиллагааны бүрдлээр"
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr ""
 
-#: pippy_app.py:106
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr ""
+
+#: pippy_app.py:111
 msgid "Actions"
 msgstr ""
 
-#: pippy_app.py:133
+#: pippy_app.py:138
 msgid "_Run!"
 msgstr "_Гүйцэтгэх!"
 
-#: pippy_app.py:134
+#: pippy_app.py:139
 msgid "<alt>r"
 msgstr ""
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 msgid "_Stop"
 msgstr "_Зогсоох"
 
-#: pippy_app.py:148
+#: pippy_app.py:153
 msgid "<alt>s"
 msgstr ""
 
-#: pippy_app.py:162
+#: pippy_app.py:167
 msgid "_Clear"
 msgstr "_Арилгах"
 
-#: pippy_app.py:163
+#: pippy_app.py:168
 msgid "<alt>c"
 msgstr ""
 
-#: pippy_app.py:192
+#: pippy_app.py:197
 msgid "Examples"
 msgstr "Жишээ"
 
-#: pippy_app.py:338
+#: pippy_app.py:229
+msgid "My examples"
+msgstr ""
+
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr "%s Үйл ажиллагаа"
 
-#: pippy_app.py:418
+#: pippy_app.py:438
 msgid "Save as Activity Error"
 msgstr "Үйл ажиллагаагаар хадгалхад алдаа гарлаа"
 
-#: pippy_app.py:419
+#: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -119,17 +127,56 @@ msgstr ""
 "Үйл ажиллагаагаар хадгалахын өмнө өөрийн үйл ажиллагаанд утгатай нэр "
 "өгөөрэй."
 
-#: pippy_app.py:422
+#: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "За"
 
-#: pippy_app.py:428
+#: pippy_app.py:448
 msgid "Creating activity bundle..."
 msgstr "Үйл ажиллагааны бүрдэл бүтээгдэж байна..."
 
-#: pippy_app.py:491
+#: pippy_app.py:479
+msgid "Pippy Activity"
+msgstr ""
+
+#: pippy_app.py:483
+msgid "Save as Example Error"
+msgstr ""
+
+#: pippy_app.py:484
+#, fuzzy
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"Үйл ажиллагаагаар хадгалахын өмнө өөрийн үйл ажиллагаанд утгатай нэр "
+"өгөөрэй."
+
+#: pippy_app.py:492
+msgid "Creating example..."
+msgstr ""
+
+#: pippy_app.py:499
+msgid "Save as Example Warning"
+msgstr ""
+
+#: pippy_app.py:500
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr ""
+
+#: pippy_app.py:506 pippy_app.py:562
+msgid "Saved as example."
+msgstr ""
+
+#: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "Үйл ажиллагаа бүртгэлийн дэвтэрт хадгалагдлаа."
+
+#~ msgid "As Pippy Document"
+#~ msgstr "Пиппид тохирох бичвэрээр"
+
+#~ msgid "As Activity Bundle"
+#~ msgstr "Үйл ажиллагааны бүрдлээр"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "TamTamEdit-ийн дууны архивыг суулгана уу."

@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2011-09-28 08:13+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"PO-Revision-Date: 2012-02-24 16:41+0200\n"
+"Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhalese <en@li.org>\n"
 "Language: si\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "%s මූලය"
 msgid "Copy selected text to clipboard"
 msgstr "තෝරන ලද පෙළ පසුරු පුවරුවට පිටපත් කරන්න"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
 msgstr "සකසන්න"
 
@@ -46,67 +46,69 @@ msgstr "සකසන්න"
 msgid "PAUSED"
 msgstr "විරාමයක් ගෙන ඇත"
 
-#: library/pippy/sound.py:47
-#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
+#: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr "TamTamEdit ශබ්ද පුස්තකාලය සොයාගැනීමට නොහැක. ඔබ TamTamEdit ස්ථාපනය කලාද?"
 
-#: pippy_app.py:87
-msgid "As Pippy Document"
-msgstr "පිපී ලිපියක් ලෙස"
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr "Pippy ලේඛනයක් ලෙස ආයාත කරන්න"
 
-#: pippy_app.py:94
-msgid "As Activity Bundle"
-msgstr "ක්‍රියාකාරකම් පොදියක් ලෙස"
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr ""
 
-#: pippy_app.py:106
-#: /home/rafael/Activities/pippy/pippy_app.py:112
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr ""
+
+#: pippy_app.py:111
 msgid "Actions"
 msgstr "ක්‍රියා"
 
-#: pippy_app.py:133
+#: pippy_app.py:138
 msgid "_Run!"
 msgstr "දුවන්න!(_R)"
 
-#: pippy_app.py:134
-#: /home/rafael/Activities/pippy/pippy_app.py:140
+#: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: pippy_app.py:147
-#: /home/rafael/Activities/pippy/pippy_app.py:153
+#: pippy_app.py:152
 msgid "_Stop"
 msgstr "_Stop"
 
-#: pippy_app.py:148
-#: /home/rafael/Activities/pippy/pippy_app.py:154
+#: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:162
+#: pippy_app.py:167
 #, fuzzy
 msgid "_Clear"
 msgstr "_Clear"
 
-#: pippy_app.py:163
-#: /home/rafael/Activities/pippy/pippy_app.py:169
+#: pippy_app.py:168
 msgid "<alt>c"
 msgstr "<alt>c"
 
-#: pippy_app.py:192
+#: pippy_app.py:197
 msgid "Examples"
 msgstr "උදාහරණ"
 
-#: pippy_app.py:338
+#: pippy_app.py:229
+msgid "My examples"
+msgstr ""
+
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr "%s ක්‍රියාකාරකම"
 
-#: pippy_app.py:418
+#: pippy_app.py:438
 msgid "Save as Activity Error"
 msgstr "ක්‍රියාකාරකම් දෝෂයක් ලෙස සුරකින්න"
 
-#: pippy_app.py:419
+#: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -114,17 +116,56 @@ msgstr ""
 "ක්‍රියාකාරකමක් ලෙස සුරකීමට පෙර කරුණාකර ඔබගේ ක්‍රියාකාරකමට අර්ථවත් නමක් "
 "දෙන්න."
 
-#: pippy_app.py:422
+#: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "හරි"
 
-#: pippy_app.py:428
+#: pippy_app.py:448
 msgid "Creating activity bundle..."
 msgstr "ක්‍රියාකාරකම් පොදියක් සාදයි..."
 
-#: pippy_app.py:491
+#: pippy_app.py:479
+msgid "Pippy Activity"
+msgstr ""
+
+#: pippy_app.py:483
+msgid "Save as Example Error"
+msgstr ""
+
+#: pippy_app.py:484
+#, fuzzy
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"ක්‍රියාකාරකමක් ලෙස සුරකීමට පෙර කරුණාකර ඔබගේ ක්‍රියාකාරකමට අර්ථවත් නමක් "
+"දෙන්න."
+
+#: pippy_app.py:492
+msgid "Creating example..."
+msgstr ""
+
+#: pippy_app.py:499
+msgid "Save as Example Warning"
+msgstr ""
+
+#: pippy_app.py:500
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr ""
+
+#: pippy_app.py:506 pippy_app.py:562
+msgid "Saved as example."
+msgstr ""
+
+#: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "ක්‍රියාකාරකම ජ'නලයට සුරකින ලදි."
+
+#~ msgid "As Pippy Document"
+#~ msgstr "පිපී ලිපියක් ලෙස"
+
+#~ msgid "As Activity Bundle"
+#~ msgstr "ක්‍රියාකාරකම් පොදියක් ලෙස"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "කරුණාකර ටැම්ටැම්එඩිට් හි  නාද ආගාරය ස්ථාපනය කරන්න"

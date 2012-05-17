@@ -14,14 +14,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
-"PO-Revision-Date: 2008-12-19 23:42-0500\n"
-"Last-Translator: Chris Leonard <cjl@laptop.org>\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"PO-Revision-Date: 2011-10-09 03:51+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.1.0rc2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 #, fuzzy
@@ -38,7 +40,7 @@ msgstr ""
 msgid "Copy selected text to clipboard"
 msgstr "העתק את הטקסט הנבחר ללוח הכתיבה"
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 #, fuzzy
 msgid "Edit"
 msgstr "עריכה"
@@ -48,82 +50,130 @@ msgstr "עריכה"
 msgid "PAUSED"
 msgstr "מושהה"
 
-#: library/pippy/sound.py:47
+#: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 
-#: pippy_app.py:87
-#, fuzzy
-msgid "As Pippy Document"
-msgstr "כמסמך Pippy"
-
-#: pippy_app.py:94
-#, fuzzy
-msgid "As Activity Bundle"
-msgstr "כחבילת פעילות"
-
-#: pippy_app.py:106
-msgid "Actions"
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
 msgstr ""
 
-#: pippy_app.py:133
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr ""
+
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr ""
+
+#: pippy_app.py:111
+#, fuzzy
+msgid "Actions"
+msgstr "פעולות"
+
+#: pippy_app.py:138
 #, fuzzy
 msgid "_Run!"
 msgstr "_ריצה!"
 
-#: pippy_app.py:134
+#: pippy_app.py:139
 msgid "<alt>r"
 msgstr ""
 
-#: pippy_app.py:147
+#: pippy_app.py:152
+#, fuzzy
 msgid "_Stop"
-msgstr ""
+msgstr "_עצור"
 
-#: pippy_app.py:148
+#: pippy_app.py:153
 msgid "<alt>s"
 msgstr ""
 
-#: pippy_app.py:162
+#: pippy_app.py:167
+#, fuzzy
 msgid "_Clear"
-msgstr ""
+msgstr "_נקה"
 
-#: pippy_app.py:163
+#: pippy_app.py:168
 msgid "<alt>c"
 msgstr ""
 
-#: pippy_app.py:192
+#: pippy_app.py:197
 #, fuzzy
 msgid "Examples"
 msgstr "דוגמאות"
 
-#: pippy_app.py:338
+#: pippy_app.py:229
+msgid "My examples"
+msgstr ""
+
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr ""
 
-#: pippy_app.py:418
+#: pippy_app.py:438
 #, fuzzy
 msgid "Save as Activity Error"
 msgstr "שמור כשגיאת פעילות"
 
-#: pippy_app.py:419
+#: pippy_app.py:439
 #, fuzzy
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "יש לתת שם בעל משמעות לפעילות לפני שמנסים לשמור אותה בתור פעילות."
 
-#: pippy_app.py:422
+#: pippy_app.py:442 pippy_app.py:486
 #, fuzzy
 msgid "Ok"
 msgstr "אישור"
 
-#: pippy_app.py:428
+#: pippy_app.py:448
 #, fuzzy
 msgid "Creating activity bundle..."
 msgstr "מייצר חבילת פעילות..."
 
-#: pippy_app.py:491
+#: pippy_app.py:479
+msgid "Pippy Activity"
+msgstr ""
+
+#: pippy_app.py:483
+msgid "Save as Example Error"
+msgstr ""
+
+#: pippy_app.py:484
+#, fuzzy
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr "יש לתת שם בעל משמעות לפעילות לפני שמנסים לשמור אותה בתור פעילות."
+
+#: pippy_app.py:492
+msgid "Creating example..."
+msgstr ""
+
+#: pippy_app.py:499
+msgid "Save as Example Warning"
+msgstr ""
+
+#: pippy_app.py:500
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr ""
+
+#: pippy_app.py:506 pippy_app.py:562
+msgid "Saved as example."
+msgstr ""
+
+#: pippy_app.py:546
 #, fuzzy
 msgid "Activity saved to journal."
 msgstr "פעילות נשמרה ביומן."
+
+#, fuzzy
+#~ msgid "As Pippy Document"
+#~ msgstr "כמסמך Pippy"
+
+#, fuzzy
+#~ msgid "As Activity Bundle"
+#~ msgstr "כחבילת פעילות"

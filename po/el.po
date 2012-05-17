@@ -14,95 +14,103 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-02 09:26-0500\n"
-"PO-Revision-Date: 2011-06-25 16:19+0200\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"PO-Revision-Date: 2011-10-21 06:07+0200\n"
 "Last-Translator: Yannis <kiolalis@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
 # Τι να μεταφράσεις από αυτό;;;;το αφήνω ίδιο
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "Πίπης"
 
-#: /home/rafael/Activities/pippy/activity.py:49
+#: activity.py:49
 #, python-format
 msgid "%s Source"
 msgstr "Κώδικας του %s"
 
-#: /home/rafael/Activities/pippy/activity.py:91
+#: activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "Αντιγραφή επιλεγμένου κειμένου στο πρόχειρο"
 
-#: /home/rafael/Activities/pippy/activity.py:96
-#: /home/rafael/Activities/pippy/pippy_app.py:114
-#: /home/rafael/Activities/pippy/pippy_app.py:119
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:87
-msgid "As Pippy Document"
-msgstr "Ως έγγραφο του Πίπη"
+#: library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "ΣΕ ΠΑΥΣΗ"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:94
-msgid "As Activity Bundle"
-msgstr "Ως Πακέτο Δραστηριότητας"
+#: library/pippy/sound.py:48
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
+"Αδυναμία εύρεσης της βιβλιοθήκης ήχων του TamTamEdit. Έχετε εγκαταστήσει το "
+"TamTamEdit;"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:102
-msgid "As Pippy Example"
-msgstr "Ως παράδειγμα του Πίπη"
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr "Εξαγωγή ως έγγραφο του Pippy"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:112
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr "Εξαγωγή ως παράδειγμα του Pippy"
+
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr "Δημιουργία δέσμης δραστηριοτήτων"
+
+#: pippy_app.py:111
 msgid "Actions"
 msgstr "Δράσεις"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:139
+#: pippy_app.py:138
 msgid "_Run!"
 msgstr "_Τρέξε!"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:140
+#: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:153
+#: pippy_app.py:152
 msgid "_Stop"
 msgstr "_Διακοπή"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:154
+#: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:168
+#: pippy_app.py:167
 msgid "_Clear"
 msgstr "_Καθαρισμός"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:169
+#: pippy_app.py:168
 msgid "<alt>c"
 msgstr "<alt>c"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:198
+#: pippy_app.py:197
 msgid "Examples"
 msgstr "Παραδείγματα"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:230
+#: pippy_app.py:229
 msgid "My examples"
 msgstr "Τα δικά μου παραδείγματα"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:352
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr "Δραστηριότητα %s"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:432
+#: pippy_app.py:438
 msgid "Save as Activity Error"
 msgstr "Αποθήκευση ως σφάλμα δραστηριότητας"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:433
+#: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -110,24 +118,23 @@ msgstr ""
 "Παρακαλώ δώσε στη δραστηριότητα σου ένα όνομα με κάποιο νόημα πριν "
 "προσπαθήσεις να την αποθηκεύσεις σαν δραστηριότητα."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:436
-#: /home/rafael/Activities/pippy/pippy_app.py:480
+#: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "Εντάξει"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:442
+#: pippy_app.py:448
 msgid "Creating activity bundle..."
 msgstr "Δημιουργώ πακέτο δραστηριότητας..."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:473
+#: pippy_app.py:479
 msgid "Pippy Activity"
 msgstr "Δραστηριότητα του Πίπη"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:477
+#: pippy_app.py:483
 msgid "Save as Example Error"
 msgstr "Αποθήκευση ως σφάλμα παραδείγματος"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:478
+#: pippy_app.py:484
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
@@ -135,36 +142,34 @@ msgstr ""
 "Παρακαλώ δώσε στη δραστηριότητα σου ένα όνομα με κάποιο νόημα πριν "
 "προσπαθήσεις να την αποθηκεύσεις ως παράδειγμα."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:486
+#: pippy_app.py:492
 msgid "Creating example..."
 msgstr "Δημιουργία παραδείγματος..."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:493
+#: pippy_app.py:499
 msgid "Save as Example Warning"
 msgstr "Αποθήκευση ως προειδοποίηση παραδείγματος"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:494
+#: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
 msgstr "Το παράδειγμα υπάρχει ήδη. Θέλετε να το αντικαταστήσετε;"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:500
-#: /home/rafael/Activities/pippy/pippy_app.py:556
+#: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
 msgstr "Αποθηκεύτηκε ως παράδειγμα."
 
-#: /home/rafael/Activities/pippy/pippy_app.py:540
+#: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "Η Δραστηριότητα αποθηκεύτηκε στο Ημερολόγιο."
 
-#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
-msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
-"Αδυναμία εύρεσης της βιβλιοθήκης ήχων του TamTamEdit. Έχετε εγκαταστήσει το "
-"TamTamEdit;"
+#~ msgid "As Pippy Document"
+#~ msgstr "Ως έγγραφο του Πίπη"
 
-#: /home/rafael/Activities/pippy/library/pippy/game.py:36
-msgid "PAUSED"
-msgstr "ΣΕ ΠΑΥΣΗ"
+#~ msgid "As Activity Bundle"
+#~ msgstr "Ως Πακέτο Δραστηριότητας"
+
+#~ msgid "As Pippy Example"
+#~ msgstr "Ως παράδειγμα του Πίπη"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "Παρακαλώ εγκαταστήστε τη βιβλιοθήκη ήχων του Επεξεργαστή Ταμ-Ταμ."

@@ -14,10 +14,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-04 00:46-0500\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
 "PO-Revision-Date: 2008-02-19 14:01-0500\n"
 "Last-Translator: Adi Roiban <adiroiban@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,7 +39,7 @@ msgstr "Sursa %s"
 msgid "Copy selected text to clipboard"
 msgstr ""
 
-#: activity.py:96 pippy_app.py:108 pippy_app.py:113
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
 msgstr ""
 
@@ -46,60 +47,68 @@ msgstr ""
 msgid "PAUSED"
 msgstr "PAUZĂ"
 
-#: library/pippy/sound.py:47
+#: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 
-#: pippy_app.py:87
-msgid "As Pippy Document"
-msgstr "Ca document Pippy"
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr ""
 
-#: pippy_app.py:94
-msgid "As Activity Bundle"
-msgstr "Ca activitate incorporată"
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr ""
 
-#: pippy_app.py:106
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr ""
+
+#: pippy_app.py:111
 msgid "Actions"
 msgstr ""
 
-#: pippy_app.py:133
+#: pippy_app.py:138
 msgid "_Run!"
 msgstr "_Pornește!"
 
-#: pippy_app.py:134
+#: pippy_app.py:139
 msgid "<alt>r"
 msgstr ""
 
-#: pippy_app.py:147
+#: pippy_app.py:152
 msgid "_Stop"
 msgstr ""
 
-#: pippy_app.py:148
+#: pippy_app.py:153
 msgid "<alt>s"
 msgstr ""
 
-#: pippy_app.py:162
+#: pippy_app.py:167
 msgid "_Clear"
 msgstr ""
 
-#: pippy_app.py:163
+#: pippy_app.py:168
 msgid "<alt>c"
 msgstr ""
 
-#: pippy_app.py:192
+#: pippy_app.py:197
 msgid "Examples"
 msgstr "Exemple"
 
-#: pippy_app.py:338
+#: pippy_app.py:229
+msgid "My examples"
+msgstr ""
+
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr "Activitatea %s"
 
-#: pippy_app.py:418
+#: pippy_app.py:438
 msgid "Save as Activity Error"
 msgstr "Salvează ca eroare de activitate"
 
-#: pippy_app.py:419
+#: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -107,17 +116,56 @@ msgstr ""
 "Înainte de a încerca să salvaţi ca activitate daţi un nume sugestiv "
 "activităţii voastre."
 
-#: pippy_app.py:422
+#: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:428
+#: pippy_app.py:448
 msgid "Creating activity bundle..."
 msgstr "Se crează pachetul activităţii..."
 
-#: pippy_app.py:491
+#: pippy_app.py:479
+msgid "Pippy Activity"
+msgstr ""
+
+#: pippy_app.py:483
+msgid "Save as Example Error"
+msgstr ""
+
+#: pippy_app.py:484
+#, fuzzy
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"Înainte de a încerca să salvaţi ca activitate daţi un nume sugestiv "
+"activităţii voastre."
+
+#: pippy_app.py:492
+msgid "Creating example..."
+msgstr ""
+
+#: pippy_app.py:499
+msgid "Save as Example Warning"
+msgstr ""
+
+#: pippy_app.py:500
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr ""
+
+#: pippy_app.py:506 pippy_app.py:562
+msgid "Saved as example."
+msgstr ""
+
+#: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "Activitate salvată în jurnal."
+
+#~ msgid "As Pippy Document"
+#~ msgstr "Ca document Pippy"
+
+#~ msgid "As Activity Bundle"
+#~ msgstr "Ca activitate incorporată"
 
 #~ msgid "Run!"
 #~ msgstr "Pornește!"

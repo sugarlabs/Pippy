@@ -1,7 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#  SOME DESCRIPTIVE TITLE.
+#  Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+#  This file is distributed under the same license as the PACKAGE package.
+#  FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -17,41 +17,33 @@ msgstr ""
 "X-Generator: Translate Toolkit 1.7.0\n"
 
 #  "Peppy"
-#  [es] "Peppy"
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "Amarucha"
 
 #  "%s Fuente"
-#  [es] "%s Fuente"
 #: activity.py:49
 #, python-format
 msgid "%s Source"
 msgstr "%s Código fuente nisqa"
 
 #  "Copiar el texto seleccionado al portapapeles"
-#  [es] "Copiar el texto seleccionado al portapapeles"
 #: activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "Akllasqa qillqataqa raphi-apaykachaqman kikinchay"
 
 #  "Editar"
-#  [es] "Editar"
 #: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
 msgstr "Allinchay"
 
 #  "PAUSADO"
-#  [es] "PAUSADO"
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "SAYARICHISQA"
 
 #  "No se pudo encontrar la librería de audio de la Actividad TamTamEdit. ¿Ha "
 #  "instalado la Actividad TamTamEdit?"
-#  [es] ""
-#  [es] "No se pudo encontrar la librería de audio de la Actividad TamTamEdit. ¿Ha "
-#  [es] "instalado la Actividad TamTamEdit ?"
 #: library/pippy/sound.py:48
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
@@ -71,49 +63,41 @@ msgid "Create Activity Bundle"
 msgstr ""
 
 #  "Acciones"
-#  [es] "Acciones"
 #: pippy_app.py:111
 msgid "Actions"
 msgstr "Llamk'aykuna"
 
 #  "¡_Empieza!"
-#  [es] "¡_Empieza!"
 #: pippy_app.py:138
 msgid "_Run!"
 msgstr "¡_Qallariy!"
 
 #  "<alt>r"
-#  [es] "<alt>r"
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
 #  "_Parar"
-#  [es] "_Parar"
 #: pippy_app.py:152
 msgid "_Stop"
 msgstr "_Sayachiy"
 
 #  "<alt>s"
-#  [es] "<alt>s"
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
 #  "_Limpiar"
-#  [es] "_Limpiar"
 #: pippy_app.py:167
 msgid "_Clear"
 msgstr "_Pichay"
 
 #  "<alt>c"
-#  [es] "<alt>c"
 #: pippy_app.py:168
 msgid "<alt>c"
 msgstr "<alt>c"
 
 #  "Ejemplos"
-#  [es] "Ejemplos"
 #: pippy_app.py:197
 msgid "Examples"
 msgstr "Qhawarichikuna"
@@ -123,23 +107,18 @@ msgid "My examples"
 msgstr ""
 
 #  "%s Actividad"
-#  [es] "%s Actividad"
 #: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr "%s Ruwana"
 
 #  "Guardar como error de la Actividad"
-#  [es] "Guardar como error de la Actividad"
 #: pippy_app.py:438
 msgid "Save as Activity Error"
 msgstr "Ruwanap pantayninta hina allchay"
 
 #  "Por favor de a su actividad un nombre con significado antes de intentar "
 #  "guardarlo como una actividad."
-#  [es] ""
-#  [es] "Por favor de a su actividad un nombre con significado antes de intentar "
-#  [es] "guardarlo como una actividad."
 #: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
@@ -147,13 +126,11 @@ msgid ""
 msgstr "Ruwanaykita manaraq allchaspaqa, allin sutitaraq churay."
 
 #  "Bien"
-#  [es] "Bien"
 #: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "Allin"
 
 #  "Creando una actividad empaquetada..."
-#  [es] "Creando una actividad empaquetada..."
 #: pippy_app.py:448
 msgid "Creating activity bundle..."
 msgstr "Q'ipichasqa ruwana kamarikuchkan..."
@@ -166,11 +143,8 @@ msgstr ""
 msgid "Save as Example Error"
 msgstr ""
 
-# "Por favor de a su actividad un nombre con significado antes de intentar "
+#  "Por favor de a su actividad un nombre con significado antes de intentar "
 #  "guardarlo como una actividad."
-#  [es] ""
-#  [es] "Por favor de a su actividad un nombre con significado antes de intentar "
-#  [es] "guardarlo como una actividad."
 #: pippy_app.py:484
 #, fuzzy
 msgid ""
@@ -195,17 +169,6 @@ msgid "Saved as example."
 msgstr ""
 
 #  "Actividad guardada en el diario."
-#  [es] "Actividad guardada en el diario."
 #: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "Ruwanaqa p'anqapi allcharisqam."
-
-#  "Como documento Pippy"
-#  [es] "Como documento Pippy"
-#~ msgid "As Pippy Document"
-#~ msgstr "Amarucha khipun hina"
-
-#  "Como Actividad empaquetada"
-#  [es] "Como Actividad empaquetada"
-#~ msgid "As Activity Bundle"
-#~ msgstr "Q'ipichasqa ruwana hina"

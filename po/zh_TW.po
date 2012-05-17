@@ -14,150 +14,155 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-02 09:26-0500\n"
-"PO-Revision-Date: 2011-07-24 18:57+0200\n"
-"Last-Translator: Kenzen <fallwind@seed.net.tw>\n"
+"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"PO-Revision-Date: 2012-03-22 02:13+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "小蟒軟體開發"
 
-#: /home/rafael/Activities/pippy/activity.py:49
+#: activity.py:49
 #, python-format
 msgid "%s Source"
 msgstr "%s 原始碼"
 
-#: /home/rafael/Activities/pippy/activity.py:91
+#: activity.py:91
 msgid "Copy selected text to clipboard"
 msgstr "將選取的文字複製到剪貼簿"
 
-#: /home/rafael/Activities/pippy/activity.py:96
-#: /home/rafael/Activities/pippy/pippy_app.py:114
-#: /home/rafael/Activities/pippy/pippy_app.py:119
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
 msgstr "編輯"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:87
-msgid "As Pippy Document"
-msgstr "儲存為小蟒文件"
+#: library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "暫停"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:94
-msgid "As Activity Bundle"
-msgstr "儲存為活動套件包"
+#: library/pippy/sound.py:48
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr "找不到TamTamEdit聲音庫，安裝TamTamEdit了嗎？"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:102
-msgid "As Pippy Example"
-msgstr "儲存為小蟒範例"
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr "匯出為小蟒文件"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:112
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr "匯出為小蟒範例"
+
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr "新增活動集"
+
+#: pippy_app.py:111
 msgid "Actions"
 msgstr "動作"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:139
+#: pippy_app.py:138
 msgid "_Run!"
-msgstr " 執行！"
+msgstr "_執行！"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:140
+#: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>F"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:153
+#: pippy_app.py:152
 msgid "_Stop"
 msgstr "_停止"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:154
+#: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:168
+#: pippy_app.py:167
 msgid "_Clear"
 msgstr "_清除"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:169
+#: pippy_app.py:168
 msgid "<alt>c"
 msgstr "<alt>c"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:198
+#: pippy_app.py:197
 msgid "Examples"
 msgstr "範例"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:230
+#: pippy_app.py:229
 msgid "My examples"
 msgstr "我的範例"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:352
+#: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
 msgstr "%s 活動"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:432
+#: pippy_app.py:438
 msgid "Save as Activity Error"
 msgstr "儲存為活動時發生錯誤"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:433
+#: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr "在進行儲存前，請先為你的活動取一個有意義的名字。"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:436
-#: /home/rafael/Activities/pippy/pippy_app.py:480
+#: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
 msgstr "確定"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:442
+#: pippy_app.py:448
 msgid "Creating activity bundle..."
 msgstr "建立活動套件包中…"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:473
+#: pippy_app.py:479
 msgid "Pippy Activity"
 msgstr "小蟒活動"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:477
+#: pippy_app.py:483
 msgid "Save as Example Error"
 msgstr "儲存為錯誤範例"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:478
+#: pippy_app.py:484
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr "在儲存為範例之前，請先為你的活動取一個有意義的名字。"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:486
+#: pippy_app.py:492
 msgid "Creating example..."
 msgstr "建立範例"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:493
+#: pippy_app.py:499
 msgid "Save as Example Warning"
 msgstr "儲存為警告範例"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:494
+#: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
 msgstr "這個範例已經存在，覆寫它嗎？"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:500
-#: /home/rafael/Activities/pippy/pippy_app.py:556
+#: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
 msgstr "儲存為範例"
 
-#: /home/rafael/Activities/pippy/pippy_app.py:540
+#: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "活動已存入日誌。"
 
-#: /home/rafael/Activities/pippy/library/pippy/sound.py:48
-msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr "找不到TamTamEdit聲音庫，安裝TamTamEdit了嗎？"
+#~ msgid "As Pippy Document"
+#~ msgstr "儲存為小蟒文件"
 
-#: /home/rafael/Activities/pippy/library/pippy/game.py:36
-msgid "PAUSED"
-msgstr "暫停"
+#~ msgid "As Activity Bundle"
+#~ msgstr "儲存為活動套件包"
+
+#~ msgid "As Pippy Example"
+#~ msgstr "儲存為小蟒範例"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "請安裝 咚咚鏘編輯 的音效資料庫"
