@@ -138,7 +138,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         gobutton = ToolButton(label=_("_Run!"))
         gobutton.props.accelerator = _('<alt>r')
         gobutton.set_icon_widget(goicon_bw)
-        gobutton.set_tooltip("Run")
+        gobutton.set_tooltip(_("Run!"))
         gobutton.connect('clicked', self.flash_cb, dict({'bw': goicon_bw,
             'color': goicon_color}))
         gobutton.connect('clicked', self.gobutton_cb)
@@ -155,7 +155,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         stopbutton.connect('clicked', self.flash_cb, dict({'bw': stopicon_bw,
             'color': stopicon_color}))
         stopbutton.connect('clicked', self.stopbutton_cb)
-        stopbutton.set_tooltip("Stop Running")
+        stopbutton.set_tooltip(_("Stop"))
         actions_toolbar.insert(stopbutton, -1)
 
         # The "clear" button
@@ -170,7 +170,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         clearbutton.connect('clicked', self.clearbutton_cb)
         clearbutton.connect('clicked', self.flash_cb, dict({'bw': clearicon_bw,
             'color': clearicon_color}))
-        clearbutton.set_tooltip("Clear")
+        clearbutton.set_tooltip(_("Clear"))
         actions_toolbar.insert(clearbutton, -1)
 
         activity_toolbar.show()
