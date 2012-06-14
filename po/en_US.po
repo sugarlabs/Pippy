@@ -14,11 +14,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"POT-Creation-Date: 2012-06-14 03:39-0400\n"
 "PO-Revision-Date: 2011-10-12 04:01+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: English\n"
-"Language: en_US\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,7 +46,7 @@ msgstr "Edit"
 msgid "PAUSED"
 msgstr "PAUSED"
 
-#: library/pippy/sound.py:48
+#: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 
@@ -66,7 +66,7 @@ msgstr "Create Activity Bundle"
 msgid "Actions"
 msgstr "Actions"
 
-#: pippy_app.py:138
+#: pippy_app.py:138 pippy_app.py:141
 msgid "_Run!"
 msgstr "_Run!"
 
@@ -74,7 +74,7 @@ msgstr "_Run!"
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: pippy_app.py:152
+#: pippy_app.py:152 pippy_app.py:158
 msgid "_Stop"
 msgstr "_Stop"
 
@@ -82,7 +82,7 @@ msgstr "_Stop"
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:167
+#: pippy_app.py:167 pippy_app.py:173
 msgid "_Clear"
 msgstr "_Clear"
 
@@ -158,6 +158,18 @@ msgstr "Saved as example."
 #: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "Activity saved to journal."
+
+#, fuzzy
+#~ msgid "Run!"
+#~ msgstr "_Run!"
+
+#, fuzzy
+#~ msgid "Stop"
+#~ msgstr "_Stop"
+
+#, fuzzy
+#~ msgid "Clear"
+#~ msgstr "_Clear"
 
 #~ msgid "As Pippy Document"
 #~ msgstr "As Pippy Document"
