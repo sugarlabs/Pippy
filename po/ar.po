@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"POT-Creation-Date: 2012-06-14 03:39-0400\n"
 "PO-Revision-Date: 2011-10-11 20:57+0200\n"
 "Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
@@ -42,7 +42,7 @@ msgstr "حرّر"
 msgid "PAUSED"
 msgstr "متوقف"
 
-#: library/pippy/sound.py:48
+#: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr "تعثر العثور على مكتبة TamTamEdit، هل ثبّتها؟"
 
@@ -62,7 +62,7 @@ msgstr "أنشئ حزمة نشاط"
 msgid "Actions"
 msgstr "الإجراءات"
 
-#: pippy_app.py:138
+#: pippy_app.py:138 pippy_app.py:141
 msgid "_Run!"
 msgstr "_شغّل"
 
@@ -70,7 +70,7 @@ msgstr "_شغّل"
 msgid "<alt>r"
 msgstr "<alt>ش"
 
-#: pippy_app.py:152
+#: pippy_app.py:152 pippy_app.py:158
 msgid "_Stop"
 msgstr "أوقِ_ف"
 
@@ -78,7 +78,7 @@ msgstr "أوقِ_ف"
 msgid "<alt>s"
 msgstr "<alt>ف"
 
-#: pippy_app.py:167
+#: pippy_app.py:167 pippy_app.py:173
 msgid "_Clear"
 msgstr "ا_مسح"
 
