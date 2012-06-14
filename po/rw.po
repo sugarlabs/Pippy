@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"POT-Creation-Date: 2012-06-14 03:39-0400\n"
 "PO-Revision-Date: 2012-04-05 06:22+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "Hindura"
 msgid "PAUSED"
 msgstr "Bihagaritswe by'akanya gato"
 
-#: library/pippy/sound.py:48
+#: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 
@@ -66,7 +66,7 @@ msgstr ""
 msgid "Actions"
 msgstr "Ibikorwa"
 
-#: pippy_app.py:138
+#: pippy_app.py:138 pippy_app.py:141
 msgid "_Run!"
 msgstr "_Kwiruka!"
 
@@ -74,7 +74,7 @@ msgstr "_Kwiruka!"
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: pippy_app.py:152
+#: pippy_app.py:152 pippy_app.py:158
 #, fuzzy
 msgid "_Stop"
 msgstr "_Guhagarara"
@@ -83,7 +83,7 @@ msgstr "_Guhagarara"
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:167
+#: pippy_app.py:167 pippy_app.py:173
 #, fuzzy
 msgid "_Clear"
 msgstr "_Gusiba"
