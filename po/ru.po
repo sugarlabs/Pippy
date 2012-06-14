@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"POT-Creation-Date: 2012-06-14 03:39-0400\n"
 "PO-Revision-Date: 2011-09-28 19:52+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,7 @@ msgstr "Редактировать"
 msgid "PAUSED"
 msgstr "ПАУЗА"
 
-#: library/pippy/sound.py:48
+#: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 "Невозможно найти звуковую библиотеку TamTamEdit. Вы установили TamTamEdit?"
@@ -68,7 +68,7 @@ msgstr ""
 msgid "Actions"
 msgstr "Действия"
 
-#: pippy_app.py:138
+#: pippy_app.py:138 pippy_app.py:141
 msgid "_Run!"
 msgstr "_Пуск!"
 
@@ -76,7 +76,7 @@ msgstr "_Пуск!"
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: pippy_app.py:152
+#: pippy_app.py:152 pippy_app.py:158
 msgid "_Stop"
 msgstr "_Стоп"
 
@@ -84,7 +84,7 @@ msgstr "_Стоп"
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:167
+#: pippy_app.py:167 pippy_app.py:173
 msgid "_Clear"
 msgstr "_Очистить"
 
