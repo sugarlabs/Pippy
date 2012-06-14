@@ -1,0 +1,162 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-06-14 03:39-0400\n"
+"PO-Revision-Date: 2011-12-08 16:15+0200\n"
+"Last-Translator: mirosnik <miroslavnikolic@rocketmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.0.5\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr "Пипи"
+
+#: activity.py:49
+#, python-format
+msgid "%s Source"
+msgstr "%s извор"
+
+#: activity.py:91
+msgid "Copy selected text to clipboard"
+msgstr "Умножи изабрани текст у списак исечака"
+
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
+msgid "Edit"
+msgstr "Уреди"
+
+#: library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "ПАУЗИРАНО"
+
+#: library/pippy/sound.py:54
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
+"Не могу да пронађем ТамТамЕдит звучну библиотеку. Да ли сте је инсталирали?"
+
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr "Извези као документ Пипија"
+
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr "Извези као пример Пипија"
+
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr "Направи скуп активности"
+
+#: pippy_app.py:111
+msgid "Actions"
+msgstr "Радње"
+
+#: pippy_app.py:138 pippy_app.py:141
+msgid "_Run!"
+msgstr "_Покрени!"
+
+#: pippy_app.py:139
+msgid "<alt>r"
+msgstr "<alt>р"
+
+#: pippy_app.py:152 pippy_app.py:158
+msgid "_Stop"
+msgstr "_Заустави"
+
+#: pippy_app.py:153
+msgid "<alt>s"
+msgstr "<alt>с"
+
+#: pippy_app.py:167 pippy_app.py:173
+msgid "_Clear"
+msgstr "_Очисти"
+
+#: pippy_app.py:168
+msgid "<alt>c"
+msgstr "<alt>ц"
+
+#: pippy_app.py:197
+msgid "Examples"
+msgstr "Примери"
+
+#: pippy_app.py:229
+msgid "My examples"
+msgstr "Моји примери"
+
+#: pippy_app.py:358
+#, python-format
+msgid "%s Activity"
+msgstr "%s активност"
+
+#: pippy_app.py:438
+msgid "Save as Activity Error"
+msgstr "Сачувај као грешку активности"
+
+#: pippy_app.py:439
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
+msgstr ""
+"Молим дајте вашој активности неки препознатљив назив пре него што покушате "
+"да је сачувате као активност."
+
+#: pippy_app.py:442 pippy_app.py:486
+msgid "Ok"
+msgstr "У реду"
+
+#: pippy_app.py:448
+msgid "Creating activity bundle..."
+msgstr "Правим скуп активности..."
+
+#: pippy_app.py:479
+msgid "Pippy Activity"
+msgstr "Активности Пипија"
+
+#: pippy_app.py:483
+msgid "Save as Example Error"
+msgstr "Сачувај као грешку примера"
+
+#: pippy_app.py:484
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"Молим дајте вашој активности неки препознатљив назив пре него што покушате "
+"да је сачувате као пример."
+
+#: pippy_app.py:492
+msgid "Creating example..."
+msgstr "Правим пример..."
+
+#: pippy_app.py:499
+msgid "Save as Example Warning"
+msgstr "Сачувај као упозорење примера"
+
+#: pippy_app.py:500
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "Овај пример већ постоји. Да ли желите да га замените?"
+
+#: pippy_app.py:506 pippy_app.py:562
+msgid "Saved as example."
+msgstr "Сачувано као пример."
+
+#: pippy_app.py:546
+msgid "Activity saved to journal."
+msgstr "Активност је сачувана у дневник."
