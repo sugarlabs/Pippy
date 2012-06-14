@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"POT-Creation-Date: 2012-06-14 03:39-0400\n"
 "PO-Revision-Date: 2009-02-13 07:54-0500\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "Sửa"
 msgid "PAUSED"
 msgstr "BỊ TẠM DỪNG"
 
-#: library/pippy/sound.py:48
+#: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 
@@ -66,7 +66,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: pippy_app.py:138
+#: pippy_app.py:138 pippy_app.py:141
 msgid "_Run!"
 msgstr "_Chạy !"
 
@@ -74,7 +74,7 @@ msgstr "_Chạy !"
 msgid "<alt>r"
 msgstr ""
 
-#: pippy_app.py:152
+#: pippy_app.py:152 pippy_app.py:158
 msgid "_Stop"
 msgstr ""
 
@@ -82,7 +82,7 @@ msgstr ""
 msgid "<alt>s"
 msgstr ""
 
-#: pippy_app.py:167
+#: pippy_app.py:167 pippy_app.py:173
 msgid "_Clear"
 msgstr ""
 
