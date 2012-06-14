@@ -1,0 +1,155 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-06-14 03:39-0400\n"
+"PO-Revision-Date: 2012-06-14 06:38+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pbs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.5\n"
+
+#: activity/activity.info:2
+msgid "Pippy"
+msgstr ""
+
+#: activity.py:49
+#, python-format
+#, python-format, fuzzy
+msgid "%s Source"
+msgstr "%s Kiñye'"
+
+#: activity.py:91
+msgid "Copy selected text to clipboard"
+msgstr ""
+
+#: activity.py:96 pippy_app.py:113 pippy_app.py:118
+msgid "Edit"
+msgstr "Malejeiñ"
+
+#: library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "MAMA'AI"
+
+#: library/pippy/sound.py:54
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr ""
+"Kad-ep makejé ravu se makjaat se vatei' ne ngutajap re Tam TamEdit ¿nduma'ai "
+"ndukjuat ne ngutajap Tam TamEdit?"
+
+#: pippy_app.py:90
+msgid "Export as Pippy Document"
+msgstr "Maú'juñ nkjai' ne nguk'uix peppy"
+
+#: pippy_app.py:96
+msgid "Export as Pippy Example"
+msgstr "Ma'ujuñ maku'uts napu kutap matsjau nguk'uix peppy"
+
+#: pippy_app.py:102
+msgid "Create Activity Bundle"
+msgstr "Matsjau malejeiñ nda viñkjiu ngul'ajau"
+
+#: pippy_app.py:111
+msgid "Actions"
+msgstr "Kanen matsjau"
+
+#: pippy_app.py:138 pippy_app.py:141
+msgid "_Run!"
+msgstr "¡-Vipiup!"
+
+#: pippy_app.py:139
+#, fuzzy
+msgid "<alt>r"
+msgstr "Kist pu kily'e <alt> maiñ' r "
+
+#: pippy_app.py:152 pippy_app.py:158
+msgid "_Stop"
+msgstr "Ndama'ai"
+
+#: pippy_app.py:153
+msgid "<alt>s"
+msgstr "<alt>s"
+
+#: pippy_app.py:167 pippy_app.py:173
+msgid "_Clear"
+msgstr "Matseiñ'"
+
+#: pippy_app.py:168
+msgid "<alt>c"
+msgstr "<alt>c"
+
+#: pippy_app.py:197
+msgid "Examples"
+msgstr "Peuk ma nat'ei ma natsjau"
+
+#: pippy_app.py:229
+msgid "My examples"
+msgstr "Peuk tu'uei tutsjaú"
+
+#: pippy_app.py:358
+#, python-format
+#, python-format, fuzzy
+msgid "%s Activity"
+msgstr "%s Ngul'ajaú"
+
+#: pippy_app.py:438
+msgid "Save as Activity Error"
+msgstr "Makjat ndich'u ne ngul'ajau"
+
+#: pippy_app.py:439
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
+msgstr "Vichjaut majau kutap lamejep majau ngunjiu' ne ngul'ajau kjup kikjiat"
+
+#: pippy_app.py:442 pippy_app.py:486
+msgid "Ok"
+msgstr "Majau"
+
+#: pippy_app.py:448
+msgid "Creating activity bundle..."
+msgstr "Manaja vatsjau nda ngul'ajau matseu' makjat"
+
+#: pippy_app.py:479
+msgid "Pippy Activity"
+msgstr "Ngul'ajau pippy"
+
+#: pippy_app.py:483
+msgid "Save as Example Error"
+msgstr "Makjat k'ua lanu peuk vakja se ndich'u"
+
+#: pippy_app.py:484
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"vichjaut majau lamejep ngunjiu pu ngul'ajau kutap statjum kikjiat k'ua lanu "
+"peuk me'ei matsjau"
+
+#: pippy_app.py:492
+msgid "Creating example..."
+msgstr "Mata'au peuk k'ua le'ei lanu peuk mane'ei ma natsjau"
+
+#: pippy_app.py:499
+msgid "Save as Example Warning"
+msgstr "Makjat k'ua lanu sania' maljús"
+
+#: pippy_app.py:500
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "Nanji ndanu peuk me'ei mantsjau limi makjat kimieng tsukuet ma nad-ets'"
+
+#: pippy_app.py:506 pippy_app.py:562
+msgid "Saved as example."
+msgstr "Makjat k'ua lanú peuk me'ei matsjau"
+
+#: pippy_app.py:546
+msgid "Activity saved to journal."
+msgstr "Ngul'ajau makjat pu nguk'uix xiñi'iu me'ets"
