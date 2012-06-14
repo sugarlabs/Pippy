@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-08 00:32-0400\n"
+"POT-Creation-Date: 2012-06-14 03:39-0400\n"
 "PO-Revision-Date: 2012-03-22 02:13+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "編輯"
 msgid "PAUSED"
 msgstr "暫停"
 
-#: library/pippy/sound.py:48
+#: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr "找不到TamTamEdit聲音庫，安裝TamTamEdit了嗎？"
 
@@ -66,7 +66,7 @@ msgstr "新增活動集"
 msgid "Actions"
 msgstr "動作"
 
-#: pippy_app.py:138
+#: pippy_app.py:138 pippy_app.py:141
 msgid "_Run!"
 msgstr "_執行！"
 
@@ -74,7 +74,7 @@ msgstr "_執行！"
 msgid "<alt>r"
 msgstr "<alt>F"
 
-#: pippy_app.py:152
+#: pippy_app.py:152 pippy_app.py:158
 msgid "_Stop"
 msgstr "_停止"
 
@@ -82,7 +82,7 @@ msgstr "_停止"
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:167
+#: pippy_app.py:167 pippy_app.py:173
 msgid "_Clear"
 msgstr "_清除"
 
