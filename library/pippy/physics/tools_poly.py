@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from functools import partial
 
@@ -55,7 +55,7 @@ def ComputeCentroid(pd):
         # Triangle vertices.
         p1 = pRef
         p2 = pd.getVertex(i)
-        if i + 1 < count: 
+        if i + 1 < count:
             p3 = pd.getVertex(i+1)
         else: p3 = pd.getVertex(0)
 
@@ -70,7 +70,7 @@ def ComputeCentroid(pd):
         # Area weighted centroid
         c += triangleArea * inv3 * (p1 + p2 + p3)
 
-	# Centroid
+    # Centroid
  #   if area < FLT_EPSILON:
         #raise ValueError, "ComputeCentroid: area < FLT_EPSILON"
 
@@ -95,7 +95,7 @@ def checkDef(pd):
         else: v1 = verts[i+1]
         edge=v1 - v0
 #        if edge.LengthSquared() < threshold:
-#           raise ValueError, "edge.LengthSquared < FLT_EPSILON**2" 
+#           raise ValueError, "edge.LengthSquared < FLT_EPSILON**2"
         normals.append( box2d.b2Cross(edge, 1.0) )
         normals[-1].Normalize()
         v0=v1
@@ -104,7 +104,7 @@ def checkDef(pd):
 
     d=box2d.b2Vec2()
     for i in range(pd.vertexCount):
-        i1 = i - 1 
+        i1 = i - 1
         if i1 < 0: i1 = pd.vertexCount - 1
         i2 = i
         n1 = normals[i1]
@@ -114,17 +114,17 @@ def checkDef(pd):
         d.x = box2d.b2Dot(n1, v) - box2d.b2_toiSlop
         d.y = box2d.b2Dot(n2, v) - box2d.b2_toiSlop
 
-		# Shifting the edge inward by b2_toiSlop should
-		# not cause the plane to pass the centroid.
+        # Shifting the edge inward by b2_toiSlop should
+        # not cause the plane to pass the centroid.
 
-		# Your shape has a radius/extent less than b2_toiSlop.
-#        if d.x < 0.0 or d.y <= 0.0: 
+        # Your shape has a radius/extent less than b2_toiSlop.
+#        if d.x < 0.0 or d.y <= 0.0:
 #            raise ValueError, "Your shape has a radius/extent less than b2_toiSlop."
 
         A = box2d.b2Mat22()
         A.col1.x = n1.x; A.col2.x = n1.y
         A.col1.y = n2.x; A.col2.y = n2.y
-		#coreVertices[i] = A.Solve(d) + m_centroid
+        #coreVertices[i] = A.Solve(d) + m_centroid
 
     return True
 
@@ -144,7 +144,7 @@ def poly_center_vertices(pointlist):
     """ Rearranges vectors around the center
     
         Return: pointlist ([(x, y), ...])
-    """    
+    """
     poly_points_center = []
     center = cx, cy = calc_center(pointlist)
     
@@ -165,7 +165,7 @@ def is_line(vertices, tolerance=25.0):
           
         Returns: True if line, False if no line
     """
-    if len(vertices) <= 2:        
+    if len(vertices) <= 2:
         return True
 
     # Step 1: Points -> Vectors
@@ -178,7 +178,7 @@ def is_line(vertices, tolerance=25.0):
         x2, y2 = p
         p_old = p
 
-        # Create Vector        
+        # Create Vector
         vx, vy = (x2-x1, y2-y1)
         
         # Check Length
@@ -224,7 +224,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
     p_new =  []
     p_new.append(vertices[0])
     
-    dir = None 
+    dir = None
     is_convex = True
     
     for i in xrange(len(vertices)-1):
@@ -249,7 +249,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         b = sqrt((v1x*v1x) + (v1y*v1y))
         c = sqrt((v2x*v2x) + (v2y*v2y))
 
-        # No Division by 0 :)        
+        # No Division by 0 :)
         if (b*c) == 0.0: continue
         
         # Get the current degrees
@@ -263,7 +263,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
             
         # Check if inside tolerance
         if fabs(angle) > tolerance:
-            p_new.append(vertices[i])        
+            p_new.append(vertices[i])
             # print "x", 180-angle, is_left(vertices[i-1], vertices[i], vertices[i+1])
             
             # Check if convex:
@@ -279,7 +279,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
     # Returns: (1) New Pointlist, (2) Soft reduced pointlist (reduce_poly())
     return p_new, is_convex
 
-    """ OLD FUNCTION: """    
+    """ OLD FUNCTION: """
     # Wipe all points too close to each other
     vxx = vertices = reduce_poly(vertices, minlen)
     
@@ -310,7 +310,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         # Get Angle
         if fabs(vx) < 0.2:
             alpha = 90
-        else: 
+        else:
             alpha = degrees(atan(vy * 1.0) / (vx*1.0))
 
         if alpha_old == None:
@@ -318,7 +318,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
             continue
         
         # Get difference to previous angle
-        alpha_diff = fabs(alpha - alpha_old)        
+        alpha_diff = fabs(alpha - alpha_old)
         alpha_old = alpha
         
         # If the new vector differs from the old one, we add the old point
@@ -334,7 +334,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
     return p_new, vxx
     
         
-# The following functions is_left, reduce_poly and convex_hull are 
+# The following functions is_left, reduce_poly and convex_hull are
 # from the pymunk project (http://code.google.com/p/pymunk/)
 def is_left(p0, p1, p2):
     """Test if p2 is left, on or right of the (infinite) line (p0,p1).
@@ -345,7 +345,7 @@ def is_left(p0, p1, p2):
     """
     sorting = (p1[0] - p0[0])*(p2[1]-p0[1]) - (p2[0]-p0[0])*(p1[1]-p0[1])
     if sorting > 0: return 1
-    elif sorting < 0: return -1 
+    elif sorting < 0: return -1
     else: return 0
 
 def is_convex(points):
@@ -362,7 +362,7 @@ def is_convex(points):
     xc, yc = 0, 0
     is_same_winding = is_left(p0, p1, p2)
     for p2 in points[2:] + [p0] + [p1]:
-        if is_same_winding != is_left(p0, p1, p2): 
+        if is_same_winding != is_left(p0, p1, p2):
             return False
         a = p1[0] - p0[0], p1[1] - p0[1] # p1-p0
         b = p2[0] - p1[0], p2[1] - p1[1] # p2-p1
@@ -372,8 +372,8 @@ def is_convex(points):
    
     return xc <= 2 and yc <= 2
 
-def sign(x): 
-    if x < 0: return -1 
+def sign(x):
+    if x < 0: return -1
     else: return 1
 
 
@@ -426,7 +426,7 @@ def convex_hull(points):
         
         pt1 = hull[-1]
         pt2 = hull[-2]
-        l = is_left(pt2, pt1, p) 
+        l = is_left(pt2, pt1, p)
         if l > 0:
             hull.append(p)
         else:
@@ -436,5 +436,5 @@ def convex_hull(points):
                 pt2 = hull[-2]
                 l = is_left(pt2, pt1, p)
             hull.append(p)
-    return hull     
+    return hull
     

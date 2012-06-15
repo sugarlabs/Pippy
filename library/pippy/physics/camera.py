@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from locals import *
 
@@ -59,7 +59,7 @@ class Camera:
             Typical call: world.camera.center(event.pos)
             
             Problem: Works ONLY WITH screenCoord now!
-        """        
+        """
         x, y = pos
 
         x -= self.parent.display_width / 2
@@ -73,7 +73,7 @@ class Camera:
         self.inc_offset((x, y), screenCoord, stopTrack)
         
     def set_offset(self, offset, screenCoord=True, stopTrack=True):
-        """ Set an offset from the screen to the world cs 
+        """ Set an offset from the screen to the world cs
             -- in screen (or world) coordinates and in pixel
         """
         # Stop tracking of an object
@@ -107,7 +107,7 @@ class Camera:
         """ Set the screen offset to the world coordinate system
             (using meters and the world coordinate system's orientation)
         """
-        x, y = offset            
+        x, y = offset
         self.parent.screen_offset = (x, y)
         self.parent.screen_offset_pixel = (x*self.parent.ppm, y*self.parent.ppm)
         

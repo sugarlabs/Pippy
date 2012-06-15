@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,20 +22,20 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from locals import *
 from elements import box2d
 
 class CallbackHandler:
-    # List of contact callbacks and shapes to start them - sorted by type for quicker access  
+    # List of contact callbacks and shapes to start them - sorted by type for quicker access
     # Callbacks are saved as callbacks[callback_type][[function, parameters], ...]
-    callbacks = {}   
+    callbacks = {}
     
     def __init__(self, parent):
         self.parent = parent
         
-        # init callback dict to avoid those slow try 
+        # init callback dict to avoid those slow try
         # (especially for self.get, as it is called *often*)
         for i in xrange(10):
             self.callbacks[i] = []
@@ -79,7 +79,7 @@ class CallbackHandler:
             callback()
 
 class kContactListener(box2d.b2ContactListener):
-    def __init__(self, get_callbacks): 
+    def __init__(self, get_callbacks):
         # Init the Box2D b2ContactListener
         box2d.b2ContactListener.__init__(self)
 
@@ -94,7 +94,7 @@ class kContactListener(box2d.b2ContactListener):
         for c in contacts:
             callback, bodylist = c
             if len(bodylist) == 0:
-                # Without bodylist it's a universal callback (for all bodies) 
+                # Without bodylist it's a universal callback (for all bodies)
                 callback(point)
                 
             else:
@@ -104,7 +104,7 @@ class kContactListener(box2d.b2ContactListener):
                 b2 = str(point.shape2.GetBody())
                 for s in bodylist:
                     s = str(s)
-                    if b1 == s or b2 == s: 
+                    if b1 == s or b2 == s:
                         # Yes, that's the one :)
                         callback(point)
          

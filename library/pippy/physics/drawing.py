@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from math import pi
 from math import cos
@@ -31,7 +31,7 @@ from math import sqrt
 
 import tools
 
-# Functions of a rendering class 
+# Functions of a rendering class
 # mandatory:
 #    __init__
 #    start_drawing
@@ -47,7 +47,7 @@ import tools
 # for cairo:
 #    draw_text
 # for opengl:
-#    
+#
 
 # IMPORTANT
 # The drawing functions get the coordinates in their screen coordinate system
@@ -65,11 +65,11 @@ class draw_pygame(object):
             
             Parameters:
               surface .... pygame surface (default: None)
-              lineWidth .. 
+              lineWidth ..
 
             Return: Class draw_pygame()
         """
-        print "* Pygame selected as renderer"        
+        print "* Pygame selected as renderer"
         from pygame import draw
         from pygame import Rect
         
@@ -103,7 +103,7 @@ class draw_pygame(object):
             Parameters:
               pt ........ (x, y)
               clr ....... color in rgb ((r), (g), (b))
-              radius .... circle radius 
+              radius .... circle radius
               angle ..... rotation in radians
               
             Return: -
@@ -146,7 +146,7 @@ class draw_pygame(object):
         """
         if width == None:
             lw = self.lineWidth
-        else: 
+        else:
             lw = width
             
         self.draw.lines(self.surface, clr, closed, points, lw)
@@ -173,12 +173,12 @@ class draw_cairo(object):
         #self.draw_box = self.draw_box_image
 
     def set_lineWidth(self, lw): # unused
-        self.lineWidth = lw 
+        self.lineWidth = lw
 
     def set_drawing_area(self, da):
         """ Set the area for Cairo to draw to
         
-            da ...... drawing area (gtk.DrawingArea)
+            da ...... drawing area (Gtk.DrawingArea)
 
             Return: -
         """
@@ -267,7 +267,7 @@ class draw_cairo(object):
               points .... polygon points in normal (x,y) positions
               
             Return: -
-        """        
+        """
         clr = tools.rgb2floats(clr)
         self.ctx.set_source_rgb(clr[0], clr[1], clr[2])
 
@@ -296,7 +296,7 @@ class draw_cairo(object):
               closed .... whether or not to close the lines (as a polygon)
               points .... polygon points in normal (x,y) positions
             Return: -
-        """        
+        """
         clr = tools.rgb2floats(clr)
         self.ctx.set_source_rgb(clr[0], clr[1], clr[2])
 
@@ -320,7 +320,7 @@ class draw_opengl_pyglet(object):
             
             Parameters:
               surface .... not used with pyglet
-              lineWidth .. 
+              lineWidth ..
         """
         print "* OpenGL_Pyglet selected as renderer"
 
@@ -332,23 +332,23 @@ class draw_opengl_pyglet(object):
     
     def draw_circle(self, clr, pt, radius, a=0):
         clr = tools.rgb2floats(clr)
-    	self.gl.glColor3f(clr[0], clr[1], clr[2])
+        self.gl.glColor3f(clr[0], clr[1], clr[2])
 
         x, y = pt
-    	segs = 15
-    	coef = 2.0*pi/segs;
-    	
-    	self.gl.glBegin(self.gl.GL_LINE_LOOP)
-    	for n in range(segs):
-    		rads = n*coef
-    		self.gl.glVertex2f(radius*cos(rads + a) + x, radius*sin(rads + a) + y)
-    	self.gl.glVertex2f(x,y)
-    	self.gl.glEnd()
+        segs = 15
+        coef = 2.0*pi/segs;
+        
+        self.gl.glBegin(self.gl.GL_LINE_LOOP)
+        for n in range(segs):
+            rads = n*coef
+            self.gl.glVertex2f(radius*cos(rads + a) + x, radius*sin(rads + a) + y)
+        self.gl.glVertex2f(x,y)
+        self.gl.glEnd()
 
     def draw_polygon(self, clr, points):
         clr = tools.rgb2floats(clr)
-    	self.gl.glColor3f(clr[0], clr[1], clr[2])
-    	
+        self.gl.glColor3f(clr[0], clr[1], clr[2])
+        
         self.gl.glBegin(self.gl.GL_LINES)
 
         p1 = points[0]

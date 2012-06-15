@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,18 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 # Some Hex Tools
 def hex2dec(hex):
     """ Convert and hex value in a decimal number
-    """ 
+    """
     return int(hex, 16)
 
-def hex2rgb(hex): 
+def hex2rgb(hex):
     """ Convert a hex color (#123abc) in RGB ((r), (g), (b))
     """
-    if hex[0:1] == '#': hex = hex[1:]; 
+    if hex[0:1] == '#': hex = hex[1:];
     return (hex2dec(hex[:2]), hex2dec(hex[2:4]), hex2dec(hex[4:6]))
 
 def rgb2floats(rgb):

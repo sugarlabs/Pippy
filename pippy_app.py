@@ -18,71 +18,66 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """Pippy Activity: A simple Python programming activity ."""
-from __future__ import with_statement
-import gtk
+
 import logging
-import pango
-import vte
 import re
 import os
-import gobject
 import time
-
-from port.style import font_zoom
 from signal import SIGTERM
 from gettext import gettext as _
 
-from sugar.activity import activity
-from activity import ViewSourceActivity, TARGET_TYPE_TEXT
-from sugar.activity.activity import ActivityToolbox, \
-     EditToolbar, get_bundle_path, get_bundle_name
-from sugar.graphics import style
-from sugar.graphics.toolbutton import ToolButton
+import gi
+from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import Pango
+from gi.repository import GObject
+from gi.repository import Vte
 
+from sugar3.activity import activity
+
+from sugar3.graphics.toolbarbox import ToolbarBox, ToolbarButton
+from sugar3.activity.widgets import EditToolbar, StopButton
+from sugar3.activity.activity import get_bundle_path
+from sugar3.activity.activity import get_bundle_name
+from sugar3.graphics import style
+from sugar3.graphics.toolbutton import ToolButton
+from port.style import font_zoom
 import groupthink.sugar_tools
 import groupthink.gtk_tools
+
+from activity import ViewSourceActivity, TARGET_TYPE_TEXT # activity.py local
 
 text_buffer = None
 # magic prefix to use utf-8 source encoding
 PYTHON_PREFIX = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
-
-OLD_TOOLBAR = False
-try:
-    from sugar.graphics.toolbarbox import ToolbarBox, ToolbarButton
-    from sugar.activity.widgets import StopButton
-except ImportError:
-    OLD_TOOLBAR = True
+#from sugar3.graphics.toolbarbox import ToolbarBox, ToolbarButton
+#from sugar3.activity.widgets import StopButton
 
 # get screen sizes
-SIZE_X = gtk.gdk.screen_width()
-SIZE_Y = gtk.gdk.screen_height()
+SIZE_X = Gdk.Screen.width()
+SIZE_Y = Gdk.Screen.height()
 
 groupthink_mimetype = 'pickle/groupthink-pippy'
-
 
 class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     """Pippy Activity as specified in activity.info"""
     def early_setup(self):
         global text_buffer
-        import gtksourceview2
-        text_buffer = gtksourceview2.Buffer()
+        from gi.repository import GtkSource
+        text_buffer = GtkSource.Buffer()
 
     def initialize_display(self):
         self._logger = logging.getLogger('pippy-activity')
 
         # Activity toolbar with title input, share button and export buttons:
-
-        if OLD_TOOLBAR:
-            activity_toolbar = self.toolbox.get_activity_toolbar()
-        else:
-            activity_toolbar = self.activity_button.page
+        activity_toolbar = self.activity_button.page
 
         # Hide keep button for Sugar versions prior to 0.94:
-        activity_toolbar.keep.hide()
+        #activity_toolbar.keep.hide()
 
-        separator = gtk.SeparatorToolItem()
+        separator = Gtk.SeparatorToolItem()
         separator.show()
         activity_toolbar.insert(separator, -1)
 
@@ -104,19 +99,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         create_bundle_button.show()
         activity_toolbar.insert(create_bundle_button, -1)
 
-        self._edit_toolbar = activity.EditToolbar()
+        self._edit_toolbar = EditToolbar()
 
-        if OLD_TOOLBAR:
-            activity_toolbar = gtk.Toolbar()
-            self.toolbox.add_toolbar(_('Actions'), activity_toolbar)
-            self.toolbox.set_current_toolbar(1)
-            self.toolbox.add_toolbar(_('Edit'), self._edit_toolbar)
-        else:
-            edit_toolbar_button = ToolbarButton()
-            edit_toolbar_button.set_page(self._edit_toolbar)
-            edit_toolbar_button.props.icon_name = 'toolbar-edit'
-            edit_toolbar_button.props.label = _('Edit')
-            self.get_toolbar_box().toolbar.insert(edit_toolbar_button, -1)
+        edit_toolbar_button = ToolbarButton()
+        edit_toolbar_button.set_page(self._edit_toolbar)
+        edit_toolbar_button.props.icon_name = 'toolbar-edit'
+        edit_toolbar_button.props.label = _('Edit')
+        self.get_toolbar_box().toolbar.insert(edit_toolbar_button, -1)
 
         self._edit_toolbar.show()
 
@@ -125,15 +114,12 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._edit_toolbar.copy.connect('clicked', self.__copybutton_cb)
         self._edit_toolbar.paste.connect('clicked', self.__pastebutton_cb)
 
-        if OLD_TOOLBAR:
-            actions_toolbar = activity_toolbar
-        else:
-            actions_toolbar = self.get_toolbar_box().toolbar
+        actions_toolbar = self.get_toolbar_box().toolbar
 
         # The "go" button
-        goicon_bw = gtk.Image()
+        goicon_bw = Gtk.Image()
         goicon_bw.set_from_file("%s/icons/run_bw.svg" % os.getcwd())
-        goicon_color = gtk.Image()
+        goicon_color = Gtk.Image()
         goicon_color.set_from_file("%s/icons/run_color.svg" % os.getcwd())
         gobutton = ToolButton(label=_("_Run!"))
         gobutton.props.accelerator = _('<alt>r')
@@ -145,9 +131,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         actions_toolbar.insert(gobutton, -1)
 
         # The "stop" button
-        stopicon_bw = gtk.Image()
+        stopicon_bw = Gtk.Image()
         stopicon_bw.set_from_file("%s/icons/stopit_bw.svg" % os.getcwd())
-        stopicon_color = gtk.Image()
+        stopicon_color = Gtk.Image()
         stopicon_color.set_from_file("%s/icons/stopit_color.svg" % os.getcwd())
         stopbutton = ToolButton(label=_("_Stop"))
         stopbutton.props.accelerator = _('<alt>s')
@@ -159,9 +145,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         actions_toolbar.insert(stopbutton, -1)
 
         # The "clear" button
-        clearicon_bw = gtk.Image()
+        clearicon_bw = Gtk.Image()
         clearicon_bw.set_from_file("%s/icons/eraser_bw.svg" % os.getcwd())
-        clearicon_color = gtk.Image()
+        clearicon_color = Gtk.Image()
         clearicon_color.set_from_file("%s/icons/eraser_color.svg" %
                                       os.getcwd())
         clearbutton = ToolButton(label=_("_Clear"))
@@ -175,34 +161,33 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         activity_toolbar.show()
 
-        if not OLD_TOOLBAR:
-            separator = gtk.SeparatorToolItem()
-            separator.props.draw = False
-            separator.set_expand(True)
-            self.get_toolbar_box().toolbar.insert(separator, -1)
-            separator.show()
+        separator = Gtk.SeparatorToolItem()
+        separator.props.draw = False
+        separator.set_expand(True)
+        self.get_toolbar_box().toolbar.insert(separator, -1)
+        separator.show()
 
-            stop = StopButton(self)
-            self.get_toolbar_box().toolbar.insert(stop, -1)
+        stop = StopButton(self)
+        self.get_toolbar_box().toolbar.insert(stop, -1)
 
         # Main layout.
-        self.hpane = gtk.HPaned()
-        self.vpane = gtk.VPaned()
+        self.hpane = Gtk.HPaned()
+        self.vpane = Gtk.VPaned()
 
         # The sidebar.
-        self.sidebar = gtk.VBox()
-        self.model = gtk.TreeStore(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING)
-        treeview = gtk.TreeView(self.model)
-        cellrenderer = gtk.CellRendererText()
-        treecolumn = gtk.TreeViewColumn(_("Examples"), cellrenderer, text=1)
+        self.sidebar = Gtk.VBox()
+        self.model = Gtk.TreeStore(GObject.TYPE_PYOBJECT, GObject.TYPE_STRING)
+        treeview = Gtk.TreeView(self.model)
+        cellrenderer = Gtk.CellRendererText()
+        treecolumn = Gtk.TreeViewColumn(_("Examples"), cellrenderer, text=1)
         treeview.get_selection().connect("changed", self.selection_cb)
         treeview.append_column(treecolumn)
         treeview.set_size_request(int(SIZE_X * 0.3), SIZE_Y)
 
         # Create scrollbars around the view.
-        scrolled = gtk.ScrolledWindow()
+        scrolled = Gtk.ScrolledWindow()
         scrolled.add(treeview)
-        self.sidebar.pack_start(scrolled)
+        self.sidebar.pack_start(scrolled, True, True, 0)
         self.hpane.add1(self.sidebar)
 
         root = os.path.join(get_bundle_path(), 'data')
@@ -215,7 +200,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self.model.set_value(olditer, 0, direntry)
             self.model.set_value(olditer, 1, direntry["name"])
 
-
             for _file in sorted(os.listdir(os.path.join(root, d))):
                 if _file.endswith('~'):
                     continue  # skip emacs backups
@@ -224,13 +208,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 _iter = self.model.insert_before(olditer, None)
                 self.model.set_value(_iter, 0, entry)
                 self.model.set_value(_iter, 1, entry["name"])
-        # Adding local examples 
+        # Adding local examples
         root = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'],'data')
-        direntry_examples  = { "name": _("My examples"), 
+        direntry_examples  = { "name": _("My examples"),
                                "path": root + "/" }
-        self.example_iter = self.model.insert_before(None, None) 
-        self.model.set_value(self.example_iter, 0, direntry_examples) 
-        self.model.set_value(self.example_iter, 1, direntry_examples["name"]) 
+        self.example_iter = self.model.insert_before(None, None)
+        self.model.set_value(self.example_iter, 0, direntry_examples)
+        self.model.set_value(self.example_iter, 1, direntry_examples["name"])
         for _file in sorted(os.listdir(root)):
             file_name = os.path.join(root, _file)
             if os.path.isfile(file_name):
@@ -242,9 +226,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         treeview.expand_all()
 
         # Source buffer
-        import gtksourceview2
+        from gi.repository import GtkSource
         global text_buffer
-        lang_manager = gtksourceview2.language_manager_get_default()
+        lang_manager = GtkSource.LanguageManager.get_default()
         if hasattr(lang_manager, 'list_languages'):
             langs = lang_manager.list_languages()
         else:
@@ -262,50 +246,53 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             text_buffer.set_highlight_syntax(True)
 
         # The GTK source view window
-        self.text_view = gtksourceview2.View(text_buffer)
+        self.text_view = GtkSource.View()
+        self.text_view.set_buffer(text_buffer)
         self.text_view.set_size_request(0, int(SIZE_Y * 0.5))
         self.text_view.set_editable(True)
         self.text_view.set_cursor_visible(True)
         self.text_view.set_show_line_numbers(True)
-        self.text_view.set_wrap_mode(gtk.WRAP_CHAR)
+        self.text_view.set_wrap_mode(Gtk.WrapMode.CHAR)
         self.text_view.set_insert_spaces_instead_of_tabs(True)
         self.text_view.set_tab_width(2)
         self.text_view.set_auto_indent(True)
-        self.text_view.modify_font(pango.FontDescription("Monospace " +
+        self.text_view.modify_font(Pango.FontDescription("Monospace " +
             str(font_zoom(style.FONT_SIZE))))
 
         # We could change the color theme here, if we want to.
-        #mgr = gtksourceview2.style_manager_get_default()
+        #mgr = GtkSource.style_manager_get_default()
         #style_scheme = mgr.get_scheme('kate')
         #self.text_buffer.set_style_scheme(style_scheme)
 
-        codesw = gtk.ScrolledWindow()
-        codesw.set_policy(gtk.POLICY_AUTOMATIC,
-                      gtk.POLICY_AUTOMATIC)
+        codesw = Gtk.ScrolledWindow()
+        codesw.set_policy(Gtk.PolicyType.AUTOMATIC,
+                      Gtk.PolicyType.AUTOMATIC)
         codesw.add(self.text_view)
         self.vpane.add1(codesw)
 
         # An hbox to hold the vte window and its scrollbar.
-        outbox = gtk.HBox()
+        outbox = Gtk.HBox()
 
         # The vte python window
-        self._vte = vte.Terminal()
+        
+        self._vte = Vte.Terminal()
         self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
         font = 'Monospace ' + str(font_zoom(style.FONT_SIZE))
-        self._vte.set_font(pango.FontDescription(font))
-        self._vte.set_colors(gtk.gdk.color_parse('#000000'),
-                             gtk.gdk.color_parse('#E7E7E7'),
+        self._vte.set_font(Pango.FontDescription(font))
+        self._vte.set_colors(Gdk.color_parse('#000000'),
+                             Gdk.color_parse('#E7E7E7'),
                              [])
         self._vte.connect('child_exited', self.child_exited_cb)
         self._child_exited_handler = None
-        self._vte.drag_dest_set(gtk.DEST_DEFAULT_ALL,
-                                [("text/plain", 0, TARGET_TYPE_TEXT)],
-                                gtk.gdk.ACTION_COPY)
+        #self._vte.drag_dest_set(Gtk.DEST_DEFAULT_ALL,
+        #                        [("text/plain", 0, TARGET_TYPE_TEXT)],
+        #                        Gdk.DragAction.COPY)
         self._vte.connect('drag_data_received', self.vte_drop_cb)
-        outbox.pack_start(self._vte)
+        outbox.pack_start(self._vte, True, True, 0)
 
-        outsb = gtk.VScrollbar(self._vte.get_adjustment())
+        #outsb = Gtk.VScrollbar(self._vte.get_adjustment())
+        outsb = Gtk.VScrollbar()
         outsb.show()
         outbox.pack_start(outsb, False, False, 0)
         self.vpane.add2(outbox)
@@ -349,7 +336,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def flash_cb(self, button, icons):
         button.set_icon_widget(icons['color'])
         button.show_all()
-        gobject.timeout_add(400, self.timer_cb, button, icons)
+        GObject.timeout_add(400, self.timer_cb, button, icons)
 
     def clearbutton_cb(self, button):
         self.save()
@@ -389,11 +376,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def __copybutton_cb(self, button):
         global text_buffer
-        text_buffer.copy_clipboard(gtk.Clipboard())
+        text_buffer.copy_clipboard(Gtk.Clipboard())
 
     def __pastebutton_cb(self, button):
         global text_buffer
-        text_buffer.paste_clipboard(gtk.Clipboard(), None, True)
+        text_buffer.paste_clipboard(Gtk.Clipboard(), None, True)
 
     def gobutton_cb(self, button):
         from shutil import copy2
@@ -401,7 +388,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._reset_vte()
 
         # FIXME: We're losing an odd race here
-        # gtk.main_iteration(block=False)
+        # Gtk.main_iteration(block=False)
 
         pippy_app_name = '%s/tmp/pippy_app.py' % self.get_activity_root()
         self._write_text_buffer(pippy_app_name)
@@ -432,14 +419,14 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         # get the name of this pippy program.
         title = self.metadata['title']
         if title == 'Pippy Activity':
-            from sugar.graphics.alert import Alert
-            from sugar.graphics.icon import Icon
+            from sugar3.graphics.alert import Alert
+            from sugar3.graphics.icon import Icon
             alert = Alert()
             alert.props.title = _('Save as Activity Error')
             alert.props.msg = _('Please give your activity a meaningful name '
                                 'before attempting to save it as an activity.')
             ok_icon = Icon(icon_name='dialog-ok')
-            alert.add_button(gtk.RESPONSE_OK, _('Ok'), ok_icon)
+            alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
             alert.connect('response', self.dismiss_alert_cb)
             self.add_alert(alert)
             return
@@ -447,7 +434,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._reset_vte()
         self._vte.feed(_("Creating activity bundle..."))
         self._vte.feed("\r\n")
-        TMPDIR = 'instance' 
+        TMPDIR = 'instance'
         app_temp = mkdtemp('.activity', 'Pippy',
                            os.path.join(self.get_activity_root(), TMPDIR))
         sourcefile = os.path.join(app_temp, 'xyzzy.py')
@@ -456,7 +443,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             # write out application code
             self._write_text_buffer(sourcefile)
             # hook up a callback for when the bundle builder is done.
-            # we can't use gobject.child_watch_add because vte will reap our
+            # we can't use GObject.child_watch_add because vte will reap our
             # children before we can.
             self._child_exited_handler = \
                 lambda: self.bundle_cb(title, app_temp)
@@ -477,13 +464,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         # get the name of this pippy program.
         title = self.metadata['title']
         if title == _('Pippy Activity'):
-                 from sugar.graphics.alert import Alert
-                 from sugar.graphics.icon import Icon
+                 from sugar3.graphics.alert import Alert
+                 from sugar3.graphics.icon import Icon
                  alert = Alert()
                  alert.props.title =_ ('Save as Example Error')
                  alert.props.msg = _('Please give your activity a meaningful name before attempting to save it as an example.')
                  ok_icon = Icon(icon_name='dialog-ok')
-                 alert.add_button(gtk.RESPONSE_OK, _('Ok'), ok_icon)
+                 alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
                  alert.connect('response', self.dismiss_alert_cb)
                  self.add_alert(alert)
                  return
@@ -494,7 +481,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         local_data = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'],'data')
         local_file = os.path.join(local_data,title)
         if os.path.exists(local_file):
-            from sugar.graphics.alert import ConfirmationAlert
+            from sugar3.graphics.alert import ConfirmationAlert
             alert = ConfirmationAlert()
             alert.props.title =_ ('Save as Example Warning')
             alert.props.msg = _('This example already exists. Do you want to overwrite it?')
@@ -506,7 +493,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 self._vte.feed(_("Saved as example."))
                 self._vte.feed("\r\n")
                 self.add_to_example_list(local_file)
-                                  
 
     def child_exited_cb(self, *args):
         """Called whenever a child exits.  If there's a handler, run it."""
@@ -516,9 +502,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def bundle_cb(self, title, app_temp):
         """Called when we're done building a bundle for a source file."""
-        from sugar import profile
+        from sugar3 import profile
         from shutil import rmtree
-        from sugar.datastore import datastore
+        from sugar3.datastore import datastore
         try:
             # find the .xo file: were we successful?
             bundle_file = [f for f in os.listdir(app_temp) \
@@ -552,11 +538,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def dismiss_alert_cb(self, alert, response_id):
         self.remove_alert(alert)
-
     
     def confirmation_alert_cb(self, alert, response_id, local_file):  #callback for conf alert
         self.remove_alert(alert)
-        if response_id is gtk.RESPONSE_OK:
+        if response_id is Gtk.ResponseType.OK:
                     self.write_file(local_file)
                     self._reset_vte()
                     self._vte.feed(_("Saved as example."))
@@ -564,16 +549,17 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         else:
              self._reset_vte()
 
-    def add_to_example_list(self,local_file):  # def for add example                    
+    def add_to_example_list(self,local_file):  # def for add example
         entry = { "name": _(os.path.basename(local_file)),
                   "path": local_file }
         _iter = self.model.insert_before(self.example_iter, None)
         self.model.set_value(_iter, 0, entry)
         self.model.set_value(_iter, 1, entry["name"])
-                                    
 
     def save_to_journal(self, file_path, cloudstring):
         _file = open(file_path, 'w')
+        self.metadata['mime_type'] = 'text/x-python'
+        '''
         if not self._shared_activity:
             self.metadata['mime_type'] = 'text/x-python'
             global text_buffer
@@ -582,7 +568,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             _file.write(text)
         else:
             self.metadata['mime_type'] = groupthink_mimetype
-            _file.write(cloudstring)
+            _file.write(cloudstring)'''
 
     def load_from_journal(self, file_path):
         if self.metadata['mime_type'] == 'text/x-python':
@@ -611,12 +597,12 @@ show_launcher = yes
 
 PIPPY_ICON = \
 """<?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd' [
-	<!ENTITY stroke_color "#010101">
-	<!ENTITY fill_color "#FFFFFF">
+    <!ENTITY stroke_color "#010101">
+    <!ENTITY fill_color "#FFFFFF">
 ]><svg enable-background="new 0 0 55 55" height="55px" version="1.1" viewBox="0 0 55 55" width="55px" x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px"><g display="block" id="activity-pippy">
-	<path d="M28.497,48.507   c5.988,0,14.88-2.838,14.88-11.185c0-9.285-7.743-10.143-10.954-11.083c-3.549-0.799-5.913-1.914-6.055-3.455   c-0.243-2.642,1.158-3.671,3.946-3.671c0,0,6.632,3.664,12.266,0.74c1.588-0.823,4.432-4.668,4.432-7.32   c0-2.653-9.181-5.719-11.967-5.719c-2.788,0-5.159,3.847-5.159,3.847c-5.574,0-11.149,5.306-11.149,10.612   c0,5.305,5.333,9.455,11.707,10.612c2.963,0.469,5.441,2.22,4.878,5.438c-0.457,2.613-2.995,5.306-8.361,5.306   c-4.252,0-13.3-0.219-14.745-4.079c-0.929-2.486,0.168-5.205,1.562-5.205l-0.027-0.16c-1.42-0.158-5.548,0.16-5.548,5.465   C8.202,45.452,17.347,48.507,28.497,48.507z" fill="&fill_color;" stroke="&stroke_color;" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-	<path d="M42.579,19.854c-2.623-0.287-6.611-2-7.467-5.022" fill="none" stroke="&stroke_color;" stroke-linecap="round" stroke-width="3"/>
-	<circle cx="35.805" cy="10.96" fill="&stroke_color;" r="1.676"/>
+    <path d="M28.497,48.507   c5.988,0,14.88-2.838,14.88-11.185c0-9.285-7.743-10.143-10.954-11.083c-3.549-0.799-5.913-1.914-6.055-3.455   c-0.243-2.642,1.158-3.671,3.946-3.671c0,0,6.632,3.664,12.266,0.74c1.588-0.823,4.432-4.668,4.432-7.32   c0-2.653-9.181-5.719-11.967-5.719c-2.788,0-5.159,3.847-5.159,3.847c-5.574,0-11.149,5.306-11.149,10.612   c0,5.305,5.333,9.455,11.707,10.612c2.963,0.469,5.441,2.22,4.878,5.438c-0.457,2.613-2.995,5.306-8.361,5.306   c-4.252,0-13.3-0.219-14.745-4.079c-0.929-2.486,0.168-5.205,1.562-5.205l-0.027-0.16c-1.42-0.158-5.548,0.16-5.548,5.465   C8.202,45.452,17.347,48.507,28.497,48.507z" fill="&fill_color;" stroke="&stroke_color;" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
+    <path d="M42.579,19.854c-2.623-0.287-6.611-2-7.467-5.022" fill="none" stroke="&stroke_color;" stroke-linecap="round" stroke-width="3"/>
+    <circle cx="35.805" cy="10.96" fill="&stroke_color;" r="1.676"/>
 </g></svg><!-- " -->
 """
 
@@ -658,11 +644,9 @@ PIPPY_DEFAULT_ICON = \
 ############# ACTIVITY META-INFORMATION ###############
 # this is used by Pippy to generate a bundle for itself.
 
-
 def pippy_activity_version():
     """Returns the version number of the generated activity bundle."""
     return 39
-
 
 def pippy_activity_extra_files():
     """Returns a map of 'extra' files which should be included in the
@@ -678,32 +662,26 @@ def pippy_activity_extra_files():
     extra['activity/activity-default.svg'] = PIPPY_DEFAULT_ICON
     return extra
 
-
 def pippy_activity_news():
     """Return the NEWS file for this activity."""
     # Cheat again.
     return open(os.path.join(get_bundle_path(), 'NEWS')).read()
 
-
 def pippy_activity_icon():
     """Return an SVG document specifying the icon for this activity."""
     return PIPPY_ICON
-
 
 def pippy_activity_class():
     """Return the class which should be started to run this activity."""
     return 'pippy_app.PippyActivity'
 
-
 def pippy_activity_bundle_id():
     """Return the bundle_id for the generated activity."""
     return 'org.laptop.Pippy'
 
-
 def pippy_activity_mime_types():
     """Return the mime types handled by the generated activity, as a list."""
     return ['text/x-python', groupthink_mimetype]
-
 
 def pippy_activity_extra_info():
     return """
@@ -712,15 +690,14 @@ update_url = http://activities.sugarlabs.org """
 
 ################# ACTIVITY BUNDLER ################
 
-
 def main():
     """Create a bundle from a pippy-style source file"""
     from optparse import OptionParser
     from pyclbr import readmodule_ex
     from tempfile import mkdtemp
     from shutil import copytree, copy2, rmtree
-    from sugar import profile
-    from sugar.activity import bundlebuilder
+    from sugar3 import profile
+    from sugar3.activity import bundlebuilder
     import sys
     parser = OptionParser(usage='%prog [options] [title] [sourcefile]')
     parser.add_option('-d', '--dir', dest='dir', default='.', metavar='DIR',

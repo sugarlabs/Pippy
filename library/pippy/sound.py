@@ -18,9 +18,9 @@
 import errno
 import os
 import sys
-import sugar.env
+import sugar3.env
 from gettext import gettext as _
-from sugar.activity import activity
+from sugar3.activity import activity
 
 path = activity.get_bundle_path()
 path = path.split("/")[0:-1]
@@ -324,7 +324,7 @@ def audioOut(file=None):
     sound to hp. (file = [None]) """
     global temp_path
     if temp_path is None:
-        from sugar import env
+        from sugar3 import env
         temp_path = env.get_profile_path() + '/pippy'
         if not os.path.isdir(temp_path):
             os.mkdir(temp_path)

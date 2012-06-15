@@ -1,4 +1,5 @@
 Connect-*.xo
 *.pyc
 *.kpf
+*.bak
 .*.sw[op]

@@ -9,7 +9,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 __version__=  '0.1'
 __contact__ = '<elements@linuxuser.at>'
@@ -50,7 +50,7 @@ class Elements:
     """
     # Settings
     run_physics = True       # Can pause the simulation
-    element_count = 0        # Element Count 
+    element_count = 0        # Element Count
     renderer = None          # Drawing class (from drawing.py)
     input = INPUT_PIXELS     # Default Input in Pixels! (can change to INPUT_METERS)
     line_width = 0           # Line Width in Pixels (0 for fill)
@@ -99,7 +99,7 @@ class Elements:
         # Create the World
         self.world = box2d.b2World(self.worldAABB, self.gravity, self.doSleep)
 
-        # Init Colors        
+        # Init Colors
         self.init_colors()
         
         # Set Pixels per Meter
@@ -123,7 +123,7 @@ class Elements:
               top .... True or False -- y = 0 is at the top?
           
             Return: -
-        """          
+        """
         self.inputAxis_x_left = not left
         self.inputAxis_y_down = top
 
@@ -145,7 +145,7 @@ class Elements:
     def set_screenSize(self, size):
         """ Set the current screen size
         
-            Parameters: 
+            Parameters:
               size ... (int(width), int(height)) in pixels
               
             Return: -
@@ -155,7 +155,7 @@ class Elements:
     def init_colors(self):
         """ Init self.colors with a fix set of hex colors
         
-            Return: -        
+            Return: -
         """
         self.fixed_color = None
         self.cur_color = 0
@@ -166,9 +166,9 @@ class Elements:
         shuffle(self.colors)
 
     def set_color(self, clr):
-        """ Set a fixed color for all future Elements (until reset_color() is called) 
+        """ Set a fixed color for all future Elements (until reset_color() is called)
         
-            Parameters: 
+            Parameters:
               clr ... Hex '#123123' or RGB ((r), (g), (b))
               
             Return: -
@@ -178,19 +178,19 @@ class Elements:
     def reset_color(self):
         """ All Elements from now on will be drawn in random colors
            
-            Return: - 
+            Return: -
         """
         self.fixed_color = None
 
     def get_color(self):
-        """ Get a color - either the fixed one or the next from self.colors 
+        """ Get a color - either the fixed one or the next from self.colors
         
-            Return: clr = ((R), (G), (B)) 
+            Return: clr = ((R), (G), (B))
         """
         if self.fixed_color != None:
             return self.fixed_color
             
-        if self.cur_color == len(self.colors): 
+        if self.cur_color == len(self.colors):
             self.cur_color = 0
             shuffle(self.colors)
     
@@ -215,7 +215,7 @@ class Elements:
 
     def translate_coord(self, point):
         """ Flips the coordinates in another coordinate system orientation, if necessary
-            (screen <> world coordinate system) 
+            (screen <> world coordinate system)
         """
         x, y = point
 
@@ -228,10 +228,10 @@ class Elements:
         return (x, y)
         
     def translate_coords(self, pointlist):
-        """ Flips the coordinates in another coordinate system orientation, if necessary 
-            (screen <> world coordinate system) 
-        """    
-        p_out = []        
+        """ Flips the coordinates in another coordinate system orientation, if necessary
+            (screen <> world coordinate system)
+        """
+        p_out = []
         for p in pointlist:
             p_out.append(self.translate_coord(p))
         return p_out
@@ -247,7 +247,7 @@ class Elements:
         y = pos[1] / self.camera.scale_factor
         
         x, y = self.translate_coord((round(x), round(y)))
-        return (x+dx, y+dy) 
+        return (x+dx, y+dy)
         
     def to_screen(self, pos):
         """ Transfers a coordinate from the world to the screen coordinate system (pixels)
@@ -303,22 +303,22 @@ class Elements:
         """
         self.callbacks.start(CALLBACK_DRAWING_START)
         
-        # No need to run through the loop if there's no way to draw        
-        if not self.renderer: 
+        # No need to run through the loop if there's no way to draw
+        if not self.renderer:
             return False
 
         if self.camera.track_body:
             # Get Body Center
-            p1 = self.camera.track_body.GetWorldCenter()   
+            p1 = self.camera.track_body.GetWorldCenter()
             
             # Center the Camera There, False = Don't stop the tracking
-            self.camera.center(self.to_screen((p1.x*self.ppm, p1.y*self.ppm)), stopTrack=False) 
+            self.camera.center(self.to_screen((p1.x*self.ppm, p1.y*self.ppm)), stopTrack=False)
             
         # Walk through all known elements
         body = self.world.GetBodyList()
         self.renderer.start_drawing()
         
-        while body:            
+        while body:
             xform = body.GetXForm()
             shape = body.GetShapeList()
             angle = body.GetAngle()
@@ -327,14 +327,14 @@ class Elements:
                 userdata = body.GetUserData()
                 clr = userdata['color']
                                                 
-            while shape:                
+            while shape:
                 type = shape.GetType()
                                 
                 if type == box2d.e_circleShape:
                     circle = shape.asCircle()
                     position = box2d.b2Mul(xform, circle.GetLocalPosition())
                     
-                    pos = self.to_screen((position.x*self.ppm, position.y*self.ppm))                    
+                    pos = self.to_screen((position.x*self.ppm, position.y*self.ppm))
                     self.renderer.draw_circle(clr, pos, self.meter_to_screen(circle.GetRadius()), angle)
 
                 elif type == box2d.e_polygonShape:
@@ -350,7 +350,7 @@ class Elements:
                 else:
                     print "  unknown shape type:%d" % shape.GetType()
     
-                shape = shape.GetNext()  
+                shape = shape.GetNext()
             body = body.GetNext()
 
         joint = self.world.GetJointList()

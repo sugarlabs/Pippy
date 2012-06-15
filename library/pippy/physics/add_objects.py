@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from locals import *
 from elements import box2d
@@ -90,8 +90,8 @@ class Add:
         x, y = pos
         bodyDef = box2d.b2BodyDef()
         bodyDef.position.Set(x, y)
-	bodyDef.sleepFlag = True
-#	bodyDef.allowSleep(True)
+        bodyDef.sleepFlag = True
+        #	bodyDef.allowSleep(True)
 
         userData = { 'color' : self.parent.get_color() }
         bodyDef.userData = userData
@@ -112,9 +112,9 @@ class Add:
         circleDef.friction = friction
 
         body.CreateShape(circleDef)
-        body.SetMassFromShapes();    
+        body.SetMassFromShapes();
         
-        return body    
+        return body
 
     def rect(self, pos, width, height, angle=0, dynamic=True, density=1.0, restitution=0.16, friction=0.5, screenCoord=True):
         """ Add a dynamic rectangle with input unit according to self.input (INPUT_PIXELS or INPUT_METERS)
@@ -147,22 +147,22 @@ class Add:
 
 
     def wall(self, pos1, pos2, width=5, density=1.0, restitution=0.16, friction=0.5, screenCoord=True):
-        """ Add a static rectangle between two arbitrary points with input unit according to self.input 
+        """ Add a static rectangle between two arbitrary points with input unit according to self.input
             (INPUT_PIXELS or INPUT_METERS) Correcting the positions to meters and calling self._add_rect()
 
             Return: box2d.b2Body
         """
         if width < 5: width = 5
         
-        if (pos1[0] < pos2[0]):        
+        if (pos1[0] < pos2[0]):
             x1, y1 = pos1
             x2, y2 = pos2
         else:
             x1, y1 = pos2
-            x2, y2 = pos1          
+            x2, y2 = pos1
 
         # Bring coordinates into the world coordinate system (flip, camera offset, ...)
-        if screenCoord: 
+        if screenCoord:
            x1, y1 = self.parent.to_world((x1, y1))
            x2, y2 = self.parent.to_world((x2, y2))
 
@@ -198,7 +198,7 @@ class Add:
         if not dynamic:
             density = 0
 
-	bodyDef.sleepFlag = True
+        bodyDef.sleepFlag = True
 
         body = self.parent.world.CreateBody(bodyDef)
                     
@@ -227,14 +227,14 @@ class Add:
               other ... see [physics parameters]
 
             Return: box2d.b2Body
-        """        
+        """
         # Bring coordinates into the world coordinate system (flip, camera offset, ...)
         if screenCoord: x, y = self.parent.to_world(pos)
         else: x, y = pos
 #pos, vertices, dynamic=True, density=1.0, restitution=0.16, friction=0.
 #5, screenCoord=True
         print "self.world.add.poly((", x,",", y, "), ", vertices, ", dynamic=True, density=1.0, restitution=0.16, friction=0.5, screenCoord=True)"
-#"x = " x "y = " y "vertices = "            
+#"x = " x "y = " y "vertices = "
         # If required, translate pixel -> meters
         if self.parent.input == INPUT_PIXELS:
             # translate pixel -> meters
@@ -256,7 +256,7 @@ class Add:
         x, y = pos
         bodyDef = box2d.b2BodyDef()
         bodyDef.position.Set(x, y)
-	bodyDef.sleepFlag = True
+        bodyDef.sleepFlag = True
             
         userData = { 'color' : self.parent.get_color() }
         bodyDef.userData = userData
@@ -274,7 +274,7 @@ class Add:
         polyDef.vertexCount = len(vertices)
         for i in range(len(vertices)):
             vx, vy = vertices[i]
-            polyDef.setVertex(i, box2d.b2Vec2(vx, vy))        
+            polyDef.setVertex(i, box2d.b2Vec2(vx, vy))
         
         polyDef.density = density
         polyDef.restitution = restitution
@@ -286,9 +286,9 @@ class Add:
         return body
    
     def concavePoly(self, vertices, dynamic=True, density=1.0, restitution=0.16, friction=0.5, screenCoord=True):
-        # 1. Step: Reduce        
+        # 1. Step: Reduce
         # Detect if the polygon is closed or open
-        if vertices[0] != vertices[-1]:        
+        if vertices[0] != vertices[-1]:
             is_closed = False
         else:
             is_closed = True
@@ -310,8 +310,8 @@ class Add:
         # Let's add the body
         bodyDef = box2d.b2BodyDef()
         bodyDef.position.Set(x, y)
-	bodyDef.sleepFlag = True
-
+        bodyDef.sleepFlag = True
+        
         userData = { 'color' : self.parent.get_color() }
         bodyDef.userData = userData
 
@@ -336,7 +336,7 @@ class Add:
         circleDef.restitution = restitution
         circleDef.friction = friction
 
-        # Set the scale factor 
+        # Set the scale factor
         factor = 8.0
 
         v2 = box2d.b2Vec2().fromTuple(vertices[0])
@@ -350,10 +350,10 @@ class Add:
             # we need a little size for the end part
             vn = box2d.b2Vec2(-vdir.y*factor, vdir.x*factor)
 
-            v = [ v1+vn, v1-vn, v2-vn, v2+vn ] 
+            v = [ v1+vn, v1-vn, v2-vn, v2+vn ]
 
-            # Create a line (rect) for each part of the polygon, 
-            # and attach it to the body                
+            # Create a line (rect) for each part of the polygon,
+            # and attach it to the body
             for i in range(len(v)):
                 polyDef.setVertex(i, v[i] / self.parent.ppm)
 
@@ -370,10 +370,10 @@ class Add:
                 break
 
             circleDef.localPosition = v2 / self.parent.ppm
-            body.CreateShape(circleDef)            
+            body.CreateShape(circleDef)
                                  
         # Now, all shapes have been attached
-        body.SetMassFromShapes()                
+        body.SetMassFromShapes()
         
         # Return hard and soft reduced vertices
         return body
@@ -383,7 +383,7 @@ class Add:
         # 2. Step: See if start and end are close, if so then close the polygon
         # 3. Step: Detect if convex or concave
         # 4. Step: Start self.convexPoly or self.concavePoly
-        vertices, is_convex = tools_poly.reduce_poly_by_angle(vertices)            
+        vertices, is_convex = tools_poly.reduce_poly_by_angle(vertices)
         #print "->", is_convex
 
         # If start and endpoints are close to each other, close polygon
@@ -409,13 +409,13 @@ class Add:
             return self.convexPoly(vertices, dynamic, density, restitution, friction), vertices
         else:
             print "concave"
-            return self.concavePoly(vertices, dynamic, density, restitution, friction), vertices        
+            return self.concavePoly(vertices, dynamic, density, restitution, friction), vertices
         
 
     def convexPoly(self, vertices, dynamic=True, density=1.0, restitution=0.16, friction=0.5):
         """ Add a complex polygon with vertices in absolute positions (meters or pixels, according
-            to INPUT_PIXELS or INPUT_METERS). This function does the reduction and convec hulling 
-            of the poly, and calls add_poly(...) 
+            to INPUT_PIXELS or INPUT_METERS). This function does the reduction and convec hulling
+            of the poly, and calls add_poly(...)
 
             Parameters:
               vertices .. absolute vertices positions
@@ -429,7 +429,7 @@ class Add:
         tolerance = 10 #5
         v_new = vertices
         while len(v_new) > box2d.b2_maxPolygonVertices:
-            tolerance += 1    
+            tolerance += 1
             v_new = tools_poly.reduce_poly(vertices, tolerance)
             
         print "convexPoly: Polygon reduced from %i to %i vertices | tolerance: %i" % (len(vertices), len(v_new), tolerance)
@@ -437,13 +437,13 @@ class Add:
              
         # So poly should be alright now
         # Continue reducing the vertecs
-        vertices_orig_reduced = vertices    
+        vertices_orig_reduced = vertices
         vertices = tools_poly.poly_center_vertices(vertices)
 
         vertices = tools_poly.convex_hull(vertices)
 
-        if len(vertices) < 3: 
-            return 
+        if len(vertices) < 3:
+            return
         
         # Define the body
         x, y = c = tools_poly.calc_center(vertices_orig_reduced)
@@ -455,24 +455,24 @@ class Add:
         ptx /= self.parent.ppm
         pty /= self.parent.ppm
         pt = box2d.b2Vec2(ptx, pty)
-        return pt    
+        return pt
     # Alex Levenson's added joint methods:
     def distanceJoint(self,b1,b2,p1,p2):
             # Distance Joint
-            p1 = self.to_b2vec(p1)            
-            p2 = self.to_b2vec(p2)                      
+            p1 = self.to_b2vec(p1)
+            p2 = self.to_b2vec(p2)
             
             jointDef = box2d.b2DistanceJointDef()
             jointDef.Initialize(b1, b2, p1, p2)
-            jointDef.collideConnected = True            
+            jointDef.collideConnected = True
             self.parent.world.CreateJoint(jointDef)
     
     def fixedJoint(self, *args):
-        if len(args) == 2:           
+        if len(args) == 2:
             # Fixed Joint to the Background, don't assume the center of the body
             b1 = self.parent.world.GetGroundBody()
             b2 = args[0]
-            p1 = self.to_b2vec(args[1])                        
+            p1 = self.to_b2vec(args[1])
              
             jointDef = box2d.b2RevoluteJointDef()
             jointDef.Initialize(b1, b2, p1)
@@ -486,11 +486,11 @@ class Add:
             jointDef = box2d.b2RevoluteJointDef()
             jointDef.Initialize(b1, b2, p1)
             
-            self.parent.world.CreateJoint(jointDef)  
+            self.parent.world.CreateJoint(jointDef)
 
     def revoluteJoint(self,b1,b2,p1):
         # revolute joint between to bodies
-        p1 = self.to_b2vec(p1)                        
+        p1 = self.to_b2vec(p1)
             
         jointDef = box2d.b2RevoluteJointDef()
         jointDef.Initialize(b1, b2, p1)
@@ -521,10 +521,10 @@ class Add:
         
         self.parent.world.CreateJoint(jointDef)
 
-    def motor(self, body,pt,torque=900,speed=-10):           
+    def motor(self, body,pt,torque=900,speed=-10):
         # Fixed Joint to the Background with a motor on it
         b1 = self.parent.world.GetGroundBody()
-        pt = self.to_b2vec(pt)                        
+        pt = self.to_b2vec(pt)
             
         jointDef = box2d.b2RevoluteJointDef()
         jointDef.Initialize(b1, body, pt)
@@ -537,16 +537,16 @@ class Add:
     #    jointDef = box2d.b2RevoluteJointDef()
     #    jointDef.Initialize(b1, b2, p1)
     #    jointDef.
-    #    
-    def joint(self, *args):        
+    #
+    def joint(self, *args):
         print "* Add Joint:", args
 
         if len(args) == 4:
             # Distance Joint
             b1, b2, p1, p2 = args
 
-            p1 = self.parent.to_world(p1)            
-            p2 = self.parent.to_world(p2)            
+            p1 = self.parent.to_world(p1)
+            p2 = self.parent.to_world(p2)
             
             p1x, p1y = p1
             p2x, p2y = p2
@@ -563,7 +563,7 @@ class Add:
             jointDef.Initialize(b1, b2, p1, p2)
             jointDef.collideConnected = True
             
-            self.parent.world.CreateJoint(jointDef)           
+            self.parent.world.CreateJoint(jointDef)
              
         elif len(args) == 3:
             # Revolute Joint

@@ -17,8 +17,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """Pippy activity helper classes."""
-from sugar.activity import activity
 
+import gi
+from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import Pango
+from gi.repository import GObject
+from sugar3.activity import activity
 
 class ViewSourceActivity(activity.Activity):
     """Activity subclass which handles the 'view source' key."""
@@ -28,8 +33,7 @@ class ViewSourceActivity(activity.Activity):
         self.connect('key-press-event', self._key_press_cb)
 
     def _key_press_cb(self, widget, event):
-        import gtk
-        if gtk.gdk.keyval_name(event.keyval) == 'XF86Start':
+        if Gdk.keyval_name(event.keyval) == 'XF86Start':
             self.view_source()
             return True
         return False
@@ -38,12 +42,13 @@ class ViewSourceActivity(activity.Activity):
         """Implement the 'view source' key by saving pippy_app.py to the
         datastore, and then telling the Journal to view it."""
         if self.__source_object_id is None:
-            from sugar import profile
-            from sugar.datastore import datastore
-            from sugar.activity.activity \
-                 import get_bundle_name, get_bundle_path
+            from sugar3 import profile
+            from sugar3.datastore import datastore
+            from sugar3.activity.activity import get_bundle_name
+            from sugar3.activity.activity import get_bundle_path
             from gettext import gettext as _
             import os.path
+            
             jobject = datastore.create()
             metadata = {
                 'title': _('%s Source') % get_bundle_name(),
@@ -64,21 +69,18 @@ class ViewSourceActivity(activity.Activity):
         """Invoke journal_show_object from sugar.activity.activity if it
         exists."""
         try:
-            from sugar.activity.activity import show_object_in_journal
+            from sugar3.activity.activity import show_object_in_journal
             show_object_in_journal(object_id)
         except ImportError:
             pass  # no love from sugar.
 
 TARGET_TYPE_TEXT = 80
 
-
 class VteActivity(ViewSourceActivity):
     """Activity subclass built around the Vte terminal widget."""
     def __init__(self, handle):
-        import gtk
-        import pango
-        import vte
-        from sugar.graphics.toolbutton import ToolButton
+        from gi.repository import Vte
+        from sugar3.graphics.toolbutton import ToolButton
         from gettext import gettext as _
         super(VteActivity, self).__init__(handle)
         toolbox = activity.ActivityToolbox(self)
@@ -98,23 +100,23 @@ class VteActivity(ViewSourceActivity):
         self._copy_button = edittoolbar.copy
 
         # creates vte widget
-        self._vte = vte.Terminal()
+        self._vte = Vte.Terminal()
         self._vte.set_size(30, 5)
         self._vte.set_size_request(200, 300)
         font = 'Monospace 10'
-        self._vte.set_font(pango.FontDescription(font))
-        self._vte.set_colors(gtk.gdk.color_parse('#000000'),
-                             gtk.gdk.color_parse('#E7E7E7'),
+        self._vte.set_font(Pango.FontDescription(font))
+        self._vte.set_colors(Gdk.color_parse('#000000'),
+                             Gdk.color_parse('#E7E7E7'),
                              [])
         self._vte.connect('selection-changed', self._on_selection_changed_cb)
-        self._vte.drag_dest_set(gtk.DEST_DEFAULT_ALL,
+        self._vte.drag_dest_set(Gtk.DEST_DEFAULT_ALL,
                                 [("text/plain", 0, TARGET_TYPE_TEXT)],
-                                gtk.gdk.ACTION_COPY)
+                                Gdk.DragAction.COPY)
         self._vte.connect('drag_data_received', self._on_drop_cb)
         # ...and its scrollbar
-        vtebox = gtk.HBox()
-        vtebox.pack_start(self._vte)
-        vtesb = gtk.VScrollbar(self._vte.get_adjustment())
+        vtebox = Gtk.HBox()
+        vtebox.pack_start(self._vte, True, True, 0)
+        vtesb = Gtk.VScrollbar(self._vte.get_adjustment())
         vtesb.show()
         vtebox.pack_start(vtesb, False, False, 0)
         self.set_canvas(vtebox)
@@ -157,7 +159,6 @@ class VteActivity(ViewSourceActivity):
         """This method is invoked when the user's script exits."""
         pass  # override in subclass
 
-
 class PyGameActivity(ViewSourceActivity):
     """Activity wrapper for a pygame."""
     def __init__(self, handle):
@@ -178,30 +179,27 @@ class PyGameActivity(ViewSourceActivity):
             execfile(pippy_app_path, g, g)  # start pygame
             sys.exit(0)
         super(PyGameActivity, self).__init__(handle)
-        import gobject
-        import gtk
         toolbox = activity.ActivityToolbox(self)
         toolbar = toolbox.get_activity_toolbar()
         self.set_toolbox(toolbox)
         toolbox.show()
-        socket = gtk.Socket()
-        socket.set_flags(socket.flags() | gtk.CAN_FOCUS)
+        socket = Gtk.Socket()
+        socket.set_flags(socket.flags() | Gtk.CAN_FOCUS)
         socket.show()
         self.set_canvas(socket)
         socket.add_id(windowid)
         self.show_all()
         socket.grab_focus()
-        gobject.child_watch_add(self.child_pid, lambda pid, cond: self.close())
+        GObject.child_watch_add(self.child_pid, lambda pid, cond: self.close())
         # hide the buttons we don't use.
         toolbar.share.hide()  # this should share bundle.
         toolbar.keep.hide()
 
-
 def _main():
     """Launch this activity from the command line."""
-    from sugar.activity import activityfactory
-    from sugar.activity.registry import ActivityInfo
-    from sugar.bundle.activitybundle import ActivityBundle
+    from sugar3.activity import activityfactory
+    from sugar3.activity.registry import ActivityInfo
+    from sugar3.bundle.activitybundle import ActivityBundle
     import os
     ab = ActivityBundle(os.path.dirname(__file__) or '.')
     ai = ActivityInfo(name=ab.get_name(),

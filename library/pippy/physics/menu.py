@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import pygame
 from pygame.locals import *
@@ -32,7 +32,7 @@ import tools
 COLOR_HEX_BLUE1 = "6491a4"
 COLOR_HEX_BLUE2 = "9ec9ff"
 
-class MenuItem:   
+class MenuItem:
     # padding [px]: left, top, right, bottom
     padding = (5, 2, 5, 2)
  
@@ -95,7 +95,7 @@ class MenuClass:
     focus = False
     
     # each item is stored as MenuItem
-    items = []    
+    items = []
 
     # where to start drawing
     start_at = (0,0)
@@ -127,7 +127,7 @@ class MenuClass:
         
         if parent:
             # Set the info that the item has a child to the parent item
-            self.items[parent-1].childs.append(len(self.items)-1) 
+            self.items[parent-1].childs.append(len(self.items)-1)
 
         else:
             # New next drawing position
@@ -135,7 +135,7 @@ class MenuClass:
 
             # Adjust the width of the menu bar
             if not self.setWidth:
-                self.width = x+w     
+                self.width = x+w
 
         # Adjust the height of the menu bar
         if h > self.height: self.height = h + 2
@@ -161,7 +161,7 @@ class MenuClass:
                 if len(item.childs) > 0:
                     self.focus = i+1
                     
-        # Close any opened menu windows if clicked somewhere else 
+        # Close any opened menu windows if clicked somewhere else
         if self.focus == focus_in:
             self.focus = False
             self.subwin_rect = (0,0,0,0)
@@ -175,7 +175,7 @@ class MenuClass:
         
         if found:
             return True
-        else: 
+        else:
             return False
         
     def draw(self, surface):
@@ -188,7 +188,7 @@ class MenuClass:
         
         for i in xrange(len(self.items)):
             item = self.items[i]
-            if not item.parent: 
+            if not item.parent:
                 x,y,w,h = item.rect
                 if self.focus == i+1:
                     surface.blit(item.surface_active, (x,y))
@@ -212,7 +212,7 @@ class MenuClass:
                 s = pygame.Surface((width, height))
                 s.fill(tools.hex2rgb(COLOR_HEX_BLUE1))
 
-                # Parent Coordinates    
+                # Parent Coordinates
                 px, py, pw, ph = self.items[self.focus-1].rect
                 
                 # y Counter
@@ -222,10 +222,10 @@ class MenuClass:
                     item.visible = True
                     s.blit(item.surface_inactive, (0, y))
 
-                    ix, iy, iw, ih = item.rect                        
+                    ix, iy, iw, ih = item.rect
                     if (ix, iy) == (0, 0):
                         item.rect = item.rect.move((px, y+ph))
-                        ix, iy, iw, ih = item.rect                        
+                        ix, iy, iw, ih = item.rect
 
                     if iw < width:
                         item.rect = (ix,iy,width,ih)

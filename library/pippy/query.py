@@ -19,7 +19,7 @@ import logging
 import dbus
 import gobject
 
-from sugar.datastore import datastore
+from sugar3.datastore import datastore
 
 DS_DBUS_SERVICE = 'org.laptop.sugar.DataStore'
 DS_DBUS_INTERFACE = 'org.laptop.sugar.DataStore'
@@ -232,7 +232,7 @@ class ResultSet(gobject.GObject):
             limit = min(self._offset, max_count)
             self._offset = max(0, self._offset - max_count)
 
-            logging.debug('prepending one more page, offset: %r limit: %r' % 
+            logging.debug('prepending one more page, offset: %r limit: %r' %
                           (self._offset, limit))
             jobjects, self._total_count = datastore.find(self._query,
                     sorting=self._sorting,

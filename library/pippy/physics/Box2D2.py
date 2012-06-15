@@ -79,7 +79,7 @@ class b2Version(_object):
     __swig_setmethods__["revision"] = _Box2D2.b2Version_revision_set
     __swig_getmethods__["revision"] = _Box2D2.b2Version_revision_get
     if _newclass:revision = _swig_property(_Box2D2.b2Version_revision_get, _Box2D2.b2Version_revision_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2Version"""
         this = _Box2D2.new_b2Version(*args)
         try: self.this.append(this)
@@ -125,7 +125,7 @@ class b2Vec2(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2Vec2, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> b2Vec2
         __init__(self, float32 x, float32 y) -> b2Vec2
@@ -208,7 +208,7 @@ class b2Mat22(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2Mat22, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> b2Mat22
         __init__(self, b2Vec2 c1, b2Vec2 c2) -> b2Mat22
@@ -263,7 +263,7 @@ class b2XForm(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2XForm, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> b2XForm
         __init__(self, b2Vec2 position, b2Mat22 R) -> b2XForm
@@ -319,7 +319,7 @@ class b2Sweep(_object):
     __swig_setmethods__["t0"] = _Box2D2.b2Sweep_t0_set
     __swig_getmethods__["t0"] = _Box2D2.b2Sweep_t0_get
     if _newclass:t0 = _swig_property(_Box2D2.b2Sweep_t0_get, _Box2D2.b2Sweep_t0_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2Sweep"""
         this = _Box2D2.new_b2Sweep(*args)
         try: self.this.append(this)
@@ -390,7 +390,7 @@ class b2ContactID(_object):
     if _newclass:key = _swig_property(_Box2D2.b2ContactID_key_get, _Box2D2.b2ContactID_key_set)
     __swig_getmethods__["features"] = _Box2D2.b2ContactID_features_get
     if _newclass:features = _swig_property(_Box2D2.b2ContactID_features_get)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ContactID"""
         this = _Box2D2.new_b2ContactID(*args)
         try: self.this.append(this)
@@ -464,7 +464,7 @@ class b2ContactID_features(_object):
     __swig_setmethods__["flip"] = _Box2D2.b2ContactID_features_flip_set
     __swig_getmethods__["flip"] = _Box2D2.b2ContactID_features_flip_get
     if _newclass:flip = _swig_property(_Box2D2.b2ContactID_features_flip_get, _Box2D2.b2ContactID_features_flip_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ContactID_features"""
         this = _Box2D2.new_b2ContactID_features(*args)
         try: self.this.append(this)
@@ -499,7 +499,7 @@ class b2ManifoldPoint(_object):
     __swig_setmethods__["id"] = _Box2D2.b2ManifoldPoint_id_set
     __swig_getmethods__["id"] = _Box2D2.b2ManifoldPoint_id_get
     if _newclass:id = _swig_property(_Box2D2.b2ManifoldPoint_id_get, _Box2D2.b2ManifoldPoint_id_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ManifoldPoint"""
         this = _Box2D2.new_b2ManifoldPoint(*args)
         try: self.this.append(this)
@@ -525,7 +525,7 @@ class b2Manifold(_object):
     __swig_setmethods__["pointCount"] = _Box2D2.b2Manifold_pointCount_set
     __swig_getmethods__["pointCount"] = _Box2D2.b2Manifold_pointCount_get
     if _newclass:pointCount = _swig_property(_Box2D2.b2Manifold_pointCount_get, _Box2D2.b2Manifold_pointCount_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2Manifold"""
         this = _Box2D2.new_b2Manifold(*args)
         try: self.this.append(this)
@@ -552,7 +552,7 @@ class b2Segment(_object):
     __swig_setmethods__["p2"] = _Box2D2.b2Segment_p2_set
     __swig_getmethods__["p2"] = _Box2D2.b2Segment_p2_get
     if _newclass:p2 = _swig_property(_Box2D2.b2Segment_p2_get, _Box2D2.b2Segment_p2_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2Segment"""
         this = _Box2D2.new_b2Segment(*args)
         try: self.this.append(this)
@@ -579,7 +579,7 @@ class b2AABB(_object):
     __swig_setmethods__["upperBound"] = _Box2D2.b2AABB_upperBound_set
     __swig_getmethods__["upperBound"] = _Box2D2.b2AABB_upperBound_get
     if _newclass:upperBound = _swig_property(_Box2D2.b2AABB_upperBound_get, _Box2D2.b2AABB_upperBound_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2AABB"""
         this = _Box2D2.new_b2AABB(*args)
         try: self.this.append(this)
@@ -605,7 +605,7 @@ class b2OBB(_object):
     __swig_setmethods__["extents"] = _Box2D2.b2OBB_extents_set
     __swig_getmethods__["extents"] = _Box2D2.b2OBB_extents_get
     if _newclass:extents = _swig_property(_Box2D2.b2OBB_extents_get, _Box2D2.b2OBB_extents_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2OBB"""
         this = _Box2D2.new_b2OBB(*args)
         try: self.this.append(this)
@@ -618,21 +618,21 @@ b2OBB_swigregister(b2OBB)
 
 def b2CollideCircles(*args):
   """
-    b2CollideCircles(b2Manifold manifold, b2CircleShape circle1, b2XForm xf1, 
+    b2CollideCircles(b2Manifold manifold, b2CircleShape circle1, b2XForm xf1,
         b2CircleShape circle2, b2XForm xf2)
     """
   return _Box2D2.b2CollideCircles(*args)
 
 def b2CollidePolygonAndCircle(*args):
   """
-    b2CollidePolygonAndCircle(b2Manifold manifold, b2PolygonShape polygon, b2XForm xf1, 
+    b2CollidePolygonAndCircle(b2Manifold manifold, b2PolygonShape polygon, b2XForm xf1,
         b2CircleShape circle, b2XForm xf2)
     """
   return _Box2D2.b2CollidePolygonAndCircle(*args)
 
 def b2CollidePolygons(*args):
   """
-    b2CollidePolygons(b2Manifold manifold, b2PolygonShape polygon1, b2XForm xf1, 
+    b2CollidePolygons(b2Manifold manifold, b2PolygonShape polygon1, b2XForm xf1,
         b2PolygonShape polygon2, b2XForm xf2)
     """
   return _Box2D2.b2CollidePolygons(*args)
@@ -660,7 +660,7 @@ class b2MassData(_object):
     __swig_setmethods__["I"] = _Box2D2.b2MassData_I_set
     __swig_getmethods__["I"] = _Box2D2.b2MassData_I_get
     if _newclass:I = _swig_property(_Box2D2.b2MassData_I_get, _Box2D2.b2MassData_I_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2MassData"""
         this = _Box2D2.new_b2MassData(*args)
         try: self.this.append(this)
@@ -673,7 +673,7 @@ b2MassData_swigregister(b2MassData)
 def b2Distance(*args):
   """
     b2Distance(b2Vec2 a, b2Vec2 b) -> float32
-    b2Distance(b2Vec2 x1, b2Vec2 x2, b2Shape shape1, b2XForm xf1, 
+    b2Distance(b2Vec2 x1, b2Vec2 x2, b2Shape shape1, b2XForm xf1,
         b2Shape shape2, b2XForm xf2) -> float32
     """
   return _Box2D2.b2Distance(*args)
@@ -689,7 +689,7 @@ class b2ShapeDef(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2ShapeDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ShapeDef"""
         this = _Box2D2.new_b2ShapeDef(*args)
         try: self.this.append(this)
@@ -760,7 +760,7 @@ class b2Shape(_object):
 
     def TestSegment(*args):
         """
-        TestSegment(self, b2XForm xf, float32 lambda, b2Vec2 normal, b2Segment segment, 
+        TestSegment(self, b2XForm xf, float32 lambda, b2Vec2 normal, b2Segment segment,
             float32 maxLambda) -> bool
         """
         return _Box2D2.b2Shape_TestSegment(*args)
@@ -894,7 +894,7 @@ class b2CircleDef(b2ShapeDef):
     for _s in [b2ShapeDef]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2CircleDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2CircleDef"""
         this = _Box2D2.new_b2CircleDef(*args)
         try: self.this.append(this)
@@ -925,7 +925,7 @@ class b2CircleShape(b2Shape):
 
     def TestSegment(*args):
         """
-        TestSegment(self, b2XForm transform, float32 lambda, b2Vec2 normal, b2Segment segment, 
+        TestSegment(self, b2XForm transform, float32 lambda, b2Vec2 normal, b2Segment segment,
             float32 maxLambda) -> bool
         """
         return _Box2D2.b2CircleShape_TestSegment(*args)
@@ -950,7 +950,7 @@ class b2CircleShape(b2Shape):
         """GetRadius(self) -> float32"""
         return _Box2D2.b2CircleShape_GetRadius(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2ShapeDef def) -> b2CircleShape"""
         this = _Box2D2.new_b2CircleShape(*args)
         try: self.this.append(this)
@@ -979,7 +979,7 @@ class b2PolygonDef(b2ShapeDef):
     for _s in [b2ShapeDef]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2PolygonDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2PolygonDef"""
         this = _Box2D2.new_b2PolygonDef(*args)
         try: self.this.append(this)
@@ -1025,7 +1025,7 @@ class b2PolygonShape(b2Shape):
 
     def TestSegment(*args):
         """
-        TestSegment(self, b2XForm transform, float32 lambda, b2Vec2 normal, b2Segment segment, 
+        TestSegment(self, b2XForm transform, float32 lambda, b2Vec2 normal, b2Segment segment,
             float32 maxLambda) -> bool
         """
         return _Box2D2.b2PolygonShape_TestSegment(*args)
@@ -1062,7 +1062,7 @@ class b2PolygonShape(b2Shape):
         """GetCoreVertices(self) -> b2Vec2"""
         return _Box2D2.b2PolygonShape_GetCoreVertices(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2ShapeDef def) -> b2PolygonShape"""
         this = _Box2D2.new_b2PolygonShape(*args)
         try: self.this.append(this)
@@ -1170,7 +1170,7 @@ class b2Pair(_object):
     __swig_setmethods__["status"] = _Box2D2.b2Pair_status_set
     __swig_getmethods__["status"] = _Box2D2.b2Pair_status_get
     if _newclass:status = _swig_property(_Box2D2.b2Pair_status_get, _Box2D2.b2Pair_status_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2Pair"""
         this = _Box2D2.new_b2Pair(*args)
         try: self.this.append(this)
@@ -1197,7 +1197,7 @@ class b2BufferedPair(_object):
     __swig_setmethods__["proxyId2"] = _Box2D2.b2BufferedPair_proxyId2_set
     __swig_getmethods__["proxyId2"] = _Box2D2.b2BufferedPair_proxyId2_get
     if _newclass:proxyId2 = _swig_property(_Box2D2.b2BufferedPair_proxyId2_get, _Box2D2.b2BufferedPair_proxyId2_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2BufferedPair"""
         this = _Box2D2.new_b2BufferedPair(*args)
         try: self.this.append(this)
@@ -1235,7 +1235,7 @@ class b2PairManager(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2PairManager, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2PairManager"""
         this = _Box2D2.new_b2PairManager(*args)
         try: self.this.append(this)
@@ -1309,7 +1309,7 @@ class b2Bound(_object):
     __swig_setmethods__["stabbingCount"] = _Box2D2.b2Bound_stabbingCount_set
     __swig_getmethods__["stabbingCount"] = _Box2D2.b2Bound_stabbingCount_get
     if _newclass:stabbingCount = _swig_property(_Box2D2.b2Bound_stabbingCount_get, _Box2D2.b2Bound_stabbingCount_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2Bound"""
         this = _Box2D2.new_b2Bound(*args)
         try: self.this.append(this)
@@ -1355,7 +1355,7 @@ class b2Proxy(_object):
     __swig_setmethods__["userData"] = _Box2D2.b2Proxy_userData_set
     __swig_getmethods__["userData"] = _Box2D2.b2Proxy_userData_get
     if _newclass:userData = _swig_property(_Box2D2.b2Proxy_userData_get, _Box2D2.b2Proxy_userData_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2Proxy"""
         this = _Box2D2.new_b2Proxy(*args)
         try: self.this.append(this)
@@ -1372,7 +1372,7 @@ class b2BroadPhase(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2BroadPhase, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2AABB worldAABB, b2PairCallback callback) -> b2BroadPhase"""
         this = _Box2D2.new_b2BroadPhase(*args)
         try: self.this.append(this)
@@ -1467,7 +1467,7 @@ class b2DestructionListener(_object):
         """
         return _Box2D2.b2DestructionListener_SayGoodbye(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2DestructionListener"""
         if self.__class__ == b2DestructionListener:
             args = (None,) + args
@@ -1496,7 +1496,7 @@ class b2BoundaryListener(_object):
         """Violation(self, b2Body body)"""
         return _Box2D2.b2BoundaryListener_Violation(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2BoundaryListener"""
         if self.__class__ == b2BoundaryListener:
             args = (None,) + args
@@ -1525,7 +1525,7 @@ class b2ContactFilter(_object):
         """ShouldCollide(self, b2Shape shape1, b2Shape shape2) -> bool"""
         return _Box2D2.b2ContactFilter_ShouldCollide(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ContactFilter"""
         this = _Box2D2.new_b2ContactFilter(*args)
         try: self.this.append(this)
@@ -1554,7 +1554,7 @@ class b2ContactListener(_object):
         """Remove(self, b2ContactPoint point)"""
         return _Box2D2.b2ContactListener_Remove(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ContactListener"""
         if self.__class__ == b2ContactListener:
             args = (None,) + args
@@ -1577,7 +1577,7 @@ class b2Color(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2Color, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> b2Color
         __init__(self, float32 r, float32 g, float32 b) -> b2Color
@@ -1606,7 +1606,7 @@ class b2DebugDraw(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2DebugDraw, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2DebugDraw"""
         if self.__class__ == b2DebugDraw:
             args = (None,) + args
@@ -1678,7 +1678,7 @@ class b2BlockAllocator(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2BlockAllocator, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2BlockAllocator"""
         this = _Box2D2.new_b2BlockAllocator(*args)
         try: self.this.append(this)
@@ -1720,7 +1720,7 @@ class b2StackEntry(_object):
     __swig_setmethods__["usedMalloc"] = _Box2D2.b2StackEntry_usedMalloc_set
     __swig_getmethods__["usedMalloc"] = _Box2D2.b2StackEntry_usedMalloc_get
     if _newclass:usedMalloc = _swig_property(_Box2D2.b2StackEntry_usedMalloc_get, _Box2D2.b2StackEntry_usedMalloc_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2StackEntry"""
         this = _Box2D2.new_b2StackEntry(*args)
         try: self.this.append(this)
@@ -1739,7 +1739,7 @@ class b2StackAllocator(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2StackAllocator, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2StackAllocator"""
         this = _Box2D2.new_b2StackAllocator(*args)
         try: self.this.append(this)
@@ -1777,7 +1777,7 @@ class b2ContactRegister(_object):
     __swig_setmethods__["primary"] = _Box2D2.b2ContactRegister_primary_set
     __swig_getmethods__["primary"] = _Box2D2.b2ContactRegister_primary_get
     if _newclass:primary = _swig_property(_Box2D2.b2ContactRegister_primary_get, _Box2D2.b2ContactRegister_primary_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ContactRegister"""
         this = _Box2D2.new_b2ContactRegister(*args)
         try: self.this.append(this)
@@ -1806,7 +1806,7 @@ class b2ContactEdge(_object):
     __swig_setmethods__["next"] = _Box2D2.b2ContactEdge_next_set
     __swig_getmethods__["next"] = _Box2D2.b2ContactEdge_next_get
     if _newclass:next = _swig_property(_Box2D2.b2ContactEdge_next_get, _Box2D2.b2ContactEdge_next_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ContactEdge"""
         this = _Box2D2.new_b2ContactEdge(*args)
         try: self.this.append(this)
@@ -1850,7 +1850,7 @@ class b2ContactPoint(_object):
     def __repr__(self):
         return "b2ContactPoint(\n\tShape1: %s\n\tShape2:%s\n\tPosition: %s\n\tNormal: %s)" % (self.shape1, self.shape2, self.position, self.normal)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ContactPoint"""
         this = _Box2D2.new_b2ContactPoint(*args)
         try: self.this.append(this)
@@ -1898,7 +1898,7 @@ class b2Contact(_object):
     e_toiFlag = _Box2D2.b2Contact_e_toiFlag
     def AddType(*args):
         """
-        AddType(b2ContactCreateFcn createFcn, b2ContactDestroyFcn destroyFcn, 
+        AddType(b2ContactCreateFcn createFcn, b2ContactDestroyFcn destroyFcn,
             b2ShapeType type1, b2ShapeType type2)
         """
         return _Box2D2.b2Contact_AddType(*args)
@@ -1977,7 +1977,7 @@ b2Contact_swigregister(b2Contact)
 
 def b2Contact_AddType(*args):
   """
-    b2Contact_AddType(b2ContactCreateFcn createFcn, b2ContactDestroyFcn destroyFcn, 
+    b2Contact_AddType(b2ContactCreateFcn createFcn, b2ContactDestroyFcn destroyFcn,
         b2ShapeType type1, b2ShapeType type2)
     """
   return _Box2D2.b2Contact_AddType(*args)
@@ -2003,7 +2003,7 @@ class b2NullContact(b2Contact):
     for _s in [b2Contact]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2NullContact, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2NullContact"""
         this = _Box2D2.new_b2NullContact(*args)
         try: self.this.append(this)
@@ -2030,7 +2030,7 @@ class b2ContactManager(b2PairCallback):
     for _s in [b2PairCallback]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2ContactManager, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2ContactManager"""
         this = _Box2D2.new_b2ContactManager(*args)
         try: self.this.append(this)
@@ -2081,7 +2081,7 @@ class b2TimeStep(_object):
     __swig_setmethods__["maxIterations"] = _Box2D2.b2TimeStep_maxIterations_set
     __swig_getmethods__["maxIterations"] = _Box2D2.b2TimeStep_maxIterations_get
     if _newclass:maxIterations = _swig_property(_Box2D2.b2TimeStep_maxIterations_get, _Box2D2.b2TimeStep_maxIterations_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2TimeStep"""
         this = _Box2D2.new_b2TimeStep(*args)
         try: self.this.append(this)
@@ -2098,7 +2098,7 @@ class b2World(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2World, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2AABB worldAABB, b2Vec2 gravity, bool doSleep) -> b2World"""
         this = _Box2D2.new_b2World(*args)
         try: self.this.append(this)
@@ -2299,7 +2299,7 @@ class b2Jacobian(_object):
         """Compute(self, b2Vec2 x1, float32 a1, b2Vec2 x2, float32 a2) -> float32"""
         return _Box2D2.b2Jacobian_Compute(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2Jacobian"""
         this = _Box2D2.new_b2Jacobian(*args)
         try: self.this.append(this)
@@ -2328,7 +2328,7 @@ class b2JointEdge(_object):
     __swig_setmethods__["next"] = _Box2D2.b2JointEdge_next_set
     __swig_getmethods__["next"] = _Box2D2.b2JointEdge_next_get
     if _newclass:next = _swig_property(_Box2D2.b2JointEdge_next_get, _Box2D2.b2JointEdge_next_set)
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2JointEdge"""
         this = _Box2D2.new_b2JointEdge(*args)
         try: self.this.append(this)
@@ -2345,7 +2345,7 @@ class b2JointDef(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2JointDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2JointDef"""
         this = _Box2D2.new_b2JointDef(*args)
         try: self.this.append(this)
@@ -2478,7 +2478,7 @@ class b2Joint(_object):
         return "b2Joint(body1: %s body2: %s)" % (self.body1, self.body2)
     def typeName(self):
         types = { e_unknownJoint  : "Unknown",
-                  e_mouseJoint    : "Mouse", 
+                  e_mouseJoint    : "Mouse",
                   e_gearJoint     : "Gear",
                   e_distanceJoint : "Distance",
                   e_prismaticJoint: "Prismatic",
@@ -2531,7 +2531,7 @@ class b2BodyDef(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, b2BodyDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2BodyDef"""
         this = _Box2D2.new_b2BodyDef(*args)
         try: self.this.append(this)
@@ -2731,7 +2731,7 @@ class b2Body(_object):
     e_staticType = _Box2D2.b2Body_e_staticType
     e_dynamicType = _Box2D2.b2Body_e_dynamicType
     e_maxTypes = _Box2D2.b2Body_e_maxTypes
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2BodyDef bd, uint16 type, b2World world) -> b2Body"""
         this = _Box2D2.new_b2Body(*args)
         try: self.this.append(this)
@@ -2842,7 +2842,7 @@ class b2DistanceJointDef(b2JointDef):
     for _s in [b2JointDef]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2DistanceJointDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2DistanceJointDef"""
         this = _Box2D2.new_b2DistanceJointDef(*args)
         try: self.this.append(this)
@@ -2890,7 +2890,7 @@ class b2DistanceJoint(b2Joint):
         """GetReactionTorque(self) -> float32"""
         return _Box2D2.b2DistanceJoint_GetReactionTorque(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2DistanceJointDef data) -> b2DistanceJoint"""
         this = _Box2D2.new_b2DistanceJoint(*args)
         try: self.this.append(this)
@@ -2939,7 +2939,7 @@ class b2MouseJointDef(b2JointDef):
     for _s in [b2JointDef]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2MouseJointDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2MouseJointDef"""
         this = _Box2D2.new_b2MouseJointDef(*args)
         try: self.this.append(this)
@@ -2993,7 +2993,7 @@ class b2MouseJoint(b2Joint):
         """SetTarget(self, b2Vec2 target)"""
         return _Box2D2.b2MouseJoint_SetTarget(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2MouseJointDef def) -> b2MouseJoint"""
         this = _Box2D2.new_b2MouseJoint(*args)
         try: self.this.append(this)
@@ -3048,7 +3048,7 @@ class b2PrismaticJointDef(b2JointDef):
     for _s in [b2JointDef]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2PrismaticJointDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2PrismaticJointDef"""
         this = _Box2D2.new_b2PrismaticJointDef(*args)
         try: self.this.append(this)
@@ -3169,7 +3169,7 @@ class b2PrismaticJoint(b2Joint):
         """GetMotorForce(self) -> float32"""
         return _Box2D2.b2PrismaticJoint_GetMotorForce(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2PrismaticJointDef def) -> b2PrismaticJoint"""
         this = _Box2D2.new_b2PrismaticJoint(*args)
         try: self.this.append(this)
@@ -3266,7 +3266,7 @@ class b2RevoluteJointDef(b2JointDef):
     for _s in [b2JointDef]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2RevoluteJointDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2RevoluteJointDef"""
         this = _Box2D2.new_b2RevoluteJointDef(*args)
         try: self.this.append(this)
@@ -3384,7 +3384,7 @@ class b2RevoluteJoint(b2Joint):
         """GetMotorTorque(self) -> float32"""
         return _Box2D2.b2RevoluteJoint_GetMotorTorque(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2RevoluteJointDef def) -> b2RevoluteJoint"""
         this = _Box2D2.new_b2RevoluteJoint(*args)
         try: self.this.append(this)
@@ -3463,15 +3463,15 @@ class b2PulleyJointDef(b2JointDef):
     for _s in [b2JointDef]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2PulleyJointDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2PulleyJointDef"""
         this = _Box2D2.new_b2PulleyJointDef(*args)
         try: self.this.append(this)
         except: self.this = this
     def Initialize(*args):
         """
-        Initialize(self, b2Body body1, b2Body body2, b2Vec2 groundAnchor1, b2Vec2 groundAnchor2, 
-            b2Vec2 anchor1, b2Vec2 anchor2, 
+        Initialize(self, b2Body body1, b2Body body2, b2Vec2 groundAnchor1, b2Vec2 groundAnchor2,
+            b2Vec2 anchor1, b2Vec2 anchor2,
             float32 ratio)
         """
         return _Box2D2.b2PulleyJointDef_Initialize(*args)
@@ -3554,7 +3554,7 @@ class b2PulleyJoint(b2Joint):
         """GetRatio(self) -> float32"""
         return _Box2D2.b2PulleyJoint_GetRatio(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2PulleyJointDef data) -> b2PulleyJoint"""
         this = _Box2D2.new_b2PulleyJoint(*args)
         try: self.this.append(this)
@@ -3654,7 +3654,7 @@ class b2GearJointDef(b2JointDef):
     for _s in [b2JointDef]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, b2GearJointDef, name)
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self) -> b2GearJointDef"""
         this = _Box2D2.new_b2GearJointDef(*args)
         try: self.this.append(this)
@@ -3702,7 +3702,7 @@ class b2GearJoint(b2Joint):
         """GetRatio(self) -> float32"""
         return _Box2D2.b2GearJoint_GetRatio(*args)
 
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """__init__(self, b2GearJointDef data) -> b2GearJoint"""
         this = _Box2D2.new_b2GearJoint(*args)
         try: self.this.append(this)
