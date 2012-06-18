@@ -135,10 +135,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         goicon_bw.set_from_file("%s/icons/run_bw.svg" % os.getcwd())
         goicon_color = gtk.Image()
         goicon_color.set_from_file("%s/icons/run_color.svg" % os.getcwd())
-        gobutton = ToolButton(label=_("_Run!"))
+        gobutton = ToolButton(label=_("Run!"))
         gobutton.props.accelerator = _('<alt>r')
         gobutton.set_icon_widget(goicon_bw)
-        gobutton.set_tooltip(_("_Run!"))
+        gobutton.set_tooltip(_("Run!"))
         gobutton.connect('clicked', self.flash_cb, dict({'bw': goicon_bw,
             'color': goicon_color}))
         gobutton.connect('clicked', self.gobutton_cb)
@@ -149,13 +149,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         stopicon_bw.set_from_file("%s/icons/stopit_bw.svg" % os.getcwd())
         stopicon_color = gtk.Image()
         stopicon_color.set_from_file("%s/icons/stopit_color.svg" % os.getcwd())
-        stopbutton = ToolButton(label=_("_Stop"))
+        stopbutton = ToolButton(label=_("Stop"))
         stopbutton.props.accelerator = _('<alt>s')
         stopbutton.set_icon_widget(stopicon_bw)
         stopbutton.connect('clicked', self.flash_cb, dict({'bw': stopicon_bw,
             'color': stopicon_color}))
         stopbutton.connect('clicked', self.stopbutton_cb)
-        stopbutton.set_tooltip(_("_Stop"))
+        stopbutton.set_tooltip(_("Stop"))
         actions_toolbar.insert(stopbutton, -1)
 
         # The "clear" button
@@ -164,13 +164,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         clearicon_color = gtk.Image()
         clearicon_color.set_from_file("%s/icons/eraser_color.svg" %
                                       os.getcwd())
-        clearbutton = ToolButton(label=_("_Clear"))
+        clearbutton = ToolButton(label=_("Clear"))
         clearbutton.props.accelerator = _('<alt>c')
         clearbutton.set_icon_widget(clearicon_bw)
         clearbutton.connect('clicked', self.clearbutton_cb)
         clearbutton.connect('clicked', self.flash_cb, dict({'bw': clearicon_bw,
             'color': clearicon_color}))
-        clearbutton.set_tooltip(_("_Clear"))
+        clearbutton.set_tooltip(_("Clear"))
         actions_toolbar.insert(clearbutton, -1)
 
         activity_toolbar.show()
