@@ -58,8 +58,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fructose-de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2011-10-10 20:45+0200\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-25 21:48+0200\n"
 "Last-Translator: Markus <m.slg@gmx.de>\n"
 "Language-Team: Deutsch <LL@li.org>\n"
 "Language: de\n"
@@ -115,7 +115,7 @@ msgid "Actions"
 msgstr "Aktionen"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
+msgid "Run!"
 msgstr "_Los!"
 
 #: pippy_app.py:139
@@ -123,8 +123,8 @@ msgid "<alt>r"
 msgstr "<alt>l"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_Stopp!"
+msgid "Stop"
+msgstr "_Stopp"
 
 #: pippy_app.py:153
 msgid "<alt>s"
@@ -132,8 +132,8 @@ msgstr "<alt>s"
 
 # (Markus S.) war '_Säubern'
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "_Leeren"
+msgid "Clear"
+msgstr "L_eeren"
 
 # (Markus S.) sollte zu 'Leeren' passen, aber 'l' ist schon zuvor belegt.
 #: pippy_app.py:168
@@ -209,6 +209,9 @@ msgstr "Als Beispiel gespeichert."
 msgid "Activity saved to journal."
 msgstr "Aktivität ins Tagebuch gespeichert."
 
+#~ msgid "_Run!"
+#~ msgstr "_Los!"
+
 #~ msgid "As Pippy Document"
 #~ msgstr "Als Pippy-Dokument"
 
@@ -220,9 +223,6 @@ msgstr "Aktivität ins Tagebuch gespeichert."
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "Bitte die Klangbibliothek von TamTamEdit installieren."
-
-#~ msgid "Run!"
-#~ msgstr "Los!"
 
 #~ msgid "Stop!"
 #~ msgstr "Stopp!"
