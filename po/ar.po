@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2011-10-11 20:57+0200\n"
-"Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 20:47+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
@@ -63,24 +63,25 @@ msgid "Actions"
 msgstr "الإجراءات"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "_شغّل"
+msgid "Run!"
+msgstr "شغّل"
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>ش"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "أوقِ_ف"
+#, fuzzy
+msgid "Stop"
+msgstr "أوقِف"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>ف"
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "ا_مسح"
+msgid "Clear"
+msgstr "امسح"
 
 #: pippy_app.py:168
 msgid "<alt>c"
@@ -151,6 +152,9 @@ msgstr "حُفظ كمثال."
 msgid "Activity saved to journal."
 msgstr "حُفِظ النشاط في اليوميّات"
 
+#~ msgid "_Run!"
+#~ msgstr "_شغّل"
+
 #~ msgid "As Pippy Document"
 #~ msgstr "كمستند ببي"
 
@@ -162,9 +166,6 @@ msgstr "حُفِظ النشاط في اليوميّات"
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "من فضلك ثبّت مكتبة صوت \"طمطم\""
-
-#~ msgid "Run!"
-#~ msgstr "شغّل"
 
 #~ msgid "Stop!"
 #~ msgstr "قف"
