@@ -33,9 +33,12 @@ from signal import SIGTERM
 from gettext import gettext as _
 
 from sugar.activity import activity
-from activity import ViewSourceActivity, TARGET_TYPE_TEXT
-from sugar.activity.activity import ActivityToolbox, \
-     EditToolbar, get_bundle_path, get_bundle_name
+from activity import ViewSourceActivity
+from activity import TARGET_TYPE_TEXT
+from sugar.activity.activity import ActivityToolbox
+from sugar.activity.activity import EditToolbar
+from sugar.activity.activity import get_bundle_path
+from sugar.activity.activity import get_bundle_name
 from sugar.graphics import style
 from sugar.graphics.toolbutton import ToolButton
 
@@ -50,7 +53,8 @@ PYTHON_PREFIX = """#!/usr/bin/python
 
 OLD_TOOLBAR = False
 try:
-    from sugar.graphics.toolbarbox import ToolbarBox, ToolbarButton
+    from sugar.graphics.toolbarbox import ToolbarBox 
+    from sugar.graphics.toolbarbox import ToolbarButton
     from sugar.activity.widgets import StopButton
 except ImportError:
     OLD_TOOLBAR = True
@@ -427,7 +431,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.copy()
 
     def _create_bundle_cb(self, __):
-        from shutil import copytree, copy2, rmtree
+        from shutil import copytree
+        from shutil import copy2
+        from shutil import rmtree
         from tempfile import mkdtemp
         # get the name of this pippy program.
         title = self.metadata['title']
