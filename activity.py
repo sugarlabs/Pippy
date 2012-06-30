@@ -108,10 +108,11 @@ class VteActivity(ViewSourceActivity):
                              [])
         self._vte.connect('selection-changed', self._on_selection_changed_cb)
         # FIXME It does not work because it expects and receives StructMeta Gtk.TargetEntry
-        '''
-        self._vte.drag_dest_set(Gtk.DestDefaults.ALL,
-                                [("text/plain", 0, TARGET_TYPE_TEXT)],
-                                Gdk.DragAction.COPY)'''
+        #
+        #self._vte.drag_dest_set(Gtk.DestDefaults.ALL,
+        #                        [("text/plain", 0, TARGET_TYPE_TEXT)],
+        #                        Gdk.DragAction.COPY)
+
         self._vte.connect('drag_data_received', self._on_drop_cb)
         # ...and its scrollbar
         vtebox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
