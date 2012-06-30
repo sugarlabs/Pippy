@@ -29,7 +29,7 @@ from gi.repository import GObject
 
 import groupthink_base as groupthink
 
-from sugar3.graphics.toolbarbox import ToolbarBox, ToolbarButton
+from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.activity.widgets import ActivityToolbarButton
 
 def exhaust_event_loop():
