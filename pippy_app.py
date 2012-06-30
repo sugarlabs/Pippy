@@ -77,7 +77,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._logger = logging.getLogger('pippy-activity')
 
         # Activity toolbar with title input, share button and export buttons:
-        # FIXME the toolbar is being painted twice.        
 
         activity_toolbar = self.activity_button.page
 
