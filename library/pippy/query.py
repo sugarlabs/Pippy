@@ -19,7 +19,7 @@ import logging
 import dbus
 import gobject
 
-from sugar3.datastore import datastore
+from sugar.datastore import datastore
 
 DS_DBUS_SERVICE = 'org.laptop.sugar.DataStore'
 DS_DBUS_INTERFACE = 'org.laptop.sugar.DataStore'

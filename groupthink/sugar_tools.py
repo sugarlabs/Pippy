@@ -16,17 +16,21 @@
 
 import logging
 import telepathy
-import gi
+
+from sugar3.activity.activity import Activity
+from sugar3.presence import presenceservice
+
+from sugar3.presence.tubeconn import TubeConnection
+from sugar3.graphics.window import Window
+
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
-from sugar3.activity.activity import Activity
-from sugar3.presence import presenceservice
-from sugar3.presence.tubeconn import TubeConnection
-from sugar3.graphics.window import Window
+
+import groupthink_base as groupthink
+
 from sugar3.graphics.toolbarbox import ToolbarBox, ToolbarButton
 from sugar3.activity.widgets import ActivityToolbarButton
-import groupthink_base as groupthink
 
 def exhaust_event_loop():
     while Gtk.events_pending():
@@ -58,24 +62,27 @@ class GroupActivity(Activity):
         
         self._handle = handle
         
+        # HACK = self._shared_activity: attribute does not exist
+        self._shared_activity = None
+
         ##GObject.threads_init()
-                
-        #self._sharing_completed = not self._shared_activity
+
+        self._sharing_completed = not self._shared_activity
         self._readfile_completed = not handle.object_id
-        #if self._shared_activity:
-        #    self.message = self.message_joining
-        #elif handle.object_id:
-        #    self.message = self.message_loading
-        #else:
-        #    self.message = self.message_preparing
-        self.message = "Shared No Funciona"
+
+        if self._shared_activity:
+            self.message = self.message_joining
+        elif handle.object_id:
+            self.message = self.message_loading
+        else:
+            self.message = self.message_preparing
 
         toolbar_box = ToolbarBox()
         self.activity_button = ActivityToolbarButton(self)
         toolbar_box.toolbar.insert(self.activity_button, 0)
         self.set_toolbar_box(toolbar_box)
 
-        v = Gtk.VBox()
+        v = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.startup_label = Gtk.Label(label=self.message)
         v.pack_start(self.startup_label, True, True, 0)
         Window.set_canvas(self,v)
@@ -105,13 +112,13 @@ class GroupActivity(Activity):
         owner = self.pservice.get_owner()
         self.owner = owner
 
-        #self.connect('shared', self._shared_cb)
-        #self.connect('joined', self._joined_cb)
-        #if self.get_shared():
-        #    if self.initiating:
-        #        self._shared_cb(self)
-        #    else:
-        #        self._joined_cb(self)
+        self.connect('shared', self._shared_cb)
+        self.connect('joined', self._joined_cb)
+        if self.get_shared():
+            if self.initiating:
+                self._shared_cb(self)
+            else:
+                self._joined_cb(self)
         
         self.add_events(Gdk.EventMask.VISIBILITY_NOTIFY_MASK)
         self.connect("visibility-notify-event", self._visible_cb)
@@ -119,8 +126,8 @@ class GroupActivity(Activity):
         
         if not self._readfile_completed:
             self.read_file(self._jobject.file_path)
-        #elif not self._shared_activity:
-        #    GObject.idle_add(self._initialize_cleanstart)
+        elif not self._shared_activity:
+            GObject.idle_add(self._initialize_cleanstart)
     
     def _initialize_cleanstart(self):
         self.initialize_cleanstart()
@@ -142,19 +149,19 @@ class GroupActivity(Activity):
         main_widget = self.initialize_display()
         Window.set_canvas(self, main_widget)
         self.initialized = True
-        '''
+
         if self._shared_activity and not self._processed_share:
             # We are joining a shared activity, but when_shared has not yet
             # been called
             self.when_shared()
-            self._processed_share = True'''
+            self._processed_share = True
         self.show_all()
     
     def initialize_display(self):
         """All subclasses must override this method, in order to display
         their GUI using self.set_canvas()"""
         raise NotImplementedError
-    '''
+        
     def share(self, private=False):
         """The purpose of this function is solely to permit us to determine
         whether share() has been called.  This is necessary because share() may
@@ -227,15 +234,13 @@ class GroupActivity(Activity):
             self.tubebox.insert_tube(tube_conn, self.initiating)
             self._sharing_completed = True
             if self._readfile_completed and not self.initialized:
-                self._initialize_display()'''
+                self._initialize_display()
 
     def read_file(self, file_path):
         self.cloud.loads(self.load_from_journal(file_path))
         self._readfile_completed = True
-        #if self._sharing_completed and not self.initialized:
-        #    self._initialize_display()
-        self._initialize_display()
-        pass
+        if self._sharing_completed and not self.initialized:
+            self._initialize_display()
         
     def load_from_journal(self, file_path):
         """This implementation of load_from_journal simply returns the contents

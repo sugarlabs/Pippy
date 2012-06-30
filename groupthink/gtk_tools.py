@@ -1,8 +1,4 @@
-import gi
 from gi.repository import Gtk
-from gi.repository import Gdk
-from gi.repository import GObject
-
 import groupthink_base as groupthink
 import logging
 import stringtree
@@ -36,8 +32,7 @@ class RecentEntry(groupthink.UnorderedHandlerAcceptor, Gtk.Entry):
             self.set_text(text)
             self.handler_unblock(self._text_changed_handler)
             
-'''
-class SharedTreeStore(groupthink.CausalHandlerAcceptor, Gtk.GenericTreeModel):
+class SharedTreeStore(groupthink.CausalHandlerAcceptor, Gtk.TreeStore):
     def __init__(self, columntypes=(), translators=()):
         self._columntypes = columntypes
         self._causaltree = groupthink.CausalTree()
@@ -288,7 +283,7 @@ class SharedTreeStore(groupthink.CausalHandlerAcceptor, Gtk.GenericTreeModel):
     def move(self, it, newparent):
         node = self.get_user_data(row)
         p = self.get_user_data(newparent)
-        self._causaltree.change_parent(node,p)'''
+        self._causaltree.change_parent(node,p)
 
 class TextBufferUnorderedStringLinker:
     def __init__(self,tb,us):
@@ -325,9 +320,10 @@ class TextBufferUnorderedStringLinker:
         self._tb.handler_unblock(self._insert_handler)
         self._tb.handler_unblock(self._delete_handler)
 
+
 class TextBufferSharePoint(groupthink.UnorderedHandlerAcceptor):
     def __init__(self, buff):
-        self._us = groupthink.UnorderedString(buff.get_text(buff.get_start_iter(), buff.get_end_iter()))
+        self._us = groupthink.UnorderedString(buff.get_text(buff.get_start_iter(), buff.get_end_iter(), True))
         self._linker = TextBufferUnorderedStringLinker(buff, self._us)
         
     def set_handler(self, handler):

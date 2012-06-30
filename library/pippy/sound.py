@@ -18,9 +18,9 @@
 import errno
 import os
 import sys
-import sugar3.env
+import sugar.env
 from gettext import gettext as _
-from sugar3.activity import activity
+from sugar.activity import activity
 
 path = activity.get_bundle_path()
 path = path.split("/")[0:-1]

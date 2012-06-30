@@ -17,13 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """Pippy activity helper classes."""
-
-import gi
-from gi.repository import Gtk
-from gi.repository import Gdk
-from gi.repository import Pango
-from gi.repository import GObject
 from sugar3.activity import activity
+
 
 class ViewSourceActivity(activity.Activity):
     """Activity subclass which handles the 'view source' key."""
@@ -33,6 +28,7 @@ class ViewSourceActivity(activity.Activity):
         self.connect('key-press-event', self._key_press_cb)
 
     def _key_press_cb(self, widget, event):
+        from gi.repository import Gdk
         if Gdk.keyval_name(event.keyval) == 'XF86Start':
             self.view_source()
             return True
@@ -44,11 +40,10 @@ class ViewSourceActivity(activity.Activity):
         if self.__source_object_id is None:
             from sugar3 import profile
             from sugar3.datastore import datastore
-            from sugar3.activity.activity import get_bundle_name
-            from sugar3.activity.activity import get_bundle_path
+            from sugar3.activity.activity \
+                 import get_bundle_name, get_bundle_path
             from gettext import gettext as _
             import os.path
-            
             jobject = datastore.create()
             metadata = {
                 'title': _('%s Source') % get_bundle_name(),
@@ -76,10 +71,14 @@ class ViewSourceActivity(activity.Activity):
 
 TARGET_TYPE_TEXT = 80
 
+
 class VteActivity(ViewSourceActivity):
     """Activity subclass built around the Vte terminal widget."""
     def __init__(self, handle):
+        from gi.repository import Gtk
+        from gi.repository import Pango
         from gi.repository import Vte
+        from gi.repository import GLib
         from sugar3.graphics.toolbutton import ToolButton
         from gettext import gettext as _
         super(VteActivity, self).__init__(handle)
@@ -109,21 +108,23 @@ class VteActivity(ViewSourceActivity):
                              Gdk.color_parse('#E7E7E7'),
                              [])
         self._vte.connect('selection-changed', self._on_selection_changed_cb)
-        self._vte.drag_dest_set(Gtk.DEST_DEFAULT_ALL,
+        # FIXME It does not work because it expects and receives StructMeta Gtk.TargetEntry
+        '''
+        self._vte.drag_dest_set(Gtk.DestDefaults.ALL,
                                 [("text/plain", 0, TARGET_TYPE_TEXT)],
-                                Gdk.DragAction.COPY)
+                                Gdk.DragAction.COPY)'''
         self._vte.connect('drag_data_received', self._on_drop_cb)
         # ...and its scrollbar
-        vtebox = Gtk.HBox()
+        vtebox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         vtebox.pack_start(self._vte, True, True, 0)
-        vtesb = Gtk.VScrollbar(self._vte.get_adjustment())
+        vtesb = Gtk.Scrollbar(orientation=Gtk.Orientation.VERTICAL)
+        vtesb.set_adjustment(self._vte.get_adjustment())
         vtesb.show()
         vtebox.pack_start(vtesb, False, False, 0)
         self.set_canvas(vtebox)
         self.show_all()
         # hide the buttons we don't use.
         toolbar.share.hide()  # this should share bundle.
-        toolbar.keep.hide()
         edittoolbar.undo.hide()
         edittoolbar.redo.hide()
         edittoolbar.separator.hide()
@@ -134,12 +135,14 @@ class VteActivity(ViewSourceActivity):
         bundle_path = activity.get_bundle_path()
         # the 'sleep 1' works around a bug with the command dying before
         # the vte widget manages to snarf the last bits of its output
-        self._pid = self._vte.fork_command(
-            command='/bin/sh',
-            argv=['/bin/sh', '-c',
-                  'python %s/pippy_app.py; sleep 1' % bundle_path],
-            envv=["PYTHONPATH=%s/library" % bundle_path],
-            directory=bundle_path)
+        self._pid = self._vte.fork_command_full(
+        Vte.PtyFlags.DEFAULT,
+        bundle_path,
+        ['/bin/sh', '-c', 'python %s/pippy_app.py; sleep 1' % bundle_path],
+        ["PYTHONPATH=%s/library" % bundle_path],
+        GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+        None,
+        None,)
 
     def _on_copy_clicked_cb(self, widget):
         if self._vte.get_has_selection():
@@ -158,6 +161,7 @@ class VteActivity(ViewSourceActivity):
     def on_child_exit(self, widget):
         """This method is invoked when the user's script exits."""
         pass  # override in subclass
+
 
 class PyGameActivity(ViewSourceActivity):
     """Activity wrapper for a pygame."""
@@ -179,6 +183,8 @@ class PyGameActivity(ViewSourceActivity):
             execfile(pippy_app_path, g, g)  # start pygame
             sys.exit(0)
         super(PyGameActivity, self).__init__(handle)
+        from gi.repository import GObject
+        from gi.repository import Gtk
         toolbox = activity.ActivityToolbox(self)
         toolbar = toolbox.get_activity_toolbar()
         self.set_toolbox(toolbox)
@@ -194,6 +200,7 @@ class PyGameActivity(ViewSourceActivity):
         # hide the buttons we don't use.
         toolbar.share.hide()  # this should share bundle.
         toolbar.keep.hide()
+
 
 def _main():
     """Launch this activity from the command line."""
