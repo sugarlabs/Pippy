@@ -79,7 +79,6 @@ class VteActivity(ViewSourceActivity):
         from gi.repository import Pango
         from gi.repository import Vte
         from gi.repository import GLib
-        from sugar3.graphics.toolbutton import ToolButton
         from gettext import gettext as _
         super(VteActivity, self).__init__(handle)
         toolbox = activity.ActivityToolbox(self)
