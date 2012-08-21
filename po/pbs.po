@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2012-06-14 06:38+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-27 20:21+0200\n"
+"Last-Translator: usuariopame04 <proyecto.olpc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pbs\n"
 "MIME-Version: 1.0\n"
@@ -19,17 +19,17 @@ msgstr ""
 
 #: activity/activity.info:2
 msgid "Pippy"
-msgstr ""
+msgstr "Peppy"
 
 #: activity.py:49
 #, python-format
-#, python-format, fuzzy
+#, python-format,
 msgid "%s Source"
-msgstr "%s Kiñye'"
+msgstr "%skiñgye'"
 
 #: activity.py:91
 msgid "Copy selected text to clipboard"
-msgstr ""
+msgstr "Make'eik re kily'e se masa'au maka'l kiñkie nk'ixse  nip mvajau"
 
 #: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
@@ -62,16 +62,15 @@ msgid "Actions"
 msgstr "Kanen matsjau"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "¡-Vipiup!"
+msgid "Run!"
+msgstr "¡vipiúp!"
 
 #: pippy_app.py:139
-#, fuzzy
 msgid "<alt>r"
-msgstr "Kist pu kily'e <alt> maiñ' r "
+msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
+msgid "Stop"
 msgstr "Ndama'ai"
 
 #: pippy_app.py:153
@@ -79,7 +78,7 @@ msgid "<alt>s"
 msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
+msgid "Clear"
 msgstr "Matseiñ'"
 
 #: pippy_app.py:168
@@ -96,9 +95,9 @@ msgstr "Peuk tu'uei tutsjaú"
 
 #: pippy_app.py:358
 #, python-format
-#, python-format, fuzzy
+#, python-format,
 msgid "%s Activity"
-msgstr "%s Ngul'ajaú"
+msgstr "%s ndul'ajau"
 
 #: pippy_app.py:438
 msgid "Save as Activity Error"
@@ -108,7 +107,7 @@ msgstr "Makjat ndich'u ne ngul'ajau"
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
-msgstr "Vichjaut majau kutap lamejep majau ngunjiu' ne ngul'ajau kjup kikjiat"
+msgstr "Vichjaut majau kutap lamejep majau ngunjiu' ne ngul'ajau kjup kikjiat."
 
 #: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
@@ -116,7 +115,7 @@ msgstr "Majau"
 
 #: pippy_app.py:448
 msgid "Creating activity bundle..."
-msgstr "Manaja vatsjau nda ngul'ajau matseu' makjat"
+msgstr "Manaja vatsjau nda ngul'ajau matseu' makjat..."
 
 #: pippy_app.py:479
 msgid "Pippy Activity"
@@ -132,11 +131,11 @@ msgid ""
 "an example."
 msgstr ""
 "vichjaut majau lamejep ngunjiu pu ngul'ajau kutap statjum kikjiat k'ua lanu "
-"peuk me'ei matsjau"
+"peuk me'ei matsjau."
 
 #: pippy_app.py:492
 msgid "Creating example..."
-msgstr "Mata'au peuk k'ua le'ei lanu peuk mane'ei ma natsjau"
+msgstr "Mata'au peuk k'ua le'ei lanu peuk mane'ei ma natsjau..."
 
 #: pippy_app.py:499
 msgid "Save as Example Warning"
@@ -144,12 +143,13 @@ msgstr "Makjat k'ua lanu sania' maljús"
 
 #: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr "Nanji ndanu peuk me'ei mantsjau limi makjat kimieng tsukuet ma nad-ets'"
+msgstr ""
+"Nanji ndanu peuk me'ei mantsjau limi makjat se kimieng tsukuet ma nad-ets'"
 
 #: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
-msgstr "Makjat k'ua lanú peuk me'ei matsjau"
+msgstr "Makjat k'ua lanú peuk me'ei matsjau."
 
 #: pippy_app.py:546
 msgid "Activity saved to journal."
-msgstr "Ngul'ajau makjat pu nguk'uix xiñi'iu me'ets"
+msgstr "Ngul'ajau makjat pu nguk'uix xiñi'iu me'ets."
