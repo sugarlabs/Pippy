@@ -61,16 +61,13 @@ class GroupActivity(Activity):
         self.logger = logging.getLogger(self.dbus_name)
         
         self._handle = handle
-        
-        # HACK = self._shared_activity: attribute does not exist
-        self._shared_activity = None
 
         ##GObject.threads_init()
 
-        self._sharing_completed = not self._shared_activity
+        self._sharing_completed = not self.shared_activity
         self._readfile_completed = not handle.object_id
 
-        if self._shared_activity:
+        if self.shared_activity:
             self.message = self.message_joining
         elif handle.object_id:
             self.message = self.message_loading
@@ -126,7 +123,7 @@ class GroupActivity(Activity):
         
         if not self._readfile_completed:
             self.read_file(self._jobject.file_path)
-        elif not self._shared_activity:
+        elif not self.shared_activity:
             GObject.idle_add(self._initialize_cleanstart)
     
     def _initialize_cleanstart(self):
@@ -150,7 +147,7 @@ class GroupActivity(Activity):
         Window.set_canvas(self, main_widget)
         self.initialized = True
 
-        if self._shared_activity and not self._processed_share:
+        if self.shared_activity and not self._processed_share:
             # We are joining a shared activity, but when_shared has not yet
             # been called
             self.when_shared()
@@ -188,13 +185,13 @@ class GroupActivity(Activity):
             self.dbus_name, {})
 
     def _sharing_setup(self):
-        if self._shared_activity is None:
+        if self.shared_activity is None:
             self.logger.error('Failed to share or join activity')
             return
 
-        self.conn = self._shared_activity.telepathy_conn
-        self.tubes_chan = self._shared_activity.telepathy_tubes_chan
-        self.text_chan = self._shared_activity.telepathy_text_chan
+        self.conn = self.shared_activity.telepathy_conn
+        self.tubes_chan = self.shared_activity.telepathy_tubes_chan
+        self.text_chan = self.shared_activity.telepathy_text_chan
 
         self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].connect_to_signal('NewTube',
             self._new_tube_cb)
@@ -208,7 +205,7 @@ class GroupActivity(Activity):
         self.logger.error('ListTubes() failed: %s', e)
 
     def _joined_cb(self, activity):
-        if not self._shared_activity:
+        if not self.shared_activity:
             return
 
         self.logger.debug('Joined an existing shared activity')

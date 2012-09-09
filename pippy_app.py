@@ -575,18 +575,16 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                                     
 
     def save_to_journal(self, file_path, cloudstring):
-        # FIXME When saving in the journal, it throws an error
-        #_file = open(file_path, 'w')
-        #if not self._shared_activity:
-        #    self.metadata['mime_type'] = 'text/x-python'
-        #    global text_buffer
-        #    start, end = text_buffer.get_bounds()
-        #    text = text_buffer.get_text(start, end, True)
-        #    _file.write(text)
-        #else:
-        #    self.metadata['mime_type'] = groupthink_mimetype
-        #    _file.write(cloudstring)
-        pass
+        _file = open(file_path, 'w')
+        if not self.shared_activity:
+            self.metadata['mime_type'] = 'text/x-python'
+            global text_buffer
+            start, end = text_buffer.get_bounds()
+            text = text_buffer.get_text(start, end, True)
+            _file.write(text)
+        else:
+            self.metadata['mime_type'] = groupthink_mimetype
+            _file.write(cloudstring)
 
     def load_from_journal(self, file_path):
         if self.metadata['mime_type'] == 'text/x-python':
