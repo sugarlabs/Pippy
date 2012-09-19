@@ -281,7 +281,7 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1,
     if '/' in sound:
         fullname = sound
     else:
-        fullname = finddir() + str(sound)
+        fullname = os.path.join(finddir(), sound)
 
     if loop == False:
         lp = 0
@@ -325,17 +325,17 @@ def audioOut(file=None):
     global temp_path
     if temp_path is None:
         from sugar3 import env
-        temp_path = env.get_profile_path() + '/pippy'
+        temp_path = os.path.join(env.get_profile_path(), 'pippy')
         if not os.path.isdir(temp_path):
             os.mkdir(temp_path)
     path = temp_path
-    csd = open(path + "/temp.csd", "w")
+    csd = open(os.path.join(path, "temp.csd"), "w")
     csd.write("<CsoundSynthesizer>\n\n")
     csd.write("<CsOptions>\n")
     if file == None:
         csd.write("-+rtaudio=alsa -odevaudio -m0 -d -b256 -B512\n")
     else:
-        file = path + "/" + str(file) + ".wav"
+        file = os.path.join(path, "%s.wav" % file)
         csd.write("-+rtaudio=alsa -o%s -m0 -W -d -b256 -B512\n" % file)
     csd.write("</CsOptions>\n\n")
     csd.write("<CsInstruments>\n\n")
