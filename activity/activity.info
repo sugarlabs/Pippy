@@ -7,3 +7,4 @@ activity_version = 50
 mime_types = text/x-python, pickle/groupthink-pippy
 show_launcher = yes
 license = GPLv2+
+summary = Searching for programmers! Here you can use examples to begin learning the language your computer understands called "phython."
