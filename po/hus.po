@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2012-03-09 06:56+0200\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 21:58+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hus\n"
@@ -47,23 +47,23 @@ msgstr ""
 
 #: pippy_app.py:90
 msgid "Export as Pippy Document"
-msgstr "ki kaldha' an uw ejtil max pel i uw peppy"
+msgstr "Ki kaldha' an uw ejtil max pel i uw peppy"
 
 #: pippy_app.py:96
 msgid "Export as Pippy Example"
-msgstr "ki kalhra' an uw ejtil max pel i t'iplab peppy"
+msgstr "Ki kalhra' an uw ejtil max pel i t'iplab Peppy"
 
 #: pippy_app.py:102
 msgid "Create Activity Bundle"
-msgstr "ki ts'ejka' jun i t'ojláb"
+msgstr "Ki ts'ejka' jun i t'ojláb"
 
 #: pippy_app.py:111
 msgid "Actions"
 msgstr "Pakdhá t'ojlabchik"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "¡_Tujuw!"
+msgid "Run!"
+msgstr "¡Tujuw!"
 
 # Aquí la traducción no es literal, porque se debe tomar en cuenta la letra que lleva antepuesta el guion bajo _
 # Esto es difícil de explicar, son cuestiones de programación. Zurik
@@ -72,16 +72,16 @@ msgid "<alt>r"
 msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_Kuba'"
+msgid "Stop"
+msgstr "Kuba'"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "T'_oka'"
+msgid "Clear"
+msgstr "T'oka'"
 
 #: pippy_app.py:168
 msgid "<alt>c"
@@ -164,3 +164,12 @@ msgstr "T'ojláb dhayach ti chudhel dhuchadh úw."
 
 #~ msgid "As Pippy Example"
 #~ msgstr "Etil in t'iplabil a Pippy"
+
+#~ msgid "_Clear"
+#~ msgstr "T'_oka'"
+
+#~ msgid "_Stop"
+#~ msgstr "_Kuba'"
+
+#~ msgid "_Run!"
+#~ msgstr "¡_Tujuw!"
