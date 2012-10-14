@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2011-10-13 05:26+0200\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 21:58+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
 "Language: hi\n"
@@ -71,24 +71,24 @@ msgid "Actions"
 msgstr "क्रियाएं"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "चलाएँ! (_R)"
+msgid "Run!"
+msgstr "दोडो!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_रुकें"
+msgid "Stop"
+msgstr "रुकें"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "_साफ"
+msgid "Clear"
+msgstr "साफ"
 
 #: pippy_app.py:168
 msgid "<alt>c"
@@ -161,6 +161,9 @@ msgstr "उदहारण की तरह सहेजा गया."
 msgid "Activity saved to journal."
 msgstr "क्रिया दैनिकी में सहेजा गया."
 
+#~ msgid "_Run!"
+#~ msgstr "चलाएँ! (_R)"
+
 #~ msgid "As Pippy Document"
 #~ msgstr "पीप्पी दस्तावेज की तरह"
 
@@ -172,9 +175,6 @@ msgstr "क्रिया दैनिकी में सहेजा गय�
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "कुपया टॅम टॅम एडिट की संगीत पुस्तककालय का संपादन  करे."
-
-#~ msgid "Run!"
-#~ msgstr "दोडो!"
 
 #~ msgid "Stop!"
 #~ msgstr "रुको!"

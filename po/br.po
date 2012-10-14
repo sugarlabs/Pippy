@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2011-08-29 07:41+0200\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 20:54+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -59,7 +59,7 @@ msgid "Actions"
 msgstr ""
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
+msgid "Run!"
 msgstr ""
 
 #: pippy_app.py:139
@@ -67,21 +67,20 @@ msgid "<alt>r"
 msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_Arsaviñ"
+msgid "Stop"
+msgstr "Arsaviñ"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "_Skarzhañ"
+msgid "Clear"
+msgstr "Skarzhañ"
 
 #: pippy_app.py:168
-#, fuzzy
 msgid "<alt>c"
-msgstr "<alt>r"
+msgstr "<alt>c"
 
 #: pippy_app.py:197
 msgid "Examples"

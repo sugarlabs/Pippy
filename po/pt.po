@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2012-04-13 19:44+0200\n"
-"Last-Translator: Eduardo H. <hoboprimate@gmail.com>\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-25 02:11+0200\n"
+"Last-Translator: Luis <valente.luis@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -69,15 +69,15 @@ msgid "Actions"
 msgstr "Ações"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "Executar!"
+msgid "Run!"
+msgstr "Corre!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
+msgid "Stop"
 msgstr "Parar"
 
 #: pippy_app.py:153
@@ -85,7 +85,7 @@ msgid "<alt>s"
 msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
+msgid "Clear"
 msgstr "Limpar"
 
 #: pippy_app.py:168
@@ -161,6 +161,9 @@ msgstr "Guardado como exemplo."
 msgid "Activity saved to journal."
 msgstr "Atividade guardada no diário."
 
+#~ msgid "_Run!"
+#~ msgstr "Executar!"
+
 #~ msgid "As Pippy Document"
 #~ msgstr "Como documento Pippy"
 
@@ -172,9 +175,6 @@ msgstr "Atividade guardada no diário."
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "Por favor instala a biblioteca de som do TamTamEdit."
-
-#~ msgid "Run!"
-#~ msgstr "Corre!"
 
 #~ msgid "Stop!"
 #~ msgstr "Pára!"

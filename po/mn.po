@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2011-10-11 18:46+0200\n"
-"Last-Translator: Cris Anderson <anderson861@gmail.com>\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 22:40+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: mn\n"
 "MIME-Version: 1.0\n"
@@ -79,24 +79,24 @@ msgid "Actions"
 msgstr ""
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "_Гүйцэтгэх!"
+msgid "Run!"
+msgstr "Гүйцэтгэх!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr ""
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_Зогсоох"
+msgid "Stop"
+msgstr "Зогсоох"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr ""
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "_Арилгах"
+msgid "Clear"
+msgstr "Арилгах"
 
 #: pippy_app.py:168
 msgid "<alt>c"

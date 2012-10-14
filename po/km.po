@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2011-10-27 11:19+0200\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 22:35+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: km\n"
@@ -67,24 +67,24 @@ msgid "Actions"
 msgstr "អំពើ"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "_រត់!"
+msgid "Run!"
+msgstr "រត់!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr ""
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_បញ្ឈប់"
+msgid "Stop"
+msgstr "បញ្ឈប់"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr ""
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "_ជម្រះ"
+msgid "Clear"
+msgstr "ជម្រះ"
 
 #: pippy_app.py:168
 msgid "<alt>c"

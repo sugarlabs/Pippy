@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2011-11-23 03:34+0200\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 22:53+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: th\n"
@@ -67,24 +67,24 @@ msgid "Actions"
 msgstr "การกระทำ"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "_Run!"
+msgid "Run!"
+msgstr "รัน!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_หยุด"
+msgid "Stop"
+msgstr "หยุด"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "_ล้าง"
+msgid "Clear"
+msgstr "ล้าง"
 
 #: pippy_app.py:168
 msgid "<alt>c"
@@ -155,14 +155,14 @@ msgstr "เก็บเป็นตัวอย่าง"
 msgid "Activity saved to journal."
 msgstr "บันทึกกิจกรรมลงบันทึกประจำวันแล้ว"
 
+#~ msgid "_Run!"
+#~ msgstr "_Run!"
+
 #~ msgid "As Pippy Document"
 #~ msgstr "เป็นเอกสาร Pippy"
 
 #~ msgid "As Activity Bundle"
 #~ msgstr "เป็นชุดกิจกรรม"
-
-#~ msgid "Run!"
-#~ msgstr "รัน!"
 
 #~ msgid "Stop!"
 #~ msgstr "หยุด!"

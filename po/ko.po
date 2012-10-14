@@ -14,24 +14,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2010-10-12 22:50+0200\n"
-"Last-Translator: frannyberry <frannyberry@writeme.com>\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 22:35+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.0.3\n"
+"X-Generator: Pootle 2.0.5\n"
 
-# McYLTS  <a href="http://dznvcizixegd.com/">dznvcizixegd</a>, [url=http://zmgykicykfdh.com/]zmgykicykfdh[/url], [link=http://pddpkggkbjrf.com/]pddpkggkbjrf[/link], http://auvxuabsmltf.com/
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr ""
-"McYLTS  <a href=\"http://dznvcizixegd.com/\">dznvcizixegd</a>, "
-"[url=http://zmgykicykfdh.com/]zmgykicykfdh[/url], "
-"[link=http://pddpkggkbjrf.com/]pddpkggkbjrf[/link], http://auvxuabsmltf.com/"
 
 #: activity.py:49
 #, python-format
@@ -71,24 +67,24 @@ msgid "Actions"
 msgstr ""
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "_실행!"
+msgid "Run!"
+msgstr "실행!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr ""
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr ""
+msgid "Stop"
+msgstr "중지"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr ""
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr ""
+msgid "Clear"
+msgstr "지우기"
 
 #: pippy_app.py:168
 msgid "<alt>c"

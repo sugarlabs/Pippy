@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2012-06-05 18:02+0200\n"
-"Last-Translator: Irma  <sankaypillo@gmail.com>\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-07-16 01:28+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: quz\n"
 "MIME-Version: 1.0\n"
@@ -68,30 +68,30 @@ msgstr "Bundle Ruwanata Kamariy"
 msgid "Actions"
 msgstr "Llamk'aykuna"
 
-#  "¡_Empieza!"
+# "¡_Empieza!"
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "_Qallariy!"
+msgid "Run!"
+msgstr "Qallariy!"
 
 #  "<alt>r"
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#  "_Parar"
+# "_Parar"
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_Sayachiy"
+msgid "Stop"
+msgstr "Sayachiy"
 
 #  "<alt>s"
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#  "_Limpiar"
+# "_Limpiar"
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "_Pichay"
+msgid "Clear"
+msgstr "Pichay"
 
 #  "<alt>c"
 #: pippy_app.py:168
@@ -129,7 +129,7 @@ msgstr "Ruwanaykita manaraq waqaychaspaqa, allin sutitaraq churay."
 #  "Bien"
 #: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
-msgstr "Allin"
+msgstr "Chaskiy"
 
 #  "Creando una actividad empaquetada..."
 #: pippy_app.py:448

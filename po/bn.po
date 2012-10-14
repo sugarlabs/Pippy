@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xo-bundled\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2012-01-12 08:25+0200\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 20:52+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: Bengali <core@bengalinux.org>\n"
 "Language: bn\n"
@@ -67,8 +67,7 @@ msgid "Actions"
 msgstr ""
 
 #: pippy_app.py:138 pippy_app.py:141
-#, fuzzy
-msgid "_Run!"
+msgid "Run!"
 msgstr "চালাও!"
 
 #: pippy_app.py:139
@@ -76,16 +75,16 @@ msgid "<alt>r"
 msgstr ""
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr ""
+msgid "Stop"
+msgstr "থামাও!"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr ""
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr ""
+msgid "Clear"
+msgstr "মুছো"
 
 #: pippy_app.py:168
 msgid "<alt>c"
@@ -157,6 +156,10 @@ msgstr ""
 msgid "Activity saved to journal."
 msgstr "জার্নালে সক্রিয়তাটি সংরক্ষন করা হয়েছে।"
 
+#, fuzzy
+#~ msgid "_Run!"
+#~ msgstr "চালাও!"
+
 #~ msgid "As Pippy Document"
 #~ msgstr "পিপ্পি ডকুমেন্ট হিসাবে"
 
@@ -165,9 +168,3 @@ msgstr "জার্নালে সক্রিয়তাটি সংরক্�
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "অনুগ্রহ করে TamTamEdit এর শব্দ লাইব্রেরি ইনস্টল করুন।"
-
-#~ msgid "Run!"
-#~ msgstr "চালাও!"
-
-#~ msgid "Stop!"
-#~ msgstr "থামাও!"

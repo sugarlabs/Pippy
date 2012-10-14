@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pippy-activity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2012-02-24 16:41+0200\n"
-"Last-Translator: Danishka Navin <danishka@gmail.com>\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 22:52+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: Sinhalese <en@li.org>\n"
 "Language: si\n"
 "MIME-Version: 1.0\n"
@@ -67,25 +67,24 @@ msgid "Actions"
 msgstr "ක්‍රියා"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "දුවන්න!(_R)"
+msgid "Run!"
+msgstr "දුවන්න!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_Stop"
+msgid "Stop"
+msgstr "නවත්වන්න"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
-#, fuzzy
-msgid "_Clear"
-msgstr "_Clear"
+msgid "Clear"
+msgstr ""
 
 #: pippy_app.py:168
 msgid "<alt>c"

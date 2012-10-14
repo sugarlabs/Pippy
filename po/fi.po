@@ -10,20 +10,20 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-08 00:32-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 21:50+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.1.1rc4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -46,7 +46,7 @@ msgstr ""
 msgid "PAUSED"
 msgstr ""
 
-#: library/pippy/sound.py:48
+#: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 
@@ -66,25 +66,26 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: pippy_app.py:138
-msgid "_Run!"
+#: pippy_app.py:138 pippy_app.py:141
+msgid "Run!"
 msgstr ""
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr ""
 
-#: pippy_app.py:152
-msgid "_Stop"
+#: pippy_app.py:152 pippy_app.py:158
+msgid "Stop"
 msgstr ""
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr ""
 
-#: pippy_app.py:167
-msgid "_Clear"
-msgstr ""
+#: pippy_app.py:167 pippy_app.py:173
+#, fuzzy
+msgid "Clear"
+msgstr "Tyhjennä"
 
 #: pippy_app.py:168
 msgid "<alt>c"

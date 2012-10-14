@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2011-10-27 06:25+0200\n"
-"Last-Translator: Thangamani <thangam.arunx@gmail.com>\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 23:05+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ta\n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgid "Actions"
 msgstr "செயல்கள்"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
+msgid "Run!"
 msgstr "ஓடு!"
 
 #: pippy_app.py:139
@@ -75,16 +75,16 @@ msgid "<alt>r"
 msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_நிறுத்து"
+msgid "Stop"
+msgstr "நிறுத்து"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "_நீக்கு"
+msgid "Clear"
+msgstr "நீக்கு"
 
 #: pippy_app.py:168
 msgid "<alt>c"

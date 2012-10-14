@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
 "PO-Revision-Date: 2009-11-13 15:52-0400\n"
 "Last-Translator: Edonit Rexhepi <Edi_139@HotMail.Com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgid "Actions"
 msgstr ""
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
+msgid "Run!"
 msgstr ""
 
 #: pippy_app.py:139
@@ -75,7 +75,7 @@ msgid "<alt>r"
 msgstr ""
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
+msgid "Stop"
 msgstr ""
 
 #: pippy_app.py:153
@@ -83,7 +83,7 @@ msgid "<alt>s"
 msgstr ""
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
+msgid "Clear"
 msgstr ""
 
 #: pippy_app.py:168

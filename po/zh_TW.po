@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 03:39-0400\n"
-"PO-Revision-Date: 2012-03-22 02:13+0200\n"
+"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"PO-Revision-Date: 2012-06-26 20:59+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -67,24 +67,24 @@ msgid "Actions"
 msgstr "動作"
 
 #: pippy_app.py:138 pippy_app.py:141
-msgid "_Run!"
-msgstr "_執行！"
+msgid "Run!"
+msgstr "執行！"
 
 #: pippy_app.py:139
 msgid "<alt>r"
 msgstr "<alt>F"
 
 #: pippy_app.py:152 pippy_app.py:158
-msgid "_Stop"
-msgstr "_停止"
+msgid "Stop"
+msgstr "停止"
 
 #: pippy_app.py:153
 msgid "<alt>s"
 msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
-msgid "_Clear"
-msgstr "_清除"
+msgid "Clear"
+msgstr "清除"
 
 #: pippy_app.py:168
 msgid "<alt>c"
