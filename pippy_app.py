@@ -419,7 +419,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def stopbutton_cb(self, button):
         try:
-            os.kill(self._pid, SIGTERM)
+            if self._pid != None: os.kill(self._pid[1], SIGTERM)
         except:
             pass  # process must already be dead.
 

@@ -26,6 +26,7 @@ class ViewSourceActivity(activity.Activity):
         super(ViewSourceActivity, self).__init__(handle, **kwargs)
         self.__source_object_id = None  # XXX: persist this across invocations?
         self.connect('key-press-event', self._key_press_cb)
+        self._pid = None
 
     def _key_press_cb(self, widget, event):
         from gi.repository import Gdk
