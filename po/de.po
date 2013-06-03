@@ -59,8 +59,8 @@ msgstr ""
 "Project-Id-Version: Fructose-de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: 2012-06-26 21:53+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2013-06-03 21:03+0200\n"
+"Last-Translator: Markus <m.slg@gmx.de>\n"
 "Language-Team: Deutsch <LL@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -130,11 +130,10 @@ msgstr "Stopp"
 msgid "<alt>s"
 msgstr "<alt>s"
 
-# (Markus S.) war '_Säubern'
+# (Markus S.) war '_Säubern', später 'Leeren'
 #: pippy_app.py:167 pippy_app.py:173
-#, fuzzy
 msgid "Clear"
-msgstr "Leeren"
+msgstr "Löschen"
 
 # (Markus S.) sollte zu 'Leeren' passen, aber 'l' ist schon zuvor belegt.
 #: pippy_app.py:168
