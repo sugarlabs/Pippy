@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: 2012-06-26 22:44+0200\n"
+"PO-Revision-Date: 2013-07-07 01:09+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pap\n"
@@ -101,11 +101,11 @@ msgstr ""
 #: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
-msgstr "%s Aktividad"
+msgstr "%s Aktividat"
 
 #: pippy_app.py:438
 msgid "Save as Activity Error"
-msgstr "Warda komo Eròr Aktividad"
+msgstr "Warda komo Eròr Aktividat"
 
 #: pippy_app.py:439
 msgid ""
@@ -121,7 +121,7 @@ msgstr "Ok"
 
 #: pippy_app.py:448
 msgid "Creating activity bundle..."
-msgstr "Kreando pakkete di aktividad..."
+msgstr "Kreando pakkete di aktividat..."
 
 #: pippy_app.py:479
 msgid "Pippy Activity"
