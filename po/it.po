@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: 2012-09-06 00:02+0200\n"
+"PO-Revision-Date: 2013-11-11 16:57+0200\n"
 "Last-Translator: arosella <arosella@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: it\n"
@@ -48,47 +48,47 @@ msgstr "INPAUSA"
 
 #: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
+msgstr "Libreria sonora TamTamEdit non trovata. Hai installato TamTamEdit?"
 
 #: pippy_app.py:90
 msgid "Export as Pippy Document"
-msgstr ""
+msgstr "Esporta come documento Pippy"
 
 #: pippy_app.py:96
 msgid "Export as Pippy Example"
-msgstr ""
+msgstr "Esporta come esempio Pippy"
 
 #: pippy_app.py:102
 msgid "Create Activity Bundle"
-msgstr ""
+msgstr "Crea una attività integrata"
 
 #: pippy_app.py:111
 msgid "Actions"
-msgstr ""
+msgstr "Azioni"
 
 #: pippy_app.py:138 pippy_app.py:141
 msgid "Run!"
-msgstr ""
+msgstr "Vai!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #: pippy_app.py:153
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
 msgid "Clear"
-msgstr ""
+msgstr "Cancella"
 
 #: pippy_app.py:168
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
 #: pippy_app.py:197
 msgid "Examples"
@@ -96,7 +96,7 @@ msgstr "Esempi"
 
 #: pippy_app.py:229
 msgid "My examples"
-msgstr ""
+msgstr "I miei esempi"
 
 #: pippy_app.py:358
 #, python-format
@@ -124,11 +124,11 @@ msgstr "Creazione di una attività integrata..."
 
 #: pippy_app.py:479
 msgid "Pippy Activity"
-msgstr ""
+msgstr "Attività Pippy"
 
 #: pippy_app.py:483
 msgid "Save as Example Error"
-msgstr ""
+msgstr "Salva come Esempio Sbagliato"
 
 #: pippy_app.py:484
 msgid ""
@@ -140,19 +140,21 @@ msgstr ""
 
 #: pippy_app.py:492
 msgid "Creating example..."
-msgstr ""
+msgstr "Esempio in creazione..."
 
 #: pippy_app.py:499
 msgid "Save as Example Warning"
-msgstr ""
+msgstr "Salva come Esempio di Avvertimento"
 
 #: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
 msgstr ""
+"Esiste già un esempio con questo nome. Vuoi cancellare il vecchio e scrivere "
+"il nuovo?"
 
 #: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
-msgstr ""
+msgstr "Salvato come Esempio."
 
 #: pippy_app.py:546
 msgid "Activity saved to journal."
