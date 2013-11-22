@@ -2,3 +2,5 @@ Connect-*.xo
 *.pyc
 *.kpf
 .*.sw[op]
+dist
+locale
