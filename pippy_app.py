@@ -23,6 +23,8 @@ import logging
 import re
 import os
 import time
+import subprocess
+from random import uniform
 
 from gi.repository import Gtk
 from gi.repository import Gdk
@@ -41,6 +43,8 @@ from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_path
 from sugar3.activity.activity import get_bundle_name
 from sugar3.graphics import style
+
+from jarabe.view.customizebundle import generate_unique_id
 
 from activity import ViewSourceActivity
 from activity import TARGET_TYPE_TEXT
@@ -128,8 +132,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         gobutton.props.accelerator = _('<alt>r')
         gobutton.set_icon_widget(goicon_bw)
         gobutton.set_tooltip(_("Run!"))
-        gobutton.connect('clicked', self.flash_cb, dict({'bw': goicon_bw,
-            'color': goicon_color}))
+        gobutton.connect('clicked', self.flash_cb,
+                         dict({'bw': goicon_bw, 'color': goicon_color}))
         gobutton.connect('clicked', self.gobutton_cb)
         actions_toolbar.insert(gobutton, -1)
 
@@ -141,8 +145,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         stopbutton = ToolButton(label=_("Stop"))
         stopbutton.props.accelerator = _('<alt>s')
         stopbutton.set_icon_widget(stopicon_bw)
-        stopbutton.connect('clicked', self.flash_cb, dict({'bw': stopicon_bw,
-            'color': stopicon_color}))
+        stopbutton.connect('clicked', self.flash_cb,
+                           dict({'bw': stopicon_bw,
+                                 'color': stopicon_color}))
         stopbutton.connect('clicked', self.stopbutton_cb)
         stopbutton.set_tooltip(_("Stop"))
         actions_toolbar.insert(stopbutton, -1)
@@ -157,8 +162,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         clearbutton.props.accelerator = _('<alt>c')
         clearbutton.set_icon_widget(clearicon_bw)
         clearbutton.connect('clicked', self.clearbutton_cb)
-        clearbutton.connect('clicked', self.flash_cb, dict({'bw': clearicon_bw,
-            'color': clearicon_color}))
+        clearbutton.connect('clicked', self.flash_cb,
+                            dict({'bw': clearicon_bw,
+                                  'color': clearicon_color}))
         clearbutton.set_tooltip(_("Clear"))
         actions_toolbar.insert(clearbutton, -1)
 
@@ -204,8 +210,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             olditer = self.model.insert_before(None, None)
             self.model.set_value(olditer, 0, direntry)
             self.model.set_value(olditer, 1, direntry["name"])
-
-
             for _file in sorted(os.listdir(os.path.join(root, d))):
                 if _file.endswith('~'):
                     continue  # skip emacs backups
@@ -214,10 +218,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 _iter = self.model.insert_before(olditer, None)
                 self.model.set_value(_iter, 0, entry)
                 self.model.set_value(_iter, 1, entry["name"])
+
         # Adding local examples
-        root = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'],'data')
-        direntry_examples  = { "name": _("My examples"),
-                               "path": root + "/" }
+        root = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'], 'data')
+        direntry_examples = {"name": _("My examples"),
+                             "path": root + "/"}
         self.example_iter = self.model.insert_before(None, None)
         self.model.set_value(self.example_iter, 0, direntry_examples)
         self.model.set_value(self.example_iter, 1, direntry_examples["name"])
@@ -262,8 +267,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.text_view.set_insert_spaces_instead_of_tabs(True)
         self.text_view.set_tab_width(2)
         self.text_view.set_auto_indent(True)
-        self.text_view.modify_font(Pango.FontDescription("Monospace " +
-            str(font_zoom(style.FONT_SIZE))))
+        self.text_view.modify_font(
+            Pango.FontDescription("Monospace " +
+                                  str(font_zoom(style.FONT_SIZE))))
 
         # We could change the color theme here, if we want to.
         #mgr = GtkSource.style_manager_get_default()
@@ -272,7 +278,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         codesw = Gtk.ScrolledWindow()
         codesw.set_policy(Gtk.PolicyType.AUTOMATIC,
-                      Gtk.PolicyType.AUTOMATIC)
+                          Gtk.PolicyType.AUTOMATIC)
         codesw.add(self.text_view)
         self.vpane.add1(codesw)
 
@@ -291,7 +297,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._vte.connect('child_exited', self.child_exited_cb)
         self._child_exited_handler = None
 
-        # FIXME It does not work because it expects and receives StructMeta Gtk.TargetEntry
+        # FIXME It does not work because it expects and receives StructMeta
+        # Gtk.TargetEntry
         #
         # self._vte.drag_dest_set(Gtk.DestDefaults.ALL,
         #                        [("text/plain", 0, TARGET_TYPE_TEXT)],
@@ -406,20 +413,21 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
               '%s/tmp/activity.py' % self.get_activity_root())
 
         self._pid = self._vte.fork_command_full(
-        Vte.PtyFlags.DEFAULT,
-        get_bundle_path(),
-        ["/bin/sh", "-c", "python %s; sleep 1" % pippy_app_name,
-        "PYTHONPATH=%s/library:%s" % (get_bundle_path(),
-        os.getenv("PYTHONPATH", ""))],
-        ["PYTHONPATH=%s/library:%s" % (get_bundle_path(),
-        os.getenv("PYTHONPATH", ""))],
-        GLib.SpawnFlags.DO_NOT_REAP_CHILD,
-        None,
-        None,)
+            Vte.PtyFlags.DEFAULT,
+            get_bundle_path(),
+            ["/bin/sh", "-c", "python %s; sleep 1" % pippy_app_name,
+             "PYTHONPATH=%s/library:%s" % (get_bundle_path(),
+                                           os.getenv("PYTHONPATH", ""))],
+            ["PYTHONPATH=%s/library:%s" % (get_bundle_path(),
+                                           os.getenv("PYTHONPATH", ""))],
+            GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+            None,
+            None,)
 
     def stopbutton_cb(self, button):
         try:
-            if self._pid != None: os.kill(self._pid[1], SIGTERM)
+            if self._pid is not None:
+                os.kill(self._pid[1], SIGTERM)
         except:
             pass  # process must already be dead.
 
@@ -429,8 +437,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def _create_bundle_cb(self, __):
         from shutil import copytree, copy2, rmtree
         from tempfile import mkdtemp
+
         # get the name of this pippy program.
-        title = self.metadata['title']
+        title = self.metadata['title'].replace('.py', '')
+        title = title.replace('-', '')
         if title == 'Pippy Activity':
             from sugar3.graphics.alert import Alert
             from sugar3.graphics.icon import Icon
@@ -443,6 +453,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             alert.connect('response', self.dismiss_alert_cb)
             self.add_alert(alert)
             return
+
         self.stopbutton_cb(None)  # try stopping old code first.
         self._reset_vte()
         self._vte.feed(_("Creating activity bundle..."))
@@ -452,54 +463,54 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                            os.path.join(self.get_activity_root(), TMPDIR))
         sourcefile = os.path.join(app_temp, 'xyzzy.py')
         # invoke ourself to build the activity bundle.
+        self._logger.debug('writing out source file: %s' % sourcefile)
+
+        # write out application code
+        self._write_text_buffer(sourcefile)
+
         try:
-            # write out application code
-            self._write_text_buffer(sourcefile)
-            # hook up a callback for when the bundle builder is done.
-            # we can't use GObject.child_watch_add because vte will reap our
-            # children before we can.
-            self._child_exited_handler = \
-                lambda: self.bundle_cb(title, app_temp)
-            # invoke bundle builder
-            self._pid = self._vte.fork_command_full(
-                Vte.PtyFlags.DEFAULT,
-                app_temp,
-                "/usr/bin/python",
-                ["/usr/bin/python", "%s/pippy_app.py" % get_bundle_path(),
-                '-p', '%s/library' % get_bundle_path(),
-                '-d', app_temp, title, sourcefile],
-                GLib.SpawnFlags.DO_NOT_REAP_CHILD,
-                None,
-                None)
-        except:
+            # FIXME: vte invocation was raising errors. Switched to subprocess
+            output = subprocess.check_output(
+                ["/usr/bin/python",
+                 "%s/pippy_app.py" % get_bundle_path(),
+                 '-p', '%s/library' % get_bundle_path(),
+                 '-d', app_temp, title, sourcefile])
+            self._vte.feed(output)
+            self._vte.feed("\r\n")
+            self.bundle_cb(title, app_temp)
+        except subprocess.CalledProcessError:
             rmtree(app_temp, ignore_errors=True)  # clean up!
+            self._vte.feed(_('Save as Activity Error'))
+            self._vte.feed("\r\n")
             raise
 
     def _export_example_cb(self, __):
         # get the name of this pippy program.
         title = self.metadata['title']
         if title == _('Pippy Activity'):
-                 from sugar3.graphics.alert import Alert
-                 from sugar3.graphics.icon import Icon
-                 alert = Alert()
-                 alert.props.title =_ ('Save as Example Error')
-                 alert.props.msg = _('Please give your activity a meaningful name before attempting to save it as an example.')
-                 ok_icon = Icon(icon_name='dialog-ok')
-                 alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
-                 alert.connect('response', self.dismiss_alert_cb)
-                 self.add_alert(alert)
-                 return
-        self.stopbutton_cb(None) # try stopping old code first.
+            from sugar3.graphics.alert import Alert
+            from sugar3.graphics.icon import Icon
+            alert = Alert()
+            alert.props.title = _('Save as Example Error')
+            alert.props.msg = _('Please give your activity a meaningful \
+name before attempting to save it as an example.')
+            ok_icon = Icon(icon_name='dialog-ok')
+            alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
+            alert.connect('response', self.dismiss_alert_cb)
+            self.add_alert(alert)
+            return
+        self.stopbutton_cb(None)  # try stopping old code first.
         self._reset_vte()
         self._vte.feed(_("Creating example..."))
         self._vte.feed("\r\n")
-        local_data = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'],'data')
-        local_file = os.path.join(local_data,title)
+        local_data = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'], 'data')
+        local_file = os.path.join(local_data, title)
         if os.path.exists(local_file):
             from sugar3.graphics.alert import ConfirmationAlert
             alert = ConfirmationAlert()
-            alert.props.title =_ ('Save as Example Warning')
-            alert.props.msg = _('This example already exists. Do you want to overwrite it?')
+            alert.props.title = _('Save as Example Warning')
+            alert.props.msg = _('This example already exists. \
+Do you want to overwrite it?')
             alert.connect('response', self.confirmation_alert_cb, local_file)
             self.add_alert(alert)
         else:
@@ -508,7 +519,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 self._vte.feed(_("Saved as example."))
                 self._vte.feed("\r\n")
                 self.add_to_example_list(local_file)
-                                  
 
     def child_exited_cb(self, *args):
         """Called whenever a child exits.  If there's a handler, run it."""
@@ -523,11 +533,14 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         from sugar3.datastore import datastore
         try:
             # find the .xo file: were we successful?
-            bundle_file = [f for f in os.listdir(app_temp) \
+            bundle_file = [f for f in os.listdir(app_temp)
                            if f.endswith('.xo')]
             if len(bundle_file) != 1:
                 self._logger.debug("Couldn't find bundle: %s" %
                                    str(bundle_file))
+                self._vte.feed("\r\n")
+                self._vte.feed(_("Error saving activity to journal."))
+                self._vte.feed("\r\n")
                 return  # something went wrong.
             # hand off to journal
             os.chmod(app_temp, 0755)
@@ -541,7 +554,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 'mime_type': 'application/vnd.olpc-sugar',
             }
             for k, v in metadata.items():
-                jobject.metadata[k] = v  # the dict.update method is missing =(
+                # the dict.update method is missing =(
+                jobject.metadata[k] = v
             jobject.file_path = os.path.join(app_temp, bundle_file[0])
             datastore.write(jobject)
             self._vte.feed("\r\n")
@@ -555,24 +569,23 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def dismiss_alert_cb(self, alert, response_id):
         self.remove_alert(alert)
 
-    
-    def confirmation_alert_cb(self, alert, response_id, local_file):  #callback for conf alert
+    def confirmation_alert_cb(self, alert, response_id, local_file):
+        # callback for conf alert
         self.remove_alert(alert)
         if response_id is Gtk.ResponseType.OK:
-                    self.write_file(local_file)
-                    self._reset_vte()
-                    self._vte.feed(_("Saved as example."))
-                    self._vte.feed("\r\n")
+            self.write_file(local_file)
+            self._reset_vte()
+            self._vte.feed(_("Saved as example."))
+            self._vte.feed("\r\n")
         else:
-             self._reset_vte()
+            self._reset_vte()
 
-    def add_to_example_list(self,local_file):  # def for add example
-        entry = { "name": _(os.path.basename(local_file)),
-                  "path": local_file }
+    def add_to_example_list(self, local_file):  # def for add example
+        entry = {"name": _(os.path.basename(local_file)),
+                 "path": local_file}
         _iter = self.model.insert_before(self.example_iter, None)
         self.model.set_value(_iter, 0, entry)
         self.model.set_value(_iter, 1, entry["name"])
-                                    
 
     def save_to_journal(self, file_path, cloudstring):
         _file = open(file_path, 'w')
@@ -602,8 +615,7 @@ ACTIVITY_INFO_TEMPLATE = """
 [Activity]
 name = %(title)s
 bundle_id = %(bundle_id)s
-service_name = %(bundle_id)s
-class = %(class)s
+exec = sugar-activity %(class)s
 icon = activity-icon
 activity_version = %(version)d
 mime_types = %(mime_types)s
@@ -612,37 +624,68 @@ show_launcher = yes
 """
 
 PIPPY_ICON = \
-"""<?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd' [
+"""<?xml version="1.0" ?><!DOCTYPE svg PUBLIC '-//W3C//DTD SVG
+1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd' [
     <!ENTITY stroke_color "#010101">
     <!ENTITY fill_color "#FFFFFF">
-]><svg enable-background="new 0 0 55 55" height="55px" version="1.1" viewBox="0 0 55 55" width="55px" x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px"><g display="block" id="activity-pippy">
+]>
+<svg enable-background="new 0 0 55 55" height="55px" version="1.1"
+viewBox="0 0 55 55" width="55px" x="0px" xml:space="preserve"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" y="0px"><g display="block"
+id="activity-pippy">
     <path d="M28.497,48.507   c5.988,0,14.88-2.838,14.88-11.185c0-9.285-7.743-10.143-10.954-11.083c-3.549-0.799-5.913-1.914-6.055-3.455   c-0.243-2.642,1.158-3.671,3.946-3.671c0,0,6.632,3.664,12.266,0.74c1.588-0.823,4.432-4.668,4.432-7.32   c0-2.653-9.181-5.719-11.967-5.719c-2.788,0-5.159,3.847-5.159,3.847c-5.574,0-11.149,5.306-11.149,10.612   c0,5.305,5.333,9.455,11.707,10.612c2.963,0.469,5.441,2.22,4.878,5.438c-0.457,2.613-2.995,5.306-8.361,5.306   c-4.252,0-13.3-0.219-14.745-4.079c-0.929-2.486,0.168-5.205,1.562-5.205l-0.027-0.16c-1.42-0.158-5.548,0.16-5.548,5.465   C8.202,45.452,17.347,48.507,28.497,48.507z" fill="&fill_color;" stroke="&stroke_color;" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-    <path d="M42.579,19.854c-2.623-0.287-6.611-2-7.467-5.022" fill="none" stroke="&stroke_color;" stroke-linecap="round" stroke-width="3"/>
+    <path d="M42.579,19.854c-2.623-0.287-6.611-2-7.467-5.022" fill="none"
+stroke="&stroke_color;" stroke-linecap="round" stroke-width="3"/>
     <circle cx="35.805" cy="10.96" fill="&stroke_color;" r="1.676"/>
 </g></svg><!-- " -->
+
 """
 
 PIPPY_DEFAULT_ICON = \
 """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
         <!ENTITY ns_svg "http://www.w3.org/2000/svg">
         <!ENTITY ns_xlink "http://www.w3.org/1999/xlink">
         <!ENTITY stroke_color "#000000">
         <!ENTITY fill_color "#FFFFFF">
 ]><!--"-->
-<svg  version="1.1" id="Pippy_activity" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="47.585" height="49.326"
-         viewBox="0 0 47.585 49.326" overflow="visible" enable-background="new 0 0 47.585 49.326" xml:space="preserve">
-
+<svg version="1.1" id="Pippy_activity" xmlns="&ns_svg;"
+         xmlns:xlink="&ns_xlink;" width="47.585" height="49.326"
+         viewBox="0 0 47.585 49.326" overflow="visible"
+         enable-background="new 0 0 47.585 49.326"
+         xml:space="preserve">
 <path
-   fill="&fill_color;" stroke="&stroke_color;" stroke-width="2"   d="M 30.689595,16.460324 L 24.320145,12.001708 L 2.7550028,23.830689 L 23.319231,38.662412 L 45.157349,26.742438 L 36.877062,21.100925"   id="path3195" />
+   fill="&fill_color;" stroke="&stroke_color;" stroke-width="2" d="M
+   30.689595,16.460324 L 24.320145,12.001708 L 2.7550028,23.830689 L
+   23.319231,38.662412 L 45.157349,26.742438 L 36.877062,21.100925"
+   id="path3195" />
 <path
    fill="&fill_color;" stroke="&stroke_color;" stroke-width="2"
    nodetypes="cscscssscsssssccc"
-   d="M 12.201296,21.930888 C 13.063838,20.435352 17.035411,18.617621 20.372026,18.965837 C 22.109464,19.147161 24.231003,20.786115 24.317406,21.584638 C 24.401593,22.43057 25.386617,24.647417 26.88611,24.600494 C 28.114098,24.562065 28.61488,23.562481 28.992123,22.444401 C 28.992123,22.444401 28.564434,17.493894 31.897757,15.363536 C 32.836646,14.763482 35.806711,14.411448 37.249047,15.221493 C 38.691382,16.031536 37.648261,19.495598 36.785717,20.991133 C 35.923174,22.48667 32.967872,24.980813 32.967872,24.980813 C 31.242783,27.971884 29.235995,28.5001 26.338769,28.187547 C 23.859153,27.920046 22.434219,26.128159 21.837191,24.708088 C 21.323835,23.487033 20.047743,22.524906 18.388178,22.52176 C 17.218719,22.519542 14.854476,23.017137 16.212763,25.620664 C 16.687174,26.53 18.919175,28.917592 21.08204,29.521929 C 22.919903,30.035455 26.713699,31.223552 30.30027,31.418089 C 26.770532,33.262079 21.760623,32.530604 18.909599,31.658168 C 17.361253,30.887002 9.0350995,26.651992 12.201296,21.930888 z "
+   d="M 12.201296,21.930888 C 13.063838,20.435352 17.035411,18.617621
+   20.372026,18.965837 C 22.109464,19.147161 24.231003,20.786115
+   24.317406,21.584638 C 24.401593,22.43057 25.386617,24.647417
+   26.88611,24.600494 C 28.114098,24.562065 28.61488,23.562481
+   28.992123,22.444401 C 28.992123,22.444401 28.564434,17.493894
+   31.897757,15.363536 C 32.836646,14.763482 35.806711,14.411448
+   37.249047,15.221493 C 38.691382,16.031536 37.648261,19.495598
+   36.785717,20.991133 C 35.923174,22.48667 32.967872,24.980813
+   32.967872,24.980813 C 31.242783,27.971884 29.235995,28.5001
+   26.338769,28.187547 C 23.859153,27.920046 22.434219,26.128159
+   21.837191,24.708088 C 21.323835,23.487033 20.047743,22.524906
+   18.388178,22.52176 C 17.218719,22.519542 14.854476,23.017137
+   16.212763,25.620664 C 16.687174,26.53 18.919175,28.917592
+   21.08204,29.521929 C 22.919903,30.035455 26.713699,31.223552
+   30.30027,31.418089 C 26.770532,33.262079 21.760623,32.530604
+   18.909599,31.658168 C 17.361253,30.887002 9.0350995,26.651992
+   12.201296,21.930888 z "
    id="path2209" />
 <path
    fill="&fill_color;" stroke="&stroke_color;" stroke-width="1"
-   d="M 37.832194,18.895786 C 36.495131,19.851587 34.017797,22.097672 32.3528,21.069911"
+   d="M 37.832194,18.895786 C 36.495131,19.851587 34.017797,22.097672 32.3528,
+      21.069911"
    id="path2211"
    transform-center-y="-3.6171625"
    transform-center-x="-0.50601649" />
@@ -652,7 +695,8 @@ PIPPY_DEFAULT_ICON = \
    cy="6.073"
    r="1.927"
    id="circle2213"
-   transform="matrix(0.269108,-0.4665976,-0.472839,-0.2655557,26.503175,35.608682)"
+   transform="matrix(0.269108,-0.4665976,-0.472839,-0.2655557,26.503175,
+                     35.608682)"
    />
 </svg>
 """
@@ -660,9 +704,11 @@ PIPPY_DEFAULT_ICON = \
 ############# ACTIVITY META-INFORMATION ###############
 # this is used by Pippy to generate a bundle for itself.
 
+
 def pippy_activity_version():
     """Returns the version number of the generated activity bundle."""
     return 39
+
 
 def pippy_activity_extra_files():
     """Returns a map of 'extra' files which should be included in the
@@ -678,26 +724,32 @@ def pippy_activity_extra_files():
     extra['activity/activity-default.svg'] = PIPPY_DEFAULT_ICON
     return extra
 
+
 def pippy_activity_news():
     """Return the NEWS file for this activity."""
     # Cheat again.
     return open(os.path.join(get_bundle_path(), 'NEWS')).read()
 
+
 def pippy_activity_icon():
     """Return an SVG document specifying the icon for this activity."""
     return PIPPY_ICON
+
 
 def pippy_activity_class():
     """Return the class which should be started to run this activity."""
     return 'pippy_app.PippyActivity'
 
+
 def pippy_activity_bundle_id():
     """Return the bundle_id for the generated activity."""
     return 'org.laptop.Pippy'
 
+
 def pippy_activity_mime_types():
     """Return the mime types handled by the generated activity, as a list."""
     return ['text/x-python', groupthink_mimetype]
+
 
 def pippy_activity_extra_info():
     return """
@@ -705,6 +757,7 @@ license = GPLv2+
 update_url = http://activities.sugarlabs.org """
 
 ################# ACTIVITY BUNDLER ################
+
 
 def main():
     """Create a bundle from a pippy-style source file"""
@@ -715,6 +768,7 @@ def main():
     from sugar3 import profile
     from sugar3.activity import bundlebuilder
     import sys
+
     parser = OptionParser(usage='%prog [options] [title] [sourcefile]')
     parser.add_option('-d', '--dir', dest='dir', default='.', metavar='DIR',
                       help='Put generated bundle in the specified directory.')
@@ -724,11 +778,13 @@ def main():
     (options, args) = parser.parse_args()
     if len(args) != 2:
         parser.error('The title and sourcefile arguments are required.')
+
     title = args[0]
     sourcefile = args[1]
     pytitle = re.sub(r'[^A-Za-z0-9_]', '', title)
     if re.match(r'[0-9]', pytitle) is not None:
         pytitle = '_' + pytitle  # first character cannot be numeric
+
     # first take a gander at the source file and see if it's got extra info
     # for us.
     sourcedir, basename = os.path.split(sourcefile)
@@ -742,12 +798,15 @@ def main():
         'news': 'No news.',
         'icon': PIPPY_DEFAULT_ICON,
         'class': 'activity.VteActivity',
-        'bundle_id': ('org.laptop.pippy.%s' % pytitle),
+        'bundle_id': ('org.sugarlabs.pippy.%s%d' %
+                      (generate_unique_id(),
+                       int(round(uniform(1000, 9999), 0)))),
         'mime_types': '',
         'extra_info': '',
         }
     # are any of these things in the module?
     try_import = False
+
     info = readmodule_ex(module, [sourcedir] + options.path)
     for func in bundle_info.keys():
         p_a_func = 'pippy_activity_%s' % func
@@ -792,28 +851,25 @@ def main():
                 f.write(contents)
         # put script into $app_temp/pippy_app.py
         copy2(sourcefile, '%s/pippy_app.py' % app_temp)
-        # write MANIFEST file.
-        with open('%s/MANIFEST' % app_temp, 'w') as f:
-            for dirpath, dirnames, filenames in sorted(os.walk(app_temp)):
-                for name in sorted(filenames):
-                    fn = os.path.join(dirpath, name)
-                    fn = fn.replace(app_temp + '/', '')
-                    if fn == 'MANIFEST':
-                        continue
-                    f.write('%s\n' % fn)
         # invoke bundle builder
         olddir = os.getcwd()
         oldargv = sys.argv
         os.chdir(app_temp)
         sys.argv = ['setup.py', 'dist_xo']
+        print('\r\nStarting bundlebuilder\r\n')
         bundlebuilder.start()
         sys.argv = oldargv
         os.chdir(olddir)
         # move to destination directory.
-        copy2('%s/dist/%s-%d.xo' % (app_temp, pytitle, bundle_info['version']),
-              '%s/%s-%d.xo' % (options.dir, pytitle, bundle_info['version']))
+        src = '%s/dist/%s-%d.xo' % (app_temp, pytitle, bundle_info['version'])
+        dst = '%s/%s-%d.xo' % (options.dir, pytitle, bundle_info['version'])
+        if not os.path.exists(src):
+            print('Cannot find %s\r\n' % (src))
+        else:
+            copy2(src, dst)
     finally:
         rmtree(app_temp, ignore_errors=True)
+        print('Finally\r\n')
 
 if __name__ == '__main__':
     from gettext import gettext as _
@@ -821,8 +877,8 @@ if __name__ == '__main__':
     if False:  # change this to True to test within Pippy
         sys.argv = sys.argv + ['-d', '/tmp', 'Pippy',
                                '/home/olpc/pippy_app.py']
-    #print _("Working..."),
-    #sys.stdout.flush()
+    print(_("Working..."))
+    sys.stdout.flush()
     main()
-    #print _("done!")
+    print(_("done!"))
     sys.exit(0)
