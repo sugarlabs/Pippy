@@ -16,9 +16,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-from sugar3.activity import activity
-
 """Pippy activity helper classes."""
+import logging
+from gettext import gettext as _
+
+from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import Pango
+from gi.repository import Vte
+from gi.repository import GLib
+
+from sugar3.activity import activity
+from sugar3.activity.widgets import ActivityToolbarButton
+from sugar3.activity.widgets import StopButton
+from sugar3.graphics.toolbarbox import ToolbarBox
 
 
 class ViewSourceActivity(activity.Activity):
@@ -30,7 +41,6 @@ class ViewSourceActivity(activity.Activity):
         self._pid = None
 
     def _key_press_cb(self, widget, event):
-        from gi.repository import Gdk
         if Gdk.keyval_name(event.keyval) == 'XF86Start':
             self.view_source()
             return True
@@ -42,9 +52,8 @@ class ViewSourceActivity(activity.Activity):
         if self.__source_object_id is None:
             from sugar3 import profile
             from sugar3.datastore import datastore
-            from sugar3.activity.activity \
-                 import get_bundle_name, get_bundle_path
-            from gettext import gettext as _
+            from sugar3.activity.activity import (get_bundle_name,
+                                                  get_bundle_path)
             import os.path
             jobject = datastore.create()
             metadata = {
@@ -77,17 +86,19 @@ TARGET_TYPE_TEXT = 80
 class VteActivity(ViewSourceActivity):
     """Activity subclass built around the Vte terminal widget."""
     def __init__(self, handle):
-        from gi.repository import Gtk
-        from gi.repository import Pango
-        from gi.repository import Vte
-        from gi.repository import GLib
-        from gettext import gettext as _
         super(VteActivity, self).__init__(handle)
-        toolbox = activity.ActivityToolbox(self)
-        toolbar = toolbox.get_activity_toolbar()
-        self.set_toolbox(toolbox)
-        toolbox.show()
 
+        self.max_participants = 1  # no sharing
+
+        toolbox = ToolbarBox()
+        activity_button_toolbar = ActivityToolbarButton(self)
+        toolbox.toolbar.insert(activity_button_toolbar, 0)
+        activity_button_toolbar.show()
+        self.set_toolbar_box(toolbox)
+        toolbox.show()
+        self.toolbar = toolbox.toolbar
+
+        '''
         # add 'copy' icon from standard toolbar.
         edittoolbar = activity.EditToolbar()
         edittoolbar.copy.set_tooltip(_('Copy selected text to clipboard'))
@@ -98,6 +109,20 @@ class VteActivity(ViewSourceActivity):
         toolbox.add_toolbar(_('Edit'), edittoolbar)
         edittoolbar.show()
         self._copy_button = edittoolbar.copy
+        '''
+
+        separator = Gtk.SeparatorToolItem()
+        separator.props.draw = False
+        separator.set_expand(True)
+        toolbox.toolbar.insert(separator, -1)
+        separator.show()
+
+        stop_button = StopButton(self)
+        stop_button.props.accelerator = '<Ctrl>q'
+        toolbox.toolbar.insert(stop_button, -1)
+        stop_button.show()
+
+        toolbox.toolbar.show_all()
 
         # creates vte widget
         self._vte = Vte.Terminal()
@@ -108,28 +133,33 @@ class VteActivity(ViewSourceActivity):
         self._vte.set_colors(Gdk.color_parse('#000000'),
                              Gdk.color_parse('#E7E7E7'),
                              [])
+        '''
         self._vte.connect('selection-changed', self._on_selection_changed_cb)
-        # FIXME It does not work because it expects and receives StructMeta Gtk.TargetEntry
+        # FIXME It does not work because it expects and receives
+        # StructMeta Gtk.TargetEntry
         #
         #self._vte.drag_dest_set(Gtk.DestDefaults.ALL,
         #                        [("text/plain", 0, TARGET_TYPE_TEXT)],
         #                        Gdk.DragAction.COPY)
 
         self._vte.connect('drag_data_received', self._on_drop_cb)
+        '''
         # ...and its scrollbar
         vtebox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         vtebox.pack_start(self._vte, True, True, 0)
         vtesb = Gtk.Scrollbar(orientation=Gtk.Orientation.VERTICAL)
-        vtesb.set_adjustment(self._vte.get_adjustment())
+        # vtesb.set_adjustment(self._vte.get_adjustment())
         vtesb.show()
         vtebox.pack_start(vtesb, False, False, 0)
         self.set_canvas(vtebox)
         self.show_all()
+        '''
         # hide the buttons we don't use.
         toolbar.share.hide()  # this should share bundle.
         edittoolbar.undo.hide()
         edittoolbar.redo.hide()
         edittoolbar.separator.hide()
+        '''
 
         # now start subprocess.
         self._vte.connect('child-exited', self.on_child_exit)
@@ -137,14 +167,16 @@ class VteActivity(ViewSourceActivity):
         bundle_path = activity.get_bundle_path()
         # the 'sleep 1' works around a bug with the command dying before
         # the vte widget manages to snarf the last bits of its output
+        logging.error(bundle_path)
+
         self._pid = self._vte.fork_command_full(
-        Vte.PtyFlags.DEFAULT,
-        bundle_path,
-        ['/bin/sh', '-c', 'python %s/pippy_app.py; sleep 1' % bundle_path],
-        ["PYTHONPATH=%s/library" % bundle_path],
-        GLib.SpawnFlags.DO_NOT_REAP_CHILD,
-        None,
-        None,)
+            Vte.PtyFlags.DEFAULT,
+            bundle_path,
+            ['/bin/sh', '-c', 'python %s/pippy_app.py; sleep 1' % bundle_path],
+            ["PYTHONPATH=%s/library" % bundle_path],
+            GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+            None,
+            None,)
 
     def _on_copy_clicked_cb(self, widget):
         if self._vte.get_has_selection():
@@ -206,8 +238,10 @@ class PyGameActivity(ViewSourceActivity):
 
 def _main():
     """Launch this activity from the command line."""
+    pass
+    '''
     from sugar3.activity import activityfactory
-    from sugar3.activity.registry import ActivityInfo
+    # from sugar3.activity.registry import ActivityInfo
     from sugar3.bundle.activitybundle import ActivityBundle
     import os
     ab = ActivityBundle(os.path.dirname(__file__) or '.')
@@ -224,6 +258,7 @@ def _main():
     env = activityfactory.get_environment(ai)
     cmd_args = activityfactory.get_command(ai)
     os.execvpe(cmd_args[0], cmd_args, env)
+    '''
 
 if __name__ == '__main__':
     _main()
