@@ -191,6 +191,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         treeview = Gtk.TreeView(self.model)
         cellrenderer = Gtk.CellRendererText()
         treecolumn = Gtk.TreeViewColumn(_("Examples"), cellrenderer, text=1)
+        treeview.get_selection().set_select_function(self._select_func_cb, None)
         treeview.get_selection().connect("changed", self.selection_cb)
         treeview.append_column(treecolumn)
         treeview.set_size_request(int(SIZE_X * 0.3), int(SIZE_Y * 0.3))
@@ -339,11 +340,34 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         lines = _file.readlines()
         global text_buffer
         text_buffer.set_text("".join(lines))
+        text_buffer.set_modified(False)
         self.metadata['title'] = value['name']
         self.stopbutton_cb(None)
         self._reset_vte()
         self.text_view.grab_focus()
 
+    def _select_func_cb(self, selection, model, path, path_currently_selected, data):
+        global text_buffer
+        if text_buffer.get_modified():
+            from sugar3.graphics.alert import ConfirmationAlert
+            alert = ConfirmationAlert()
+            alert.props.title = _('Example selection Warning')
+            alert.props.msg = _('You have modified the currently selected file. \
+Discard changes?')
+            tree_iter = model.get_iter_from_string(path.to_string())
+            alert.connect('response', self._discard_changes_cb, selection, tree_iter)
+            self.add_alert(alert)
+            return False
+
+        return True
+
+    def _discard_changes_cb(self, alert, response_id, selection, tree_iter):
+        self.remove_alert(alert)
+        if response_id is Gtk.ResponseType.OK:
+            global text_buffer
+            text_buffer.set_modified(False)
+            selection.select_iter(tree_iter)
+            
     def timer_cb(self, button, icons):
         button.set_icon_widget(icons['bw'])
         button.show_all()
@@ -358,6 +382,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.save()
         global text_buffer
         text_buffer.set_text("")
+        text_buffer.set_modified(False)
         self.metadata['title'] = _('%s Activity') % get_bundle_name()
         self.stopbutton_cb(None)
         self._reset_vte()
@@ -607,6 +632,7 @@ Do you want to overwrite it?')
             text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
             global text_buffer
             text_buffer.set_text(text)
+            text_buffer.set_modified(False)
         elif self.metadata['mime_type'] == groupthink_mimetype:
             return open(file_path).read()
 
