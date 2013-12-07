@@ -153,6 +153,11 @@ class GroupActivity(Activity):
             self.when_shared()
             self._processed_share = True
         self.show_all()
+        self.after_init()
+
+    def after_init(self):
+        """Callback after init. Override to use"""
+        pass
     
     def initialize_display(self):
         """All subclasses must override this method, in order to display

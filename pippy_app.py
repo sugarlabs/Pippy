@@ -43,6 +43,7 @@ from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_path
 from sugar3.activity.activity import get_bundle_name
 from sugar3.graphics import style
+from sugar3.graphics.toggletoolbutton import ToggleToolButton
 
 from jarabe.view.customizebundle import generate_unique_id
 
@@ -124,6 +125,12 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._edit_toolbar.paste.connect('clicked', self.__pastebutton_cb)
 
         actions_toolbar = self.get_toolbar_box().toolbar
+
+        self.toggle_output = ToggleToolButton("tray-show")
+        self.toggle_output.set_tooltip(_("Show output panel"))
+        self.toggle_output.connect("toggled", self._toggle_output_cb)
+        actions_toolbar.insert(self.toggle_output, -1)
+
 
         # The "go" button
         goicon_bw = Gtk.Image()
@@ -253,7 +260,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.vpane.add1(codesw)
 
         # An hbox to hold the vte window and its scrollbar.
-        outbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.outbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 
         # The vte python window
         self._vte = Vte.Terminal()
@@ -275,14 +282,28 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         #                        Gdk.DragAction.COPY)
 
         self._vte.connect('drag_data_received', self.vte_drop_cb)
-        outbox.pack_start(self._vte, True, True, 0)
+        self.outbox.pack_start(self._vte, True, True, 0)
 
         outsb = Gtk.Scrollbar(orientation=Gtk.Orientation.VERTICAL)
         outsb.set_adjustment(self._vte.get_vadjustment())
         outsb.show()
-        outbox.pack_start(outsb, False, False, 0)
-        self.vpane.add2(outbox)
+        self.outbox.pack_start(outsb, False, False, 0)
+        self.vpane.add2(self.outbox)
         return self.vpane
+
+    def after_init(self):
+        self.outbox.hide()
+
+    def _toggle_output_cb(self, button):
+        shown = button.get_active()
+        if shown:
+            self.outbox.show_all()
+            self.toggle_output.set_tooltip(_("Hide output panel"))
+            self.toggle_output.set_icon_name("tray-hide")
+        else:
+            self.outbox.hide()  
+            self.toggle_output.set_tooltip(_("Show output panel"))
+            self.toggle_output.set_icon_name("tray-show") 
 
     def load_example(self, widget):
         widget.set_icon_name("pippy-openon")
@@ -410,6 +431,10 @@ Discard changes?')
 
         # FIXME: We're losing an odd race here
         # Gtk.main_iteration(block=False)
+
+        if self.toggle_output.get_active() is False:
+            self.outbox.show_all()
+            self.toggle_output.set_active(True)
 
         pippy_app_name = '%s/tmp/pippy_app.py' % self.get_activity_root()
         self._write_text_buffer(pippy_app_name)
