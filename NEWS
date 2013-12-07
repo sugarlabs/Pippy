@@ -1,15 +1,19 @@
+50
+
+BUG FIXES:
+* Replaced the comma-space with a semicolon (no space) to fix a
+  problem with parsing mime_types that prevented Pippy from opening .py files
+* Fixed many issues with export Sugar activity code
+
 43
 
 * Fix for export button + icons (Manu Quiñones)
 * Fix the load of already saved examples (Gonzalo Odiard)
 * New translations.
- 
-
 
 42
 
 *New translations.
-
 
 41
 

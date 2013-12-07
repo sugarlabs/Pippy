@@ -324,7 +324,11 @@ def audioOut(file=None):
     sound to hp. (file = [None]) """
     global temp_path
     if temp_path is None:
+<<<<<<< HEAD
         from sugar import env
+=======
+        from sugar3 import env
+>>>>>>> 51e7ffbcb6622bfa3babc811f0dc86d0b9a493bd
         temp_path = os.path.join(env.get_profile_path(), 'pippy')
         if not os.path.isdir(temp_path):
             os.mkdir(temp_path)

@@ -13,7 +13,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """ GUI look&feel related declarations """
-from sugar.graphics import style
+from sugar3.graphics import style
 
 
 def font_zoom(size):

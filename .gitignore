@@ -1,6 +1,7 @@
 Connect-*.xo
 *.pyc
 *.kpf
+*.bak
 .*.sw[op]
 dist
 locale

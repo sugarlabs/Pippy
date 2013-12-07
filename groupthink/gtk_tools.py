@@ -1,15 +1,15 @@
-import gtk
+from gi.repository import Gtk
 import groupthink_base as groupthink
 import logging
 import stringtree
 
-class RecentEntry(groupthink.UnorderedHandlerAcceptor, gtk.Entry):
-    """RecentEntry is an extension of gtk.Entry that, when attached to a group,
+class RecentEntry(groupthink.UnorderedHandlerAcceptor, Gtk.Entry):
+    """RecentEntry is an extension of Gtk.Entry that, when attached to a group,
     creates a unified Entry field for all participants"""
     def __init__(self, *args, **kargs):
-        gtk.Entry.__init__(self, *args, **kargs)
+        GObject.GObject.__init__(self, *args, **kargs)
         self.logger = logging.getLogger('RecentEntry')
-        self.add_events(gtk.gdk.PROPERTY_CHANGE_MASK)
+        self.add_events(Gdk.EventMask.PROPERTY_CHANGE_MASK)
         self._text_changed_handler = self.connect('changed', self._local_change_cb)
         self._recent = groupthink.Recentest(self.get_text(), groupthink.string_translator)
         self._recent.register_listener(self._remote_change_cb)
@@ -27,12 +27,12 @@ class RecentEntry(groupthink.UnorderedHandlerAcceptor, gtk.Entry):
         if self.get_text() != text:
             #The following code will break if running in any thread other than
             #the main thread.  I do not know how to make code that works with
-            #both multithreaded gtk _and_ single-threaded gtk.
+            #both multithreaded gtk _and_ single-threaded Gtk.
             self.handler_block(self._text_changed_handler)
             self.set_text(text)
             self.handler_unblock(self._text_changed_handler)
-
-class SharedTreeStore(groupthink.CausalHandlerAcceptor, gtk.GenericTreeModel):
+            
+class SharedTreeStore(groupthink.CausalHandlerAcceptor, Gtk.TreeStore):
     def __init__(self, columntypes=(), translators=()):
         self._columntypes = columntypes
         self._causaltree = groupthink.CausalTree()
@@ -60,10 +60,10 @@ class SharedTreeStore(groupthink.CausalHandlerAcceptor, gtk.GenericTreeModel):
             h = handler.copy(str(i))
             self._columndicts[i].set_handler(h)
 
-    ### Methods necessary to implement gtk.GenericTreeModel ###
+    ### Methods necessary to implement Gtk.GenericTreeModel ###
 
     def on_get_flags(self):
-        return gtk.TREE_MODEL_ITERS_PERSIST
+        return Gtk.TREE_MODEL_ITERS_PERSIST
 
     def on_get_n_columns(self):
         return len(self._columntypes)
@@ -186,9 +186,9 @@ class SharedTreeStore(groupthink.CausalHandlerAcceptor, gtk.GenericTreeModel):
         for cmd in reverse:
             clean = True
             if cmd[0] == self._causaltree.SET_PARENT:
-                if (clean and 
-                    cmd[2] in self._causaltree and 
-                    (cmd[1] not in self._causaltree or 
+                if (clean and
+                    cmd[2] in self._causaltree and
+                    (cmd[1] not in self._causaltree or
                     cmd[2] != self._causaltree.get_parent(cmd[1]))):
                     
                     clean = False
@@ -219,7 +219,7 @@ class SharedTreeStore(groupthink.CausalHandlerAcceptor, gtk.GenericTreeModel):
                 self.row_has_child_toggled(path, it)
         self.emit('changed')
             
-    ### Methods for resembling gtk.TreeStore ###
+    ### Methods for resembling Gtk.TreeStore ###
     
     def set_value(self, it, column, value):
         node = self.get_user_data(it)
@@ -323,15 +323,15 @@ class TextBufferUnorderedStringLinker:
 
 class TextBufferSharePoint(groupthink.UnorderedHandlerAcceptor):
     def __init__(self, buff):
-        self._us = groupthink.UnorderedString(buff.get_text(buff.get_start_iter(), buff.get_end_iter()))
-        self._linker = TextBufferUnorderedStringLinker(buff, self._us)        
+        self._us = groupthink.UnorderedString(buff.get_text(buff.get_start_iter(), buff.get_end_iter(), True))
+        self._linker = TextBufferUnorderedStringLinker(buff, self._us)
         
     def set_handler(self, handler):
         self._us.set_handler(handler)
 
-class SharedTextView(groupthink.UnorderedHandlerAcceptor, gtk.TextView):
+class SharedTextView(groupthink.UnorderedHandlerAcceptor, Gtk.TextView):
     def __init__(self, *args, **kargs):
-        gtk.TextView.__init__(self, *args, **kargs)
+        GObject.GObject.__init__(self, *args, **kargs)
         self._link = TextBufferSharePoint(self.get_buffer())
         
     def set_handler(self, handler):
