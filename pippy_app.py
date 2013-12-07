@@ -52,6 +52,8 @@ from activity import TARGET_TYPE_TEXT
 import groupthink.sugar_tools
 import groupthink.gtk_tools
 
+from FileDialog import FileDialog
+
 text_buffer = None
 # magic prefix to use utf-8 source encoding
 PYTHON_PREFIX = """#!/usr/bin/python
@@ -169,6 +171,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         actions_toolbar.insert(clearbutton, -1)
 
         activity_toolbar.show()
+        
+        examples = ToolButton("pippy-create_bundle")
+        examples.set_tooltip(_("Load example"))
+        examples.connect("clicked", self.load_example)
+        
+        self.get_toolbar_box().toolbar.insert(Gtk.SeparatorToolItem(), -1)
+        self.get_toolbar_box().toolbar.insert(examples, -1)
 
         separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
@@ -180,27 +189,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.get_toolbar_box().toolbar.insert(stop, -1)
 
         # Main layout.
-        self.hpane = Gtk.Paned.new(orientation=Gtk.Orientation.HORIZONTAL)
-        self.hpane.set_position(300)  # setting initial position
         self.vpane = Gtk.Paned.new(orientation=Gtk.Orientation.VERTICAL)
         self.vpane.set_position(400)  # setting initial position
 
-        # The sidebar.
-        self.sidebar = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.model = Gtk.TreeStore(GObject.TYPE_PYOBJECT, GObject.TYPE_STRING)
-        treeview = Gtk.TreeView(self.model)
-        cellrenderer = Gtk.CellRendererText()
-        treecolumn = Gtk.TreeViewColumn(_("Examples"), cellrenderer, text=1)
-        treeview.get_selection().set_select_function(self._select_func_cb, None)
-        treeview.get_selection().connect("changed", self.selection_cb)
-        treeview.append_column(treecolumn)
-        treeview.set_size_request(int(SIZE_X * 0.3), int(SIZE_Y * 0.3))
-
-        # Create scrollbars around the view.
-        scrolled = Gtk.ScrolledWindow()
-        scrolled.add(treeview)
-        self.sidebar.pack_start(scrolled, True, True, 0)
-        self.hpane.add1(self.sidebar)
+        self.paths = []
 
         root = os.path.join(get_bundle_path(), 'data')
         for d in sorted(os.listdir(root)):
@@ -208,34 +200,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 continue  # skip non-dirs
             direntry = {"name": _(d.capitalize()),
                         "path": os.path.join(root, d) + "/"}
-            olditer = self.model.insert_before(None, None)
-            self.model.set_value(olditer, 0, direntry)
-            self.model.set_value(olditer, 1, direntry["name"])
-            for _file in sorted(os.listdir(os.path.join(root, d))):
-                if _file.endswith('~'):
-                    continue  # skip emacs backups
-                entry = {"name": _(_file.capitalize()),
-                         "path": os.path.join(root, d, _file)}
-                _iter = self.model.insert_before(olditer, None)
-                self.model.set_value(_iter, 0, entry)
-                self.model.set_value(_iter, 1, entry["name"])
+            self.paths.append([direntry['name'], direntry['path']])
 
         # Adding local examples
         root = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'], 'data')
-        direntry_examples = {"name": _("My examples"),
-                             "path": root + "/"}
-        self.example_iter = self.model.insert_before(None, None)
-        self.model.set_value(self.example_iter, 0, direntry_examples)
-        self.model.set_value(self.example_iter, 1, direntry_examples["name"])
-        for _file in sorted(os.listdir(root)):
-            file_name = os.path.join(root, _file)
-            if os.path.isfile(file_name):
-                entry = {"name": _file, "path": file_name}
-                _iter = self.model.insert_before(self.example_iter, None)
-                self.model.set_value(_iter, 0, entry)
-                self.model.set_value(_iter, 1, entry["name"])
-
-        treeview.expand_all()
+        self.paths.append([_('My examples'), root])
 
         # Source buffer
         from gi.repository import GtkSource
@@ -313,11 +282,16 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         outsb.show()
         outbox.pack_start(outsb, False, False, 0)
         self.vpane.add2(outbox)
-        self.hpane.add2(self.vpane)
-        return self.hpane
+        return self.vpane
+
+    def load_example(self, widget):
+        dialog = FileDialog(self.paths, self)
+        dialog.run()
+        path = dialog.get_path()
+        if path:
+            self._select_func_cb(path)
 
     def when_shared(self):
-        self.hpane.remove(self.hpane.get_child1())
         global text_buffer
         self.cloud.sharefield = \
             groupthink.gtk_tools.TextBufferSharePoint(text_buffer)
@@ -331,10 +305,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         if targetType == TARGET_TYPE_TEXT:
             self._vte.feed_child(selection.data)
 
-    def selection_cb(self, column):
+    def selection_cb(self, value):
         self.save()
-        model, _iter = column.get_selected()
-        value = model.get_value(_iter, 0)
         self._logger.debug("clicked! %s" % value['path'])
         _file = open(value['path'], 'r')
         lines = _file.readlines()
@@ -346,7 +318,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._reset_vte()
         self.text_view.grab_focus()
 
-    def _select_func_cb(self, selection, model, path, path_currently_selected, data):
+    def _select_func_cb(self, path):
         global text_buffer
         if text_buffer.get_modified():
             from sugar3.graphics.alert import ConfirmationAlert
@@ -354,20 +326,22 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             alert.props.title = _('Example selection Warning')
             alert.props.msg = _('You have modified the currently selected file. \
 Discard changes?')
-            tree_iter = model.get_iter_from_string(path.to_string())
-            alert.connect('response', self._discard_changes_cb, selection, tree_iter)
+            alert.connect('response', self._discard_changes_cb, path)
             self.add_alert(alert)
             return False
 
         return True
 
-    def _discard_changes_cb(self, alert, response_id, selection, tree_iter):
+    def _discard_changes_cb(self, alert, response_id, path):
         self.remove_alert(alert)
         if response_id is Gtk.ResponseType.OK:
+            values = {}
+            values['name'] = os.path.basename(path)
+            values['path'] = path
+            self.selection_cb(values)
             global text_buffer
             text_buffer.set_modified(False)
-            selection.select_iter(tree_iter)
-            
+
     def timer_cb(self, button, icons):
         button.set_icon_widget(icons['bw'])
         button.show_all()
