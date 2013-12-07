@@ -1,3 +1,10 @@
+51
+
+ENHANCEMENTS:
+* Add confirmation alert before loading new projects (Emil Dudev)
+* Use open palette instead of treeview (Ignacio Rodriguez)
+* Show/Hide terminal widget (svineet)
+
 50
 
 BUG FIXES:
