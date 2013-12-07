@@ -15,12 +15,13 @@ class FileDialog(Gtk.Dialog):
     path = dialog.get_path()
     """
 
-    def __init__(self, dirs, window=None):
+    def __init__(self, dirs, window=None, button=None):
         Gtk.Dialog.__init__(self, flags=Gtk.DialogFlags.DESTROY_WITH_PARENT)
 
         self.example_path = None
         self.expanders = []
         self.dirs = dirs
+        self.button = button
 
         x, y = (Gdk.Screen.width() / 1.5, Gdk.Screen.height() / 1.5)
         self.set_size_request(x, y)
@@ -50,6 +51,9 @@ class FileDialog(Gtk.Dialog):
     def _destroy(self, widget, sample=False):
         if sample:
             self.example_path = widget.get_tooltip_text()
+
+        if self.button:
+            self.button.set_icon_name("pippy-openoff")
 
         self.destroy()
 

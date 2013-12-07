@@ -172,7 +172,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         activity_toolbar.show()
         
-        examples = ToolButton("pippy-create_bundle")
+        examples = ToolButton("pippy-openoff")
         examples.set_tooltip(_("Load example"))
         examples.connect("clicked", self.load_example)
         
@@ -285,7 +285,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         return self.vpane
 
     def load_example(self, widget):
-        dialog = FileDialog(self.paths, self)
+        widget.set_icon_name("pippy-openon")
+        dialog = FileDialog(self.paths, self, widget)
         dialog.run()
         path = dialog.get_path()
         if path:
