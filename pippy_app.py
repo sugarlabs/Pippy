@@ -329,8 +329,13 @@ Discard changes?')
             alert.connect('response', self._discard_changes_cb, path)
             self.add_alert(alert)
             return False
+        else:
+            values = {}
+            values['name'] = os.path.basename(path)
+            values['path'] = path
+            self.selection_cb(values)
 
-        return True
+        return False
 
     def _discard_changes_cb(self, alert, response_id, path):
         self.remove_alert(alert)
