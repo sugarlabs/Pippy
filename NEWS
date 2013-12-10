@@ -5,6 +5,9 @@ ENHANCEMENTS:
 * Use open palette instead of treeview (Ignacio Rodriguez)
 * Show/Hide terminal widget (svineet)
 
+BUG FIXES:
+* Reenable copy/paste (Ignacio Rodriguez)
+
 50
 
 BUG FIXES:
