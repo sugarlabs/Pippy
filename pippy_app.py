@@ -631,7 +631,22 @@ Do you want to overwrite it?')
 
     def load_from_journal(self, file_path):
         if self.metadata['mime_type'] == 'text/x-python':
-            text = open(file_path).read()
+            try:
+                text = open(file_path).read()
+            except:
+                from sugar3.graphics.alert import NotifyAlert
+
+                alert = NotifyAlert(10)
+                alert.props.title = _('Error')
+                alert.props.msg = _('Error reading data.')
+
+                def remove_alert(alert, response_id):
+                    self.remove_alert(alert)
+
+                alert.connect("response", remove_alert)
+                self.add_alert(alert)
+                return
+
             # discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
             # if present
             text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
