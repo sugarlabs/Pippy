@@ -1,0 +1,36 @@
+# The Stern-Brocot tree contains every non-negative rational number
+# expressed in its lowest terms
+# Reference: Brian Hayes, Computing Science On the Teeth of Wheels,
+#            American Scientist, July-August, Volume 88, No. 4, 
+
+# define a class for rational numbers: 
+# numerator / denominator
+class Rational:
+    def __init__(self, num, den): self.num, self.den = num, den
+    def __repr__(self): return str(self.num) + '/' + str(self.den)
+
+# define the mediant function
+# mediant (a/b, c/d) = (a+c)/(b+d)
+def mediant(a, b): return Rational(a.num + b.num, a.den + b.den)
+
+# expand a row by calculating mediants between each pair of elements
+# e.g., [0/1, 1/0] -> [0/1, 1/1, 1/0]
+def expand(row):
+    x = [row[0]]
+    for i in range(1, len(row)): x += [mediant(row[i-1], row[i])] + [row[i]]
+    return x
+
+# initialize the first row with 0/1, 1/0
+# each pass will yield an expanded row
+def rationals():
+    row = [Rational(0, 1), Rational(1, 0)]
+    while True:
+        yield row
+        row = expand(row)
+
+# iterate through successive rows
+r = rationals()
+i = 1
+while i<5:
+    print r.next()
+    i+=1
