@@ -42,6 +42,7 @@ from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_path
 from sugar3.activity.activity import get_bundle_name
+from sugar3.graphics.alert import NotifyAlert
 from sugar3.graphics import style
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
 
@@ -465,6 +466,11 @@ Discard changes?')
 
     def _export_document_cb(self, __):
         self.copy()
+        alert = NotifyAlert()
+        alert.props.title = _('Saved')
+        alert.props.msg = _('The document has been saved to journal.')
+        alert.connect('response', lambda x, i: self.remove_alert(x))
+        self.add_alert(alert)
 
     def _create_bundle_cb(self, __):
         from shutil import copytree, copy2, rmtree
@@ -636,8 +642,6 @@ Do you want to overwrite it?')
             try:
                 text = open(file_path).read()
             except:
-                from sugar3.graphics.alert import NotifyAlert
-
                 alert = NotifyAlert(10)
                 alert.props.title = _('Error')
                 alert.props.msg = _('Error reading data.')
