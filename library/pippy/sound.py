@@ -18,35 +18,40 @@
 import errno
 import os
 import sys
-import sugar.env
 from gettext import gettext as _
-from sugar.activity import activity
+
+from sugar3 import env
+from sugar3.activity import activity
 
 path = activity.get_bundle_path()
-path = path.split("/")[0:-1]
-path = "/".join(path)
+path = path.split('/')[0:-1]
+path = '/'.join(path)
 
 for f in os.listdir(path):
 
-    if f == 'TamTamEdit.activity':
+    if f in ['TamTamMini.activity', 'TamTamJam.activity',
+             'TamTamEdit.activity', 'TamTamSynthLab.activity']:
         bundle_dir = os.path.join(path, f)
-        tamtam_subdir = str(os.path.join(bundle_dir, 'common', 'Resources', 'Sounds'))
+        tamtam_subdir = str(
+            os.path.join(bundle_dir, 'common', 'Resources', 'Sounds'))
         sound_candidate_dirs = [
             os.path.expandvars('$SUGAR_PATH/activities') + tamtam_subdir,
-             tamtam_subdir
+            tamtam_subdir
         ]
         orchlines = []
         scorelines = []
         instrlist = []
         fnum = [100]
+    else:
+        sound_candidates_dir = None
 
-"""XXX: This function seems to be broken. (CSA)
+'''XXX: This function seems to be broken. (CSA)
 def quit(self):
 perf.Stop()
 perf.Join()
 cs.Reset()
 cs = None
-"""
+'''
 
 
 class SoundLibraryNotFoundError(Exception):
@@ -64,8 +69,8 @@ def finddir():
 
 
 def defAdsr(attack=0.01, decay=0.1, sustain=0.8, release=0.1):
-    """ Define an ADSR envelope. fnum = defADSR(attack = [0.01],
-    decay = [0.1], sustain = [0.8], release = [0.1]) """
+    ''' Define an ADSR envelope. fnum = defADSR(attack = [0.01],
+    decay = [0.1], sustain = [0.8], release = [0.1]) '''
     att = int(2048 * attack)
     dec = int(2048 * decay)
     rel = int(2048 * release)
@@ -73,15 +78,15 @@ def defAdsr(attack=0.01, decay=0.1, sustain=0.8, release=0.1):
     sus = min(1., sustain)
 
     fnum[0] += 1
-    scorelines.append("f%ld 0 2048 7 0 %ld 1. %ld %f %ld %f %ld 0\n" %
+    scorelines.append('f%ld 0 2048 7 0 %ld 1. %ld %f %ld %f %ld 0\n' %
                       (fnum[0], att, dec, sus, bal, sus, rel))
     return fnum[0]
 
 
 def defLineSegments(list=[0, 10, 1, 10, 0, 10, 1, 10, 0]):
-    """ Define a breakpoints envelope. list begin with the start
+    ''' Define a breakpoints envelope. list begin with the start
     value of the function and is follow by any pair values (duration,
-    value). The number of elements in the list should be odd. """
+    value). The number of elements in the list should be odd. '''
 
     totalLength = 0
     newlist = []
@@ -96,44 +101,44 @@ def defLineSegments(list=[0, 10, 1, 10, 0, 10, 1, 10, 0]):
             newlist.append(int(2048 * (list[i] / float(totalLength))))
 
     fnum[0] += 1
-    scorelines.append("f" + str(fnum[0]) + " 0 2048 -7 " +
-                      " ".join([str(n) for n in newlist]) + '\n')
+    scorelines.append('f' + str(fnum[0]) + ' 0 2048 -7 ' +
+                      ' '.join([str(n) for n in newlist]) + '\n')
     return fnum[0]
 
 
 def defComplexWave(list=[1, 0, 0, .3, 0, .2, 0, 0, .1]):
-    """ Define a complex waveform to be read with 'playComplex'
+    ''' Define a complex waveform to be read with 'playComplex'
     function. list=[1, 0, 0, .3, 0, .2, 0, 0, .1] is a list of
-    amplitude for succesive harmonics of a waveform """
+    amplitude for succesive harmonics of a waveform '''
     fnum[0] += 1
-    scorelines.append("f" + str(fnum[0]) + " 0 2048 10 " +
-                      " ".join([str(n) for n in list]) + '\n')
+    scorelines.append('f' + str(fnum[0]) + ' 0 2048 10 ' +
+                      ' '.join([str(n) for n in list]) + '\n')
     return fnum[0]
 
 
 def playSine(pitch=1000, amplitude=5000, duration=1, starttime=0,
              pitch_envelope='default', amplitude_envelope='default'):
-    """ Play a sine wave
+    ''' Play a sine wave
     (pitch = [1000], amplitude = [5000], duration = [1], starttime = [0],
-    pitch_envelope=['default'], amplitude_envelope=['default']) """
+    pitch_envelope=['default'], amplitude_envelope=['default']) '''
     _play(pitch, amplitude, duration, starttime, pitch_envelope,
           amplitude_envelope, 1)
 
 
 def playSquare(pitch=1000, amplitude=5000, duration=1, starttime=0,
                pitch_envelope='default', amplitude_envelope='default'):
-    """ Play a square wave
+    ''' Play a square wave
     (pitch = [1000], amplitude = [5000], duration = [1], starttime = [0],
-    pitch_envelope=['default'], amplitude_envelope=['default']) """
+    pitch_envelope=['default'], amplitude_envelope=['default']) '''
     _play(pitch, amplitude, duration, starttime, pitch_envelope,
           amplitude_envelope, 2)
 
 
 def playSawtooth(pitch=1000, amplitude=5000, duration=1, starttime=0,
                  pitch_envelope='default', amplitude_envelope='default'):
-    """ Play a sawtooth wave (pitch = [1000], amplitude = [5000],
+    ''' Play a sawtooth wave (pitch = [1000], amplitude = [5000],
     duration = [1], starttime = [0], pitch_envelope=['default'],
-    amplitude_envelope=['default']) """
+    amplitude_envelope=['default']) '''
     _play(pitch, amplitude, duration, starttime, pitch_envelope,
           amplitude_envelope, 3)
 
@@ -141,9 +146,9 @@ def playSawtooth(pitch=1000, amplitude=5000, duration=1, starttime=0,
 def playComplex(pitch=1000, amplitude=5000, duration=1, starttime=0,
                 pitch_envelope='default', amplitude_envelope='default',
                 wave='default'):
-    """ Play a complex wave
+    ''' Play a complex wave
     (pitch = [1000], amplitude = [5000], duration = [1], starttime = [0],
-    pitch_envelope = ['default'], amplitude_envelope, wave = ['default'] ) """
+    pitch_envelope = ['default'], amplitude_envelope, wave = ['default'] ) '''
     if wave == 'default':
         wavetable = 10
     else:
@@ -165,15 +170,15 @@ def _play(pitch, amplitude, duration, starttime, pitch_envelope,
         ampenv = amplitude_envelope
 
     if not 1 in instrlist:
-        orchlines.append("instr 1\n")
-        orchlines.append("kpitenv oscil 1, 1/p3, p6\n")
-        orchlines.append("aenv oscil 1, 1/p3, p7\n")
-        orchlines.append("asig oscil p5*aenv, p4*kpitenv, p8\n")
-        orchlines.append("out asig\n")
-        orchlines.append("endin\n\n")
+        orchlines.append('instr 1\n')
+        orchlines.append('kpitenv oscil 1, 1/p3, p6\n')
+        orchlines.append('aenv oscil 1, 1/p3, p7\n')
+        orchlines.append('asig oscil p5*aenv, p4*kpitenv, p8\n')
+        orchlines.append('out asig\n')
+        orchlines.append('endin\n\n')
         instrlist.append(1)
 
-    scorelines.append("i1 %s %s %s %s %s %s %s\n" %
+    scorelines.append('i1 %s %s %s %s %s %s %s\n' %
                       (str(starttime), str(duration), str(pitch),
                        str(amplitude), str(pitenv), str(ampenv),
                        str(instrument)))
@@ -186,12 +191,12 @@ def playFrequencyModulation(pitch=500, amplitude=5000, duration=2, starttime=0,
                             carrier_envelope='default',
                             modulator_envelope='default',
                             index_envelope='default', wave='default'):
-    """ Play a frequency modulation synthesis sound (pitch = [100],
+    ''' Play a frequency modulation synthesis sound (pitch = [100],
     amplitude = [5000], duration = [2], starttime = [0], carrier =
     [1], modulator = [.5], index = [5], pitch_envelope = ['default'],
     amplitude_envelope = ['default'], carrier_envelope = ['default'],
     modulator_envelope = ['default'], index_envelope = ['default'],
-    wave = ['default'] ) """
+    wave = ['default'] ) '''
     if pitch_envelope == 'default':
         pitenv = 99
     else:
@@ -223,19 +228,19 @@ def playFrequencyModulation(pitch=500, amplitude=5000, duration=2, starttime=0,
         wavetable = wave
 
     if not 7 in instrlist:
-        orchlines.append("instr 7\n")
-        orchlines.append("kpitenv oscil 1, 1/p3, p10\n")
-        orchlines.append("kenv oscil 1, 1/p3, p11\n")
-        orchlines.append("kcarenv oscil 1, 1/p3, p12\n")
-        orchlines.append("kmodenv oscil 1, 1/p3, p13\n")
-        orchlines.append("kindenv oscil 1, 1/p3, p14\n")
-        orchlines.append("asig foscil p5*kenv, p4*kpitenv, p6*kcarenv, "
-                         "p7*kmodenv, p8*kindenv, p9\n")
-        orchlines.append("out asig\n")
-        orchlines.append("endin\n\n")
+        orchlines.append('instr 7\n')
+        orchlines.append('kpitenv oscil 1, 1/p3, p10\n')
+        orchlines.append('kenv oscil 1, 1/p3, p11\n')
+        orchlines.append('kcarenv oscil 1, 1/p3, p12\n')
+        orchlines.append('kmodenv oscil 1, 1/p3, p13\n')
+        orchlines.append('kindenv oscil 1, 1/p3, p14\n')
+        orchlines.append('asig foscil p5*kenv, p4*kpitenv, p6*kcarenv, '
+                         'p7*kmodenv, p8*kindenv, p9\n')
+        orchlines.append('out asig\n')
+        orchlines.append('endin\n\n')
         instrlist.append(7)
 
-    scorelines.append("i7 %s %s %s %s %s %s %s %s %s %s %s %s %s\n" %
+    scorelines.append('i7 %s %s %s %s %s %s %s %s %s %s %s %s %s\n' %
                       (str(starttime), str(duration), str(pitch),
                        str(amplitude), str(carrier), str(modulator),
                        str(index), str(wavetable),  str(pitenv), str(ampenv),
@@ -244,9 +249,9 @@ def playFrequencyModulation(pitch=500, amplitude=5000, duration=2, starttime=0,
 
 def playPluck(pitch=100, amplitude=5000, duration=2, starttime=0,
               pitch_envelope='default', amplitude_envelope='default'):
-    """ Play a string physical modeling sound (pitch = [100],
+    ''' Play a string physical modeling sound (pitch = [100],
     amplitude = [5000], duration = [2], starttime = [0],
-    pitch_envelope = ['default'], amplitude_envelope ) """
+    pitch_envelope = ['default'], amplitude_envelope ) '''
     if pitch_envelope == 'default':
         pitenv = 99
     else:
@@ -258,16 +263,16 @@ def playPluck(pitch=100, amplitude=5000, duration=2, starttime=0,
         ampenv = amplitude_envelope
 
     if not 8 in instrlist:
-        orchlines.append("instr 8\n")
-        orchlines.append("kpitenv oscil 1, 1/p3, p6\n")
-        orchlines.append("kenv oscil 1, 1/p3, p7\n")
-        orchlines.append("asig pluck p5*kenv, p4*kpitenv, 40, 0, 6\n")
-        orchlines.append("asig butterlp asig, 4000\n")
-        orchlines.append("out asig\n")
-        orchlines.append("endin\n\n")
+        orchlines.append('instr 8\n')
+        orchlines.append('kpitenv oscil 1, 1/p3, p6\n')
+        orchlines.append('kenv oscil 1, 1/p3, p7\n')
+        orchlines.append('asig pluck p5*kenv, p4*kpitenv, 40, 0, 6\n')
+        orchlines.append('asig butterlp asig, 4000\n')
+        orchlines.append('out asig\n')
+        orchlines.append('endin\n\n')
         instrlist.append(8)
 
-    scorelines.append("i8 %s %s %s %s %s %s\n" %
+    scorelines.append('i8 %s %s %s %s %s %s\n' %
                       (str(starttime), str(duration), str(pitch),
                        str(amplitude), str(pitenv), str(ampenv)))
 
@@ -275,18 +280,18 @@ def playPluck(pitch=100, amplitude=5000, duration=2, starttime=0,
 def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1,
              starttime=0, pitch_envelope='default',
              amplitude_envelope='default'):
-    """ Play a wave file (sound = ['horse'], pitch = [1], amplitude =
+    ''' Play a wave file (sound = ['horse'], pitch = [1], amplitude =
     [1], loop = [False], duration = [1], starttime = [0],
-    pitch_envelope=['default'], amplitude_envelope=['default']) """
+    pitch_envelope=['default'], amplitude_envelope=['default']) '''
     if '/' in sound:
         fullname = sound
     else:
         fullname = os.path.join(finddir(), sound)
 
-    if loop == False:
-        lp = 0
-    else:
+    if loop:
         lp = 1
+    else:
+        lp = 0
 
     if pitch_envelope == 'default':
         pitenv = 99
@@ -299,15 +304,15 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1,
         ampenv = amplitude_envelope
 
     if not 9 in instrlist:
-        orchlines.append("instr 9\n")
-        orchlines.append("kpitenv oscil 1, 1/p3, p8\n")
-        orchlines.append("aenv oscil 1, 1/p3, p9\n")
-        orchlines.append("asig diskin p4, p5*kpitenv, 0, p7\n")
-        orchlines.append("out asig*p6*aenv\n")
-        orchlines.append("endin\n\n")
+        orchlines.append('instr 9\n')
+        orchlines.append('kpitenv oscil 1, 1/p3, p8\n')
+        orchlines.append('aenv oscil 1, 1/p3, p9\n')
+        orchlines.append('asig diskin p4, p5*kpitenv, 0, p7\n')
+        orchlines.append('out asig*p6*aenv\n')
+        orchlines.append('endin\n\n')
         instrlist.append(9)
 
-    scorelines.append('i9 %f %f "%s" %s %s %s %s %s\n' %
+    scorelines.append('i9 %f %f '%s' %s %s %s %s %s\n' %
                       (float(starttime), float(duration), fullname, str(pitch),
                        str(amplitude), str(lp), str(pitenv), str(ampenv)))
 
@@ -319,48 +324,43 @@ temp_path = None
 
 
 def audioOut(file=None):
-    """ Compile a .csd file and start csound to run it. If a string is
+    ''' Compile a .csd file and start csound to run it. If a string is
     given as argument, it write a wave file on disk instead of sending
-    sound to hp. (file = [None]) """
+    sound to hp. (file = [None]) '''
     global temp_path
     if temp_path is None:
-<<<<<<< HEAD
-        from sugar import env
-=======
-        from sugar3 import env
->>>>>>> 51e7ffbcb6622bfa3babc811f0dc86d0b9a493bd
         temp_path = os.path.join(env.get_profile_path(), 'pippy')
         if not os.path.isdir(temp_path):
             os.mkdir(temp_path)
     path = temp_path
-    csd = open(os.path.join(path, "temp.csd"), "w")
-    csd.write("<CsoundSynthesizer>\n\n")
-    csd.write("<CsOptions>\n")
-    if file == None:
-        csd.write("-+rtaudio=alsa -odevaudio -m0 -d -b256 -B512\n")
+    csd = open(os.path.join(path, 'temp.csd'), 'w')
+    csd.write('<CsoundSynthesizer>\n\n')
+    csd.write('<CsOptions>\n')
+    if file is None:
+        csd.write('-+rtaudio=alsa -odevaudio -m0 -d -b256 -B512\n')
     else:
-        file = os.path.join(path, "%s.wav" % file)
-        csd.write("-+rtaudio=alsa -o%s -m0 -W -d -b256 -B512\n" % file)
-    csd.write("</CsOptions>\n\n")
-    csd.write("<CsInstruments>\n\n")
-    csd.write("sr=16000\n")
-    csd.write("ksmps=50\n")
-    csd.write("nchnls=1\n\n")
+        file = os.path.join(path, '%s.wav' % file)
+        csd.write('-+rtaudio=alsa -o%s -m0 -W -d -b256 -B512\n' % file)
+    csd.write('</CsOptions>\n\n')
+    csd.write('<CsInstruments>\n\n')
+    csd.write('sr=16000\n')
+    csd.write('ksmps=50\n')
+    csd.write('nchnls=1\n\n')
     for line in orchlines:
         csd.write(line)
-    csd.write("\n</CsInstruments>\n\n")
-    csd.write("<CsScore>\n\n")
-    csd.write("f1 0 2048 10 1\n")
-    csd.write("f2 0 2048 10 1 0 .33 0 .2 0 .143 0 .111\n")
-    csd.write("f3 0 2048 10 1 .5 .33 .25 .2 .175 .143 .125 .111 .1\n")
-    csd.write("f10 0 2048 10 1 0 0 .3 0 .2 0 0 .1\n")
-    csd.write("f99 0 2048 7 1 2048 1\n")
-    csd.write("f100 0 2048 7 0. 10 1. 1900 1. 132 0.\n")
+    csd.write('\n</CsInstruments>\n\n')
+    csd.write('<CsScore>\n\n')
+    csd.write('f1 0 2048 10 1\n')
+    csd.write('f2 0 2048 10 1 0 .33 0 .2 0 .143 0 .111\n')
+    csd.write('f3 0 2048 10 1 .5 .33 .25 .2 .175 .143 .125 .111 .1\n')
+    csd.write('f10 0 2048 10 1 0 0 .3 0 .2 0 0 .1\n')
+    csd.write('f99 0 2048 7 1 2048 1\n')
+    csd.write('f100 0 2048 7 0. 10 1. 1900 1. 132 0.\n')
     for line in scorelines:
         csd.write(line)
-    csd.write("e\n")
-    csd.write("\n</CsScore>\n")
-    csd.write("\n</CsoundSynthesizer>")
+    csd.write('e\n')
+    csd.write('\n</CsScore>\n')
+    csd.write('\n</CsoundSynthesizer>')
     csd.close()
 
     os.system('csound ' + path + '/temp.csd >/dev/null 2>/dev/null')
