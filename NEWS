@@ -4,9 +4,12 @@ ENHANCEMENTS:
 * Add confirmation alert before loading new projects (Emil Dudev)
 * Use open palette instead of treeview (Ignacio Rodriguez)
 * Show/Hide terminal widget (svineet)
+* Added new examples (math/pi, math/stern-brocot)
 
 BUG FIXES:
 * Reenable copy/paste (Ignacio Rodriguez)
+* Fix problems with sound library
+* Using elements package from Physics
 
 50
 
