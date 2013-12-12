@@ -1,0 +1,22 @@
+a,b = 1.0,3.0
+breakpoint = 1000
+pi = 0.0
+for loop in range(1, breakpoint):
+      pi += (4.0/a) - (4.0/b)
+      a += 4
+      b += 4
+      print pi
+# Now that the result has been computed we can explore printing the result.
+print "There are multiple ways to print numbers here is a quick sample."
+print "Just print it    :", pi
+print "Using repr()     :", repr(pi)
+print "Our approximation: %3.20f" % pi
+print "\nPi is a very famous number...."
+# Use python's math module it is faster and close enough for most computations.
+import math
+print "Python's Math library computes"
+print "a better value pi: %3.39f" % math.pi; # it uses...(math.atan(1.0) * 4.0)
+# when running computations based on "pi" it is good to begin with the best value you can get.
+# from the gnu 'C' comiler /usr/include/math.h"
+print "For reference a more exact 32 bit floating point value for pi is."
+print "Known value of pi: 3.14159265358979323846"
