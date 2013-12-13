@@ -22,7 +22,6 @@ from __future__ import with_statement
 import logging
 import re
 import os
-import time
 import subprocess
 from random import uniform
 import locale
@@ -38,7 +37,6 @@ from port.style import font_zoom
 from signal import SIGTERM
 from gettext import gettext as _
 
-from sugar3.activity import activity
 from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_path
@@ -66,10 +64,8 @@ PYTHON_PREFIX = """#!/usr/bin/python
 default_categoties = [_('Graphics'), _('Math'), _('Pyhton'), _('Sound'),
                       _('String')]
 
-from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.graphics.toolbarbox import ToolbarButton
 from sugar3.graphics.toolbutton import ToolButton
-from sugar3.activity.widgets import ActivityToolbarButton
 
 # get screen sizes
 SIZE_X = Gdk.Screen.width()
@@ -532,7 +528,7 @@ file. Discard changes?')
         self.add_alert(alert)
 
     def _create_bundle_cb(self, __):
-        from shutil import copytree, copy2, rmtree
+        from shutil import rmtree
         from tempfile import mkdtemp
 
         # get the name of this pippy program.
@@ -876,7 +872,6 @@ def main():
     from pyclbr import readmodule_ex
     from tempfile import mkdtemp
     from shutil import copytree, copy2, rmtree
-    from sugar3 import profile
     from sugar3.activity import bundlebuilder
     import sys
 
