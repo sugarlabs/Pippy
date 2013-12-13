@@ -312,7 +312,7 @@ def playWave(sound='horse', pitch=1, amplitude=1, loop=False, duration=1,
         orchlines.append('endin\n\n')
         instrlist.append(9)
 
-    scorelines.append('i9 %f %f '%s' %s %s %s %s %s\n' %
+    scorelines.append("i9 %f %f '%s' %s %s %s %s %s\n" %
                       (float(starttime), float(duration), fullname, str(pitch),
                        str(amplitude), str(lp), str(pitenv), str(ampenv)))
 
