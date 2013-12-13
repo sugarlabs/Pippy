@@ -30,6 +30,7 @@ PROPERTIES = ['uid', 'title', 'mtime', 'timestamp', 'keep', 'buddies',
               'icon-color', 'mime_type', 'progress', 'activity', 'mountpoint',
               'activity_id']
 
+
 class _Cache(gobject.GObject):
 
     __gtype_name__ = 'query_Cache'
@@ -50,14 +51,14 @@ class _Cache(gobject.GObject):
 
         logging.debug('_Cache.__init__: connecting signals.')
         bus = dbus.SessionBus()
-        datastore = dbus.Interface(bus.get_object(DS_DBUS_SERVICE, DS_DBUS_PATH),
-                                   DS_DBUS_INTERFACE)
+        datastore = dbus.Interface(
+            bus.get_object(DS_DBUS_SERVICE, DS_DBUS_PATH), DS_DBUS_INTERFACE)
         self._datastore_created_handler = \
-                datastore.connect_to_signal('Created', self._datastore_created_cb)
+            datastore.connect_to_signal('Created', self._datastore_created_cb)
         self._datastore_updated_handler = \
-                datastore.connect_to_signal('Updated', self._datastore_updated_cb)
+            datastore.connect_to_signal('Updated', self._datastore_updated_cb)
         self._datastore_deleted_handler = \
-                datastore.connect_to_signal('Deleted', self._datastore_deleted_cb)
+            datastore.connect_to_signal('Deleted', self._datastore_deleted_cb)
 
     def prepend_all(self, jobjects):
         for jobject in jobjects[::-1]:
@@ -68,7 +69,7 @@ class _Cache(gobject.GObject):
         for jobject in jobjects:
             self._array.append(jobject)
             self._dict[jobject.object_id] = jobject
-    
+
     def remove_all(self, jobjects):
         jobjects = jobjects[:]
         for jobject in jobjects:
@@ -111,9 +112,8 @@ class _Cache(gobject.GObject):
 
     def _datastore_updated_cb(self, uid):
         logging.debug('_datastore_updated_cb: %r' % uid)
-        if self._dict.has_key(uid):
+        if uid in self._dict:
             jobject = datastore.get(uid)
-
             index = self._array.index(self._dict[uid])
             self._array[index].destroy()
             self._array[index] = jobject
@@ -123,7 +123,8 @@ class _Cache(gobject.GObject):
     def _datastore_deleted_cb(self, uid):
         logging.debug('_datastore_deleted_cb: %r' % uid)
         self._invalidate()
-        
+
+
 class ResultSet(gobject.GObject):
 
     __gtype_name__ = 'ResultSet'
@@ -138,7 +139,7 @@ class ResultSet(gobject.GObject):
 
     def __init__(self, query, sorting):
         gobject.GObject.__init__(self)
-        self._total_count  = -1
+        self._total_count = -1
         self._position = -1
         self._query = query
         self._sorting = sorting
@@ -146,7 +147,7 @@ class ResultSet(gobject.GObject):
         self._offset = 0
         self._cache = _Cache()
         self._cache_modified_handler = \
-                self._cache.connect('modified', self._cache_modified_cb)
+            self._cache.connect('modified', self._cache_modified_cb)
 
     def destroy(self):
         self._cache.disconnect(self._cache_modified_handler)
@@ -155,10 +156,11 @@ class ResultSet(gobject.GObject):
 
     def get_length(self):
         if self._total_count == -1:
-            jobjects, self._total_count = datastore.find(self._query,
-                                                         sorting=self._sorting,
-                                                         limit=ResultSet._CACHE_LIMIT,
-                                                         properties=PROPERTIES)
+            jobjects, self._total_count = datastore.find(
+                self._query,
+                sorting=self._sorting,
+                limit=ResultSet._CACHE_LIMIT,
+                properties=PROPERTIES)
             self._cache.append_all(jobjects)
             self._offset = 0
         return self._total_count
@@ -172,8 +174,9 @@ class ResultSet(gobject.GObject):
         logging.debug('ResultSet.read position: %r' % self._position)
 
         if max_count * 5 > ResultSet._CACHE_LIMIT:
-            raise RuntimeError('max_count (%i) too big for ResultSet._CACHE_LIMIT'
-                               ' (%i).' % (max_count, ResultSet._CACHE_LIMIT))
+            raise RuntimeError(
+                'max_count (%i) too big for ResultSet._CACHE_LIMIT'
+                ' (%i).' % (max_count, ResultSet._CACHE_LIMIT))
 
         if self._position == -1:
             self.seek(0)
@@ -181,8 +184,8 @@ class ResultSet(gobject.GObject):
         if self._position < self._offset:
             remaining_forward_entries = 0
         else:
-            remaining_forward_entries = self._offset + len(self._cache) - \
-                                        self._position
+            remaining_forward_entries = \
+                self._offset + len(self._cache) - self._position
 
         if self._position > self._offset + len(self._cache):
             remaining_backwards_entries = 0
@@ -191,32 +194,38 @@ class ResultSet(gobject.GObject):
 
         last_cached_entry = self._offset + len(self._cache)
 
-        if (remaining_forward_entries <= 0 and remaining_backwards_entries <= 0) or \
-           max_count > ResultSet._CACHE_LIMIT:
+        if (remaining_forward_entries <= 0 and
+            remaining_backwards_entries <= 0) or \
+                max_count > ResultSet._CACHE_LIMIT:
 
             # Total cache miss: remake it
             offset = max(0, self._position - max_count)
-            logging.debug('remaking cache, offset: %r limit: %r' % (offset, max_count * 2))
-            jobjects, self._total_count = datastore.find(self._query,
-                    sorting=self._sorting,
-                    offset=offset,
-                    limit=ResultSet._CACHE_LIMIT,
-                    properties=PROPERTIES)
+            logging.debug('remaking cache, offset: %r limit: %r' %
+                          (offset, max_count * 2))
+            jobjects, self._total_count = datastore.find(
+                self._query,
+                sorting=self._sorting,
+                offset=offset,
+                limit=ResultSet._CACHE_LIMIT,
+                properties=PROPERTIES)
 
             self._cache.remove_all(self._cache)
             self._cache.append_all(jobjects)
             self._offset = offset
-            
+
         elif remaining_forward_entries < 2 * max_count and \
-             last_cached_entry < self._total_count:
+                last_cached_entry < self._total_count:
 
             # Add one page to the end of cache
-            logging.debug('appending one more page, offset: %r' % last_cached_entry)
-            jobjects, self._total_count = datastore.find(self._query,
-                                                         sorting=self._sorting,
-                                                         offset=last_cached_entry,
-                                                         limit=max_count,
-                                                         properties=PROPERTIES)
+            logging.debug('appending one more page, offset: %r' %
+                          last_cached_entry)
+            jobjects, self._total_count = datastore.find(
+                self._query,
+                sorting=self._sorting,
+                offset=last_cached_entry,
+                limit=max_count,
+                properties=PROPERTIES)
+
             # update cache
             self._cache.append_all(jobjects)
 
@@ -234,11 +243,12 @@ class ResultSet(gobject.GObject):
 
             logging.debug('prepending one more page, offset: %r limit: %r' %
                           (self._offset, limit))
-            jobjects, self._total_count = datastore.find(self._query,
-                    sorting=self._sorting,
-                    offset=self._offset,
-                    limit=limit,
-                    properties=PROPERTIES)
+            jobjects, self._total_count = datastore.find(
+                self._query,
+                sorting=self._sorting,
+                offset=self._offset,
+                limit=limit,
+                properties=PROPERTIES)
 
             # update cache
             self._cache.prepend_all(jobjects)
@@ -259,6 +269,7 @@ class ResultSet(gobject.GObject):
         if not len(self._cache):
             self._total_count = -1
         self.emit('modified')
+
 
 def find(query, sorting=['-mtime']):
     result_set = ResultSet(query, sorting)
@@ -313,7 +324,8 @@ if __name__ == "__main__":
         result_set.seek((i + 1) * SCREEN_SIZE)
         objects = result_set.read(SCREEN_SIZE)
         print [obj.object_id for obj in objects]
-        assert range((i + 1) * SCREEN_SIZE, (i + 2) * SCREEN_SIZE) == [obj.object_id for obj in objects]
+        assert range((i + 1) * SCREEN_SIZE, (i + 2) * SCREEN_SIZE) == \
+            [obj.object_id for obj in objects]
     print ""
 
     print "Hit PgUp five times"
@@ -321,6 +333,6 @@ if __name__ == "__main__":
         result_set.seek(i * SCREEN_SIZE)
         objects = result_set.read(SCREEN_SIZE)
         print [obj.object_id for obj in objects]
-        assert range(i * SCREEN_SIZE, (i + 1) * SCREEN_SIZE) == [obj.object_id for obj in objects]
+        assert range(i * SCREEN_SIZE, (i + 1) * SCREEN_SIZE) == \
+            [obj.object_id for obj in objects]
     print ""
-
