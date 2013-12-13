@@ -25,6 +25,7 @@ import os
 import time
 import subprocess
 from random import uniform
+import locale
 
 from gi.repository import Gtk
 from gi.repository import Gdk
@@ -56,11 +57,14 @@ import groupthink.gtk_tools
 
 from FileDialog import FileDialog
 
+_default_lang = '%s.%s' % locale.getdefaultlocale()
 text_buffer = None
 # magic prefix to use utf-8 source encoding
 PYTHON_PREFIX = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
+default_categoties = [_('Graphics'), _('Math'), _('Pyhton'), _('Sound'),
+                      _('String')]
 
 from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.graphics.toolbarbox import ToolbarButton
@@ -203,11 +207,37 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.paths = []
 
         root = os.path.join(get_bundle_path(), 'data')
-        for d in sorted(os.listdir(root)):
-            if not os.path.isdir(os.path.join(root, d)):
-                continue  # skip non-dirs
-            direntry = {"name": _(d.capitalize()),
-                        "path": os.path.join(root, d) + "/"}
+
+        # get preferred language and default one
+        self.pref_lang = self.get_languages()[0].split("_")[0]
+        self.default_lang = _default_lang.split("_")[0]
+
+        # construct the path for both
+        self.lang_path = os.path.join(root, self.pref_lang)
+        self.default_path = os.path.join(root, self.default_lang)
+
+        # get all folders in lang examples
+        self.all_folders = []
+        if os.path.exists(self.lang_path):
+            for d in sorted(os.listdir(self.lang_path)):
+                self.all_folders.append(d)
+
+        # get all folders in english examples
+        for d in sorted(os.listdir(self.default_path)):
+            # check if folder isn't already in list
+            if d not in self.all_folders:
+                self.all_folders.append(d)
+
+        for folder in self.all_folders:
+            direntry = {}
+            # check if dir exists in pref language, if exists, add it
+            if os.path.exists(os.path.join(self.lang_path, folder)):
+                direntry = {"name": _(folder.capitalize()),
+                        "path": os.path.join(self.lang_path, folder) + "/"}
+            # if not try to see if it's in default english path
+            elif os.path.exists(os.path.join(self.default_path, folder)):
+                direntry = {"name": _(folder.capitalize()),
+                        "path": os.path.join(self.default_path, folder) + "/"}
             self.paths.append([direntry['name'], direntry['path']])
 
         # Adding local examples
@@ -295,6 +325,36 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def after_init(self):
         self.outbox.hide()
 
+    def get_languages(self):
+        path = os.path.join(os.environ.get('HOME', ''), '.i18n')
+        if not os.access(path, os.R_OK):
+            logging.debug('Could not access ~/.i18n')
+            fd = open(path, 'w')
+            fd.write('LANG="%s"\n' % _default_lang)
+            fd.write('LANGUAGE="%s"\n' % _default_lang)
+            fd.close()
+            return [_default_lang]
+
+        fd = open(path, 'r')
+        lines = fd.readlines()
+        fd.close()
+
+        langlist = None
+
+        for line in lines:
+            if line.startswith('LANGUAGE='):
+                lang = line[9:].replace('"', '')
+                lang = lang.strip()
+                langlist = lang.split(':')
+            elif line.startswith('LANG='):
+                lang = line[5:].replace('"', '')
+
+        # There might be cases where .i18n may not contain a LANGUAGE field
+        if langlist is None:
+            return [lang]
+        else:
+            return langlist
+
     def _toggle_output_cb(self, button):
         shown = button.get_active()
         if shown:
@@ -346,9 +406,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         if text_buffer.get_modified():
             from sugar3.graphics.alert import ConfirmationAlert
             alert = ConfirmationAlert()
-            alert.props.title = _('Example selection Warning')
-            alert.props.msg = _('You have modified the currently selected file. \
-Discard changes?')
+            alert.props.title = _('Example-selection Warning')
+            alert.props.msg = _('You have modified the currently selected \
+file. Discard changes?')
             alert.connect('response', self._discard_changes_cb, path)
             self.add_alert(alert)
             return False
@@ -419,13 +479,11 @@ Discard changes?')
 
     def __copybutton_cb(self, button):
         global text_buffer
-        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        text_buffer.copy_clipboard(clipboard)
+        text_buffer.copy_clipboard(Gtk.Clipboard())
 
     def __pastebutton_cb(self, button):
         global text_buffer
-        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        text_buffer.paste_clipboard(clipboard, None, True)
+        text_buffer.paste_clipboard(Gtk.Clipboard(), None, True)
 
     def gobutton_cb(self, button):
         from shutil import copy2
