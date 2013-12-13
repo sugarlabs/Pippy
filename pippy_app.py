@@ -136,7 +136,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.toggle_output.connect("toggled", self._toggle_output_cb)
         actions_toolbar.insert(self.toggle_output, -1)
 
-
         # The "go" button
         goicon_bw = Gtk.Image()
         goicon_bw.set_from_file("%s/icons/run_bw.svg" % os.getcwd())
@@ -183,11 +182,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         actions_toolbar.insert(clearbutton, -1)
 
         activity_toolbar.show()
-        
+
         examples = ToolButton("pippy-openoff")
         examples.set_tooltip(_("Load example"))
         examples.connect("clicked", self.load_example)
-        
+
         self.get_toolbar_box().toolbar.insert(Gtk.SeparatorToolItem(), -1)
         self.get_toolbar_box().toolbar.insert(examples, -1)
 
@@ -232,12 +231,14 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             direntry = {}
             # check if dir exists in pref language, if exists, add it
             if os.path.exists(os.path.join(self.lang_path, folder)):
-                direntry = {"name": _(folder.capitalize()),
-                        "path": os.path.join(self.lang_path, folder) + "/"}
+                direntry = {
+                    "name": _(folder.capitalize()),
+                    "path": os.path.join(self.lang_path, folder) + "/"}
             # if not try to see if it's in default english path
             elif os.path.exists(os.path.join(self.default_path, folder)):
-                direntry = {"name": _(folder.capitalize()),
-                        "path": os.path.join(self.default_path, folder) + "/"}
+                direntry = {
+                    "name": _(folder.capitalize()),
+                    "path": os.path.join(self.default_path, folder) + "/"}
             self.paths.append([direntry['name'], direntry['path']])
 
         # Adding local examples
@@ -362,9 +363,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self.toggle_output.set_tooltip(_("Hide output panel"))
             self.toggle_output.set_icon_name("tray-hide")
         else:
-            self.outbox.hide()  
+            self.outbox.hide()
             self.toggle_output.set_tooltip(_("Show output panel"))
-            self.toggle_output.set_icon_name("tray-show") 
+            self.toggle_output.set_icon_name("tray-show")
 
     def load_example(self, widget):
         widget.set_icon_name("pippy-openon")
