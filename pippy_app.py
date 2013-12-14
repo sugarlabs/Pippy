@@ -61,8 +61,8 @@ text_buffer = None
 PYTHON_PREFIX = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
-default_categoties = [_('Graphics'), _('Math'), _('Pyhton'), _('Sound'),
-                      _('String')]
+default_categoties = [_('graphics'), _('math'), _('pyhton'), _('sound'),
+                      _('string'), _('tutorials')]
 
 from sugar3.graphics.toolbarbox import ToolbarButton
 from sugar3.graphics.toolbutton import ToolButton

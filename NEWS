@@ -5,6 +5,7 @@ ENHANCEMENTS:
 * Use open palette instead of treeview (Ignacio Rodriguez)
 * Show/Hide terminal widget (svineet)
 * Added new examples (math/pi, math/stern-brocot)
+* Added i18n support for examples (Jorge Alberto Gómez López)
 
 BUG FIXES:
 * Reenable copy/paste (Ignacio Rodriguez)
