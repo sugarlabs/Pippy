@@ -6,11 +6,14 @@ class PyApp(Gtk.Window):
         
         self.set_title("Boton")
         self.set_size_request(250, 200)
-        self.set_position(Gtk.WIN_POS_CENTER)
         
-        btn1 = Gtk.Button("Boton")
+        def button_cb(widget):
+            print 'click'
+
+        button = Gtk.Button("Boton")
         fixed = Gtk.Fixed()
-        fixed.put(btn1, 20, 30)
+        fixed.put(button, 20, 30)
+        button.connect('clicked', button_cb)
         
         self.connect("destroy", Gtk.main_quit)
         

@@ -13,16 +13,18 @@ class PyApp(Gtk.Window):
                 print widget.get_text() 
 
         entry = Gtk.Entry()
+        entry.connect('key_press_event', entry_cb)
         entry.show()
+
         fixed = Gtk.Fixed()
         fixed.show()
         fixed.put(entry, 20, 30)
+
         self.add(fixed)
         self.show()
 
-        entry.connect('key_press_event', entry_cb)
-
         self.connect('destroy', Gtk.main_quit)
+
 
 PyApp()
 Gtk.main()
