@@ -1,19 +1,28 @@
 from gi.repository import Gtk
+from gi.repository import Gdk
 
 class PyApp(Gtk.Window):
+
     def __init__(self):
         super(PyApp, self).__init__()
-        self.set_title("Hello World!!")
-        self.connect("destroy", Gtk.main_quit)
+        self.set_title('Text Entry')
         self.set_size_request(250, 150)
-        self.set_position(Gtk.WIN_POS_CENTER)
         
+        def entry_cb(widget, event):
+            if Gdk.keyval_name(event.keyval) == 'Return':
+                print widget.get_text() 
+
         entry = Gtk.Entry()
+        entry.show()
         fixed = Gtk.Fixed()
+        fixed.show()
         fixed.put(entry, 20, 30)
-        self.connect("destroy", Gtk.main_quit)
         self.add(fixed)
         self.show()
+
+        entry.connect('key_press_event', entry_cb)
+
+        self.connect('destroy', Gtk.main_quit)
 
 PyApp()
 Gtk.main()

@@ -55,7 +55,6 @@ import groupthink.gtk_tools
 
 from FileDialog import FileDialog
 
-_default_lang = '%s.%s' % locale.getdefaultlocale()
 text_buffer = None
 # magic prefix to use utf-8 source encoding
 PYTHON_PREFIX = """#!/usr/bin/python
@@ -201,32 +200,29 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         self.paths = []
 
-        root = os.path.join(get_bundle_path(), 'data')
+        data_path = os.path.join(get_bundle_path(), 'data')
 
-        # get preferred language and default one
-        logging.debug(_default_lang)
-
-        self.pref_lang = self.get_languages()[0].split('_')[0]
-        if len(_default_lang) == 0 or _default_lang.split('.')[0] == 'None':
-            self.default_lang = 'en'
+        # get default language from locale
+        locale_lang = locale.getdefaultlocale()[0]
+        if locale_lang is None:
+            lang = 'en'
         else:
-            self.default_lang = _default_lang.split('_')[0]
-
-        logging.debug(self.pref_lang)
-        logging.debug(self.default_lang)
+            lang = locale_lang.split('_')[0]
+        logging.debug(locale.getdefaultlocale())
+        logging.debug(lang)
 
         # construct the path for both
-        self.lang_path = os.path.join(root, self.pref_lang)
-        self.default_path = os.path.join(root, self.default_lang)
+        lang_path = os.path.join(data_path, lang)
+        en_lang_path = os.path.join(data_path, 'en')
 
         # get all folders in lang examples
         self.all_folders = []
-        if os.path.exists(self.lang_path):
-            for d in sorted(os.listdir(self.lang_path)):
+        if os.path.exists(lang_path):
+            for d in sorted(os.listdir(lang_path)):
                 self.all_folders.append(d)
 
-        # get all folders in english examples
-        for d in sorted(os.listdir(self.default_path)):
+        # get all folders in English examples
+        for d in sorted(os.listdir(en_lang_path)):
             # check if folder isn't already in list
             if d not in self.all_folders:
                 self.all_folders.append(d)
@@ -234,15 +230,15 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         for folder in self.all_folders:
             direntry = {}
             # check if dir exists in pref language, if exists, add it
-            if os.path.exists(os.path.join(self.lang_path, folder)):
+            if os.path.exists(os.path.join(lang_path, folder)):
                 direntry = {
                     "name": _(folder.capitalize()),
-                    "path": os.path.join(self.lang_path, folder) + "/"}
-            # if not try to see if it's in default english path
-            elif os.path.exists(os.path.join(self.default_path, folder)):
+                    "path": os.path.join(lang_path, folder) + "/"}
+            # if not try to see if it's in default English path
+            elif os.path.exists(os.path.join(en_lang_path, folder)):
                 direntry = {
                     "name": _(folder.capitalize()),
-                    "path": os.path.join(self.default_path, folder) + "/"}
+                    "path": os.path.join(en_lang_path, folder) + "/"}
             self.paths.append([direntry['name'], direntry['path']])
 
         # Adding local examples
@@ -329,38 +325,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def after_init(self):
         self.outbox.hide()
-
-    def get_languages(self):
-        path = os.path.join(os.environ.get('HOME', ''), '.i18n')
-        if not os.access(path, os.R_OK):
-            logging.debug('Could not access ~/.i18n')
-            print _default_lang
-            fd = open(path, 'w')
-            fd.write('LANG="%s"\n' % _default_lang)
-            fd.write('LANGUAGE="%s"\n' % _default_lang)
-            fd.close()
-            return [_default_lang]
-
-        fd = open(path, 'r')
-        lines = fd.readlines()
-        fd.close()
-
-        langlist = None
-        lang = 'en'
-
-        for line in lines:
-            if line.startswith('LANGUAGE='):
-                lang = line[9:].replace('"', '')
-                lang = lang.strip()
-                langlist = lang.split(':')
-            elif line.startswith('LANG='):
-                lang = line[5:].replace('"', '')
-
-        # There might be cases where .i18n may not contain a LANGUAGE field
-        if langlist is None:
-            return [lang]
-        else:
-            return langlist
 
     def _toggle_output_cb(self, button):
         shown = button.get_active()
