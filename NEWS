@@ -1,4 +1,4 @@
-51
+54
 
 ENHANCEMENTS:
 * Add confirmation alert before loading new projects (Emil Dudev)
@@ -12,6 +12,14 @@ BUG FIXES:
 * Reenable copy/paste (Ignacio Rodriguez)
 * Fix problems with sound library
 * Using elements package from Physics
+
+53
+
+BUG FIXES:
+* Replaced the comma-space with a semicolon (no space) to fix a
+  problem with parsing mime_types that prevented Pippy from opening
+  .py files
+* Fixed many issues with export Sugar activity code
 
 50
 
