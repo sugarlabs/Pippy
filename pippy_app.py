@@ -206,11 +206,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         # get preferred language and default one
         print _default_lang
 
-        self.pref_lang = self.get_languages()[0].split("_")[0]
-        if len(_default_lang) == 0 or _default_lang[0] is None:
+        self.pref_lang = self.get_languages()[0].split('_')[0]
+        if len(_default_lang) == 0 or _default_lang.split('.')[0] is None:
             self.default_lang = 'en'
         else:
-            self.default_lang = _default_lang.split("_")[0]
+            self.default_lang = _default_lang.split('_')[0]
 
         print self.pref_lang, self.default_lang
 
