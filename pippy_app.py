@@ -204,7 +204,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         root = os.path.join(get_bundle_path(), 'data')
 
         # get preferred language and default one
-        print _default_lang
+        logging.debug(_default_lang)
 
         self.pref_lang = self.get_languages()[0].split('_')[0]
         if len(_default_lang) == 0 or _default_lang.split('.')[0] == 'None':
@@ -212,7 +212,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         else:
             self.default_lang = _default_lang.split('_')[0]
 
-        print self.pref_lang, self.default_lang
+        logging.debug(self.pref_lang)
+        logging.debug(self.default_lang)
 
         # construct the path for both
         self.lang_path = os.path.join(root, self.pref_lang)
