@@ -1,4 +1,5 @@
 from gi.repository import Gtk
+from gi.repository import Gdk
 
 class PyApp(Gtk.Window):
 
