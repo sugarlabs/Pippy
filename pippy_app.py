@@ -204,8 +204,15 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         root = os.path.join(get_bundle_path(), 'data')
 
         # get preferred language and default one
+        print _default_lang
+
         self.pref_lang = self.get_languages()[0].split("_")[0]
-        self.default_lang = _default_lang.split("_")[0]
+        if len(_default_lang) == 0 or _default_lang[0] is None:
+            self.default_lang = 'en'
+        else:
+            self.default_lang = _default_lang.split("_")[0]
+
+        print self.pref_lang, self.default_lang
 
         # construct the path for both
         self.lang_path = os.path.join(root, self.pref_lang)
@@ -326,6 +333,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         path = os.path.join(os.environ.get('HOME', ''), '.i18n')
         if not os.access(path, os.R_OK):
             logging.debug('Could not access ~/.i18n')
+            print _default_lang
             fd = open(path, 'w')
             fd.write('LANG="%s"\n' % _default_lang)
             fd.write('LANGUAGE="%s"\n' % _default_lang)
@@ -337,6 +345,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         fd.close()
 
         langlist = None
+        lang = 'en'
 
         for line in lines:
             if line.startswith('LANGUAGE='):
