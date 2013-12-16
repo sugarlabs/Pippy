@@ -5,6 +5,7 @@ class PyApp(Gtk.Window):
         super(PyApp, self).__init__()
         
         self.set_title("Boton")
+        self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
         self.set_size_request(250, 200)
         
         def button_cb(widget):

@@ -6,6 +6,7 @@ class PyApp(Gtk.Window):
     def __init__(self):
         super(PyApp, self).__init__()
         self.set_title('Entrada de Texto')
+        self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
         self.set_size_request(250, 150)
         
         def entry_cb(widget, event):
