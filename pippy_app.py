@@ -450,11 +450,13 @@ file. Discard changes?')
 
     def __copybutton_cb(self, button):
         global text_buffer
-        text_buffer.copy_clipboard(Gtk.Clipboard())
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        text_buffer.copy_clipboard(clipboard)
 
     def __pastebutton_cb(self, button):
         global text_buffer
-        text_buffer.paste_clipboard(Gtk.Clipboard(), None, True)
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        text_buffer.paste_clipboard(clipboard, None, True)
 
     def gobutton_cb(self, button):
         from shutil import copy2
