@@ -24,14 +24,18 @@ def LoadCells(rows, cols):
 
 def DrawGrid(grid):
     """ Here we draw the grid """
+    """ Test: Print the number of neighbors of living cells """
     rows = len(grid)
     cols = len(grid[1])
+#   print rows, cols
     for x in range(rows):
         for y in range(cols):
                 if grid[x][y] != 1:
                     print '.',
                 else:
-                    print 'o',
+                    neighbors = CountNeighbors(grid, x, y)
+                    print chr(neighbors+48),
+#                   print 'o',
         print '\n',
 
 
@@ -42,57 +46,86 @@ def CountNeighbors(grid, x, y):
     rows = len(grid)
     cols = len(grid[1])
 
-    if x < (rows - 1) and grid[x + 1][y] == 1:
-        neighbors += 1
-    if x > 0 and grid[x - 1][y] == 1:
-        neighbors += 1
-    if y < (cols - 1) and grid[x][y + 1] == 1:
-        neighbors += 1
-    if y > 0 and grid[x][y - 1] == 1:
-        neighbors += 1
-    if x < (rows - 1) and y < (cols - 1) and grid[x + 1][y + 1] == 1:
-        neighbors += 1
-    if x > 0 and y > 0  and grid[x - 1][y - 1] == 1:
-        neighbors += 1
-    if x > 0 and y < (cols - 1) and grid[x - 1][y + 1] == 1:
-        neighbors += 1
-    if x < (rows - 1) and y > 0 and grid[x + 1][y - 1] == 1:
-        neighbors += 1
+#   if x < (rows - 1) and grid[x + 1][y] == 1:
+#       neighbors += 1
+#   if x > 0 and grid[x - 1][y] == 1:
+#       neighbors += 1
+#   if y < (cols - 1) and grid[x][y + 1] == 1:
+#       neighbors += 1
+#   if y > 0 and grid[x][y - 1] == 1:
+#       neighbors += 1
+#   if x < (rows - 1) and y < (cols - 1) and grid[x + 1][y + 1] == 1:
+#       neighbors += 1
+#   if x > 0 and y > 0  and grid[x - 1][y - 1] == 1:
+#       neighbors += 1
+#   if x > 0 and y < (cols - 1) and grid[x - 1][y + 1] == 1:
+#       neighbors += 1
+#   if x < (rows - 1) and y > 0 and grid[x + 1][y - 1] == 1:
+#       neighbors += 1
 
+    neighbors += grid[(x+rows-1) % rows][(y+cols-1) % cols]
+    neighbors += grid[(x+rows-1) % rows][ y               ]
+    neighbors += grid[(x+rows-1) % rows][(y     +1) % cols]
+    neighbors += grid[ x               ][(y+cols-1) % cols]
+#   neighbors += grid[ x               ][ y               ]
+    neighbors += grid[ x               ][(y     +1) % cols]
+    neighbors += grid[(x     +1) % rows][(y+cols-1) % cols]
+    neighbors += grid[(x     +1) % rows][ y               ]
+    neighbors += grid[(x     +1) % rows][(y     +1) % cols] 
+    
     return neighbors
 
 
 def Iteration(grid):
-    """ here we define a single iteration
-    if we have between 3 and 6 neighbors the single cell lives
-    in other case the cell dies
+    """ here we define a single iteration :
+#   if we have between 3 and 6 neighbors the single cell lives
+#   in other case the cell dies
+    If a living cell has 2 or 3 neighbors, it survives
+    in other cases it dies.
+    A dead cell with 3 neighbors will become alive.
     """
     rows = len(grid)
     cols = len(grid[1])
-    neighbors = 0
+ 
+#   grid0 = grid  # Save the original grid for proper counts
+    grid0 = []
+    col = [0] * cols
+#   First we load an empty grid
+    for x in range(rows):
+        col = [0] * cols
+        grid0.append(col)
+
     for x in range(rows):
         for y in range(cols):
-            neighbors = CountNeighbors(grid, x, y)
-            if grid[x][y] == 1:
+            cell = grid[x][y]
+            grid0[x][y] = cell
+
+#   neighbors = 0
+    for x in range(rows):
+        for y in range(cols):
+            neighbors = CountNeighbors(grid0, x, y)
+            if grid0[x][y] == 1:
                 if neighbors < 2 or neighbors > 3:
                     grid[x][y] = 0
             else:
                 if neighbors == 3:
                     grid[x][y] = 1
-
+                    
+    return grid
 
 def Iterator(rows, cols, pulses):
     """ Iterate n pulses and draws the result of each one """
     pulse = 1
     grid = LoadCells(rows, cols)
     while pulse <= pulses:
-        os.system('clear')
+#       os.system('clear')
         print 'Pulse: ', pulse
-        Iteration(grid)
+#       Iteration(grid)
+        grid = Iteration(grid)
         DrawGrid(grid)
         pulse += 1
         time.sleep(0.2)
 
 number = input('Please input the number of rows and cols (unique number):')
 pulses = input('Please input the number of pulses:')
-Iterator(number, number, pulses)
+Iterator(number, 4*number, pulses)
