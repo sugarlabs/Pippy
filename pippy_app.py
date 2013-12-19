@@ -26,6 +26,12 @@ import subprocess
 from random import uniform
 import locale
 
+import dbus
+from dbus.mainloop.glib import DBusGMainLoop
+
+DBusGMainLoop(set_as_default=True)
+bus = dbus.SessionBus()
+
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GLib
@@ -504,6 +510,11 @@ file. Discard changes?')
         self.add_alert(alert)
 
     def _create_bundle_cb(self, __):
+        self.get_window().set_cursor(Gdk.Cursor.new(Gdk.CursorType.WATCH))
+
+        GObject.idle_add(self._create_bundle)
+
+    def _create_bundle(self):
         from shutil import rmtree
         from tempfile import mkdtemp
 
@@ -521,6 +532,7 @@ file. Discard changes?')
             alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
             alert.connect('response', self.dismiss_alert_cb)
             self.add_alert(alert)
+            self.get_window().set_cursor(None)
             return
 
         self.stopbutton_cb(None)  # try stopping old code first.
@@ -551,7 +563,10 @@ file. Discard changes?')
             rmtree(app_temp, ignore_errors=True)  # clean up!
             self._vte.feed(_('Save as Activity Error'))
             self._vte.feed("\r\n")
+            self.get_window().set_cursor(None)
             raise
+
+        self.get_window().set_cursor(None)
 
     def _export_example_cb(self, __):
         # get the name of this pippy program.
