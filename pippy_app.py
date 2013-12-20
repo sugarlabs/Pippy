@@ -78,6 +78,8 @@ SIZE_Y = Gdk.Screen.height()
 
 groupthink_mimetype = 'pickle/groupthink-pippy'
 
+from Notebook import SourceNotebook, AddNotebook
+
 
 class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     """Pippy Activity as specified in activity.info"""
@@ -200,9 +202,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         stop = StopButton(self)
         self.get_toolbar_box().toolbar.insert(stop, -1)
 
-        # Main layout.
-        self.vpane = Gtk.Paned.new(orientation=Gtk.Orientation.VERTICAL)
-        self.vpane.set_position(400)  # setting initial position
+        self.paths = []
+
+        vpane = Gtk.Paned.new(orientation=Gtk.Orientation.VERTICAL)
+        vpane.set_position(400)  # setting initial position
 
         self.paths = []
 
@@ -251,56 +254,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         root = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'], 'data')
         self.paths.append([_('My examples'), root])
 
-        # Source buffer
-        from gi.repository import GtkSource
-        global text_buffer
-        lang_manager = GtkSource.LanguageManager.get_default()
-        if hasattr(lang_manager, 'list_languages'):
-            langs = lang_manager.list_languages()
-        else:
-            lang_ids = lang_manager.get_language_ids()
-            langs = [lang_manager.get_language(lang_id)
-                     for lang_id in lang_ids]
-        for lang in langs:
-            for m in lang.get_mime_types():
-                if m == "text/x-python":
-                    text_buffer.set_language(lang)
 
-        if hasattr(text_buffer, 'set_highlight'):
-            text_buffer.set_highlight(True)
-        else:
-            text_buffer.set_highlight_syntax(True)
+        self.source_tabs = SourceNotebook(self)
+        self.source_tabs.connect("tab-added", self._add_source_cb)
 
-        # The GTK source view window
-        self.text_view = GtkSource.View()
-        self.text_view.set_buffer(text_buffer)
-        self.text_view.set_size_request(0, int(SIZE_Y * 0.5))
-        self.text_view.set_editable(True)
-        self.text_view.set_cursor_visible(True)
-        self.text_view.set_show_line_numbers(True)
-        self.text_view.set_wrap_mode(Gtk.WrapMode.CHAR)
-        self.text_view.set_insert_spaces_instead_of_tabs(True)
-        self.text_view.set_tab_width(2)
-        self.text_view.set_auto_indent(True)
-        self.text_view.modify_font(
-            Pango.FontDescription("Monospace " +
-                                  str(font_zoom(style.FONT_SIZE))))
+        vpane.add1(self.source_tabs)
 
-        # We could change the color theme here, if we want to.
-        #mgr = GtkSource.style_manager_get_default()
-        #style_scheme = mgr.get_scheme('kate')
-        #self.text_buffer.set_style_scheme(style_scheme)
-
-        codesw = Gtk.ScrolledWindow()
-        codesw.set_policy(Gtk.PolicyType.AUTOMATIC,
-                          Gtk.PolicyType.AUTOMATIC)
-        codesw.add(self.text_view)
-        self.vpane.add1(codesw)
-
-        # An hbox to hold the vte window and its scrollbar.
-        self.outbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-
-        # The vte python window
+        outbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self._vte = Vte.Terminal()
         self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
@@ -310,24 +270,19 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                              Gdk.color_parse('#E7E7E7'),
                              [])
         self._vte.connect('child_exited', self.child_exited_cb)
+        
         self._child_exited_handler = None
-
-        # FIXME It does not work because it expects and receives StructMeta
-        # Gtk.TargetEntry
-        #
-        # self._vte.drag_dest_set(Gtk.DestDefaults.ALL,
-        #                        [("text/plain", 0, TARGET_TYPE_TEXT)],
-        #                        Gdk.DragAction.COPY)
-
         self._vte.connect('drag_data_received', self.vte_drop_cb)
-        self.outbox.pack_start(self._vte, True, True, 0)
+        outbox.pack_start(self._vte, True, True, 0)
 
         outsb = Gtk.Scrollbar(orientation=Gtk.Orientation.VERTICAL)
         outsb.set_adjustment(self._vte.get_vadjustment())
         outsb.show()
-        self.outbox.pack_start(outsb, False, False, 0)
-        self.vpane.add2(self.outbox)
-        return self.vpane
+        outbox.pack_start(outsb, False, False, 0)
+        vpane.add2(outbox)
+        self.outbox = outbox
+
+        return vpane
 
     def after_init(self):
         self.outbox.hide()
@@ -352,7 +307,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self._select_func_cb(path)
 
     def when_shared(self):
-        global text_buffer
+        text_buffer = self.source_tabs.get_text_buffer()
         self.cloud.sharefield = \
             groupthink.gtk_tools.TextBufferSharePoint(text_buffer)
         # HACK : There are issues with undo/redoing while in shared
@@ -360,6 +315,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         # is shared.
         self._edit_toolbar.undo.set_sensitive(False)
         self._edit_toolbar.redo.set_sensitive(False)
+
+    def _add_source_cb(self, button):
+        self.source_tabs.add_tab()
+        self.source_tabs.get_nth_page(-1).show_all()
 
     def vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
@@ -370,7 +329,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._logger.debug("clicked! %s" % value['path'])
         _file = open(value['path'], 'r')
         lines = _file.readlines()
-        global text_buffer
+        text_buffer = self.source_tabs.get_text_buffer()
         text_buffer.set_text("".join(lines))
         text_buffer.set_modified(False)
         self.metadata['title'] = value['name']
@@ -379,13 +338,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.text_view.grab_focus()
 
     def _select_func_cb(self, path):
-        global text_buffer
+        text_buffer = self.source_tabs.get_text_buffer()
         if text_buffer.get_modified():
             from sugar3.graphics.alert import ConfirmationAlert
             alert = ConfirmationAlert()
-            alert.props.title = _('Example-selection Warning')
-            alert.props.msg = _('You have modified the currently selected \
-file. Discard changes?')
+            alert.props.title = _('Example selection Warning')
+            alert.props.msg = _('You have modified the currently selected file. \
+                                Discard changes?')
             alert.connect('response', self._discard_changes_cb, path)
             self.add_alert(alert)
             return False
@@ -404,7 +363,7 @@ file. Discard changes?')
             values['name'] = os.path.basename(path)
             values['path'] = path
             self.selection_cb(values)
-            global text_buffer
+            text_buffer = self.source_tabs.get_text_buffer()
             text_buffer.set_modified(False)
 
     def timer_cb(self, button, icons):
@@ -419,16 +378,16 @@ file. Discard changes?')
 
     def clearbutton_cb(self, button):
         self.save()
-        global text_buffer
+        text_buffer = self.source_tabs.get_text_buffer()
         text_buffer.set_text("")
         text_buffer.set_modified(False)
         self.metadata['title'] = _('%s Activity') % get_bundle_name()
         self.stopbutton_cb(None)
         self._reset_vte()
-        self.text_view.grab_focus()
+        self.source_tabs.get_text_view().grab_focus()
 
     def _write_text_buffer(self, filename):
-        global text_buffer
+        text_buffer = self.source_tabs.get_text_buffer()
         start, end = text_buffer.get_bounds()
         text = text_buffer.get_text(start, end, True)
 
@@ -444,25 +403,23 @@ file. Discard changes?')
         self._vte.grab_focus()
         self._vte.feed("\x1B[H\x1B[J\x1B[0;39m")
 
-    def __undobutton_cb(self, button):
-        global text_buffer
+    def __undobutton_cb(self, butston):
+        text_buffer = self.source_tabs.get_text_buffer()
         if text_buffer.can_undo():
             text_buffer.undo()
 
     def __redobutton_cb(self, button):
-        global text_buffer
+        text_buffer = self.source_tabs.get_text_buffer()
         if text_buffer.can_redo():
             text_buffer.redo()
 
     def __copybutton_cb(self, button):
-        global text_buffer
-        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        text_buffer.copy_clipboard(clipboard)
+        text_buffer = self.source_tabs.get_text_buffer()
+        text_buffer.copy_clipboard(Gtk.Clipboard())
 
     def __pastebutton_cb(self, button):
-        global text_buffer
-        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        text_buffer.paste_clipboard(clipboard, None, True)
+        text_buffer = self.source_tabs.get_text_buffer()
+        text_buffer.paste_clipboard(Gtk.Clipboard(), None, True)
 
     def gobutton_cb(self, button):
         from shutil import copy2
@@ -503,19 +460,9 @@ file. Discard changes?')
 
     def _export_document_cb(self, __):
         self.copy()
-        alert = NotifyAlert()
-        alert.props.title = _('Saved')
-        alert.props.msg = _('The document has been saved to journal.')
-        alert.connect('response', lambda x, i: self.remove_alert(x))
-        self.add_alert(alert)
 
     def _create_bundle_cb(self, __):
-        self.get_window().set_cursor(Gdk.Cursor.new(Gdk.CursorType.WATCH))
-
-        GObject.idle_add(self._create_bundle)
-
-    def _create_bundle(self):
-        from shutil import rmtree
+        from shutil import copytree, copy2, rmtree
         from tempfile import mkdtemp
 
         # get the name of this pippy program.
@@ -532,7 +479,6 @@ file. Discard changes?')
             alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
             alert.connect('response', self.dismiss_alert_cb)
             self.add_alert(alert)
-            self.get_window().set_cursor(None)
             return
 
         self.stopbutton_cb(None)  # try stopping old code first.
@@ -563,10 +509,7 @@ file. Discard changes?')
             rmtree(app_temp, ignore_errors=True)  # clean up!
             self._vte.feed(_('Save as Activity Error'))
             self._vte.feed("\r\n")
-            self.get_window().set_cursor(None)
             raise
-
-        self.get_window().set_cursor(None)
 
     def _export_example_cb(self, __):
         # get the name of this pippy program.
@@ -685,20 +628,7 @@ Do you want to overwrite it?')
 
     def load_from_journal(self, file_path):
         if self.metadata['mime_type'] == 'text/x-python':
-            try:
-                text = open(file_path).read()
-            except:
-                alert = NotifyAlert(10)
-                alert.props.title = _('Error')
-                alert.props.msg = _('Error reading data.')
-
-                def remove_alert(alert, response_id):
-                    self.remove_alert(alert)
-
-                alert.connect("response", remove_alert)
-                self.add_alert(alert)
-                return
-
+            text = open(file_path).read()
             # discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
             # if present
             text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
@@ -732,20 +662,7 @@ viewBox="0 0 55 55" width="55px" x="0px" xml:space="preserve"
 xmlns="http://www.w3.org/2000/svg"
 xmlns:xlink="http://www.w3.org/1999/xlink" y="0px"><g display="block"
 id="activity-pippy">
-    <path d="M28.497,48.507
-          c5.988,0,14.88-2.838,14.88-11.185c0-9.285-7.743-10.143-10.954-11.083\
-c-3.549-0.799-5.913-1.914-6.055-3.455
-          c-0.243-2.642,1.158-3.671,3.946-3.671c0,0,6.632,3.664,12.266,0.74\
-c1.588-0.823,4.432-4.668,4.432-7.32
-          c0-2.653-9.181-5.719-11.967-5.719c-2.788,0-5.159,3.847-5.159,3.847\
-c-5.574,0-11.149,5.306-11.149,10.612
-          c0,5.305,5.333,9.455,11.707,10.612c2.963,0.469,5.441,2.22,4.878,\
-5.438c-0.457,2.613-2.995,5.306-8.361,5.306
-          c-4.252,0-13.3-0.219-14.745-4.079c-0.929-2.486,0.168-5.205,\
-1.562-5.205l-0.027-0.16c-1.42-0.158-5.548,0.16-5.548,5.465
-          C8.202,45.452,17.347,48.507,28.497,48.507z"
-          fill="&fill_color;" stroke="&stroke_color;" stroke-linecap="round"
-          stroke-linejoin="round" stroke-width="3.5"/>
+    <path d="M28.497,48.507   c5.988,0,14.88-2.838,14.88-11.185c0-9.285-7.743-10.143-10.954-11.083c-3.549-0.799-5.913-1.914-6.055-3.455   c-0.243-2.642,1.158-3.671,3.946-3.671c0,0,6.632,3.664,12.266,0.74c1.588-0.823,4.432-4.668,4.432-7.32   c0-2.653-9.181-5.719-11.967-5.719c-2.788,0-5.159,3.847-5.159,3.847c-5.574,0-11.149,5.306-11.149,10.612   c0,5.305,5.333,9.455,11.707,10.612c2.963,0.469,5.441,2.22,4.878,5.438c-0.457,2.613-2.995,5.306-8.361,5.306   c-4.252,0-13.3-0.219-14.745-4.079c-0.929-2.486,0.168-5.205,1.562-5.205l-0.027-0.16c-1.42-0.158-5.548,0.16-5.548,5.465   C8.202,45.452,17.347,48.507,28.497,48.507z" fill="&fill_color;" stroke="&stroke_color;" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
     <path d="M42.579,19.854c-2.623-0.287-6.611-2-7.467-5.022" fill="none"
 stroke="&stroke_color;" stroke-linecap="round" stroke-width="3"/>
     <circle cx="35.805" cy="10.96" fill="&stroke_color;" r="1.676"/>
@@ -876,6 +793,7 @@ def main():
     from pyclbr import readmodule_ex
     from tempfile import mkdtemp
     from shutil import copytree, copy2, rmtree
+    from sugar3 import profile
     from sugar3.activity import bundlebuilder
     import sys
 
@@ -992,3 +910,4 @@ if __name__ == '__main__':
     main()
     print(_("done!"))
     sys.exit(0)
+
