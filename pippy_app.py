@@ -484,7 +484,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         ok_icon = Icon(icon_name='dialog-ok')
         alert_icon.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
         alert_icon.props.title = _('Activity icon')
-        alert_icon.props.msg = _('You need select an activity icon.')
+        alert_icon.props.msg = _('Please select an activity icon.')
 
         def internal_callback(window=None, event=None):
             icon = "%s/activity/activity-default.svg" % (get_bundle_path())
@@ -525,11 +525,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         def alert_response(alert, response_id):
             self.remove_alert(alert)
 
-            def dialog():
+            def _icon_dialog():
                 dialog = IconDialog()
                 dialog.connect('destroy', internal_callback)
 
-            GObject.idle_add(dialog)
+            GObject.idle_add(_icon_dialog)
 
         alert_icon.connect('response', alert_response)
         self.add_alert(alert_icon)
