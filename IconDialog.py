@@ -21,13 +21,15 @@ from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GdkPixbuf
 from jarabe.journal.model import get_documents_path
+from sugar3.activity.activity import get_bundle_path
 from sugar3.graphics.toolbutton import ToolButton
 from sugar3.graphics.toolbarbox import ToolbarBox
-from sugar3.graphics import style
 from gettext import gettext as _
 import os
 
-SUGAR_ARTWORK = [_('Actions'), _('Emblems'), _('Documents')]
+DEFAULT_NAME = "default-pippy.svg"
+DEFAULT_ICON = os.path.join(get_bundle_path(), 'activity',
+                'activity-default.svg')
 
 
 def get_document_icons():
@@ -39,55 +41,41 @@ def get_document_icons():
 
     return icons_
 
-SUGAR_ICONS = {
-    _('Actions'): ['media-playlist-repeat-insensitive',
-    'media-playlist-shuffle-insensitive',
-    'format-justify-left',
-    'cell-height',
-    'media-playback-stop-insensitive',
-    'select-all', 'format-columns-triple', 'column-insert',
-    'go-right', 'cell-format', 'format-justify-right', 'row-insert',
-    'entry-search', 'invite', 'format-text-underline', 'entry-stop',
-    'view-return', 'transfer-from-text-uri-list', 'cell-size', 'column-remove',
-    'insert-image', 'edit-clear', 'view-radial', 'view-lastedit',
-    'media-seek-forward-insensitive', 'row-remove', 'zoom-home',
-    'zoom-best-fit', 'media-playlist-repeat', 'media-eject-insensitive',
-    'view-fullscreen', 'format-text-leading', 'transfer-from-text-x-generic',
-    'select-none', 'toolbar-view', 'media-playback-pause', 'format-text-bold',
-    'media-playback-start-insensitive', 'go-home', 'view-freeform', 'go-next',
-    'transfer-from-image-x-generic', 'media-seek-backward', 'list-add',
-    'edit-description', 'toolbar-colors', 'cell-width',
-    'transfer-from-audio-x-generic', 'zoom-in', 'zoom-groups',
-    'media-seek-forward', 'go-up', 'view-list', 'format-justify-center',
-    'transfer-from', 'media-playback-pause-insensitive', 'media-playback-stop',
-    'go-previous', 'go-left', 'transfer-from-video-x-generic',
-    'media-playlist-shuffle', 'zoom-out', 'toolbar-edit', 'go-next-paired',
-    'system-logout', 'view-source', 'tray-hide', 'edit-copy', 'insert-table',
-    'view-size', 'format-justify-fill', 'go-down', 'format-columns-single',
-    'transfer-to-text-uri-list', 'activity-stop',
-    'transfer-to-audio-x-generic', 'view-box', 'zoom-original',
-    'edit-undo', 'document-send', 'view-refresh',
-    'document-save', 'system-shutdown', 'entry-refresh', 'dialog-cancel',
-    'system-search', 'transfer-to-image-x-generic',
-    'transfer-from-application-octet-stream',
-    'media-seek-backward-insensitive', 'dialog-ok', 'edit-redo',
-    'view-created', 'activity-start', 'format-text-size', 'view-triangle',
-    'entry-cancel', 'media-eject', 'edit-paste', 'tray-show',
-    'transfer-to-video-x-generic', 'transfer-to', 'view-details',
-    'system-restart', 'zoom-activity', 'media-record',
-    'transfer-to-text-x-generic', 'zoom-to-width', 'format-columns-double',
-    'format-text-italic', 'tray-favourite', 'list-remove',
-    'transfer-to-application-octet-stream', 'view-spiral',
-    'media-record-insensitive', 'edit-delete', 'toolbar-help',
-    'edit-duplicate', 'media-playback-start', 'zoom-neighborhood',
-    'go-previous-paired'],
-    _('Emblems'): ['emblem-busy', 'emblem-charging', 'emblem-downloads',
-    'emblem-favorite', 'emblem-locked', 'emblem-notification',
-    'emblem-outofrange', 'emblem-question', 'emblem-view-source',
-    'emblem-warning'],
-    _('Documents'): get_document_icons()
-}
 
+def get_user_path():
+    user = os.path.expanduser("~")
+    path = os.path.join(user, ".icons")
+    if not os.path.exists(path):
+        os.mkdir(path)
+    if os.path.exists(DEFAULT_NAME):
+        os.remove(DEFAULT_NAME)
+    shutil.copy(DEFAULT_ICON, os.path.join(path, DEFAULT_NAME))
+    return path
+
+
+def get_usericons_icons():
+    path = get_user_path()
+    icons = os.listdir(path)
+    icons_ = []
+    for icon in icons:
+        if icon.endswith('.svg'):
+            icons_.append(icon[:-4])
+
+    return icons_
+
+
+def get_user_icons():
+    home = get_usericons_icons()
+    documents = get_document_icons()
+    final = []
+
+    for x in home:
+        final.append(x)
+
+    for x in documents:
+        final.append(x)
+
+    return final
 
 
 class IconDialog(Gtk.Window):
@@ -150,25 +138,14 @@ class IconDialog(Gtk.Window):
         scroll = Gtk.ScrolledWindow()
         scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 
-        grid = Gtk.Grid()
-        current = 0
-        for icon in SUGAR_ARTWORK:
-            expander = self.build_icons(icon)
-            grid.attach(expander, 0, current, 1, 1)
-            current += 1
+        icons = self.build_icons()
 
         scroll.set_size_request(self.x, self.y)
-        scroll.add_with_viewport(grid)
+        scroll.add_with_viewport(icons)
         return scroll
 
-    def build_icons(self, category):
-        icons = SUGAR_ICONS[category]
-
-        if len(icons) < 1:
-            return Gtk.EventBox()
-
+    def build_icons(self):
         store = Gtk.ListStore(GdkPixbuf.Pixbuf, str, str)
-
 
         icon_view = Gtk.IconView.new_with_model(store)
         icon_view.set_selection_mode(Gtk.SelectionMode.SINGLE)
@@ -176,23 +153,23 @@ class IconDialog(Gtk.Window):
         icon_view.set_pixbuf_column(0)
         icon_view.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse('#D5D5D5'))
 
-        for icon in icons:
+        for icon in get_user_icons():
             info = self.theme.lookup_icon(icon, 55,
                     Gtk.IconLookupFlags.FORCE_SVG)
             if not info:
                 continue
-            icon_path = info.get_filename()
-            if category == _('Documents'):
+            icon_path = os.path.join(get_user_path(), icon + ".svg")
+            if not os.path.exists(icon_path):
                 icon_path = os.path.join(get_documents_path(), icon + ".svg")
+
+            if not os.path.exists(icon_path):
+                icon_path = info.get_filename()
 
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
                         icon_path, 55, 55)
             store.insert(-1, [pixbuf, icon, icon_path])
 
-        expand = Gtk.Expander()
-        expand.set_label(category)
-        expand.add(icon_view)
-        return expand
+        return icon_view
 
     def set_icon(self, widget, model):
         try:
@@ -203,6 +180,3 @@ class IconDialog(Gtk.Window):
         icon_path = model.get(iter_, 2)[0]
         self._icon = icon_path
         self.destroy()
-
-    def get_icon(self):
-        return self._icon

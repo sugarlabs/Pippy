@@ -47,8 +47,9 @@ from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_path
 from sugar3.activity.activity import get_bundle_name
-from sugar3.graphics.alert import NotifyAlert
 from sugar3.graphics.alert import ConfirmationAlert
+from sugar3.graphics.alert import Alert
+from sugar3.graphics.icon import Icon
 from sugar3.graphics import style
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
 
@@ -80,7 +81,7 @@ SIZE_Y = Gdk.Screen.height()
 
 groupthink_mimetype = 'pickle/groupthink-pippy'
 
-from Notebook import SourceNotebook, AddNotebook
+from Notebook import SourceNotebook
 
 
 class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
@@ -256,7 +257,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         root = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'], 'data')
         self.paths.append([_('My examples'), root])
 
-
         self.source_tabs = SourceNotebook(self)
         self.source_tabs.connect("tab-added", self._add_source_cb)
 
@@ -272,7 +272,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                              Gdk.color_parse('#E7E7E7'),
                              [])
         self._vte.connect('child_exited', self.child_exited_cb)
-        
+
         self._child_exited_handler = None
         self._vte.connect('drag_data_received', self.vte_drop_cb)
         outbox.pack_start(self._vte, True, True, 0)
@@ -344,8 +344,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         if text_buffer.get_modified():
             alert = ConfirmationAlert()
             alert.props.title = _('Example selection Warning')
-            alert.props.msg = _('You have modified the currently selected file. \
-                                Discard changes?')
+            alert.props.msg = _('You have modified the currently selected file.'
+                                ' Discard changes?')
             alert.connect('response', self._discard_changes_cb, path)
             self.add_alert(alert)
             return False
@@ -463,15 +463,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.copy()
 
     def _create_bundle_cb(self, __):
-        from shutil import copytree, copy2, rmtree
+        from shutil import rmtree
         from tempfile import mkdtemp
 
         # get the name of this pippy program.
         title = self.metadata['title'].replace('.py', '')
         title = title.replace('-', '')
         if title == 'Pippy Activity':
-            from sugar3.graphics.alert import Alert
-            from sugar3.graphics.icon import Icon
             alert = Alert()
             alert.props.title = _('Save as Activity Error')
             alert.props.msg = _('Please give your activity a meaningful name '
@@ -482,9 +480,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self.add_alert(alert)
             return
 
-        alert_icon = ConfirmationAlert()
+        alert_icon = Alert()
+        ok_icon = Icon(icon_name='dialog-ok')
+        alert_icon.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
         alert_icon.props.title = _('Activity icon')
-        alert_icon.props.msg = _('You want to select activity icon?')
+        alert_icon.props.msg = _('You need select an activity icon.')
 
         def internal_callback(window=None, event=None):
             icon = "%s/activity/activity-default.svg" % (get_bundle_path())
@@ -506,7 +506,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self._write_text_buffer(sourcefile)
 
             try:
-                # FIXME: vte invocation was raising errors. Switched to subprocess
+                # FIXME: vte invocation was raising errors.
+                # Switched to subprocess
                 output = subprocess.check_output(
                     ["/usr/bin/python",
                      "%s/pippy_app.py" % get_bundle_path(),
@@ -522,12 +523,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 raise
 
         def alert_response(alert, response_id):
-            if response_id == Gtk.ResponseType.OK:
+            self.remove_alert(alert)
+
+            def dialog():
                 dialog = IconDialog()
                 dialog.connect('destroy', internal_callback)
-            else:
-                internal_callback()
-            self.remove_alert(alert)
+
+            GObject.idle_add(dialog)
 
         alert_icon.connect('response', alert_response)
         self.add_alert(alert_icon)
@@ -711,7 +713,6 @@ def pippy_activity_extra_files():
             for name in files:
                 fn = os.path.join(root, name).replace(bp + '/', '')
                 extra[fn] = open(os.path.join(root, name), 'r').read()
-    extra['activity/activity-custom.svg'] = PIPPY_CUSTOM_ICON
     return extra
 
 
@@ -755,7 +756,6 @@ def main():
     from pyclbr import readmodule_ex
     from tempfile import mkdtemp
     from shutil import copytree, copy2, rmtree
-    from sugar3 import profile
     from sugar3.activity import bundlebuilder
     import sys
 
