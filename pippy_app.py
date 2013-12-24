@@ -25,6 +25,7 @@ import os
 import subprocess
 from random import uniform
 import locale
+import json
 
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
@@ -43,6 +44,7 @@ from port.style import font_zoom
 from signal import SIGTERM
 from gettext import gettext as _
 
+from sugar3.datastore import datastore
 from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_path
@@ -80,13 +82,27 @@ groupthink_mimetype = 'pickle/groupthink-pippy'
 
 from Notebook import SourceNotebook, AddNotebook
 
+DISUTILS_SETUP_SCRIPT = """#!/usr/bin/python
+# -*- coding: utf-8 -*-
+from distutils.core import setup
+setup(name='{modulename}',
+      version='1.0',
+      py_modules=[
+                {filenames}
+                  ],
+      )
+"""  # This is .format()'ed with the list of the file names.
+
 
 class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     """Pippy Activity as specified in activity.info"""
     def early_setup(self):
-        global text_buffer
         from gi.repository import GtkSource
-        text_buffer = GtkSource.Buffer()
+        self.initial_text_buffer = GtkSource.Buffer()
+        self.loaded_from_journal = False
+        self.py_file = False
+        self.loaded_session = []
+        self.session_data = []
 
     def initialize_display(self):
         self._logger = logging.getLogger('pippy-activity')
@@ -116,6 +132,12 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         create_bundle_button.connect('clicked', self._create_bundle_cb)
         create_bundle_button.show()
         activity_toolbar.insert(create_bundle_button, -1)
+
+        export_disutils = ToolButton("pippy-create_bundle")
+        export_disutils.set_tooltip(_("Export as disutils package"))
+        export_disutils.connect("clicked", self.__export_disutils_cb)
+        export_disutils.show()
+        activity_toolbar.insert(export_disutils, -1)
 
         self._edit_toolbar = EditToolbar()
 
@@ -254,9 +276,17 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         root = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'], 'data')
         self.paths.append([_('My examples'), root])
 
-
         self.source_tabs = SourceNotebook(self)
         self.source_tabs.connect("tab-added", self._add_source_cb)
+        if self.loaded_from_journal and self.py_file:
+            self.source_tabs.add_tab(
+                self.initial_title,
+                self.initial_text_buffer)
+        elif self.loaded_session:
+            for name, content in self.loaded_session:
+                self.source_tabs.add_tab(name, content)
+        else:
+            self.source_tabs.add_tab()
 
         vpane.add1(self.source_tabs)
 
@@ -270,7 +300,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                              Gdk.color_parse('#E7E7E7'),
                              [])
         self._vte.connect('child_exited', self.child_exited_cb)
-        
+
         self._child_exited_handler = None
         self._vte.connect('drag_data_received', self.vte_drop_cb)
         outbox.pack_start(self._vte, True, True, 0)
@@ -483,6 +513,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         self.stopbutton_cb(None)  # try stopping old code first.
         self._reset_vte()
+        self.outbox.show_all()
         self._vte.feed(_("Creating activity bundle..."))
         self._vte.feed("\r\n")
         TMPDIR = 'instance'
@@ -510,6 +541,60 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self._vte.feed(_('Save as Activity Error'))
             self._vte.feed("\r\n")
             raise
+
+    def __export_disutils_cb(self, button):
+        app_temp = os.path.join(self.get_activity_root(), "instance")
+        data = self.source_tabs.get_all_data()
+        for filename, content in zip(data[0], data[1]):
+            fileobj = open(os.path.join(app_temp, filename), "w")
+            fileobj.write(content)
+            fileobj.close()
+
+        filenames = ",".join([("'"+name[:-3]+"'") for name in data[0]])
+
+        title = self.metadata['title']
+        if title is _('Pippy Activity'):
+            from sugar3.graphics.alert import Alert
+            from sugar3.graphics.icon import Icon
+            alert = Alert()
+            alert.props.title = _('Save as disutils package error')
+            alert.props.msg = _('Please give your activity a meaningful \
+name before attempting to save it as an disutils package.')
+            ok_icon = Icon(icon_name='dialog-ok')
+            alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
+            alert.connect('response', self.dismiss_alert_cb)
+            self.add_alert(alert)
+            return
+
+        setup_script = DISUTILS_SETUP_SCRIPT.format(modulename=title,
+                                                    filenames=filenames)
+        setupfile = open(os.path.join(app_temp, "setup.py"), "w")
+        setupfile.write(setup_script)
+        setupfile.close()
+
+        os.chdir(app_temp)
+
+        output = subprocess.check_output(
+            [
+                "/usr/bin/python",
+                os.path.join(app_temp, "setup.py"),
+                "sdist", "-v"
+            ])
+
+        # hand off to journal
+        os.chmod(app_temp, 0777)
+        jobject = datastore.create()
+        metadata = {
+            'title': '%s disutils bundle' % title,
+            'title_set_by_user': '1',
+            'mime_type': 'application/x-gzip',
+        }
+        for k, v in metadata.items():
+            # the dict.update method is missing =(
+            jobject.metadata[k] = v
+        tarname = "dist/{modulename}-1.0.tar.gz".format(modulename=title)
+        jobject.file_path = os.path.join(app_temp, tarname)
+        datastore.write(jobject)
 
     def _export_example_cb(self, __):
         # get the name of this pippy program.
@@ -557,7 +642,6 @@ Do you want to overwrite it?')
         """Called when we're done building a bundle for a source file."""
         from sugar3 import profile
         from shutil import rmtree
-        from sugar3.datastore import datastore
         try:
             # find the .xo file: were we successful?
             bundle_file = [f for f in os.listdir(app_temp)
@@ -617,11 +701,41 @@ Do you want to overwrite it?')
     def save_to_journal(self, file_path, cloudstring):
         _file = open(file_path, 'w')
         if not self.shared_activity:
-            self.metadata['mime_type'] = 'text/x-python'
-            global text_buffer
-            start, end = text_buffer.get_bounds()
-            text = text_buffer.get_text(start, end, True)
-            _file.write(text)
+            data = self.source_tabs.get_all_data()
+            zipped_data = zip(data[0], data[1])
+            sessionlist = []
+            app_temp = os.path.join(self.get_activity_root(), "instance")
+            tmpfile = os.path.join(app_temp,
+                                   "pippy-tempfile-storing.py")
+            for zipdata, dsid in map(None, zipped_data, self.session_data):
+                name, content = zipdata
+
+                if dsid is not None:
+                    dsitem = datastore.get(dsid)
+                    __file = open(tmpfile, "w")
+                    __file.write(content)
+                    __file.close()
+                    dsitem.set_file_path(tmpfile)
+                    dsitem.metadata['title'] = name
+                    datastore.write(dsitem)
+                else:
+                    dsobject = datastore.create()
+                    dsobject.metadata['mime_type'] = 'text/x-python'
+                    dsobject.metadata['title'] = name
+                    __file = open(tmpfile, "w")
+                    __file.write(content)
+                    __file.close()
+                    dsobject.set_file_path(tmpfile)
+                    datastore.write(dsobject)
+                    dsitem = None
+
+                if dsitem is not None:
+                    sessionlist.append([name, dsitem.object_id])
+                else:
+                    sessionlist.append([name, dsobject.object_id])
+
+            self.metadata['mime_type'] = 'application/json'
+            _file.write(json.dumps(sessionlist))
         else:
             self.metadata['mime_type'] = groupthink_mimetype
             _file.write(cloudstring)
@@ -632,9 +746,19 @@ Do you want to overwrite it?')
             # discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
             # if present
             text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
-            global text_buffer
-            text_buffer.set_text(text)
-            text_buffer.set_modified(False)
+
+            self.initial_text_buffer = text
+            self.initial_title = self.metadata['title']
+            self.loaded_from_journal = self.py_file = True
+
+        elif self.metadata['mime_type'] == "application/json":
+            data = json.loads(open(file_path).read())
+            for name, dsid in data:
+                dsitem = datastore.get(dsid)
+                content = open(dsitem.get_file_path()).read()
+                self.loaded_session.append([name, content])
+                self.session_data.append(dsitem.object_id)
+
         elif self.metadata['mime_type'] == groupthink_mimetype:
             return open(file_path).read()
 
@@ -910,4 +1034,3 @@ if __name__ == '__main__':
     main()
     print(_("done!"))
     sys.exit(0)
-
