@@ -185,6 +185,19 @@ class SourceNotebook(AddNotebook):
         text_view = tab[0]
         return text_view
 
+    def _purify_file(self, label):
+        import unicodedata
+
+        if not label.endswith(".py"):
+            label = label + ".py"
+
+        label = label.replace(" ", "_")
+        if isinstance(label, unicode):
+            label = \
+                unicodedata.normalize('NFKD', label).encode('ascii', 'ignore')
+
+        return label
+
     def get_all_data(self):
         # Returns all the names of files and the buffer contents too.
         names = []
@@ -196,12 +209,18 @@ class SourceNotebook(AddNotebook):
                                         include_hidden_chars=True)
             contents.append(text)
 
-            label = self.get_tab_label(child).get_text()
-            if not label.endswith(".py"):
-                label = label + ".py"
+            label = self._purify_file(self.get_tab_label(child).get_text())
+
             names.append(label)
 
         return (names, contents)
+
+    def get_current_file_name(self):
+        child = self.get_nth_page(self.get_current_page())
+        label = self.get_tab_label(child).get_text()
+        label = self._purify_file(label)
+
+        return label
 
     def child_exited_cb(self, *args):
         """Called whenever a child exits.  If there's a handler, runadd it."""
