@@ -1,15 +1,17 @@
 55
 
 ENHANCEMENTS:
-* Edit on multiple tabs (svineet)
+* Export as disutils, as library, as example (Sai Vineet)
+* Edit on multiple tabs (Sai Vineet)
 * Add custom icon selection when saving as Sugar activity (Ignacio Rodriguez)
+* New icons
 
 54
 
 ENHANCEMENTS:
 * Add confirmation alert before loading new projects (Emil Dudev)
 * Use open palette instead of treeview (Ignacio Rodriguez)
-* Show/Hide terminal widget (svineet)
+* Show/Hide terminal widget (Sai Vineet)
 * Added new examples (math/pi, math/stern-brocot)
 * Added i18n support for examples (Jorge Alberto Gómez López)
 * Added tutorials (Jorge Alberto Gómez López)
