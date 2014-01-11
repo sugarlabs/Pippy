@@ -66,8 +66,8 @@ from activity import TARGET_TYPE_TEXT
 import groupthink.sugar_tools
 import groupthink.gtk_tools
 
-from FileDialog import FileDialog
-from IconDialog import IconDialog
+from filedialog import FileDialog
+from icondialog import IconDialog
 
 text_buffer = None
 # magic prefix to use utf-8 source encoding
@@ -87,7 +87,7 @@ SIZE_Y = Gdk.Screen.height()
 
 groupthink_mimetype = 'pickle/groupthink-pippy'
 
-from Notebook import SourceNotebook
+from notebook import SourceNotebook
 
 DISUTILS_SETUP_SCRIPT = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
