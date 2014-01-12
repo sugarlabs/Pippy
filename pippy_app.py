@@ -55,9 +55,12 @@ from sugar3.datastore import datastore
 from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_name
+<<<<<<< HEAD
 from sugar3.activity.activity import get_bundle_path
 from sugar3.graphics.alert import Alert
 from sugar3.graphics.alert import ConfirmationAlert
+=======
+>>>>>>> 3ee39682ad9bc3daf6c67b95b9c8acb42b995d4d
 from sugar3.graphics.alert import NotifyAlert
 from sugar3.graphics import style
 from sugar3.graphics.icon import Icon
@@ -469,12 +472,23 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             text_buffer.redo()
 
     def __copybutton_cb(self, button):
+<<<<<<< HEAD
         text_buffer = self.source_tabs.get_text_buffer()
         text_buffer.copy_clipboard(Gtk.Clipboard())
 
     def __pastebutton_cb(self, button):
         text_buffer = self.source_tabs.get_text_buffer()
         text_buffer.paste_clipboard(Gtk.Clipboard(), None, True)
+=======
+        global text_buffer
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        text_buffer.copy_clipboard(clipboard)
+
+    def __pastebutton_cb(self, button):
+        global text_buffer
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        text_buffer.paste_clipboard(clipboard, None, True)
+>>>>>>> 3ee39682ad9bc3daf6c67b95b9c8acb42b995d4d
 
     def gobutton_cb(self, button):
         from shutil import copy2
@@ -545,6 +559,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def _export_document_cb(self, __):
         self.copy()
+        alert = NotifyAlert()
+        alert.props.title = _('Saved')
+        alert.props.msg = _('The document has been saved to journal.')
+        alert.connect('response', lambda x, i: self.remove_alert(x))
+        self.add_alert(alert)
 
     def remove_alert_cb(self, alert, response_id):
         self.remove_alert(alert)
@@ -864,9 +883,28 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def load_from_journal(self, file_path):
         if self.metadata['mime_type'] == 'text/x-python':
+<<<<<<< HEAD
             text = open(file_path).read()
             # Discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
             # if present.
+=======
+            try:
+                text = open(file_path).read()
+            except:
+                alert = NotifyAlert(10)
+                alert.props.title = _('Error')
+                alert.props.msg = _('Error reading data.')
+
+                def remove_alert(alert, response_id):
+                    self.remove_alert(alert)
+
+                alert.connect("response", remove_alert)
+                self.add_alert(alert)
+                return
+
+            # discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
+            # if present
+>>>>>>> 3ee39682ad9bc3daf6c67b95b9c8acb42b995d4d
             text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
 
             self.initial_text_buffer = text
