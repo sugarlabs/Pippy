@@ -25,6 +25,8 @@ import os
 import subprocess
 from random import uniform
 import locale
+import json
+import sys
 
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
@@ -43,6 +45,7 @@ from port.style import font_zoom
 from signal import SIGTERM
 from gettext import gettext as _
 
+from sugar3.datastore import datastore
 from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_path
@@ -52,6 +55,7 @@ from sugar3.graphics.alert import Alert
 from sugar3.graphics.icon import Icon
 from sugar3.graphics import style
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
+from sugar3.graphics.objectchooser import ObjectChooser
 
 from jarabe.view.customizebundle import generate_unique_id
 
@@ -83,13 +87,29 @@ groupthink_mimetype = 'pickle/groupthink-pippy'
 
 from Notebook import SourceNotebook
 
+DISUTILS_SETUP_SCRIPT = """#!/usr/bin/python
+# -*- coding: utf-8 -*-
+from distutils.core import setup
+setup(name='{modulename}',
+      version='1.0',
+      py_modules=[
+                {filenames}
+                  ],
+      )
+"""  # This is .format()'ed with the list of the file names.
+
 
 class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     """Pippy Activity as specified in activity.info"""
     def early_setup(self):
-        global text_buffer
         from gi.repository import GtkSource
-        text_buffer = GtkSource.Buffer()
+        self.initial_text_buffer = GtkSource.Buffer()
+        self.loaded_from_journal = False
+        self.py_file = False
+        self.loaded_session = []
+        self.session_data = []
+
+        sys.path.append(os.path.join(self.get_activity_root(), "Library"))
 
     def initialize_display(self):
         self._logger = logging.getLogger('pippy-activity')
@@ -101,6 +121,18 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         separator = Gtk.SeparatorToolItem()
         separator.show()
         activity_toolbar.insert(separator, -1)
+
+        import_py_button = ToolButton("pippy-import_py")
+        import_py_button.set_tooltip(_("Import Python File"))
+        import_py_button.connect("clicked", self._import_py_cb)
+        import_py_button.show()
+        activity_toolbar.insert(import_py_button, -1)
+
+        save_as_library = ToolButton("pippy-save_library")
+        save_as_library.set_tooltip(_("Save this file as a library"))
+        save_as_library.connect("clicked", self._save_as_library)
+        save_as_library.show()
+        activity_toolbar.insert(save_as_library, -1)
 
         export_doc_button = ToolButton('pippy-export_doc')
         export_doc_button.set_tooltip(_("Export as Pippy Document"))
@@ -119,6 +151,12 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         create_bundle_button.connect('clicked', self._create_bundle_cb)
         create_bundle_button.show()
         activity_toolbar.insert(create_bundle_button, -1)
+
+        export_disutils = ToolButton("pippy-create_bundle")
+        export_disutils.set_tooltip(_("Export as disutils package"))
+        export_disutils.connect("clicked", self.__export_disutils_cb)
+        export_disutils.show()
+        activity_toolbar.insert(export_disutils, -1)
 
         self._edit_toolbar = EditToolbar()
 
@@ -259,6 +297,15 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         self.source_tabs = SourceNotebook(self)
         self.source_tabs.connect("tab-added", self._add_source_cb)
+        if self.loaded_from_journal and self.py_file:
+            self.source_tabs.add_tab(
+                self.initial_title,
+                self.initial_text_buffer)
+        elif self.loaded_session:
+            for name, content in self.loaded_session:
+                self.source_tabs.add_tab(name, content)
+        else:
+            self.source_tabs.add_tab()
 
         vpane.add1(self.source_tabs)
 
@@ -387,18 +434,16 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._reset_vte()
         self.source_tabs.get_text_view().grab_focus()
 
-    def _write_text_buffer(self, filename):
-        text_buffer = self.source_tabs.get_text_buffer()
-        start, end = text_buffer.get_bounds()
-        text = text_buffer.get_text(start, end, True)
-
-        with open(filename, 'w') as f:
-            # write utf-8 coding prefix if there's not already one
-            if re.match(r'coding[:=]\s*([-\w.]+)',
-                        '\n'.join(text.splitlines()[:2])) is None:
-                f.write(PYTHON_PREFIX)
-            for line in text:
-                f.write(line)
+    def _write_all_buffers(self, tmp_dir):
+        data = self.source_tabs.get_all_data()
+        zipdata = zip(data[0], data[1])
+        for name, content in zipdata:
+            with open(os.path.join(tmp_dir, name), 'w') as f:
+                # write utf-8 coding prefix if there's not already one
+                if re.match(r'coding[:=]\s*([-\w.]+)',
+                            '\n'.join(content.splitlines()[:2])) is None:
+                    f.write(PYTHON_PREFIX)
+                f.write(content)
 
     def _reset_vte(self):
         self._vte.grab_focus()
@@ -434,8 +479,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self.outbox.show_all()
             self.toggle_output.set_active(True)
 
-        pippy_app_name = '%s/tmp/pippy_app.py' % self.get_activity_root()
-        self._write_text_buffer(pippy_app_name)
+        pippy_tmp_dir = '%s/tmp/' % self.get_activity_root()
+        self._write_all_buffers(pippy_tmp_dir)
+
+        current_file = os.path.join(
+            pippy_tmp_dir,
+            self.source_tabs.get_current_file_name())
+
         # write activity.py here too, to support pippy-based activities.
         copy2('%s/activity.py' % get_bundle_path(),
               '%s/tmp/activity.py' % self.get_activity_root())
@@ -443,7 +493,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._pid = self._vte.fork_command_full(
             Vte.PtyFlags.DEFAULT,
             get_bundle_path(),
-            ["/bin/sh", "-c", "python %s; sleep 1" % pippy_app_name,
+            ["/bin/sh", "-c", "python %s; sleep 1" % current_file,
              "PYTHONPATH=%s/library:%s" % (get_bundle_path(),
                                            os.getenv("PYTHONPATH", ""))],
             ["PYTHONPATH=%s/library:%s" % (get_bundle_path(),
@@ -459,8 +509,66 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         except:
             pass  # process must already be dead.
 
+    def _save_as_library(self, button):
+        import unicodedata
+        library_dir = os.path.join(get_bundle_path(), "library")
+        file_name = self.source_tabs.get_current_file_name()
+        text_buffer = self.source_tabs.get_text_buffer()
+        content = text_buffer.get_text(
+            *text_buffer.get_bounds(),
+            include_hidden_chars=True)
+
+        if not os.path.isdir(library_dir):
+            os.mkdir(library_dir)
+
+        with open(os.path.join(library_dir, file_name), "w") as f:
+            f.write(content)
+            success = True
+
+        if success:
+            alert = NotifyAlert(5)
+            alert.props.title = _('Python File added to Library')
+            IMPORT_MESSAGE = _('The file you selected has been added'
+                               ' to the library. Use "import {importname}"'
+                               ' to import the library for using.')
+            alert.props.msg = IMPORT_MESSAGE.format(importname=file_name[:-3])
+            alert.connect('response', self.remove_alert_cb)
+            self.add_alert(alert)
+
     def _export_document_cb(self, __):
         self.copy()
+
+    def remove_alert_cb(self, alert, response_id):
+        self.remove_alert(alert)
+
+    def _import_py_cb(self, button):
+        chooser = ObjectChooser()
+        result = chooser.run()
+        if result is Gtk.ResponseType.ACCEPT:
+            dsitem = chooser.get_selected_object()
+            if dsitem.metadata['mime_type'] != "text/x-python":
+                alert = NotifyAlert(5)
+                alert.props.title = _('Error importing Python file')
+                alert.props.msg = _('The file you selected is not a '
+                                    'Python file.')
+                alert.connect('response', self.remove_alert_cb)
+                self.add_alert(alert)
+            elif dsitem.object_id in self.session_data:
+                alert = NotifyAlert(5)
+                alert.props.title = _('Error importing Python file')
+                alert.props.msg = _('The file you selected is already '
+                                    'open')
+                alert.connect('response', self.remove_alert_cb)
+                self.add_alert(alert)
+            else:
+                name = dsitem.metadata['title']
+                file_path = dsitem.get_file_path()
+                content = open(file_path, "r").read()
+
+                self.source_tabs.add_tab(name, content)
+                self.session_data.append(dsitem.object_id)
+
+        chooser.destroy()
 
     def _create_bundle_cb(self, __):
         from shutil import rmtree
@@ -485,6 +593,19 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         alert_icon.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
         alert_icon.props.title = _('Activity icon')
         alert_icon.props.msg = _('Please select an activity icon.')
+
+        self.stopbutton_cb(None)  # try stopping old code first.
+        self._reset_vte()
+        self.outbox.show_all()
+        self._vte.feed(_("Creating activity bundle..."))
+        self._vte.feed("\r\n")
+        TMPDIR = 'instance'
+        app_temp = mkdtemp('.activity', 'Pippy',
+                           os.path.join(self.get_activity_root(), TMPDIR))
+        sourcefile = os.path.join(app_temp, 'xyzzy.py')
+        # invoke ourself to build the activity bundle.
+        self._logger.debug('writing out source file: %s' % sourcefile)
+>>>>>>> ec47e8a14c7a12351d510c3feb0b1e37b9d6b90a
 
         def internal_callback(window=None, event=None):
             icon = "%s/activity/activity-default.svg" % (get_bundle_path())
@@ -534,6 +655,74 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         alert_icon.connect('response', alert_response)
         self.add_alert(alert_icon)
 
+    def _write_text_buffer(self, filename):
+        text_buffer = self.source_tabs.get_text_buffer()
+        start, end = text_buffer.get_bounds()
+        text = text_buffer.get_text(start, end, True)
+
+        with open(filename, 'w') as f:
+            # write utf-8 coding prefix if there's not already one
+            if re.match(r'coding[:=]\s*([-\w.]+)',
+                        '\n'.join(text.splitlines()[:2])) is None:
+                f.write(PYTHON_PREFIX)
+            for line in text:
+                f.write(line)
+
+    def __export_disutils_cb(self, button):
+        app_temp = os.path.join(self.get_activity_root(), "instance")
+        data = self.source_tabs.get_all_data()
+        for filename, content in zip(data[0], data[1]):
+            fileobj = open(os.path.join(app_temp, filename), "w")
+            fileobj.write(content)
+            fileobj.close()
+
+        filenames = ",".join([("'"+name[:-3]+"'") for name in data[0]])
+
+        title = self.metadata['title']
+        if title is _('Pippy Activity'):
+            from sugar3.graphics.alert import Alert
+            from sugar3.graphics.icon import Icon
+            alert = Alert()
+            alert.props.title = _('Save as disutils package error')
+            alert.props.msg = _('Please give your activity a meaningful'
+                                'name before attempting to save it '
+                                'as an disutils package.')
+            ok_icon = Icon(icon_name='dialog-ok')
+            alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
+            alert.connect('response', self.dismiss_alert_cb)
+            self.add_alert(alert)
+            return
+
+        setup_script = DISUTILS_SETUP_SCRIPT.format(modulename=title,
+                                                    filenames=filenames)
+        setupfile = open(os.path.join(app_temp, "setup.py"), "w")
+        setupfile.write(setup_script)
+        setupfile.close()
+
+        os.chdir(app_temp)
+
+        output = subprocess.check_output(
+            [
+                "/usr/bin/python",
+                os.path.join(app_temp, "setup.py"),
+                "sdist", "-v"
+            ])
+
+        # hand off to journal
+        os.chmod(app_temp, 0777)
+        jobject = datastore.create()
+        metadata = {
+            'title': '%s disutils bundle' % title,
+            'title_set_by_user': '1',
+            'mime_type': 'application/x-gzip',
+        }
+        for k, v in metadata.items():
+            # the dict.update method is missing =(
+            jobject.metadata[k] = v
+        tarname = "dist/{modulename}-1.0.tar.gz".format(modulename=title)
+        jobject.file_path = os.path.join(app_temp, tarname)
+        datastore.write(jobject)
+
     def _export_example_cb(self, __):
         # get the name of this pippy program.
         title = self.metadata['title']
@@ -579,7 +768,6 @@ Do you want to overwrite it?')
         """Called when we're done building a bundle for a source file."""
         from sugar3 import profile
         from shutil import rmtree
-        from sugar3.datastore import datastore
         try:
             # find the .xo file: were we successful?
             bundle_file = [f for f in os.listdir(app_temp)
@@ -639,11 +827,41 @@ Do you want to overwrite it?')
     def save_to_journal(self, file_path, cloudstring):
         _file = open(file_path, 'w')
         if not self.shared_activity:
-            self.metadata['mime_type'] = 'text/x-python'
-            global text_buffer
-            start, end = text_buffer.get_bounds()
-            text = text_buffer.get_text(start, end, True)
-            _file.write(text)
+            data = self.source_tabs.get_all_data()
+            zipped_data = zip(data[0], data[1])
+            sessionlist = []
+            app_temp = os.path.join(self.get_activity_root(), "instance")
+            tmpfile = os.path.join(app_temp,
+                                   "pippy-tempfile-storing.py")
+            for zipdata, dsid in map(None, zipped_data, self.session_data):
+                name, content = zipdata
+
+                if dsid is not None:
+                    dsitem = datastore.get(dsid)
+                    __file = open(tmpfile, "w")
+                    __file.write(content)
+                    __file.close()
+                    dsitem.set_file_path(tmpfile)
+                    dsitem.metadata['title'] = name
+                    datastore.write(dsitem)
+                else:
+                    dsobject = datastore.create()
+                    dsobject.metadata['mime_type'] = 'text/x-python'
+                    dsobject.metadata['title'] = name
+                    __file = open(tmpfile, "w")
+                    __file.write(content)
+                    __file.close()
+                    dsobject.set_file_path(tmpfile)
+                    datastore.write(dsobject)
+                    dsitem = None
+
+                if dsitem is not None:
+                    sessionlist.append([name, dsitem.object_id])
+                else:
+                    sessionlist.append([name, dsobject.object_id])
+
+            self.metadata['mime_type'] = 'application/json'
+            _file.write(json.dumps(sessionlist))
         else:
             self.metadata['mime_type'] = groupthink_mimetype
             _file.write(cloudstring)
@@ -654,9 +872,19 @@ Do you want to overwrite it?')
             # discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
             # if present
             text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
-            global text_buffer
-            text_buffer.set_text(text)
-            text_buffer.set_modified(False)
+
+            self.initial_text_buffer = text
+            self.initial_title = self.metadata['title']
+            self.loaded_from_journal = self.py_file = True
+
+        elif self.metadata['mime_type'] == "application/json":
+            data = json.loads(open(file_path).read())
+            for name, dsid in data:
+                dsitem = datastore.get(dsid)
+                content = open(dsitem.get_file_path()).read()
+                self.loaded_session.append([name, content])
+                self.session_data.append(dsitem.object_id)
+
         elif self.metadata['mime_type'] == groupthink_mimetype:
             return open(file_path).read()
 
@@ -757,7 +985,6 @@ def main():
     from tempfile import mkdtemp
     from shutil import copytree, copy2, rmtree
     from sugar3.activity import bundlebuilder
-    import sys
 
     parser = OptionParser(usage='%prog [options] [title] [sourcefile] [icon]')
     parser.add_option('-d', '--dir', dest='dir', default='.', metavar='DIR',
@@ -877,4 +1104,3 @@ if __name__ == '__main__':
     main()
     print(_("done!"))
     sys.exit(0)
-

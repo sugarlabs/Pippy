@@ -23,14 +23,27 @@ class TabLabel(Gtk.HBox):
                       ([GObject.TYPE_PYOBJECT])),
     }
 
-    def __init__(self, child, label):
+    def __init__(self, child, label, tabs):
         GObject.GObject.__init__(self)
 
         self.child = child
-        self._label = Gtk.Label(label=label)
+        self.label_text = label
+        self.tabs = tabs
+
+        self.label_box = Gtk.EventBox()
+        self._label = Gtk.Label(label=self.label_text)
         self._label.set_alignment(0, 0.5)
-        self.pack_start(self._label, True, True, 5)
         self._label.show()
+
+        self.label_box.add(self._label)
+        self.label_box.connect("button-press-event", self._label_clicked)
+        self.label_box.show_all()
+        self.pack_start(self.label_box, True, True, 5)
+
+        self.label_entry = Gtk.Entry()
+        self.label_entry.connect("activate", self._label_entry_cb)
+        self.label_entry.connect("focus-out-event", self._label_entry_cb)
+        self.pack_start(self.label_entry, True, True, 0)
 
         button = ToolButton("close-tab")
         button.connect('clicked', self.__button_clicked_cb)
@@ -40,6 +53,9 @@ class TabLabel(Gtk.HBox):
 
     def set_text(self, title):
         self._label.set_text(title)
+
+    def get_text(self):
+        return self._label.get_text()
 
     def update_size(self, size):
         self.set_size_request(size, -1)
@@ -52,6 +68,21 @@ class TabLabel(Gtk.HBox):
 
     def __button_clicked_cb(self, button):
         self.emit('tab-close', self.child)
+
+    def _label_clicked(self, eventbox, data):
+        if self.tabs.page_num(self.child) is not self.tabs.get_current_page():
+            self.child.grab_focus()
+        else:
+            self.label_entry.set_text(self.label_text)
+            eventbox.hide()
+            self.label_entry.grab_focus()
+            self.label_entry.show()
+
+    def _label_entry_cb(self, entry, focus=None):
+        self.label_text = self.label_entry.get_text()
+        self.label_box.show_all()
+        self.label_entry.hide()
+        self._label.set_text(self.label_text)
 
 
 """
@@ -85,10 +116,9 @@ class SourceNotebook(AddNotebook):
     def __init__(self, activity):
         AddNotebook.__init__(self)
         self.activity = activity
+        self.set_scrollable(True)
 
-        self.add_tab()
-
-    def add_tab(self, label=None):
+    def add_tab(self, label=None, buffer_text=None):
 
         # Set text_buffer
         text_buffer = GtkSource.Buffer()
@@ -108,6 +138,9 @@ class SourceNotebook(AddNotebook):
             text_buffer.set_highlight(True)
         else:
             text_buffer.set_highlight_syntax(True)
+
+        if buffer_text:
+            text_buffer.set_text(buffer_text)
 
         # Set up SourceView
         text_view = GtkSource.View()
@@ -129,12 +162,13 @@ class SourceNotebook(AddNotebook):
                           Gtk.PolicyType.AUTOMATIC)
         codesw.add(text_view)
 
-        tabdex = self.get_n_pages()
+        tabdex = self.get_n_pages() + 1
         if label:
-            tablabel = TabLabel(codesw, label)
+            tablabel = TabLabel(codesw, label, self)
         else:
             tablabel = TabLabel(codesw,
-                                _("New Source File %d" % tabdex))
+                                _("New Source File %d" % tabdex),
+                                self)
         tablabel.connect("tab-close", self._tab_closed_cb)
         codesw.show_all()
         index = self.append_page(codesw,
@@ -151,6 +185,43 @@ class SourceNotebook(AddNotebook):
         text_view = tab[0]
         return text_view
 
+    def _purify_file(self, label):
+        import unicodedata
+
+        if not label.endswith(".py"):
+            label = label + ".py"
+
+        label = label.replace(" ", "_")
+        if isinstance(label, unicode):
+            label = \
+                unicodedata.normalize('NFKD', label).encode('ascii', 'ignore')
+
+        return label
+
+    def get_all_data(self):
+        # Returns all the names of files and the buffer contents too.
+        names = []
+        contents = []
+        for i in range(0, self.get_n_pages()):
+            child = self.get_nth_page(i)
+            text_buffer = child.get_children()[0].get_buffer()
+            text = text_buffer.get_text(*text_buffer.get_bounds(),
+                                        include_hidden_chars=True)
+            contents.append(text)
+
+            label = self._purify_file(self.get_tab_label(child).get_text())
+
+            names.append(label)
+
+        return (names, contents)
+
+    def get_current_file_name(self):
+        child = self.get_nth_page(self.get_current_page())
+        label = self.get_tab_label(child).get_text()
+        label = self._purify_file(label)
+
+        return label
+
     def child_exited_cb(self, *args):
         """Called whenever a child exits.  If there's a handler, runadd it."""
         h, self.activity._child_exited_handler = \
@@ -161,3 +232,7 @@ class SourceNotebook(AddNotebook):
     def _tab_closed_cb(self, notebook, child):
         index = self.page_num(child)
         self.remove_page(index)
+        try:
+            del self.activity.session_data[index]
+        except IndexError:
+            pass
