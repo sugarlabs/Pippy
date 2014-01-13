@@ -1,7 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
 # Copyright (C) 2007,2008,2009 Chris Ball, based on Collabora's
 # "hellomesh" demo.
+#
+# Copyright (C) 2013,14 Walter Bender
+# Copyright (C) 2013,14 Ignacio Rodriguez
+# Copyright (C) 2013 Jorge Gomez
+# Copyright (C) 2013,14 Sai Vineet
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
