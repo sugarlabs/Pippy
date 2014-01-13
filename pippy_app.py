@@ -53,6 +53,7 @@ from sugar3.activity.activity import get_bundle_name
 from sugar3.graphics.alert import ConfirmationAlert
 from sugar3.graphics.alert import Alert
 from sugar3.graphics.icon import Icon
+from sugar3.graphics.alert import NotifyAlert
 from sugar3.graphics import style
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
 from sugar3.graphics.objectchooser import ObjectChooser
@@ -460,12 +461,16 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             text_buffer.redo()
 
     def __copybutton_cb(self, button):
+        # global text_buffer
         text_buffer = self.source_tabs.get_text_buffer()
-        text_buffer.copy_clipboard(Gtk.Clipboard())
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        text_buffer.copy_clipboard(clipboard)
 
     def __pastebutton_cb(self, button):
+        # global text_buffer
         text_buffer = self.source_tabs.get_text_buffer()
-        text_buffer.paste_clipboard(Gtk.Clipboard(), None, True)
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        text_buffer.paste_clipboard(clipboard, None, True)
 
     def gobutton_cb(self, button):
         from shutil import copy2
@@ -537,6 +542,11 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def _export_document_cb(self, __):
         self.copy()
+        alert = NotifyAlert()
+        alert.props.title = _('Saved')
+        alert.props.msg = _('The document has been saved to journal.')
+        alert.connect('response', lambda x, i: self.remove_alert(x))
+        self.add_alert(alert)
 
     def remove_alert_cb(self, alert, response_id):
         self.remove_alert(alert)
@@ -605,7 +615,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         sourcefile = os.path.join(app_temp, 'xyzzy.py')
         # invoke ourself to build the activity bundle.
         self._logger.debug('writing out source file: %s' % sourcefile)
->>>>>>> ec47e8a14c7a12351d510c3feb0b1e37b9d6b90a
 
         def internal_callback(window=None, event=None):
             icon = "%s/activity/activity-default.svg" % (get_bundle_path())
@@ -868,7 +877,20 @@ Do you want to overwrite it?')
 
     def load_from_journal(self, file_path):
         if self.metadata['mime_type'] == 'text/x-python':
-            text = open(file_path).read()
+            try:
+                text = open(file_path).read()
+            except:
+                alert = NotifyAlert(10)
+                alert.props.title = _('Error')
+                alert.props.msg = _('Error reading data.')
+
+                def remove_alert(alert, response_id):
+                    self.remove_alert(alert)
+
+                alert.connect("response", remove_alert)
+                self.add_alert(alert)
+                return
+
             # discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
             # if present
             text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
