@@ -128,6 +128,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.py_file = False
         self.loaded_session = []
         self.session_data = []
+        self.dialog = None
 
         sys.path.append(os.path.join(self.get_activity_root(), 'Library'))
 
@@ -357,6 +358,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def after_init(self):
         self.outbox.hide()
 
+    def resume(self):
+        if self.dialog is not None:
+            self.dialog.set_keep_above(True)
+
     def _toggle_output_cb(self, button):
         shown = button.get_active()
         if shown:
@@ -370,9 +375,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def load_example(self, widget):
         widget.set_icon_name('pippy-openon')
-        dialog = FileDialog(self.paths, self, widget)
-        dialog.run()
-        path = dialog.get_path()
+        self.dialog = FileDialog(self.paths, self, widget)
+        self.dialog.show()
+        self.dialog.run()
+        path = self.dialog.get_path()
         if path:
             self._select_func_cb(path)
 
@@ -417,14 +423,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                   'Discard changes?')
             alert.connect('response', self._discard_changes_cb, path)
             self.add_alert(alert)
-            return False
         else:
             values = {}
             values['name'] = os.path.basename(path)
             values['path'] = path
             self.selection_cb(values)
 
-        return False
+        # return False
 
     def _discard_changes_cb(self, alert, response_id, path):
         self.remove_alert(alert)

@@ -82,6 +82,8 @@ class IconDialog(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self)
 
+        self.set_destroy_with_parent(True)
+
         self.theme = Gtk.IconTheme.get_default()
         self.theme.append_search_path(get_documents_path())
 

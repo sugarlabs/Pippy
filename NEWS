@@ -6,6 +6,9 @@ ENHANCEMENTS:
 * Add custom icon selection when saving as Sugar activity (Ignacio Rodriguez)
 * New icons
 
+BUG FIX:
+* keep dialog window on top after cycling between activities
+
 54
 
 ENHANCEMENTS:
