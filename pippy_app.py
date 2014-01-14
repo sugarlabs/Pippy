@@ -742,7 +742,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             from sugar3.graphics.icon import Icon
             alert = Alert()
             alert.props.title = _('Save as disutils package error')
-            alert.props.msg = _('Please give your activity a meaningful'
+            alert.props.msg = _('Please give your activity a meaningful '
                                 'name before attempting to save it '
                                 'as an disutils package.')
             ok_icon = Icon(icon_name='dialog-ok')
