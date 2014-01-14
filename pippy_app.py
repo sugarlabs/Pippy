@@ -173,6 +173,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         activity_toolbar.insert(create_bundle_button, -1)
 
         export_disutils = ToolButton('pippy-create-disutils')
+        # TRANS: A distutils package is used to distribute Python modules
         export_disutils.set_tooltip(_('Export as a disutils package'))
         export_disutils.connect('clicked', self.__export_disutils_cb)
         export_disutils.show()
@@ -404,7 +405,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.metadata['title'] = value['name']
         self.stopbutton_cb(None)
         self._reset_vte()
-        self.text_view.grab_focus()
 
     def _select_func_cb(self, path):
         text_buffer = self.source_tabs.get_text_buffer()
@@ -884,8 +884,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             zipped_data = zip(data[0], data[1])
             sessionlist = []
             app_temp = os.path.join(self.get_activity_root(), 'instance')
-            tmpfile = os.path.join(app_temp,
-                                   'pippy-tempfile-storing.py')
+            tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
             for zipdata, dsid in map(None, zipped_data, self.session_data):
                 name, content = zipdata
 
@@ -897,7 +896,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     dsitem.set_file_path(tmpfile)
                     dsitem.metadata['title'] = name
                     datastore.write(dsitem)
-                else:
+                elif len(content) > 0:
                     dsobject = datastore.create()
                     dsobject.metadata['mime_type'] = 'text/x-python'
                     dsobject.metadata['title'] = name
@@ -907,6 +906,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     dsobject.set_file_path(tmpfile)
                     datastore.write(dsobject)
                     dsitem = None
+                else:
+                    continue
 
                 if dsitem is not None:
                     sessionlist.append([name, dsitem.object_id])
@@ -945,8 +946,18 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         elif self.metadata['mime_type'] == 'application/json':
             data = json.loads(open(file_path).read())
             for name, dsid in data:
-                dsitem = datastore.get(dsid)
-                content = open(dsitem.get_file_path()).read()
+                try:
+                    dsitem = datastore.get(dsid)
+                except:
+                    logging.debug('could not open dsobject %s; skipping' %
+                                  dsid)
+                    continue
+                try:
+                    content = open(dsitem.get_file_path()).read()
+                except:
+                    logging.debug('could not open %s; skipping' %
+                                  dsitem.get_file_path())
+                    continue
                 self.loaded_session.append([name, content])
                 self.session_data.append(dsitem.object_id)
 
