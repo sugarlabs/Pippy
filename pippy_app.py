@@ -82,7 +82,7 @@ PYTHON_PREFIX = '''#!/usr/bin/python
 # -*- coding: utf-8 -*-
 '''
 # Force category names into Pootle
-DEFAULT_CATEGORIES = [_('graphics'), _('math'), _('pyhton'), _('sound'),
+DEFAULT_CATEGORIES = [_('graphics'), _('math'), _('python'), _('sound'),
                       _('string'), _('tutorials')]
 
 from sugar3.graphics.toolbarbox import ToolbarButton
