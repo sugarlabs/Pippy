@@ -39,9 +39,6 @@ class FileDialog(Gtk.Dialog):
         self.set_resizable(False)
         self.set_modal(True)
 
-        if window:
-            self.set_parent(window)
-
         self.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse('#F3EEEE'))
         self.show_all()
 

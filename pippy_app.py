@@ -5,9 +5,9 @@
 # "hellomesh" demo.
 #
 # Copyright (C) 2013,14 Walter Bender
-# Copyright (C) 2013 Ignacio Rodriguez
+# Copyright (C) 2013,14 Ignacio Rodriguez
 # Copyright (C) 2013 Jorge Gomez
-# Copyright (C) 2013 Sai Vineet
+# Copyright (C) 2013,14 Sai Vineet
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -52,7 +52,6 @@ from signal import SIGTERM
 from gettext import gettext as _
 
 from sugar3.datastore import datastore
-from sugar3.activity import activity
 from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_name
@@ -64,6 +63,7 @@ from sugar3.graphics import style
 from sugar3.graphics.icon import Icon
 from sugar3.graphics.objectchooser import ObjectChooser
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
+from sugar3.graphics.objectchooser import ObjectChooser
 
 from jarabe.view.customizebundle import generate_unique_id
 
@@ -77,19 +77,16 @@ from filedialog import FileDialog
 from icondialog import IconDialog
 
 text_buffer = None
-
 # magic prefix to use utf-8 source encoding
 PYTHON_PREFIX = '''#!/usr/bin/python
 # -*- coding: utf-8 -*-
 '''
 # Force category names into Pootle
-DEFAULT_CATEGORIES = [_('graphics'), _('math'), _('pyhton'), _('sound'),
+DEFAULT_CATEGORIES = [_('graphics'), _('math'), _('python'), _('sound'),
                       _('string'), _('tutorials')]
 
-from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.graphics.toolbarbox import ToolbarButton
 from sugar3.graphics.toolbutton import ToolButton
-from sugar3.activity.widgets import ActivityToolbarButton
 
 # get screen sizes
 SIZE_X = Gdk.Screen.width()
@@ -110,18 +107,28 @@ setup(name='{modulename}',
       )
 """  # This is .format()'ed with the list of the file names.
 
+DISUTILS_SETUP_SCRIPT = """#!/usr/bin/python
+# -*- coding: utf-8 -*-
+from distutils.core import setup
+setup(name='{modulename}',
+      version='1.0',
+      py_modules=[
+                {filenames}
+                  ],
+      )
+"""  # This is .format()'ed with the list of the file names.
+
 
 class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     '''Pippy Activity as specified in activity.info'''
     def early_setup(self):
-        global text_buffer
         from gi.repository import GtkSource
-        text_buffer = GtkSource.Buffer()
         self.initial_text_buffer = GtkSource.Buffer()
         self.loaded_from_journal = False
         self.py_file = False
         self.loaded_session = []
         self.session_data = []
+        self.dialog = None
 
         sys.path.append(os.path.join(self.get_activity_root(), 'Library'))
 
@@ -167,6 +174,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         activity_toolbar.insert(create_bundle_button, -1)
 
         export_disutils = ToolButton('pippy-create-disutils')
+        # TRANS: A distutils package is used to distribute Python modules
         export_disutils.set_tooltip(_('Export as a disutils package'))
         export_disutils.connect('clicked', self.__export_disutils_cb)
         export_disutils.show()
@@ -350,6 +358,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def after_init(self):
         self.outbox.hide()
 
+    def resume(self):
+        if self.dialog is not None:
+            self.dialog.set_keep_above(True)
+
     def _toggle_output_cb(self, button):
         shown = button.get_active()
         if shown:
@@ -363,9 +375,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def load_example(self, widget):
         widget.set_icon_name('pippy-openon')
-        dialog = FileDialog(self.paths, self, widget)
-        dialog.run()
-        path = dialog.get_path()
+        self.dialog = FileDialog(self.paths, self, widget)
+        self.dialog.show()
+        self.dialog.run()
+        path = self.dialog.get_path()
         if path:
             self._select_func_cb(path)
 
@@ -398,7 +411,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.metadata['title'] = value['name']
         self.stopbutton_cb(None)
         self._reset_vte()
-        self.text_view.grab_focus()
+        self.source_tabs.get_text_view().grab_focus()
 
     def _select_func_cb(self, path):
         text_buffer = self.source_tabs.get_text_buffer()
@@ -410,14 +423,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                   'Discard changes?')
             alert.connect('response', self._discard_changes_cb, path)
             self.add_alert(alert)
-            return False
         else:
             values = {}
             values['name'] = os.path.basename(path)
             values['path'] = path
             self.selection_cb(values)
 
-        return False
+        # return False
 
     def _discard_changes_cb(self, alert, response_id, path):
         self.remove_alert(alert)
@@ -475,10 +487,12 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             text_buffer.redo()
 
     def __copybutton_cb(self, button):
+        text_buffer = self.source_tabs.get_text_buffer()
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         text_buffer.copy_clipboard(clipboard)
 
     def __pastebutton_cb(self, button):
+        text_buffer = self.source_tabs.get_text_buffer()
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         text_buffer.paste_clipboard(clipboard, None, True)
 
@@ -549,8 +563,39 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             alert.connect('response', self.remove_alert_cb)
             self.add_alert(alert)
 
+    def _save_as_library(self, button):
+        import unicodedata
+        library_dir = os.path.join(get_bundle_path(), "library")
+        file_name = self.source_tabs.get_current_file_name()
+        text_buffer = self.source_tabs.get_text_buffer()
+        content = text_buffer.get_text(
+            *text_buffer.get_bounds(),
+            include_hidden_chars=True)
+
+        if not os.path.isdir(library_dir):
+            os.mkdir(library_dir)
+
+        with open(os.path.join(library_dir, file_name), "w") as f:
+            f.write(content)
+            success = True
+
+        if success:
+            alert = NotifyAlert(5)
+            alert.props.title = _('Python File added to Library')
+            IMPORT_MESSAGE = _('The file you selected has been added'
+                               ' to the library. Use "import {importname}"'
+                               ' to import the library for using.')
+            alert.props.msg = IMPORT_MESSAGE.format(importname=file_name[:-3])
+            alert.connect('response', self.remove_alert_cb)
+            self.add_alert(alert)
+
     def _export_document_cb(self, __):
         self.copy()
+        alert = NotifyAlert()
+        alert.props.title = _('Saved')
+        alert.props.msg = _('The document has been saved to journal.')
+        alert.connect('response', lambda x, i: self.remove_alert(x))
+        self.add_alert(alert)
 
     def remove_alert_cb(self, alert, response_id):
         self.remove_alert(alert)
@@ -583,11 +628,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 self.session_data.append(dsitem.object_id)
 
         chooser.destroy()
-        alert = NotifyAlert()
-        alert.props.title = _('Saved')
-        alert.props.msg = _('The document has been saved to journal.')
-        alert.connect('response', lambda x, i: self.remove_alert(x))
-        self.add_alert(alert)
 
     def _create_bundle_cb(self, __):
         from shutil import rmtree
@@ -612,6 +652,18 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         alert_icon.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
         alert_icon.props.title = _('Activity icon')
         alert_icon.props.msg = _('Please select an activity icon.')
+
+        self.stopbutton_cb(None)  # try stopping old code first.
+        self._reset_vte()
+        self.outbox.show_all()
+        self._vte.feed(_("Creating activity bundle..."))
+        self._vte.feed("\r\n")
+        TMPDIR = 'instance'
+        app_temp = mkdtemp('.activity', 'Pippy',
+                           os.path.join(self.get_activity_root(), TMPDIR))
+        sourcefile = os.path.join(app_temp, 'xyzzy.py')
+        # invoke ourself to build the activity bundle.
+        self._logger.debug('writing out source file: %s' % sourcefile)
 
         def internal_callback(window=None, event=None):
             icon = '%s/activity/activity-default.svg' % (get_bundle_path())
@@ -838,8 +890,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             zipped_data = zip(data[0], data[1])
             sessionlist = []
             app_temp = os.path.join(self.get_activity_root(), 'instance')
-            tmpfile = os.path.join(app_temp,
-                                   'pippy-tempfile-storing.py')
+            tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
             for zipdata, dsid in map(None, zipped_data, self.session_data):
                 name, content = zipdata
 
@@ -851,7 +902,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     dsitem.set_file_path(tmpfile)
                     dsitem.metadata['title'] = name
                     datastore.write(dsitem)
-                else:
+                elif len(content) > 0:
                     dsobject = datastore.create()
                     dsobject.metadata['mime_type'] = 'text/x-python'
                     dsobject.metadata['title'] = name
@@ -861,6 +912,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     dsobject.set_file_path(tmpfile)
                     datastore.write(dsobject)
                     dsitem = None
+                else:
+                    continue
 
                 if dsitem is not None:
                     sessionlist.append([name, dsitem.object_id])
@@ -875,20 +928,42 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def load_from_journal(self, file_path):
         if self.metadata['mime_type'] == 'text/x-python':
-            text = open(file_path).read()
-            # Discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
-            # if present.
+            try:
+                text = open(file_path).read()
+            except:
+                alert = NotifyAlert(10)
+                alert.props.title = _('Error')
+                alert.props.msg = _('Error reading data.')
+
+                def remove_alert(alert, response_id):
+                    self.remove_alert(alert)
+
+                alert.connect("response", remove_alert)
+                self.add_alert(alert)
+                return
+
+            # discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
+            # if present
             text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
 
             self.initial_text_buffer = text
             self.initial_title = self.metadata['title']
             self.loaded_from_journal = self.py_file = True
-
         elif self.metadata['mime_type'] == 'application/json':
             data = json.loads(open(file_path).read())
             for name, dsid in data:
-                dsitem = datastore.get(dsid)
-                content = open(dsitem.get_file_path()).read()
+                try:
+                    dsitem = datastore.get(dsid)
+                except:
+                    logging.debug('could not open dsobject %s; skipping' %
+                                  dsid)
+                    continue
+                try:
+                    content = open(dsitem.get_file_path()).read()
+                except:
+                    logging.debug('could not open %s; skipping' %
+                                  dsitem.get_file_path())
+                    continue
                 self.loaded_session.append([name, content])
                 self.session_data.append(dsitem.object_id)
 
@@ -919,13 +994,32 @@ viewBox="0 0 55 55" width="55px" x="0px" xml:space="preserve"
 xmlns="http://www.w3.org/2000/svg"
 xmlns:xlink="http://www.w3.org/1999/xlink" y="0px"><g display="block"
 id="activity-pippy">
-    <path d="M28.497,48.507   c5.988,0,14.88-2.838,14.88-11.185c0-9.285-7.743-10.143-10.954-11.083c-3.549-0.799-5.913-1.914-6.055-3.455   c-0.243-2.642,1.158-3.671,3.946-3.671c0,0,6.632,3.664,12.266,0.74c1.588-0.823,4.432-4.668,4.432-7.32   c0-2.653-9.181-5.719-11.967-5.719c-2.788,0-5.159,3.847-5.159,3.847c-5.574,0-11.149,5.306-11.149,10.612   c0,5.305,5.333,9.455,11.707,10.612c2.963,0.469,5.441,2.22,4.878,5.438c-0.457,2.613-2.995,5.306-8.361,5.306   c-4.252,0-13.3-0.219-14.745-4.079c-0.929-2.486,0.168-5.205,1.562-5.205l-0.027-0.16c-1.42-0.158-5.548,0.16-5.548,5.465   C8.202,45.452,17.347,48.507,28.497,48.507z" fill="&fill_color;" stroke="&stroke_color;" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
+<path d="M28.497,48.507
+c5.988,0,14.88-2.838,14.88-11.185
+c0-9.285-7.743-10.143-10.954-11.083
+c-3.549-0.799-5.913-1.914-6.055-3.455
+c-0.243-2.642,1.158-3.671,3.946-3.671
+c0,0,6.632,3.664,12.266,0.74
+c1.588-0.823,4.432-4.668,4.432-7.32
+c0-2.653-9.181-5.719-11.967-5.719
+c-2.788,0-5.159,3.847-5.159,3.847
+c-5.574,0-11.149,5.306-11.149,10.612
+c0,5.305,5.333,9.455,11.707,10.612
+c2.963,0.469,5.441,2.22,4.878,5.438
+c-0.457,2.613-2.995,5.306-8.361,5.306
+c-4.252,0-13.3-0.219-14.745-4.079
+c-0.929-2.486,0.168-5.205,1.562-5.205l-0.027-0.16
+c-1.42-0.158-5.548,0.16-5.548,5.465
+C8.202,45.452,17.347,48.507,28.497,48.507z"
+fill="&fill_color;" stroke="&stroke_color;"
+stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
     <path d="M42.579,19.854c-2.623-0.287-6.611-2-7.467-5.022" fill="none"
 stroke="&stroke_color;" stroke-linecap="round" stroke-width="3"/>
     <circle cx="35.805" cy="10.96" fill="&stroke_color;" r="1.676"/>
 </g></svg><!-- " -->
 
 """
+
 
 ############# ACTIVITY META-INFORMATION ###############
 # this is used by Pippy to generate a bundle for itself.
