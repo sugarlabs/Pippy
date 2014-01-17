@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: 2012-06-23 20:39+0200\n"
+"POT-Creation-Date: 2014-01-16 19:51-0500\n"
+"PO-Revision-Date: 2014-01-17 04:45+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -25,89 +25,188 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
-#: activity/activity.info:2
+#. TRANS: "name" option from activity.info file
 msgid "Pippy"
 msgstr "Pippy"
 
-#: activity.py:49
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid ""
+"Searching for programmers! Here you can use examples to begin learning the "
+"language your computer understands called \"Python.\""
+msgstr ""
+"Searching for programmers! Here you can use examples to begin learning the "
+"language your computer understands called \"Python.\""
+
+#: activity.py:60
 #, python-format
 msgid "%s Source"
 msgstr "%s Source"
 
-#: activity.py:91
-msgid "Copy selected text to clipboard"
-msgstr "Copy selected text to clipboard"
+#: filedialog.py:61
+msgid "Open an example bundle"
+msgstr "Open an example bundle"
 
-#: activity.py:96 pippy_app.py:113 pippy_app.py:118
-msgid "Edit"
-msgstr "Edit"
+#: icondialog.py:116
+msgid "Select an icon"
+msgstr "Select an icon"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "PAUSED"
 
-#: library/pippy/sound.py:54
+#: library/pippy/sound.py:58
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 
-#: pippy_app.py:90
-msgid "Export as Pippy Document"
-msgstr "Export as Pippy Document"
+#: notebook.py:170
+#, python-format
+msgid "New Source File %d"
+msgstr "New Source File %d"
 
-#: pippy_app.py:96
-msgid "Export as Pippy Example"
-msgstr "Export as Pippy Example"
+#: pippy_app.py:85
+msgid "graphics"
+msgstr "graphics"
 
-#: pippy_app.py:102
-msgid "Create Activity Bundle"
-msgstr "Create Activity Bundle"
+#: pippy_app.py:85
+msgid "math"
+msgstr "math"
 
-#: pippy_app.py:111
-msgid "Actions"
-msgstr "Actions"
+#: pippy_app.py:85
+msgid "python"
+msgstr "python"
 
-#: pippy_app.py:138 pippy_app.py:141
+#: pippy_app.py:85
+msgid "sound"
+msgstr "sound"
+
+#: pippy_app.py:86
+msgid "string"
+msgstr "string"
+
+#: pippy_app.py:86
+msgid "tutorials"
+msgstr "tutorials"
+
+#: pippy_app.py:147
+msgid "Import Python file to new tab"
+msgstr "Import Python file to new tab"
+
+#: pippy_app.py:153
+msgid "Export as Pippy document"
+msgstr "Export as Pippy document"
+
+#: pippy_app.py:159
+msgid "Save this file to the Pippy library"
+msgstr "Save this file to the Pippy library"
+
+#: pippy_app.py:165
+msgid "Export as new Pippy example"
+msgstr "Export as new Pippy example"
+
+#: pippy_app.py:171
+msgid "Create a Sugar activity bundle"
+msgstr "Create a Sugar activity bundle"
+
+#. TRANS: A distutils package is used to distribute Python modules
+#: pippy_app.py:178
+msgid "Export as a disutils package"
+msgstr "Export as a disutils package"
+
+#: pippy_app.py:188
+msgid "Edit"
+msgstr "Edit"
+
+#: pippy_app.py:201 pippy_app.py:373
+msgid "Show output panel"
+msgstr "Show output panel"
+
+#: pippy_app.py:210 pippy_app.py:213
 msgid "Run!"
 msgstr "Run!"
 
-#: pippy_app.py:139
+#: pippy_app.py:211
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: pippy_app.py:152 pippy_app.py:158
+#: pippy_app.py:224 pippy_app.py:231
 msgid "Stop"
 msgstr "Stop"
 
-#: pippy_app.py:153
+#: pippy_app.py:225
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:167 pippy_app.py:173
+#: pippy_app.py:240 pippy_app.py:247
 msgid "Clear"
 msgstr "Clear"
 
-#: pippy_app.py:168
+#: pippy_app.py:241
 msgid "<alt>c"
 msgstr "<alt>c"
 
-#: pippy_app.py:197
-msgid "Examples"
-msgstr "Examples"
+#: pippy_app.py:253
+msgid "Load example"
+msgstr "Load example"
 
-#: pippy_app.py:229
+#: pippy_app.py:318
 msgid "My examples"
 msgstr "My examples"
 
-#: pippy_app.py:358
+#: pippy_app.py:369
+msgid "Hide output panel"
+msgstr "Hide output panel"
+
+#: pippy_app.py:420
+msgid "Example selection Warning"
+msgstr "Example selection Warning"
+
+#: pippy_app.py:422
+msgid "You have modified the currently selected file. Discard changes?"
+msgstr "You have modified the currently selected file. Discard changes?"
+
+#: pippy_app.py:459
 #, python-format
 msgid "%s Activity"
 msgstr "%s Activity"
 
-#: pippy_app.py:438
+#: pippy_app.py:558 pippy_app.py:584
+msgid "Python File added to Library"
+msgstr "Python File added to Library"
+
+#: pippy_app.py:559 pippy_app.py:585
+msgid ""
+"The file you selected has been added to the library. Use \"import "
+"{importname}\" to import the library for using."
+msgstr ""
+"The file you selected has been added to the library. Use \"import "
+"{importname}\" to import the library for using."
+
+#: pippy_app.py:595
+msgid "Saved"
+msgstr "Saved"
+
+#: pippy_app.py:596
+msgid "The document has been saved to journal."
+msgstr "The document has been saved to journal."
+
+#: pippy_app.py:610 pippy_app.py:617
+msgid "Error importing Python file"
+msgstr "Error importing Python file"
+
+#: pippy_app.py:611
+msgid "The file you selected is not a Python file."
+msgstr "The file you selected is not a Python file."
+
+#: pippy_app.py:618
+msgid "The file you selected is already open"
+msgstr "The file you selected is already open"
+
+#: pippy_app.py:641 pippy_app.py:700
 msgid "Save as Activity Error"
 msgstr "Save as Activity Error"
 
-#: pippy_app.py:439
+#: pippy_app.py:642
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -115,23 +214,43 @@ msgstr ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 
-#: pippy_app.py:442 pippy_app.py:486
+#: pippy_app.py:645 pippy_app.py:652 pippy_app.py:749 pippy_app.py:796
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:448
+#: pippy_app.py:653
+msgid "Activity icon"
+msgstr "Activity icon"
+
+#: pippy_app.py:654
+msgid "Please select an activity icon."
+msgstr "Please select an activity icon."
+
+#: pippy_app.py:659 pippy_app.py:674
 msgid "Creating activity bundle..."
 msgstr "Creating activity bundle..."
 
-#: pippy_app.py:479
+#: pippy_app.py:740 pippy_app.py:787
 msgid "Pippy Activity"
 msgstr "Pippy Activity"
 
-#: pippy_app.py:483
+#: pippy_app.py:744
+msgid "Save as disutils package error"
+msgstr "Save as disutils package error"
+
+#: pippy_app.py:745
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an disutils package."
+msgstr ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an disutils package."
+
+#: pippy_app.py:791
 msgid "Save as Example Error"
 msgstr "Save as Example Error"
 
-#: pippy_app.py:484
+#: pippy_app.py:793
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
@@ -139,25 +258,57 @@ msgstr ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 
-#: pippy_app.py:492
+#: pippy_app.py:802
 msgid "Creating example..."
 msgstr "Creating example..."
 
-#: pippy_app.py:499
+#: pippy_app.py:808
 msgid "Save as Example Warning"
 msgstr "Save as Example Warning"
 
-#: pippy_app.py:500
+#: pippy_app.py:809
 msgid "This example already exists. Do you want to overwrite it?"
 msgstr "This example already exists. Do you want to overwrite it?"
 
-#: pippy_app.py:506 pippy_app.py:562
+#: pippy_app.py:816 pippy_app.py:874
 msgid "Saved as example."
 msgstr "Saved as example."
 
-#: pippy_app.py:546
+#: pippy_app.py:838
+msgid "Error saving activity to journal."
+msgstr "Error saving activity to journal."
+
+#: pippy_app.py:858
 msgid "Activity saved to journal."
 msgstr "Activity saved to journal."
+
+#: pippy_app.py:935
+msgid "Error"
+msgstr "Error"
+
+#: pippy_app.py:936
+msgid "Error reading data."
+msgstr "Error reading data."
+
+#: pippy_app.py:1202
+msgid "Working..."
+msgstr "Working..."
+
+#: pippy_app.py:1205
+msgid "done!"
+msgstr "done!"
+
+#~ msgid "Copy selected text to clipboard"
+#~ msgstr "Copy selected text to clipboard"
+
+#~ msgid "Create Activity Bundle"
+#~ msgstr "Create Activity Bundle"
+
+#~ msgid "Actions"
+#~ msgstr "Actions"
+
+#~ msgid "Examples"
+#~ msgstr "Examples"
 
 #~ msgid "_Run!"
 #~ msgstr "_Run!"
