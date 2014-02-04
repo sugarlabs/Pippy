@@ -1,3 +1,11 @@
+56
+
+ENHANCEMENT:
+* Don't offer up sound examples if TamTam is not installed
+
+BUG FIX:
+* Work around problem importing sugar3.actitity to generate bundle_path
+
 55
 
 ENHANCEMENTS:

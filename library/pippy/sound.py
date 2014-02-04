@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (C) 2007,2008 One Laptop per Child Association, Inc.
+# Copyright (C) 2013,14 Walter Bender (walter@sugarlabs.org)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,29 +21,6 @@ import os
 from gettext import gettext as _
 
 from sugar3 import env
-from sugar3.activity import activity
-
-path = activity.get_bundle_path()
-path = path.split('/')[0:-1]
-path = '/'.join(path)
-
-for f in os.listdir(path):
-
-    if f in ['TamTamMini.activity', 'TamTamJam.activity',
-             'TamTamEdit.activity', 'TamTamSynthLab.activity']:
-        bundle_dir = os.path.join(path, f)
-        tamtam_subdir = str(
-            os.path.join(bundle_dir, 'common', 'Resources', 'Sounds'))
-        sound_candidate_dirs = [
-            os.path.expandvars('$SUGAR_PATH/activities') + tamtam_subdir,
-            tamtam_subdir
-        ]
-        orchlines = []
-        scorelines = []
-        instrlist = []
-        fnum = [100]
-    else:
-        sound_candidates_dir = None
 
 '''XXX: This function seems to be broken. (CSA)
 def quit(self):
@@ -52,6 +30,11 @@ cs.Reset()
 cs = None
 '''
 
+orchlines = []
+scorelines = []
+instrlist = []
+fnum = [100]
+
 
 class SoundLibraryNotFoundError(Exception):
     def __init__(self):
@@ -60,9 +43,27 @@ class SoundLibraryNotFoundError(Exception):
 
 
 def finddir():
-    for directory in sound_candidate_dirs:
-        if os.path.isdir(directory):
-            return directory
+    paths = ['/usr/share/sugar/activities', '/home/olpc/Activities']
+    paths.append(os.path.join(os.path.expanduser('~'), 'Activities'))
+
+    sound_candidate_dirs = None
+    for path in paths:
+        for f in os.listdir(path):
+            if f in ['TamTamMini.activity', 'TamTamJam.activity',
+                     'TamTamEdit.activity', 'TamTamSynthLab.activity']:
+                bundle_dir = os.path.join(path, f)
+                tamtam_subdir = str(
+                    os.path.join(bundle_dir, 'common', 'Resources', 'Sounds'))
+                sound_candidate_dirs = [
+                    os.path.expandvars('$SUGAR_PATH/activities') + \
+                    tamtam_subdir,
+                    tamtam_subdir
+                ]
+
+    if sound_candidate_dirs is not None:
+        for directory in sound_candidate_dirs:
+            if os.path.isdir(directory):
+                return directory
 
     raise SoundLibraryNotFoundError()
 

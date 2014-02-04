@@ -75,6 +75,7 @@ import groupthink.gtk_tools
 
 from filedialog import FileDialog
 from icondialog import IconDialog
+import sound_check
 
 text_buffer = None
 # magic prefix to use utf-8 source encoding
@@ -265,12 +266,18 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         stop = StopButton(self)
         self.get_toolbar_box().toolbar.insert(stop, -1)
 
-        self.paths = []
-
         vpane = Gtk.Paned.new(orientation=Gtk.Orientation.VERTICAL)
         vpane.set_position(400)  # setting initial position
 
         self.paths = []
+
+        try:
+            if sound_check.finddir():
+                TAMTAM_AVAILABLE = True
+            else:
+                TAMTAM_AVAILABLE = False
+        except sound_check.SoundLibraryNotFoundError:
+            TAMTAM_AVAILABLE = False
 
         data_path = os.path.join(get_bundle_path(), 'data')
 
@@ -300,6 +307,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 self.all_folders.append(d)
 
         for folder in self.all_folders:
+            # Skip sound folders if TAMTAM is not installed
+            if folder == 'sound' and not TAMTAM_AVAILABLE:
+                continue
+
             direntry = {}
             # check if dir exists in pref language, if exists, add it
             if os.path.exists(os.path.join(lang_path, folder)):
