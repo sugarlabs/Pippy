@@ -36,7 +36,7 @@ def finddir():
         for f in os.listdir(path):
             if f in ['TamTamMini.activity', 'TamTamJam.activity',
                      'TamTamEdit.activity', 'TamTamSynthLab.activity',
-                     'MusicalKeyboard.activity']:
+                     'MusicKeyboard.activity']:
                 bundle_dir = os.path.join(path, f)
                 tamtam_subdir = str(
                     os.path.join(bundle_dir, 'common', 'Resources', 'Sounds'))
