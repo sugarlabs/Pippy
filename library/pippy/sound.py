@@ -43,14 +43,14 @@ class SoundLibraryNotFoundError(Exception):
 
 
 def finddir():
-    paths = ['/usr/share/sugar/activities', '/home/olpc/Activities']
-    paths.append(os.path.join(os.path.expanduser('~'), 'Activities'))
+    paths = ['/usr/share/sugar/activities', env.get_user_activities_path()]
 
     sound_candidate_dirs = None
     for path in paths:
         for f in os.listdir(path):
             if f in ['TamTamMini.activity', 'TamTamJam.activity',
-                     'TamTamEdit.activity', 'TamTamSynthLab.activity']:
+                     'TamTamEdit.activity', 'TamTamSynthLab.activity',
+                     'MusicalKeyboard.activity']:
                 bundle_dir = os.path.join(path, f)
                 tamtam_subdir = str(
                     os.path.join(bundle_dir, 'common', 'Resources', 'Sounds'))
