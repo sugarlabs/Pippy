@@ -422,7 +422,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.metadata['title'] = value['name']
         self.stopbutton_cb(None)
         self._reset_vte()
+        self.source_tabs.set_current_label(value['name'])
         self.source_tabs.get_text_view().grab_focus()
+        self.source_tabs.get_curret_page()
 
     def _select_func_cb(self, path):
         text_buffer = self.source_tabs.get_text_buffer()

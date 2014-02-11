@@ -1,3 +1,21 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2014 Walter Bender
+# Copyright (C) 2014 Sai Vineet
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
@@ -171,9 +189,13 @@ class SourceNotebook(AddNotebook):
                                 self)
         tablabel.connect("tab-close", self._tab_closed_cb)
         codesw.show_all()
-        index = self.append_page(codesw,
-                                 tablabel)
+        index = self.append_page(codesw, tablabel)
         self.props.page = index  # Set new page as active tab
+
+    def set_current_label(self, label):
+        child = self.get_nth_page(self.get_current_page())
+        widget = self.get_tab_label(child)
+        widget.set_text(self._purify_file(label))
 
     def get_text_buffer(self):
         tab = self.get_nth_page(self.get_current_page()).get_children()
