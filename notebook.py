@@ -41,11 +41,12 @@ class TabLabel(Gtk.HBox):
                       ([GObject.TYPE_PYOBJECT])),
     }
 
-    def __init__(self, child, label, tabs):
+    def __init__(self, child, label, path, tabs):
         GObject.GObject.__init__(self)
 
         self.child = child
         self.label_text = label
+        self._path = path
         self.tabs = tabs
 
         self.label_box = Gtk.EventBox()
@@ -74,6 +75,12 @@ class TabLabel(Gtk.HBox):
 
     def get_text(self):
         return self._label.get_text()
+
+    def get_path(self):
+        return self._path
+
+    def set_path(self, path):
+        self._path = path
 
     def update_size(self, size):
         self.set_size_request(size, -1)
@@ -136,7 +143,7 @@ class SourceNotebook(AddNotebook):
         self.activity = activity
         self.set_scrollable(True)
 
-    def add_tab(self, label=None, buffer_text=None):
+    def add_tab(self, label=None, buffer_text=None, path=None):
 
         # Set text_buffer
         text_buffer = GtkSource.Buffer()
@@ -159,6 +166,7 @@ class SourceNotebook(AddNotebook):
 
         if buffer_text:
             text_buffer.set_text(buffer_text)
+            text_buffer.set_modified(False)
 
         # Set up SourceView
         text_view = GtkSource.View()
@@ -182,11 +190,11 @@ class SourceNotebook(AddNotebook):
 
         tabdex = self.get_n_pages() + 1
         if label:
-            tablabel = TabLabel(codesw, label, self)
+            tablabel = TabLabel(codesw, label, path, self)
         else:
             tablabel = TabLabel(codesw,
                                 _("New Source File %d" % tabdex),
-                                self)
+                                path, self)
         tablabel.connect("tab-close", self._tab_closed_cb)
         codesw.show_all()
         index = self.append_page(codesw, tablabel)
@@ -196,6 +204,11 @@ class SourceNotebook(AddNotebook):
         child = self.get_nth_page(self.get_current_page())
         widget = self.get_tab_label(child)
         widget.set_text(self._purify_file(label))
+
+    def set_current_path(self, path):
+        child = self.get_nth_page(self.get_current_page())
+        widget = self.get_tab_label(child)
+        widget.set_path(path)
 
     def get_text_buffer(self):
         tab = self.get_nth_page(self.get_current_page()).get_children()
@@ -220,22 +233,29 @@ class SourceNotebook(AddNotebook):
 
         return label
 
-    def get_all_data(self, check_modified=False):
+    def get_all_data(self):
         # Returns all the names of files and the buffer contents too.
         names = []
-        contents = []
+        python_codes = []
+        paths = []
+        modifieds = []
         for i in range(0, self.get_n_pages()):
             child = self.get_nth_page(i)
-            text_buffer = child.get_children()[0].get_buffer()
+
             label = self._purify_file(self.get_tab_label(child).get_text())
+            names.append(label)
 
-            if not check_modified or text_buffer.get_modified():
-                text = text_buffer.get_text(*text_buffer.get_bounds(),
-                                            include_hidden_chars=True)
-                contents.append(text)
-                names.append(label)
+            path = self.get_tab_label(child).get_path()
+            paths.append(path)
 
-        return (names, contents)
+            text_buffer = child.get_children()[0].get_buffer()
+            text = text_buffer.get_text(*text_buffer.get_bounds(),
+                                        include_hidden_chars=True)
+            python_codes.append(text)
+
+            modifieds.append(text_buffer.get_modified())
+
+        return (names, python_codes, paths, modifieds)
 
     def get_current_file_name(self):
         child = self.get_nth_page(self.get_current_page())
