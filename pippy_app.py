@@ -424,7 +424,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._reset_vte()
         self.source_tabs.set_current_label(value['name'])
         self.source_tabs.get_text_view().grab_focus()
-        self.source_tabs.get_curret_page()
 
     def _select_func_cb(self, path):
         text_buffer = self.source_tabs.get_text_buffer()
@@ -899,7 +898,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def save_to_journal(self, file_path, cloudstring):
         _file = open(file_path, 'w')
         if not self.shared_activity:
-            data = self.source_tabs.get_all_data()
+            data = self.source_tabs.get_all_data(check_modified=True)
             zipped_data = zip(data[0], data[1])
             sessionlist = []
             app_temp = os.path.join(self.get_activity_root(), 'instance')

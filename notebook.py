@@ -220,20 +220,20 @@ class SourceNotebook(AddNotebook):
 
         return label
 
-    def get_all_data(self):
+    def get_all_data(self, check_modified=False):
         # Returns all the names of files and the buffer contents too.
         names = []
         contents = []
         for i in range(0, self.get_n_pages()):
             child = self.get_nth_page(i)
             text_buffer = child.get_children()[0].get_buffer()
-            text = text_buffer.get_text(*text_buffer.get_bounds(),
-                                        include_hidden_chars=True)
-            contents.append(text)
-
             label = self._purify_file(self.get_tab_label(child).get_text())
 
-            names.append(label)
+            if not check_modified or text_buffer.get_modified():
+                text = text_buffer.get_text(*text_buffer.get_bounds(),
+                                            include_hidden_chars=True)
+                contents.append(text)
+                names.append(label)
 
         return (names, contents)
 
