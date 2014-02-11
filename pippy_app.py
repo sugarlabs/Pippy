@@ -287,8 +287,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             lang = 'en'
         else:
             lang = locale_lang.split('_')[0]
-        logging.debug(locale.getdefaultlocale())
-        logging.debug(lang)
+        self._logger.debug(locale.getdefaultlocale())
+        self._logger.debug(lang)
 
         # construct the path for both
         lang_path = os.path.join(data_path, lang)
@@ -336,8 +336,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 self.initial_text_buffer,
                 None)
         elif self.loaded_session:
-            for name, content in self.loaded_session:
-                self.source_tabs.add_tab(name, content, None)
+            for name, content, path in self.loaded_session:
+                self.source_tabs.add_tab(name, content, path)
         else:
             self.source_tabs.add_tab()
 
@@ -907,10 +907,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
             for zipdata, content in map(None, zipped_data, self.session_data):
                 name, python_code, path, modified = zipdata
-                logging.debug(content)
-                logging.debug(path)
                 if content is not None and content[0] != '/':
-                    logging.debug('have an existing dsobject')
+                    self._logger.debug('Saving an existing dsobject')
                     dsitem = datastore.get(content)
                     __file = open(tmpfile, 'w')
                     __file.write(python_code)
@@ -920,29 +918,28 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     datastore.write(dsitem)
                     sessionlist.append([name, dsitem.object_id])
                 elif modified:
-                    logging.debug('have newly modified code')
-                    dsobject = datastore.create()
-                    dsobject.metadata['mime_type'] = 'text/x-python'
-                    dsobject.metadata['title'] = name
-                    __file = open(tmpfile, 'w')
-                    __file.write(python_code)
-                    __file.close()
-                    dsobject.set_file_path(tmpfile)
-                    datastore.write(dsobject)
-                    sessionlist.append([name, dsobject.object_id])
+                    self._logger.debug('Creating new dsobj for modified code')
+                    if len(python_code) > 0:
+                        dsobject = datastore.create()
+                        dsobject.metadata['mime_type'] = 'text/x-python'
+                        dsobject.metadata['title'] = name
+                        __file = open(tmpfile, 'w')
+                        __file.write(python_code)
+                        __file.close()
+                        dsobject.set_file_path(tmpfile)
+                        datastore.write(dsobject)
+                        sessionlist.append([name, dsobject.object_id])
                 elif content is not None or path is not None:
-                    logging.debug('have a sample file path')
-                    # a path to sample code
-                    if path is None:
+                    self._logger.debug('Saving reference to sample file')
+                    if path is None:  # Should not happen, but just in case...
+                        self._logger.error('path is None.')
                         sessionlist.append([name, content])
                     else:
                         sessionlist.append([name, path])
-                else:
-                    logging.debug('have nothing')
+                else:  # Should not happen, but just in case...
+                    self._logger.error('Nothing to save in tab?')
 
             self.metadata['mime_type'] = 'application/json'
-            logging.debug('saving json data')
-            logging.debug(sessionlist)
             _file.write(json.dumps(sessionlist))
         else:
             self.metadata['mime_type'] = groupthink_mimetype
@@ -972,9 +969,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self.initial_title = self.metadata['title']
             self.loaded_from_journal = self.py_file = True
         elif self.metadata['mime_type'] == 'application/json':
-            logging.debug('loading json data')
             data = json.loads(open(file_path).read())
-            logging.debug(data)
             for name, content in data:
                 # content is either a datastore id or the path to some
                 # sample code
@@ -982,22 +977,24 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     try:
                         python_code = open(content).read()
                     except:
-                        logging.debug('could not open %s; skipping' %
-                                      content)
+                        self._logger.error('Could not open %s; skipping' %
+                                           content)
+                    path = content
                 else:
                     try:
                         dsitem = datastore.get(content)
                     except:
-                        logging.debug('could not open dsobject %s; skipping' %
-                                      content)
+                        self._logger.error('Could not open %s; skipping' %
+                                           content)
                         continue
                     try:
                         python_code = open(dsitem.get_file_path()).read()
                     except:
-                        logging.debug('could not open %s; skipping' %
-                                      dsitem.get_file_path())
+                        self._logger.error('Could not open %s; skipping' %
+                                           dsitem.get_file_path())
                         continue
-                self.loaded_session.append([name, python_code])
+                    path = None
+                self.loaded_session.append([name, python_code, path])
                 self.session_data.append(content)
 
         elif self.metadata['mime_type'] == groupthink_mimetype:
