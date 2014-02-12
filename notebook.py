@@ -16,6 +16,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import logging
+import unicodedata
+
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
@@ -23,15 +26,12 @@ from gi.repository import Vte
 from gi.repository import Pango
 from gi.repository import GtkSource
 from gettext import gettext as _
-from sugar3.graphics.icon import Icon
+
 from port.style import font_zoom
+
+from sugar3.graphics.icon import Icon
 from sugar3.graphics import style
-
 from sugar3.graphics.toolbutton import ToolButton
-
-
-SIZE_X = Gdk.Screen.width()
-SIZE_Y = Gdk.Screen.height()
 
 
 class TabLabel(Gtk.HBox):
@@ -46,7 +46,7 @@ class TabLabel(Gtk.HBox):
 
         self.child = child
         self.label_text = label
-        self._path = path
+        self._path = path  # Hide the path in the label
         self.tabs = tabs
 
         self.label_box = Gtk.EventBox()
@@ -110,15 +110,13 @@ class TabLabel(Gtk.HBox):
         self._label.set_text(self.label_text)
 
 
-"""
+class AddNotebook(Gtk.Notebook):
+    """
     AddNotebook
     -----------
     This subclass has a add button which emits tab-added on clicking the
     button.
-"""
-
-
-class AddNotebook(Gtk.Notebook):
+    """
     __gsignals__ = {
         'tab-added': (GObject.SignalFlags.RUN_FIRST,
                       None,
@@ -144,9 +142,8 @@ class SourceNotebook(AddNotebook):
         self.set_scrollable(True)
 
     def add_tab(self, label=None, buffer_text=None, path=None):
-
-        # Set text_buffer
         text_buffer = GtkSource.Buffer()
+
         lang_manager = GtkSource.LanguageManager.get_default()
         if hasattr(lang_manager, 'list_languages'):
             langs = lang_manager.list_languages()
@@ -163,15 +160,13 @@ class SourceNotebook(AddNotebook):
             text_buffer.set_highlight(True)
         else:
             text_buffer.set_highlight_syntax(True)
-
         if buffer_text:
             text_buffer.set_text(buffer_text)
             text_buffer.set_modified(False)
 
-        # Set up SourceView
         text_view = GtkSource.View()
         text_view.set_buffer(text_buffer)
-        text_view.set_size_request(0, int(SIZE_Y * 0.5))
+        text_view.set_size_request(0, int(Gdk.Screen.height() * 0.5))
         text_view.set_editable(True)
         text_view.set_cursor_visible(True)
         text_view.set_show_line_numbers(True)
@@ -187,6 +182,9 @@ class SourceNotebook(AddNotebook):
         codesw.set_policy(Gtk.PolicyType.AUTOMATIC,
                           Gtk.PolicyType.AUTOMATIC)
         codesw.add(text_view)
+        text_view.show()
+        text_view.set_can_focus(True)
+        text_view.grab_focus()
 
         tabdex = self.get_n_pages() + 1
         if label:
@@ -196,7 +194,9 @@ class SourceNotebook(AddNotebook):
                                 _("New Source File %d" % tabdex),
                                 path, self)
         tablabel.connect("tab-close", self._tab_closed_cb)
+
         codesw.show_all()
+
         index = self.append_page(codesw, tablabel)
         self.props.page = index  # Set new page as active tab
 
@@ -221,8 +221,6 @@ class SourceNotebook(AddNotebook):
         return text_view
 
     def _purify_file(self, label):
-        import unicodedata
-
         if not label.endswith(".py"):
             label = label + ".py"
 
@@ -275,6 +273,8 @@ class SourceNotebook(AddNotebook):
         index = self.page_num(child)
         self.remove_page(index)
         try:
+            logging.debug('deleting session_data %s' %
+                          str(self.activity.session_data[index]))
             del self.activity.session_data[index]
         except IndexError:
             pass

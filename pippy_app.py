@@ -25,7 +25,7 @@
 
 """Pippy Activity: A simple Python programming activity ."""
 from __future__ import with_statement
-import logging
+
 import re
 import os
 import subprocess
@@ -89,6 +89,9 @@ DEFAULT_CATEGORIES = [_('graphics'), _('math'), _('python'), _('sound'),
 from sugar3.graphics.toolbarbox import ToolbarButton
 from sugar3.graphics.toolbutton import ToolButton
 
+import logging
+_logger = logging.getLogger('pippy-activity')
+
 # get screen sizes
 SIZE_X = Gdk.Screen.width()
 SIZE_Y = Gdk.Screen.height()
@@ -127,15 +130,14 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.initial_text_buffer = GtkSource.Buffer()
         self.loaded_from_journal = False
         self.py_file = False
-        self.loaded_session = []
-        self.session_data = []
+        self.pippy_instance = self
+        self.loaded_session = []  # Used to manage tabs
+        self.session_data = []  # Used to manage saving
         self.dialog = None
 
         sys.path.append(os.path.join(self.get_activity_root(), 'Library'))
 
     def initialize_display(self):
-        self._logger = logging.getLogger('pippy-activity')
-
         # Activity toolbar with title input, share button and export buttons:
 
         activity_toolbar = self.activity_button.page
@@ -287,8 +289,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             lang = 'en'
         else:
             lang = locale_lang.split('_')[0]
-        self._logger.debug(locale.getdefaultlocale())
-        self._logger.debug(lang)
+        _logger.debug(locale.getdefaultlocale())
+        _logger.debug(lang)
 
         # construct the path for both
         lang_path = os.path.join(data_path, lang)
@@ -339,7 +341,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             for name, content, path in self.loaded_session:
                 self.source_tabs.add_tab(name, content, path)
         else:
-            self.source_tabs.add_tab()
+            self.session_data.append(None)
+            self.source_tabs.add_tab()  # New instance, ergo empty tab
 
         vpane.add1(self.source_tabs)
 
@@ -406,7 +409,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def _add_source_cb(self, button):
         self.source_tabs.add_tab()
+        self.session_data.append(None)
         self.source_tabs.get_nth_page(-1).show_all()
+        self.source_tabs.get_text_view().grab_focus()
 
     def vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
@@ -414,13 +419,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def selection_cb(self, value):
         self.save()
-        self._logger.debug('clicked! %s' % value['path'])
+        _logger.debug('clicked! %s' % value['path'])
         _file = open(value['path'], 'r')
         lines = _file.readlines()
         text_buffer = self.source_tabs.get_text_buffer()
         text_buffer.set_text(''.join(lines))
         text_buffer.set_modified(False)
-        self.metadata['title'] = value['name']
+        self.pippy_instance.metadata['title'] = value['name']
         self.stopbutton_cb(None)
         self._reset_vte()
         self.source_tabs.set_current_label(value['name'])
@@ -470,7 +475,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         text_buffer = self.source_tabs.get_text_buffer()
         text_buffer.set_text('')
         text_buffer.set_modified(False)
-        self.metadata['title'] = _('%s Activity') % get_bundle_name()
+        self.pippy_instance.metadata['title'] = \
+            _('%s Activity') % get_bundle_name()
         self.stopbutton_cb(None)
         self._reset_vte()
         self.source_tabs.get_text_view().grab_focus()
@@ -638,8 +644,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 file_path = dsitem.get_file_path()
                 content = open(file_path, 'r').read()
 
-                self.source_tabs.add_tab(name, content)
+                self.source_tabs.add_tab(name, content, None)
+                self.source_tabs.set_current_label(name)
                 self.session_data.append(dsitem.object_id)
+                _logger.debug('after import py: %r' % self.session_data)
 
         chooser.destroy()
 
@@ -648,7 +656,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         from tempfile import mkdtemp
 
         # Get the name of this pippy program.
-        title = self.metadata['title'].replace('.py', '')
+        title = self.pippy_instance.metadata['title'].replace('.py', '')
         title = title.replace('-', '')
         if title == 'Pippy Activity':
             alert = Alert()
@@ -677,7 +685,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                            os.path.join(self.get_activity_root(), TMPDIR))
         sourcefile = os.path.join(app_temp, 'xyzzy.py')
         # invoke ourself to build the activity bundle.
-        self._logger.debug('writing out source file: %s' % sourcefile)
+        _logger.debug('writing out source file: %s' % sourcefile)
 
         def internal_callback(window=None, event=None):
             icon = '%s/activity/activity-default.svg' % (get_bundle_path())
@@ -693,7 +701,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                                os.path.join(self.get_activity_root(), TMPDIR))
             sourcefile = os.path.join(app_temp, 'xyzzy.py')
             # Invoke ourself to build the activity bundle.
-            self._logger.debug('writing out source file: %s' % sourcefile)
+            _logger.debug('writing out source file: %s' % sourcefile)
 
             # Write out application code
             self._write_text_buffer(sourcefile)
@@ -750,7 +758,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         filenames = ','.join([("'"+name[:-3]+"'") for name in data[0]])
 
-        title = self.metadata['title']
+        title = self.pippy_instance.metadata['title']
         if title is _('Pippy Activity'):
             from sugar3.graphics.alert import Alert
             from sugar3.graphics.icon import Icon
@@ -797,7 +805,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
     def _export_example_cb(self, __):
         # Get the name of this pippy program.
-        title = self.metadata['title']
+        title = self.pippy_instance.metadata['title']
         if title == _('Pippy Activity'):
             from sugar3.graphics.alert import Alert
             from sugar3.graphics.icon import Icon
@@ -846,7 +854,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             bundle_file = [f for f in os.listdir(app_temp)
                            if f.endswith('.xo')]
             if len(bundle_file) != 1:
-                self._logger.debug("Couldn't find bundle: %s" %
+                _logger.debug("Couldn't find bundle: %s" %
                                    str(bundle_file))
                 self._vte.feed('\r\n')
                 self._vte.feed(_('Error saving activity to journal.'))
@@ -898,55 +906,83 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.model.set_value(_iter, 1, entry['name'])
 
     def save_to_journal(self, file_path, cloudstring):
-        _file = open(file_path, 'w')
         if not self.shared_activity:
             data = self.source_tabs.get_all_data()
             zipped_data = zip(data[0], data[1], data[2], data[3])
-            sessionlist = []
+            session_list = []
             app_temp = os.path.join(self.get_activity_root(), 'instance')
             tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
             for zipdata, content in map(None, zipped_data, self.session_data):
                 name, python_code, path, modified = zipdata
-                if content is not None and content[0] != '/':
-                    self._logger.debug('Saving an existing dsobject')
+                if content is not None and \
+                   content == self._jobject.object_id:
+                    _logger.debug('saving to self')
+                    self.metadata['title'] = name
+                    self.metadata['mime_type'] = 'text/x-python'
+                    __file = open(file_path, 'w')
+                    __file.write(python_code)
+                    __file.close()
+                    session_list.append([name, content])
+                elif content is not None and content[0] != '/':
+                    _logger.debug('Saving an existing dsobject')
                     dsitem = datastore.get(content)
+                    dsitem.metadata['title'] = name
+                    dsitem.metadata['mime_type'] = 'text/x-python'
                     __file = open(tmpfile, 'w')
                     __file.write(python_code)
                     __file.close()
                     dsitem.set_file_path(tmpfile)
-                    dsitem.metadata['title'] = name
                     datastore.write(dsitem)
-                    sessionlist.append([name, dsitem.object_id])
+                    session_list.append([name, dsitem.object_id])
                 elif modified:
-                    self._logger.debug('Creating new dsobj for modified code')
+                    _logger.debug('Creating new dsobj for modified code')
                     if len(python_code) > 0:
                         dsobject = datastore.create()
-                        dsobject.metadata['mime_type'] = 'text/x-python'
                         dsobject.metadata['title'] = name
+                        dsobject.metadata['mime_type'] = 'text/x-python'
                         __file = open(tmpfile, 'w')
                         __file.write(python_code)
                         __file.close()
                         dsobject.set_file_path(tmpfile)
                         datastore.write(dsobject)
-                        sessionlist.append([name, dsobject.object_id])
+                        session_list.append([name, dsobject.object_id])
                 elif content is not None or path is not None:
-                    self._logger.debug('Saving reference to sample file')
+                    _logger.debug('Saving reference to sample file')
                     if path is None:  # Should not happen, but just in case...
-                        self._logger.error('path is None.')
-                        sessionlist.append([name, content])
+                        _logger.error('path is None.')
+                        session_list.append([name, content])
                     else:
-                        sessionlist.append([name, path])
+                        session_list.append([name, path])
                 else:  # Should not happen, but just in case...
-                    self._logger.error('Nothing to save in tab?')
+                    _logger.error('Nothing to save in tab? %s %s %s %s' %
+                                  (str(name), str(python_code), str(path),
+                                   str(content)))
 
-            self.metadata['mime_type'] = 'application/json'
-            _file.write(json.dumps(sessionlist))
+            self.pippy_instance.metadata['mime_type'] = 'application/json'
+            pippy_data = json.dumps(session_list)
         else:
-            self.metadata['mime_type'] = groupthink_mimetype
-            _file.write(cloudstring)
+            self.pippy_instance.metadata['mime_type'] = groupthink_mimetype
+            pippy_data = cloudstring
+
+        # Override file path if we created a new Pippy instance
+        if self.loaded_from_journal and self.py_file:
+            file_path = os.path.join(app_temp, 'pippy-temp-instance-data')
+        _file = open(file_path, 'w')
+        _file.write(pippy_data)
+        _file.close()
+        if self.loaded_from_journal and self.py_file:
+            _logger.debug('setting pippy instance file_path to %s' %
+                          file_path)
+            self.pippy_instance.set_file_path(file_path)
+            datastore.write(self.pippy_instance)
 
     def load_from_journal(self, file_path):
+        # Either we are opening Python code or a list of objects
+        # stored (json-encoded) in a Pippy instance, or a shared
+        # session.
         if self.metadata['mime_type'] == 'text/x-python':
+            _logger.debug('Loading Python code')
+            # Opening some Python code directly
             try:
                 text = open(file_path).read()
             except:
@@ -961,14 +997,28 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 self.add_alert(alert)
                 return
 
-            # discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
+            # Discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
             # if present
             text = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
 
             self.initial_text_buffer = text
             self.initial_title = self.metadata['title']
             self.loaded_from_journal = self.py_file = True
+
+            # Since we loaded Python code, we need to create a Pippy instance
+            self.pippy_instance = datastore.create()
+            self.pippy_instance.metadata['title'] = self.metadata['title']
+            self.pippy_instance.metadata['mime_type'] = 'application/json'
+            self.pippy_instance.metadata['activity'] = 'org.laptop.Pippy'
+            datastore.write(self.pippy_instance)
+
+            # Finally, add this Python object to the session data
+            # FIXME: There must be a better way to get the object_id
+            self.session_data.append(self._jobject.object_id)
+            _logger.debug('session_data: %s' % self.session_data)
         elif self.metadata['mime_type'] == 'application/json':
+            # Reading file list from Pippy instance
+            _logger.debug('Loading Pippy instance')
             data = json.loads(open(file_path).read())
             for name, content in data:
                 # content is either a datastore id or the path to some
@@ -977,26 +1027,36 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     try:
                         python_code = open(content).read()
                     except:
-                        self._logger.error('Could not open %s; skipping' %
-                                           content)
+                        _logger.error('Could not open %s; skipping' % content)
                     path = content
                 else:
                     try:
                         dsitem = datastore.get(content)
+                        if not 'mime_type' in dsitem.metadata:
+                            _logger.error(
+                                'Warning: %s missing mime_type' % content)
+                        elif dsitem.metadata['mime_type'] != 'text/python':
+                            _logger.error(
+                                'Warning: %s has unexpected mime_type %s' %
+                                (content, dsitem.metadata['mime_type']))
                     except:
-                        self._logger.error('Could not open %s; skipping' %
-                                           content)
+                        # Could be that the item has subsequently been
+                        # deleted from the datastore, so we skip it.
+                        _logger.error('Could not open %s; skipping' % content)
                         continue
                     try:
                         python_code = open(dsitem.get_file_path()).read()
                     except:
-                        self._logger.error('Could not open %s; skipping' %
-                                           dsitem.get_file_path())
+                        # Malformed bundle?
+                        _logger.error('Could not open %s; skipping' %
+                                      dsitem.get_file_path())
                         continue
                     path = None
-                self.loaded_session.append([name, python_code, path])
-                self.session_data.append(content)
 
+                # Queue up the creation of the tabs...
+                self.loaded_session.append([name, python_code, path])
+                # And add this content to the session data
+                self.session_data.append(content)
         elif self.metadata['mime_type'] == groupthink_mimetype:
             return open(file_path).read()
 

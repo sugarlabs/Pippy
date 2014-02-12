@@ -1,7 +1,11 @@
 57
 
-ENHANCEMENT:
+ENHANCEMENTS:
 * Set tab label with file name when loading examples
+* Set focus on text view
+
+BUG FIX:
+* Sort out numerous cases regarding saving/restoring tabs/tabs content
 
 56
 
