@@ -123,6 +123,16 @@ setup(name='{modulename}',
 """  # This is .format()'ed with the list of the file names.
 
 
+def find_object_id(activity_id):
+    ''' Round-about way of accessing self._jobject.object_id '''
+    dsobjects, nobjects = datastore.find({'mime_type': ['text/x-python']})
+    for dsobject in dsobjects:
+        if 'activity_id' in dsobject.metadata and \
+           dsobject.metadata['activity_id'] == activity_id:
+            return dsobject.object_id
+    return None
+
+
 class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     '''Pippy Activity as specified in activity.info'''
     def early_setup(self):
@@ -130,6 +140,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self.initial_text_buffer = GtkSource.Buffer()
         self.loaded_from_journal = False
         self.py_file = False
+        self.py_object_id = None
         self.pippy_instance = self
         self.loaded_session = []  # Used to manage tabs
         self.session_data = []  # Used to manage saving
@@ -914,8 +925,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
             for zipdata, content in map(None, zipped_data, self.session_data):
                 name, python_code, path, modified = zipdata
-                if content is not None and \
-                   content == self._jobject.object_id:
+                if content is not None and content == self.py_object_id:
                     _logger.debug('saving to self')
                     self.metadata['title'] = name
                     self.metadata['mime_type'] = 'text/x-python'
@@ -1013,8 +1023,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             datastore.write(self.pippy_instance)
 
             # Finally, add this Python object to the session data
-            # FIXME: There must be a better way to get the object_id
-            self.session_data.append(self._jobject.object_id)
+            self.py_object_id = find_object_id(self.metadata['activity_id'])
+            self.session_data.append(self.py_object_id)
             _logger.debug('session_data: %s' % self.session_data)
         elif self.metadata['mime_type'] == 'application/json':
             # Reading file list from Pippy instance
