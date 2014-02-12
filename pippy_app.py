@@ -478,7 +478,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
     def _write_all_buffers(self, tmp_dir):
         data = self.source_tabs.get_all_data()
         zipdata = zip(data[0], data[1])
-        for name, content, path in zipdata:
+        for name, content in zipdata:
             with open(os.path.join(tmp_dir, name), 'w') as f:
                 # Write utf-8 coding prefix if there's not one already
                 if re.match(r'coding[:=]\s*([-\w.]+)',
