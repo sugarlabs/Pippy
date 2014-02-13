@@ -120,9 +120,9 @@ setup(name='{modulename}',
 """  # This is .format()'ed with the list of the file names.
 
 
-def _find_object_id(activity_id):
+def _find_object_id(activity_id, mimetype='text/x-python'):
     ''' Round-about way of accessing self._jobject.object_id '''
-    dsobjects, nobjects = datastore.find({'mime_type': ['text/x-python']})
+    dsobjects, nobjects = datastore.find({'mime_type': [mimetype]})
     for dsobject in dsobjects:
         if 'activity_id' in dsobject.metadata and \
            dsobject.metadata['activity_id'] == activity_id:
@@ -1005,12 +1005,27 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self._initial_title = self.metadata['title']
             self._loaded_from_journal = self._py_file = True
 
-            # Since we loaded Python code, we need to create a Pippy instance
-            self._pippy_instance = datastore.create()
-            self._pippy_instance.metadata['title'] = self.metadata['title']
-            self._pippy_instance.metadata['mime_type'] = 'application/json'
-            self._pippy_instance.metadata['activity'] = 'org.laptop.Pippy'
-            datastore.write(self._pippy_instance)
+            # Since we loaded Python code, we need to create (or
+            # restore) a Pippy instance
+            if 'pippy_instance' in self.metadata:
+                _logger.debug('found a pippy instance: %s' %
+                              self.metadata['pippy_instance'])
+                try:
+                    self._pippy_instance = datastore.get(
+                        self.metadata['pippy_instance'])
+                except:
+                    _logger.debug('Cannot find old Pippy instance: %s')
+                    self._pippy_instance = None
+            if self._pippy_instance in [self, None]:
+                self._pippy_instance = datastore.create()
+                self._pippy_instance.metadata['title'] = self.metadata['title']
+                self._pippy_instance.metadata['mime_type'] = 'application/json'
+                self._pippy_instance.metadata['activity'] = 'org.laptop.Pippy'
+                datastore.write(self._pippy_instance)
+                self.metadata['pippy_instance'] = \
+                        self._pippy_instance.get_object_id()
+                _logger.debug('get_object_id %s' %
+                              self.metadata['pippy_instance'])
 
             # Finally, add this Python object to the session data
             self._py_object_id = _find_object_id(self.metadata['activity_id'])
