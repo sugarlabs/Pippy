@@ -6,6 +6,7 @@ ENHANCEMENTS:
 
 BUG FIX:
 * Sort out numerous cases regarding saving/restoring tabs/tabs content
+* Fixed problem with sound check in sugar-build env.
 
 56
 

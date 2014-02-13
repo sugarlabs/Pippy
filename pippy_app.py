@@ -946,6 +946,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                         dsobject.set_file_path(tmpfile)
                         datastore.write(dsobject)
                         session_list.append([name, dsobject.object_id])
+                        i = self.session_data.index(content)
+                        self.session_data[i] = dsobject.object_id
                 elif content is not None or path is not None:
                     _logger.debug('Saving reference to sample file')
                     if path is None:  # Should not happen, but just in case...
