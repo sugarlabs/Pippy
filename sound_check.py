@@ -33,6 +33,8 @@ def finddir():
     sound_candidate_dirs = None
 
     for path in paths:
+        if not os.path.exists(path):
+            continue
         for f in os.listdir(path):
             if f in ['TamTamMini.activity', 'TamTamJam.activity',
                      'TamTamEdit.activity', 'TamTamSynthLab.activity',
