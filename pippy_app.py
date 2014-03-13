@@ -649,7 +649,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                                 'before attempting to save it as an activity.')
             ok_icon = Icon(icon_name='dialog-ok')
             alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
-            alert.connect('response', self.dismiss_alert_cb)
+            alert.connect('response', self._dismiss_alert_cb)
             self.add_alert(alert)
             return
 
@@ -751,7 +751,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                                 'as an disutils package.')
             ok_icon = Icon(icon_name='dialog-ok')
             alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
-            alert.connect('response', self.dismiss_alert_cb)
+            alert.connect('response', self._dismiss_alert_cb)
             self.add_alert(alert)
             return
 
