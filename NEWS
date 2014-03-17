@@ -1,3 +1,8 @@
+59
+BUG FIX:
+* Fixed "output of the program is not fully displayed" (SL #4661)
+  patch by "native <findathar@gmail.com>"
+
 58
 
 BUG FIX:
