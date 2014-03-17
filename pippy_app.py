@@ -361,6 +361,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._vte.set_colors(Gdk.color_parse('#000000'),
                              Gdk.color_parse('#E7E7E7'),
                              [])
+	self._vte.set_scrollback_lines(-1)
         self._child_exited_handler = None
         self._vte.connect('child_exited', self._child_exited_cb)
         self._vte.connect('drag_data_received', self._vte_drop_cb)
