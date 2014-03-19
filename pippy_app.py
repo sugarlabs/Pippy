@@ -427,6 +427,9 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         _logger.debug('clicked! %s' % value['path'])
         _file = open(value['path'], 'r')
         lines = _file.readlines()
+        # If there are no pages in the notebook, add one.
+        if self._source_tabs.get_current_page() == -1:
+            self._add_source_cb(None)
         text_buffer = self._source_tabs.get_text_buffer()
         if text_buffer.get_modified():
             self._source_tabs.add_tab()
