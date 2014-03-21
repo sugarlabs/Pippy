@@ -1,4 +1,10 @@
+60
+
+ENHANCEMENT:
+* Added hot keys to open and close tabs (native)
+
 59
+
 BUG FIX:
 * Fixed "output of the program is not fully displayed" (SL #4661)
   patch by "native <findathar@gmail.com>"
@@ -21,7 +27,7 @@ BUG FIX:
 
 56
 
-ENHANCEMENT:
+ENHANCEMENTS:
 * Don't offer up sound examples if TamTam is not installed
 * Improvement to search for sound resources (Gonzalo Odiard)
 
