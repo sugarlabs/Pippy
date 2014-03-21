@@ -188,17 +188,40 @@ class SourceNotebook(AddNotebook):
 
         tabdex = self.get_n_pages() + 1
         if label:
-            tablabel = TabLabel(codesw, label, path, self)
+            self.tablabel = TabLabel(codesw, label, path, self)
         else:
-            tablabel = TabLabel(codesw,
+            self.tablabel = TabLabel(codesw,
                                 _("New Source File %d" % tabdex),
                                 path, self)
-        tablabel.connect("tab-close", self._tab_closed_cb)
+        self.tablabel.connect("tab-close", self._tab_closed_cb)
+	self.connect("key-press-event",self._key_press_cb)
 
         codesw.show_all()
 
-        index = self.append_page(codesw, tablabel)
+        index = self.append_page(codesw, self.tablabel)
         self.props.page = index  # Set new page as active tab
+
+    def _key_press_cb(self,widget,event):
+	  key_name = Gdk.keyval_name(event.keyval)
+
+	  if event.get_state() & Gdk.ModifierType.CONTROL_MASK:
+	  	
+	  	if key_name == 'w':
+    			index=self.get_current_page()
+    			self.remove_page(index)
+        		try:
+		            logging.debug('deleting session_data %s' %
+                	          str(self.activity.session_data[index]))
+		            del self.activity.session_data[index]
+		        except IndexError:
+		            pass
+		elif key_name == 't':
+        		self.emit("tab-added")
+		else:
+			return False
+		return True
+	  return False
+    			
 
     def set_current_label(self, label):
         child = self.get_nth_page(self.get_current_page())
