@@ -22,14 +22,12 @@ import unicodedata
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
-from gi.repository import Vte
 from gi.repository import Pango
 from gi.repository import GtkSource
 from gettext import gettext as _
 
 from port.style import font_zoom
 
-from sugar3.graphics.icon import Icon
 from sugar3.graphics import style
 from sugar3.graphics.toolbutton import ToolButton
 
@@ -55,16 +53,16 @@ class TabLabel(Gtk.HBox):
         self._label.show()
 
         self.label_box.add(self._label)
-        self.label_box.connect("button-press-event", self._label_clicked)
+        self.label_box.connect('button-press-event', self._label_clicked)
         self.label_box.show_all()
         self.pack_start(self.label_box, True, True, 5)
 
         self.label_entry = Gtk.Entry()
-        self.label_entry.connect("activate", self._label_entry_cb)
-        self.label_entry.connect("focus-out-event", self._label_entry_cb)
+        self.label_entry.connect('activate', self._label_entry_cb)
+        self.label_entry.connect('focus-out-event', self._label_entry_cb)
         self.pack_start(self.label_entry, True, True, 0)
 
-        button = ToolButton("close-tab")
+        button = ToolButton('close-tab')
         button.connect('clicked', self.__button_clicked_cb)
         self.pack_start(button, False, True, 0)
         button.show()
@@ -111,12 +109,12 @@ class TabLabel(Gtk.HBox):
 
 
 class AddNotebook(Gtk.Notebook):
-    """
+    '''
     AddNotebook
     -----------
     This subclass has a add button which emits tab-added on clicking the
     button.
-    """
+    '''
     __gsignals__ = {
         'tab-added': (GObject.SignalFlags.RUN_FIRST,
                       None,
@@ -126,13 +124,13 @@ class AddNotebook(Gtk.Notebook):
     def __init__(self):
         Gtk.Notebook.__init__(self)
 
-        self._add_tab = ToolButton("gtk-add")
-        self._add_tab.connect("clicked", self._add_tab_cb)
+        self._add_tab = ToolButton('gtk-add')
+        self._add_tab.connect('clicked', self._add_tab_cb)
         self._add_tab.show()
         self.set_action_widget(self._add_tab, Gtk.PackType.END)
 
     def _add_tab_cb(self, button):
-        self.emit("tab-added")
+        self.emit('tab-added')
 
 
 class SourceNotebook(AddNotebook):
@@ -153,7 +151,7 @@ class SourceNotebook(AddNotebook):
                      for lang_id in lang_ids]
         for lang in langs:
             for m in lang.get_mime_types():
-                if m == "text/x-python":
+                if m == 'text/x-python':
                     text_buffer.set_language(lang)
 
         if hasattr(text_buffer, 'set_highlight'):
@@ -175,7 +173,7 @@ class SourceNotebook(AddNotebook):
         text_view.set_tab_width(2)
         text_view.set_auto_indent(True)
         text_view.modify_font(
-            Pango.FontDescription("Monospace " +
+            Pango.FontDescription('Monospace ' +
                                   str(font_zoom(style.FONT_SIZE))))
 
         codesw = Gtk.ScrolledWindow()
@@ -191,45 +189,42 @@ class SourceNotebook(AddNotebook):
             self.tablabel = TabLabel(codesw, label, path, self)
         else:
             self.tablabel = TabLabel(codesw,
-                                _("New Source File %d" % tabdex),
-                                path, self)
-        self.tablabel.connect("tab-close", self._tab_closed_cb)
-	self.connect("key-press-event",self._key_press_cb)
+                                     _('New Source File %d' % tabdex),
+                                     path, self)
+        self.tablabel.connect('tab-close', self._tab_closed_cb)
+        self.connect('key-press-event', self._key_press_cb)
 
         codesw.show_all()
 
         index = self.append_page(codesw, self.tablabel)
         self.props.page = index  # Set new page as active tab
 
-    def _key_press_cb(self,widget,event):
-	  key_name = Gdk.keyval_name(event.keyval)
+    def _key_press_cb(self, widget, event):
+        key_name = Gdk.keyval_name(event.keyval)
 
-	  if event.get_state() & Gdk.ModifierType.CONTROL_MASK:
-
-	  	
-	  	if key_name == 'w':
-    			index=self.get_current_page()
-    			self.remove_page(index)
-        		try:
-		            logging.debug('deleting session_data %s' %
-                	          str(self.activity.session_data[index]))
-		            del self.activity.session_data[index]
-		        except IndexError:
-		            pass
-		elif key_name == 't':
-        		self.emit("tab-added")
-		elif key_name == 'Tab':
-			self.next_page()
-    		elif event.get_state() & Gdk.ModifierType.SHIFT_MASK:
-			if key_name == 'ISO_Left_Tab':
-				self.prev_page()
-    			else:
-				return False
-		else:
-			return False
-		return True
-	  return False
-    			
+        if event.get_state() & Gdk.ModifierType.CONTROL_MASK:
+            if key_name == 'w':
+                index = self.get_current_page()
+                self.remove_page(index)
+                try:
+                    logging.debug('deleting session_data %s' %
+                                  str(self.activity.session_data[index]))
+                    del self.activity.session_data[index]
+                except IndexError:
+                    pass
+            elif key_name == 't':
+                self.emit('tab-added')
+            elif key_name == 'Tab':
+                self.next_page()
+            elif event.get_state() & Gdk.ModifierType.SHIFT_MASK:
+                if key_name == 'ISO_Left_Tab':
+                    self.prev_page()
+                else:
+                    return False
+            else:
+                return False
+            return True
+        return False
 
     def set_current_label(self, label):
         child = self.get_nth_page(self.get_current_page())
@@ -252,10 +247,10 @@ class SourceNotebook(AddNotebook):
         return text_view
 
     def _purify_file(self, label):
-        if not label.endswith(".py"):
-            label = label + ".py"
+        if not label.endswith('.py'):
+            label = label + '.py'
 
-        label = label.replace(" ", "_")
+        label = label.replace(' ', '_')
         if isinstance(label, unicode):
             label = \
                 unicodedata.normalize('NFKD', label).encode('ascii', 'ignore')
@@ -294,7 +289,7 @@ class SourceNotebook(AddNotebook):
         return label
 
     def child_exited_cb(self, *args):
-        """Called whenever a child exits.  If there's a handler, runadd it."""
+        '''Called whenever a child exits.  If there's a handler, runadd it.'''
         h, self.activity._child_exited_handler = \
             self.activity._child_exited_handler, None
         if h is not None:
