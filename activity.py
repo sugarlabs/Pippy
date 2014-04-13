@@ -145,7 +145,7 @@ class VteActivity(ViewSourceActivity):
         self._vte.connect('drag_data_received', self._on_drop_cb)
         '''
         # ...and its scrollbar
-        vtebox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        vtebox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         vtebox.pack_start(self._vte, True, True, 0)
         vtesb = Gtk.Scrollbar(orientation=Gtk.Orientation.VERTICAL)
         # vtesb.set_adjustment(self._vte.get_adjustment())
