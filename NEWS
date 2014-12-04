@@ -1,3 +1,13 @@
+63
+
+BUG FIXES:
+* Update some tutorials with fixes from Jean THIERY.
+
+62
+
+BUG FIX:
+* Use local import for physics/elements module (fixed import issue on SoaS).
+
 61
 
 ENHANCEMENT:
