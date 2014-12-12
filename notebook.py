@@ -212,6 +212,13 @@ class SourceNotebook(AddNotebook):
         index = self.append_page(codesw, self.tablabel)
         self.props.page = index  # Set new page as active tab
 
+        # Show close only when tabs > 1
+        only_widget = self.get_nth_page(0)
+        if self.get_n_pages() == 1:
+            self.get_tab_label(only_widget).hide_close_button()
+        else:
+            self.get_tab_label(only_widget).show_close_button()
+
     def _key_press_cb(self, widget, event):
         key_name = Gdk.keyval_name(event.keyval)
 
@@ -322,6 +329,12 @@ class SourceNotebook(AddNotebook):
     def _tab_closed_cb(self, notebook, child):
         index = self.page_num(child)
         self.remove_page(index)
+
+        # Hide close button if only one tab present
+        if self.get_n_pages() == 1:
+            only_widget = self.get_nth_page(0)
+            self.get_tab_label(only_widget).hide_close_button()
+
         try:
             logging.debug('deleting session_data %s' %
                           str(self.activity.session_data[index]))

@@ -78,7 +78,7 @@ import groupthink.gtk_tools
 
 from filedialog import FileDialog
 from icondialog import IconDialog
-from notebook import SourceNotebook, DEFAULT_FONT_SIZE
+from notebook import SourceNotebook
 from toolbars import DevelopViewToolbar
 
 import sound_check
