@@ -26,10 +26,10 @@ from gi.repository import Pango
 from gi.repository import GtkSource
 from gettext import gettext as _
 
-from port.style import font_zoom
-
-from sugar3.graphics import style
 from sugar3.graphics.toolbutton import ToolButton
+
+FONT_CHANGE_STEP = 2
+DEFAULT_FONT_SIZE = 12
 
 
 class TabLabel(Gtk.HBox):
@@ -133,13 +133,11 @@ class AddNotebook(Gtk.Notebook):
         self.emit('tab-added')
 
 
-class SourceNotebook(AddNotebook):
-    def __init__(self, activity):
-        AddNotebook.__init__(self)
-        self.activity = activity
-        self.set_scrollable(True)
+class PippySourceView(GtkSource.View):
 
-    def add_tab(self, label=None, buffer_text=None, path=None):
+    def __init__(self, buffer_text):
+        GtkSource.View.__init__(self)
+
         text_buffer = GtkSource.Buffer()
 
         lang_manager = GtkSource.LanguageManager.get_default()
@@ -162,26 +160,41 @@ class SourceNotebook(AddNotebook):
             text_buffer.set_text(buffer_text)
             text_buffer.set_modified(False)
 
-        text_view = GtkSource.View()
-        text_view.set_buffer(text_buffer)
-        text_view.set_size_request(0, int(Gdk.Screen.height() * 0.5))
-        text_view.set_editable(True)
-        text_view.set_cursor_visible(True)
-        text_view.set_show_line_numbers(True)
-        text_view.set_wrap_mode(Gtk.WrapMode.CHAR)
-        text_view.set_insert_spaces_instead_of_tabs(True)
-        text_view.set_tab_width(2)
-        text_view.set_auto_indent(True)
-        text_view.modify_font(
-            Pango.FontDescription('Monospace ' +
-                                  str(font_zoom(style.FONT_SIZE))))
+        self.set_buffer(text_buffer)
+        self.set_size_request(0, int(Gdk.Screen.height() * 0.5))
+        self.set_editable(True)
+        self.set_cursor_visible(True)
+        self.set_show_line_numbers(True)
+        self.set_wrap_mode(Gtk.WrapMode.CHAR)
+        self.set_insert_spaces_instead_of_tabs(True)
+        self.set_tab_width(2)
+        self.set_auto_indent(True)
 
+        self.set_can_focus(True)
+
+    # Notebook will call this with appropriate font size
+    def set_font_size(self, font_size):
+        self.modify_font(
+            Pango.FontDescription(
+                'Monospace {}'.format(font_size)))
+
+
+class SourceNotebook(AddNotebook):
+    def __init__(self, activity):
+        AddNotebook.__init__(self)
+        self.activity = activity
+        self.set_scrollable(True)
+
+        self._font_size = DEFAULT_FONT_SIZE
+
+    def add_tab(self, label=None, buffer_text=None, path=None):
         codesw = Gtk.ScrolledWindow()
         codesw.set_policy(Gtk.PolicyType.AUTOMATIC,
                           Gtk.PolicyType.AUTOMATIC)
+        text_view = PippySourceView(buffer_text)
+        text_view.set_font_size(self._font_size)
         codesw.add(text_view)
         text_view.show()
-        text_view.set_can_focus(True)
         text_view.grab_focus()
 
         tabdex = self.get_n_pages() + 1
@@ -198,6 +211,13 @@ class SourceNotebook(AddNotebook):
 
         index = self.append_page(codesw, self.tablabel)
         self.props.page = index  # Set new page as active tab
+
+        # Show close only when tabs > 1
+        only_widget = self.get_nth_page(0)
+        if self.get_n_pages() == 1:
+            self.get_tab_label(only_widget).hide_close_button()
+        else:
+            self.get_tab_label(only_widget).show_close_button()
 
     def _key_press_cb(self, widget, event):
         key_name = Gdk.keyval_name(event.keyval)
@@ -288,6 +308,17 @@ class SourceNotebook(AddNotebook):
 
         return label
 
+    def set_font_size(self, font_size):
+        self._font_size = font_size
+
+        for i in xrange(self.get_n_pages()):
+            page = self.get_nth_page(i)
+            children = page.get_children()
+            children[0].set_font_size(self._font_size)
+
+    def get_font_size(self):
+        return self._font_size
+
     def child_exited_cb(self, *args):
         '''Called whenever a child exits.  If there's a handler, runadd it.'''
         h, self.activity._child_exited_handler = \
@@ -298,6 +329,12 @@ class SourceNotebook(AddNotebook):
     def _tab_closed_cb(self, notebook, child):
         index = self.page_num(child)
         self.remove_page(index)
+
+        # Hide close button if only one tab present
+        if self.get_n_pages() == 1:
+            only_widget = self.get_nth_page(0)
+            self.get_tab_label(only_widget).hide_close_button()
+
         try:
             logging.debug('deleting session_data %s' %
                           str(self.activity.session_data[index]))

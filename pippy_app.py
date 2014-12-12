@@ -33,7 +33,6 @@ from random import uniform
 import locale
 import json
 import sys
-import unicodedata
 from shutil import copy2
 from signal import SIGTERM
 from gettext import gettext as _
@@ -50,14 +49,13 @@ from gi.repository import GLib
 from gi.repository import Pango
 from gi.repository import Vte
 from gi.repository import GObject
-from gi.repository import GtkSource
 
 from sugar3.datastore import datastore
+from sugar3.activity import activity as activity
 from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_name
 from sugar3.activity.activity import get_bundle_path
-from sugar3.graphics import style
 from sugar3.graphics.alert import Alert
 from sugar3.graphics.alert import ConfirmationAlert
 from sugar3.graphics.alert import NotifyAlert
@@ -69,8 +67,6 @@ from sugar3.graphics.toolbutton import ToolButton
 
 from jarabe.view.customizebundle import generate_unique_id
 
-from port.style import font_zoom
-
 from activity import ViewSourceActivity
 from activity import TARGET_TYPE_TEXT
 
@@ -80,6 +76,7 @@ import groupthink.gtk_tools
 from filedialog import FileDialog
 from icondialog import IconDialog
 from notebook import SourceNotebook
+from toolbars import DevelopViewToolbar
 
 import sound_check
 
@@ -203,6 +200,16 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._edit_toolbar.redo.connect('clicked', self.__redobutton_cb)
         self._edit_toolbar.copy.connect('clicked', self.__copybutton_cb)
         self._edit_toolbar.paste.connect('clicked', self.__pastebutton_cb)
+
+        view_btn = ToolbarButton()
+        view_toolbar = DevelopViewToolbar(self)
+        view_btn.props.page = view_toolbar
+        view_btn.props.icon_name = 'toolbar-view'
+        view_btn.props.label = _('View')
+        view_toolbar.connect('font-size-changed',
+                             self._font_size_changed_cb)
+        self.get_toolbar_box().toolbar.insert(view_btn, -1)
+        self.view_toolbar = view_toolbar
 
         actions_toolbar = self.get_toolbar_box().toolbar
 
@@ -356,8 +363,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._vte = Vte.Terminal()
         self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
-        font = 'Monospace ' + str(font_zoom(style.FONT_SIZE))
-        self._vte.set_font(Pango.FontDescription(font))
         self._vte.set_colors(Gdk.color_parse('#000000'),
                              Gdk.color_parse('#E7E7E7'),
                              [])
@@ -372,11 +377,41 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         outsb.show()
         self._outbox.pack_start(outsb, False, False, 0)
 
+        self._load_config()
+
         vpane.add2(self._outbox)
         return vpane
 
     def after_init(self):
         self._outbox.hide()
+
+    def _font_size_changed_cb(self, widget, size):
+        self._source_tabs.set_font_size(size)
+        self._vte.set_font(
+            Pango.FontDescription('Monospace {}'.format(size)))
+
+    def _store_config(self):
+        font_size = self._source_tabs.get_font_size()
+
+        _config_file_path = os.path.join(
+            activity.get_activity_root(), 'data',
+            'config.json')
+        with open(_config_file_path, "w") as f:
+            f.write(json.dumps(font_size))
+
+    def _load_config(self):
+        _config_file_path = os.path.join(
+            activity.get_activity_root(), 'data',
+            'config.json')
+
+        if not os.path.isfile(_config_file_path):
+            return
+
+        with open(_config_file_path, "r") as f:
+            font_size = json.loads(f.read())
+            self.view_toolbar.set_font_size(font_size)
+            self._vte.set_font(
+                Pango.FontDescription('Monospace {}'.format(font_size)))
 
     def resume(self):
         if self._dialog is not None:
@@ -559,31 +594,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             os.mkdir(library_dir)
 
         with open(os.path.join(library_dir, file_name), 'w') as f:
-            f.write(content)
-            success = True
-
-        if success:
-            alert = NotifyAlert(5)
-            alert.props.title = _('Python File added to Library')
-            IMPORT_MESSAGE = _('The file you selected has been added'
-                               ' to the library. Use "import {importname}"'
-                               ' to import the library for using.')
-            alert.props.msg = IMPORT_MESSAGE.format(importname=file_name[:-3])
-            alert.connect('response', self._remove_alert_cb)
-            self.add_alert(alert)
-
-    def _save_as_library(self, button):
-        library_dir = os.path.join(get_bundle_path(), "library")
-        file_name = self._source_tabs.get_current_file_name()
-        text_buffer = self._source_tabs.get_text_buffer()
-        content = text_buffer.get_text(
-            *text_buffer.get_bounds(),
-            include_hidden_chars=True)
-
-        if not os.path.isdir(library_dir):
-            os.mkdir(library_dir)
-
-        with open(os.path.join(library_dir, file_name), "w") as f:
             f.write(content)
             success = True
 
@@ -836,7 +846,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                            if f.endswith('.xo')]
             if len(bundle_file) != 1:
                 _logger.debug("Couldn't find bundle: %s" %
-                                   str(bundle_file))
+                              str(bundle_file))
                 self._vte.feed('\r\n')
                 self._vte.feed(_('Error saving activity to journal.'))
                 self._vte.feed('\r\n')
@@ -980,6 +990,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self._pippy_instance.set_file_path(file_path)
             datastore.write(self._pippy_instance)
 
+        self._store_config()
+
     def load_from_journal(self, file_path):
         # Either we are opening Python code or a list of objects
         # stored (json-encoded) in a Pippy instance, or a shared
@@ -1027,7 +1039,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 self._pippy_instance.metadata['activity'] = 'org.laptop.Pippy'
                 datastore.write(self._pippy_instance)
                 self.metadata['pippy_instance'] = \
-                        self._pippy_instance.get_object_id()
+                    self._pippy_instance.get_object_id()
                 _logger.debug('get_object_id %s' %
                               self.metadata['pippy_instance'])
 
@@ -1058,7 +1070,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 elif content != self._py_object_id:
                     try:
                         dsobject = datastore.get(content)
-                        if not 'mime_type' in dsobject.metadata:
+                        if 'mime_type' not in dsobject.metadata:
                             _logger.error(
                                 'Warning: %s missing mime_type' % content)
                         elif dsobject.metadata['mime_type'] != 'text/python':
@@ -1081,7 +1093,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
                 # Queue up the creation of the tabs...
                 # And add this content to the session data
-                if not content in self.session_data:
+                if content not in self.session_data:
                     self.session_data.append(content)
                     self._loaded_session.append([name, python_code, path])
         elif self.metadata['mime_type'] == groupthink_mimetype:
@@ -1311,7 +1323,6 @@ def main():
         print('Finally\r\n')
 
 if __name__ == '__main__':
-    import sys
     from gettext import gettext as _
     if False:  # Change this to True to test within Pippy
         sys.argv = sys.argv + ['-d', '/tmp', 'Pippy',
