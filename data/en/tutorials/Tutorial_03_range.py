@@ -9,7 +9,7 @@ def sum_in_range(num1, num2):
 number1 = int(input('Enter first number: '))
 number2 = int(input('Enter second number: '))
 
-if number1 > number2:
+if number1 < number2:
     sum_in_range(number1, number2)
 else:
     sum_in_range(number2, number1)
