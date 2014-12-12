@@ -53,6 +53,7 @@ from gi.repository import GObject
 from gi.repository import GtkSource
 
 from sugar3.datastore import datastore
+from sugar3.activity import activity as activity
 from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_name
@@ -69,8 +70,6 @@ from sugar3.graphics.toolbutton import ToolButton
 
 from jarabe.view.customizebundle import generate_unique_id
 
-from port.style import font_zoom
-
 from activity import ViewSourceActivity
 from activity import TARGET_TYPE_TEXT
 
@@ -79,7 +78,8 @@ import groupthink.gtk_tools
 
 from filedialog import FileDialog
 from icondialog import IconDialog
-from notebook import SourceNotebook
+from notebook import SourceNotebook, DEFAULT_FONT_SIZE
+from toolbars import DevelopViewToolbar
 
 import sound_check
 
@@ -203,6 +203,16 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._edit_toolbar.redo.connect('clicked', self.__redobutton_cb)
         self._edit_toolbar.copy.connect('clicked', self.__copybutton_cb)
         self._edit_toolbar.paste.connect('clicked', self.__pastebutton_cb)
+
+        view_btn = ToolbarButton()
+        view_toolbar = DevelopViewToolbar(self)
+        view_btn.props.page = view_toolbar
+        view_btn.props.icon_name = 'toolbar-view'
+        view_btn.props.label = _('View')
+        view_toolbar.connect('font-size-changed',
+                             self._font_size_changed_cb)
+        self.get_toolbar_box().toolbar.insert(view_btn, -1)
+        self.view_toolbar = view_toolbar
 
         actions_toolbar = self.get_toolbar_box().toolbar
 
@@ -356,8 +366,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._vte = Vte.Terminal()
         self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
-        font = 'Monospace ' + str(font_zoom(style.FONT_SIZE))
-        self._vte.set_font(Pango.FontDescription(font))
         self._vte.set_colors(Gdk.color_parse('#000000'),
                              Gdk.color_parse('#E7E7E7'),
                              [])
@@ -372,11 +380,41 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         outsb.show()
         self._outbox.pack_start(outsb, False, False, 0)
 
+        self._load_config()
+
         vpane.add2(self._outbox)
         return vpane
 
     def after_init(self):
         self._outbox.hide()
+
+    def _font_size_changed_cb(self, widget, size):
+        self._source_tabs.set_font_size(size)
+        self._vte.set_font(
+            Pango.FontDescription('Monospace {}'.format(size)))
+
+    def _store_config(self):
+        font_size = self._source_tabs.get_font_size()
+
+        _config_file_path = os.path.join(
+            activity.get_activity_root(), 'data',
+            'config.json')
+        with open(_config_file_path, "w") as f:
+            f.write(json.dumps(font_size))
+
+    def _load_config(self):
+        _config_file_path = os.path.join(
+            activity.get_activity_root(), 'data',
+            'config.json')
+
+        if not os.path.isfile(_config_file_path):
+            return
+
+        with open(_config_file_path, "r") as f:
+            font_size = json.loads(f.read())
+            self.view_toolbar.set_font_size(font_size)
+            self._vte.set_font(
+                Pango.FontDescription('Monospace {}'.format(font_size)))
 
     def resume(self):
         if self._dialog is not None:
@@ -979,6 +1017,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                           file_path)
             self._pippy_instance.set_file_path(file_path)
             datastore.write(self._pippy_instance)
+
+        self._store_config()
 
     def load_from_journal(self, file_path):
         # Either we are opening Python code or a list of objects
