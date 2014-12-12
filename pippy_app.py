@@ -33,7 +33,6 @@ from random import uniform
 import locale
 import json
 import sys
-import unicodedata
 from shutil import copy2
 from signal import SIGTERM
 from gettext import gettext as _
@@ -50,7 +49,6 @@ from gi.repository import GLib
 from gi.repository import Pango
 from gi.repository import Vte
 from gi.repository import GObject
-from gi.repository import GtkSource
 
 from sugar3.datastore import datastore
 from sugar3.activity import activity as activity
@@ -58,7 +56,6 @@ from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.activity import get_bundle_name
 from sugar3.activity.activity import get_bundle_path
-from sugar3.graphics import style
 from sugar3.graphics.alert import Alert
 from sugar3.graphics.alert import ConfirmationAlert
 from sugar3.graphics.alert import NotifyAlert
@@ -610,31 +607,6 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             alert.connect('response', self._remove_alert_cb)
             self.add_alert(alert)
 
-    def _save_as_library(self, button):
-        library_dir = os.path.join(get_bundle_path(), "library")
-        file_name = self._source_tabs.get_current_file_name()
-        text_buffer = self._source_tabs.get_text_buffer()
-        content = text_buffer.get_text(
-            *text_buffer.get_bounds(),
-            include_hidden_chars=True)
-
-        if not os.path.isdir(library_dir):
-            os.mkdir(library_dir)
-
-        with open(os.path.join(library_dir, file_name), "w") as f:
-            f.write(content)
-            success = True
-
-        if success:
-            alert = NotifyAlert(5)
-            alert.props.title = _('Python File added to Library')
-            IMPORT_MESSAGE = _('The file you selected has been added'
-                               ' to the library. Use "import {importname}"'
-                               ' to import the library for using.')
-            alert.props.msg = IMPORT_MESSAGE.format(importname=file_name[:-3])
-            alert.connect('response', self._remove_alert_cb)
-            self.add_alert(alert)
-
     def _export_document_cb(self, __):
         self.copy()
         alert = NotifyAlert()
@@ -874,7 +846,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                            if f.endswith('.xo')]
             if len(bundle_file) != 1:
                 _logger.debug("Couldn't find bundle: %s" %
-                                   str(bundle_file))
+                              str(bundle_file))
                 self._vte.feed('\r\n')
                 self._vte.feed(_('Error saving activity to journal.'))
                 self._vte.feed('\r\n')
@@ -1067,7 +1039,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 self._pippy_instance.metadata['activity'] = 'org.laptop.Pippy'
                 datastore.write(self._pippy_instance)
                 self.metadata['pippy_instance'] = \
-                        self._pippy_instance.get_object_id()
+                    self._pippy_instance.get_object_id()
                 _logger.debug('get_object_id %s' %
                               self.metadata['pippy_instance'])
 
@@ -1098,7 +1070,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                 elif content != self._py_object_id:
                     try:
                         dsobject = datastore.get(content)
-                        if not 'mime_type' in dsobject.metadata:
+                        if 'mime_type' not in dsobject.metadata:
                             _logger.error(
                                 'Warning: %s missing mime_type' % content)
                         elif dsobject.metadata['mime_type'] != 'text/python':
@@ -1121,7 +1093,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
                 # Queue up the creation of the tabs...
                 # And add this content to the session data
-                if not content in self.session_data:
+                if content not in self.session_data:
                     self.session_data.append(content)
                     self._loaded_session.append([name, python_code, path])
         elif self.metadata['mime_type'] == groupthink_mimetype:
@@ -1351,7 +1323,6 @@ def main():
         print('Finally\r\n')
 
 if __name__ == '__main__':
-    import sys
     from gettext import gettext as _
     if False:  # Change this to True to test within Pippy
         sys.argv = sys.argv + ['-d', '/tmp', 'Pippy',
