@@ -235,7 +235,10 @@ class SourceNotebook(AddNotebook):
             elif key_name == 't':
                 self.emit('tab-added')
             elif key_name == 'Tab':
-                self.next_page()
+                if self.get_current_page() == self.get_n_pages() - 1:
+                    self.set_current_page(0)
+                else:
+                    self.next_page()
             elif event.get_state() & Gdk.ModifierType.SHIFT_MASK:
                 if key_name == 'ISO_Left_Tab':
                     self.prev_page()
