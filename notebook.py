@@ -238,6 +238,9 @@ class SourceNotebook(AddNotebook):
                     self.get_tab_label(only_widget).hide_close_button()
                 else:
                     self.get_tab_label(only_widget).show_close_button()
+            elif key_name in ['1','2','3','4','5','6','7','8','9']:
+                if int(key_name) <= self.get_n_pages():
+                    self.set_current_page(int(key_name) - 1)
             elif key_name == 't':
                 self.emit('tab-added')
             elif key_name == 'Tab':
