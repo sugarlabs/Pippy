@@ -232,6 +232,12 @@ class SourceNotebook(AddNotebook):
                     del self.activity.session_data[index]
                 except IndexError:
                     pass
+                # Show close only when tabs > 1
+                only_widget = self.get_nth_page(0)
+                if self.get_n_pages() == 1:
+                    self.get_tab_label(only_widget).hide_close_button()
+                else:
+                    self.get_tab_label(only_widget).show_close_button()
             elif key_name == 't':
                 self.emit('tab-added')
             elif key_name == 'Tab':
