@@ -224,20 +224,21 @@ class SourceNotebook(AddNotebook):
 
         if event.get_state() & Gdk.ModifierType.CONTROL_MASK:
             if key_name == 'w':
-                index = self.get_current_page()
-                self.remove_page(index)
-                try:
-                    logging.debug('deleting session_data %s' %
+                if self.get_n_pages() > 1:
+                    index = self.get_current_page()
+                    self.remove_page(index)
+                    try:
+                        logging.debug('deleting session_data %s' %
                                   str(self.activity.session_data[index]))
-                    del self.activity.session_data[index]
-                except IndexError:
-                    pass
-                # Show close only when tabs > 1
-                only_widget = self.get_nth_page(0)
-                if self.get_n_pages() == 1:
-                    self.get_tab_label(only_widget).hide_close_button()
-                else:
-                    self.get_tab_label(only_widget).show_close_button()
+                        del self.activity.session_data[index]
+                    except IndexError:
+                        pass
+                    # Show close only when tabs > 1
+                    only_widget = self.get_nth_page(0)
+                    if self.get_n_pages() == 1:
+                        self.get_tab_label(only_widget).hide_close_button()
+                    else:
+                        self.get_tab_label(only_widget).show_close_button()
             elif key_name in ['1','2','3','4','5','6','7','8','9']:
                 if int(key_name) <= self.get_n_pages():
                     self.set_current_page(int(key_name) - 1)
