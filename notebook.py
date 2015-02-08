@@ -102,7 +102,8 @@ class TabLabel(Gtk.HBox):
             self.label_entry.show()
 
     def _label_entry_cb(self, entry, focus=None):
-        self.label_text = self.label_entry.get_text()
+        if self.label_entry.get_text() != "":
+            self.label_text = self.label_entry.get_text()
         self.label_box.show_all()
         self.label_entry.hide()
         self._label.set_text(self.label_text)
@@ -238,7 +239,7 @@ class SourceNotebook(AddNotebook):
                     self.get_tab_label(only_widget).hide_close_button()
                 else:
                     self.get_tab_label(only_widget).show_close_button()
-            elif key_name in ['1','2','3','4','5','6','7','8','9']:
+            elif key_name in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
                 if int(key_name) <= self.get_n_pages():
                     self.set_current_page(int(key_name) - 1)
             elif key_name == 't':
@@ -251,7 +252,7 @@ class SourceNotebook(AddNotebook):
             elif event.get_state() & Gdk.ModifierType.SHIFT_MASK:
                 if key_name == 'ISO_Left_Tab':
                     if self.get_current_page() == 0:
-                        self.set_current_page(self.get_n_pages() - 1);
+                        self.set_current_page(self.get_n_pages() - 1)
                     else:
                         self.prev_page()
                 else:
