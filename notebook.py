@@ -102,7 +102,9 @@ class TabLabel(Gtk.HBox):
             self.label_entry.show()
 
     def _label_entry_cb(self, entry, focus=None):
-        self.label_text = self.label_entry.get_text()
+  	if self.label_entry.get_text() != "":
+		self.label_text = self.label_entry.get_text()
+	self.label_text = self.label_entry.get_text()
         self.label_box.show_all()
         self.label_entry.hide()
         self._label.set_text(self.label_text)
