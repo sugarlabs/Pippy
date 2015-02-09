@@ -185,7 +185,7 @@ class SourceNotebook(AddNotebook):
         AddNotebook.__init__(self)
         self.activity = activity
         self.set_scrollable(True)
-
+        self.tabdex = 1
         self._font_size = DEFAULT_FONT_SIZE
 
     def add_tab(self, label=None, buffer_text=None, path=None):
@@ -198,12 +198,12 @@ class SourceNotebook(AddNotebook):
         text_view.show()
         text_view.grab_focus()
 
-        tabdex = self.get_n_pages() + 1
+        self.tabdex = self.tabdex + 1
         if label:
             self.tablabel = TabLabel(codesw, label, path, self)
         else:
             self.tablabel = TabLabel(codesw,
-                                     _('New Source File %d' % tabdex),
+                                     _('New Source File %d' % self.tabdex),
                                      path, self)
         self.tablabel.connect('tab-close', self._tab_closed_cb)
         self.connect('key-press-event', self._key_press_cb)
