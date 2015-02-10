@@ -18,6 +18,7 @@
 
 import logging
 import unicodedata
+import re
 
 from gi.repository import Gtk
 from gi.repository import Gdk
@@ -28,6 +29,7 @@ from gettext import gettext as _
 
 from sugar3.graphics.toolbutton import ToolButton
 
+tab_object = list()
 FONT_CHANGE_STEP = 2
 DEFAULT_FONT_SIZE = 12
 
@@ -67,6 +69,7 @@ class TabLabel(Gtk.HBox):
         self.pack_start(button, False, True, 0)
         button.show()
         self._close_button = button
+        tab_object.append(self)
 
     def set_text(self, title):
         self._label.set_text(title)
@@ -185,7 +188,6 @@ class SourceNotebook(AddNotebook):
         AddNotebook.__init__(self)
         self.activity = activity
         self.set_scrollable(True)
-        self.tabdex = 1
         self._font_size = DEFAULT_FONT_SIZE
 
     def add_tab(self, label=None, buffer_text=None, path=None):
@@ -197,13 +199,12 @@ class SourceNotebook(AddNotebook):
         codesw.add(text_view)
         text_view.show()
         text_view.grab_focus()
-
-        self.tabdex = self.tabdex + 1
+        tabdex = self.get_n_pages() + 1
         if label:
             self.tablabel = TabLabel(codesw, label, path, self)
         else:
             self.tablabel = TabLabel(codesw,
-                                     _('New Source File %d' % self.tabdex),
+                                     _('New Source File %d' % tabdex),
                                      path, self)
         self.tablabel.connect('tab-close', self._tab_closed_cb)
         self.connect('key-press-event', self._key_press_cb)
@@ -228,6 +229,13 @@ class SourceNotebook(AddNotebook):
                 if self.get_n_pages() > 1:
                     index = self.get_current_page()
                     self.remove_page(index)
+                    tab_object.pop(index)
+                    for i in range(self.get_current_page(), self.get_n_pages()):
+                        if re.match('New Source File ', tab_object[i].get_text()) != None:
+                            tab_object[i].label_text = 'New Source File ' + str(i+1)
+                        else:
+                            tab_object[i].label_text = tab_object[i].get_text()
+                        tab_object[i]._label.set_text(tab_object[i].label_text)
                     try:
                         logging.debug('deleting session_data %s' %
                                       str(self.activity.session_data[index]))
@@ -346,6 +354,13 @@ class SourceNotebook(AddNotebook):
     def _tab_closed_cb(self, notebook, child):
         index = self.page_num(child)
         self.remove_page(index)
+        tab_object.pop(index)
+        for i in range(index, self.get_n_pages()):
+            if re.match('New Source File ', tab_object[i].get_text()) != None:
+                tab_object[i].label_text = 'New Source File ' + str(i+1)
+            else:
+                tab_object[i].label_text = tab_object[i].get_text()
+            tab_object[i]._label.set_text(tab_object[i].label_text)
 
         # Hide close button if only one tab present
         if self.get_n_pages() == 1:
