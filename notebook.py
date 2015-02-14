@@ -18,6 +18,7 @@
 
 import logging
 import unicodedata
+import re
 
 from gi.repository import Gtk
 from gi.repository import Gdk
@@ -28,6 +29,7 @@ from gettext import gettext as _
 
 from sugar3.graphics.toolbutton import ToolButton
 
+tab_object = list()
 FONT_CHANGE_STEP = 2
 DEFAULT_FONT_SIZE = 12
 
@@ -67,6 +69,7 @@ class TabLabel(Gtk.HBox):
         self.pack_start(button, False, True, 0)
         button.show()
         self._close_button = button
+        tab_object.append(self)
 
     def set_text(self, title):
         self._label.set_text(title)
@@ -102,7 +105,8 @@ class TabLabel(Gtk.HBox):
             self.label_entry.show()
 
     def _label_entry_cb(self, entry, focus=None):
-        self.label_text = self.label_entry.get_text()
+        if self.label_entry.get_text() != "":
+            self.label_text = self.label_entry.get_text()
         self.label_box.show_all()
         self.label_entry.hide()
         self._label.set_text(self.label_text)
@@ -184,7 +188,6 @@ class SourceNotebook(AddNotebook):
         AddNotebook.__init__(self)
         self.activity = activity
         self.set_scrollable(True)
-
         self._font_size = DEFAULT_FONT_SIZE
 
     def add_tab(self, label=None, buffer_text=None, path=None):
@@ -196,7 +199,6 @@ class SourceNotebook(AddNotebook):
         codesw.add(text_view)
         text_view.show()
         text_view.grab_focus()
-
         tabdex = self.get_n_pages() + 1
         if label:
             self.tablabel = TabLabel(codesw, label, path, self)
@@ -224,14 +226,26 @@ class SourceNotebook(AddNotebook):
 
         if event.get_state() & Gdk.ModifierType.CONTROL_MASK:
             if key_name == 'w':
-                index = self.get_current_page()
-                self.remove_page(index)
-                try:
-                    logging.debug('deleting session_data %s' %
-                                  str(self.activity.session_data[index]))
-                    del self.activity.session_data[index]
-                except IndexError:
-                    pass
+                if self.get_n_pages() > 1:
+                    index = self.get_current_page()
+                    self.remove_page(index)
+                    tab_object.pop(index)
+                    self.rename_tab(self.get_current_page())
+                    try:
+                        logging.debug('deleting session_data %s' %
+                                      str(self.activity.session_data[index]))
+                        del self.activity.session_data[index]
+                    except IndexError:
+                        pass
+                    # Show close only when tabs > 1
+                    only_widget = self.get_nth_page(0)
+                    if self.get_n_pages() == 1:
+                        self.get_tab_label(only_widget).hide_close_button()
+                    else:
+                        self.get_tab_label(only_widget).show_close_button()
+            elif key_name in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                if int(key_name) <= self.get_n_pages():
+                    self.set_current_page(int(key_name) - 1)
             elif key_name == 't':
                 self.emit('tab-added')
             elif key_name == 'Tab':
@@ -242,7 +256,7 @@ class SourceNotebook(AddNotebook):
             elif event.get_state() & Gdk.ModifierType.SHIFT_MASK:
                 if key_name == 'ISO_Left_Tab':
                     if self.get_current_page() == 0:
-                        self.set_current_page(self.get_n_pages() - 1);
+                        self.set_current_page(self.get_n_pages() - 1)
                     else:
                         self.prev_page()
                 else:
@@ -335,7 +349,8 @@ class SourceNotebook(AddNotebook):
     def _tab_closed_cb(self, notebook, child):
         index = self.page_num(child)
         self.remove_page(index)
-
+        tab_object.pop(index)
+        self.rename_tab(index)
         # Hide close button if only one tab present
         if self.get_n_pages() == 1:
             only_widget = self.get_nth_page(0)
@@ -347,3 +362,11 @@ class SourceNotebook(AddNotebook):
             del self.activity.session_data[index]
         except IndexError:
             pass
+
+    def rename_tab(self, iterator1):
+        for i in range(iterator1, self.get_n_pages()):
+            if re.match('New Source File ', tab_object[i].get_text()) != None:
+                tab_object[i].label_text = 'New Source File ' + str(i+1)
+            else:
+                tab_object[i].label_text = tab_object[i].get_text()
+            tab_object[i]._label.set_text(tab_object[i].label_text)
