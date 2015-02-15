@@ -14,7 +14,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation,Inc., 51 Franklin Street, Fifth Floor,Boston, MA  02110-1301, USA.
 
 import shutil
 from gi.repository import Gtk
@@ -29,7 +29,7 @@ import os
 
 DEFAULT_NAME = "default-pippy.svg"
 DEFAULT_ICON = os.path.join(get_bundle_path(), 'activity',
-                'activity-default.svg')
+                            'activity-default.svg')
 
 
 def get_document_icons():
@@ -115,7 +115,7 @@ class IconDialog(Gtk.Window):
 
         label = Gtk.Label("\t" + _('Select an icon'))
         label.modify_fg(Gtk.StateType.NORMAL,
-            Gdk.color_parse('white'))
+                        Gdk.color_parse('white'))
 
         item = Gtk.ToolItem()
         item.add(label)
@@ -157,7 +157,7 @@ class IconDialog(Gtk.Window):
 
         for icon in get_user_icons():
             info = self.theme.lookup_icon(icon, 55,
-                    Gtk.IconLookupFlags.FORCE_SVG)
+                                          Gtk.IconLookupFlags.FORCE_SVG)
             if not info:
                 continue
             icon_path = os.path.join(get_user_path(), icon + ".svg")
