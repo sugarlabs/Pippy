@@ -21,10 +21,12 @@ from gettext import gettext as _
 
 from sugar3 import env
 
+
 class SoundLibraryNotFoundError(Exception):
     def __init__(self):
         Exception.__init__(self, _('Cannot find TamTamEdit sound library.'
                                    ' Did you install TamTamEdit?'))
+
 
 def finddir():
     paths = ['/usr/share/sugar/activities', env.get_user_activities_path()]
@@ -43,7 +45,7 @@ def finddir():
                 tamtam_subdir = str(
                     os.path.join(bundle_dir, 'common', 'Resources', 'Sounds'))
                 sound_candidate_dirs = [
-                    os.path.expandvars('$SUGAR_PATH/activities') + \
+                    os.path.expandvars('$SUGAR_PATH/activities') +
                     tamtam_subdir,
                     tamtam_subdir
                 ]

@@ -24,8 +24,47 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """Pippy Activity: A simple Python programming activity ."""
+
+from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import GLib
+from gi.repository import Pango
+from gi.repository import Vte
+from gi.repository import GObject
+
 from __future__ import with_statement
 
+from sugar3.datastore import datastore
+from sugar3.activity import activity as activity
+from sugar3.activity.widgets import EditToolbar
+from sugar3.activity.widgets import StopButton
+from sugar3.activity.activity import get_bundle_name
+from sugar3.activity.activity import get_bundle_path
+from sugar3.graphics.alert import Alert
+from sugar3.graphics.alert import ConfirmationAlert
+from sugar3.graphics.alert import NotifyAlert
+from sugar3.graphics.icon import Icon
+from sugar3.graphics.objectchooser import ObjectChooser
+from sugar3.graphics.toggletoolbutton import ToggleToolButton
+from sugar3.graphics.toolbarbox import ToolbarButton
+from sugar3.graphics.toolbutton import ToolButton
+
+
+from jarabe.view.customizebundle import generate_unique_id
+
+from activity import ViewSourceActivity
+from activity import TARGET_TYPE_TEXT
+
+import groupthink.sugar_tools
+import groupthink.gtk_tools
+
+from filedialog import FileDialog
+from icondialog import IconDialog
+from notebook import SourceNotebook
+from toolbars import DevelopViewToolbar
+
+import sound_check
+import logging
 import re
 import os
 import subprocess
@@ -43,43 +82,6 @@ from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
 bus = dbus.SessionBus()
 
-from gi.repository import Gtk
-from gi.repository import Gdk
-from gi.repository import GLib
-from gi.repository import Pango
-from gi.repository import Vte
-from gi.repository import GObject
-
-from sugar3.datastore import datastore
-from sugar3.activity import activity as activity
-from sugar3.activity.widgets import EditToolbar
-from sugar3.activity.widgets import StopButton
-from sugar3.activity.activity import get_bundle_name
-from sugar3.activity.activity import get_bundle_path
-from sugar3.graphics.alert import Alert
-from sugar3.graphics.alert import ConfirmationAlert
-from sugar3.graphics.alert import NotifyAlert
-from sugar3.graphics.icon import Icon
-from sugar3.graphics.objectchooser import ObjectChooser
-from sugar3.graphics.toggletoolbutton import ToggleToolButton
-from sugar3.graphics.toolbarbox import ToolbarButton
-from sugar3.graphics.toolbutton import ToolButton
-
-from jarabe.view.customizebundle import generate_unique_id
-
-from activity import ViewSourceActivity
-from activity import TARGET_TYPE_TEXT
-
-import groupthink.sugar_tools
-import groupthink.gtk_tools
-
-from filedialog import FileDialog
-from icondialog import IconDialog
-from notebook import SourceNotebook
-from toolbars import DevelopViewToolbar
-
-import sound_check
-
 text_buffer = None
 # magic prefix to use utf-8 source encoding
 PYTHON_PREFIX = '''#!/usr/bin/python
@@ -89,7 +91,6 @@ PYTHON_PREFIX = '''#!/usr/bin/python
 DEFAULT_CATEGORIES = [_('graphics'), _('math'), _('python'), _('sound'),
                       _('string'), _('tutorials')]
 
-import logging
 _logger = logging.getLogger('pippy-activity')
 
 groupthink_mimetype = 'pickle/groupthink-pippy'
@@ -1099,58 +1100,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         elif self.metadata['mime_type'] == groupthink_mimetype:
             return open(file_path).read()
 
-############# TEMPLATES AND INLINE FILES ##############
-ACTIVITY_INFO_TEMPLATE = '''
-[Activity]
-name = %(title)s
-bundle_id = %(bundle_id)s
-exec = sugar-activity %(class)s
-icon = activity-icon
-activity_version = %(version)d
-mime_types = %(mime_types)s
-show_launcher = yes
-%(extra_info)s
-'''
 
-PIPPY_ICON = \
-"""<?xml version="1.0" ?><!DOCTYPE svg PUBLIC '-//W3C//DTD SVG
-1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd' [
-    <!ENTITY stroke_color "#010101">
-    <!ENTITY fill_color "#FFFFFF">
-]>
-<svg enable-background="new 0 0 55 55" height="55px" version="1.1"
-viewBox="0 0 55 55" width="55px" x="0px" xml:space="preserve"
-xmlns="http://www.w3.org/2000/svg"
-xmlns:xlink="http://www.w3.org/1999/xlink" y="0px"><g display="block"
-id="activity-pippy">
-<path d="M28.497,48.507
-c5.988,0,14.88-2.838,14.88-11.185
-c0-9.285-7.743-10.143-10.954-11.083
-c-3.549-0.799-5.913-1.914-6.055-3.455
-c-0.243-2.642,1.158-3.671,3.946-3.671
-c0,0,6.632,3.664,12.266,0.74
-c1.588-0.823,4.432-4.668,4.432-7.32
-c0-2.653-9.181-5.719-11.967-5.719
-c-2.788,0-5.159,3.847-5.159,3.847
-c-5.574,0-11.149,5.306-11.149,10.612
-c0,5.305,5.333,9.455,11.707,10.612
-c2.963,0.469,5.441,2.22,4.878,5.438
-c-0.457,2.613-2.995,5.306-8.361,5.306
-c-4.252,0-13.3-0.219-14.745-4.079
-c-0.929-2.486,0.168-5.205,1.562-5.205l-0.027-0.16
-c-1.42-0.158-5.548,0.16-5.548,5.465
-C8.202,45.452,17.347,48.507,28.497,48.507z"
-fill="&fill_color;" stroke="&stroke_color;"
-stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"/>
-    <path d="M42.579,19.854c-2.623-0.287-6.611-2-7.467-5.022" fill="none"
-stroke="&stroke_color;" stroke-linecap="round" stroke-width="3"/>
-    <circle cx="35.805" cy="10.96" fill="&stroke_color;" r="1.676"/>
-</g></svg><!-- " -->
-
-"""
-
-
-############# ACTIVITY META-INFORMATION ###############
+# ACTIVITY META-INFORMATION
 # this is used by Pippy to generate a bundle for itself.
 
 
@@ -1204,7 +1155,7 @@ def pippy_activity_extra_info():
 license = GPLv2+
 update_url = http://activities.sugarlabs.org '''
 
-################# ACTIVITY BUNDLER ################
+# ACTIVITY BUNDLER
 
 
 def main():
