@@ -78,7 +78,7 @@ class FileDialog(Gtk.Dialog):
 
         label = Gtk.Label(_('Open an example bundle'))
         label.modify_fg(Gtk.StateType.NORMAL,
-            Gdk.color_parse('white'))
+                        Gdk.color_parse('white'))
 
         item = Gtk.ToolItem()
         item.add(label)
@@ -101,7 +101,7 @@ class FileDialog(Gtk.Dialog):
     def build_scroll(self):
         scroll = Gtk.ScrolledWindow()
         scroll.set_policy(Gtk.PolicyType.AUTOMATIC,
-                Gtk.PolicyType.AUTOMATIC)
+                          Gtk.PolicyType.AUTOMATIC)
 
         vbox = Gtk.VBox()
         scroll.add_with_viewport(vbox)
@@ -126,7 +126,7 @@ class FileDialog(Gtk.Dialog):
         expander = Gtk.Expander()
         expander.set_label(name)
         expander.modify_fg(Gtk.StateType.NORMAL,
-            Gdk.color_parse('black'))
+                           Gdk.color_parse('black'))
 
         vbox = Gtk.VBox()
         files = sorted(os.listdir(path))

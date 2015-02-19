@@ -40,9 +40,6 @@ from gettext import gettext as _
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 
-DBusGMainLoop(set_as_default=True)
-bus = dbus.SessionBus()
-
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GLib
@@ -79,6 +76,10 @@ from notebook import SourceNotebook
 from toolbars import DevelopViewToolbar
 
 import sound_check
+import logging
+
+DBusGMainLoop(set_as_default=True)
+bus = dbus.SessionBus()
 
 text_buffer = None
 # magic prefix to use utf-8 source encoding
@@ -89,7 +90,6 @@ PYTHON_PREFIX = '''#!/usr/bin/python
 DEFAULT_CATEGORIES = [_('graphics'), _('math'), _('python'), _('sound'),
                       _('string'), _('tutorials')]
 
-import logging
 _logger = logging.getLogger('pippy-activity')
 
 groupthink_mimetype = 'pickle/groupthink-pippy'
@@ -1099,7 +1099,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         elif self.metadata['mime_type'] == groupthink_mimetype:
             return open(file_path).read()
 
-############# TEMPLATES AND INLINE FILES ##############
+# TEMPLATES AND INLINE FILES
 ACTIVITY_INFO_TEMPLATE = '''
 [Activity]
 name = %(title)s
@@ -1112,8 +1112,7 @@ show_launcher = yes
 %(extra_info)s
 '''
 
-PIPPY_ICON = \
-"""<?xml version="1.0" ?><!DOCTYPE svg PUBLIC '-//W3C//DTD SVG
+PIPPY_ICON = """<?xml version="1.0" ?><!DOCTYPE svg PUBLIC '-//W3C//DTD SVG
 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd' [
     <!ENTITY stroke_color "#010101">
     <!ENTITY fill_color "#FFFFFF">
@@ -1150,7 +1149,7 @@ stroke="&stroke_color;" stroke-linecap="round" stroke-width="3"/>
 """
 
 
-############# ACTIVITY META-INFORMATION ###############
+# ACTIVITY META-INFORMATION
 # this is used by Pippy to generate a bundle for itself.
 
 
@@ -1204,7 +1203,7 @@ def pippy_activity_extra_info():
 license = GPLv2+
 update_url = http://activities.sugarlabs.org '''
 
-################# ACTIVITY BUNDLER ################
+# ACTIVITY BUNDLER
 
 
 def main():
