@@ -117,6 +117,11 @@ setup(name='{modulename}',
 """  # This is .format()'ed with the list of the file names.
 
 
+def _has_new_vte_api():
+    return (Vte.MAJOR_VERSION >= 0 and
+            Vte.MINOR_VERSION >= 38)
+
+
 def _find_object_id(activity_id, mimetype='text/x-python'):
     ''' Round-about way of accessing self._jobject.object_id '''
     dsobjects, nobjects = datastore.find({'mime_type': [mimetype]})
@@ -363,10 +368,20 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._vte = Vte.Terminal()
         self._vte.set_encoding('utf-8')
         self._vte.set_size(30, 5)
-        self._vte.set_colors(Gdk.color_parse('#000000'),
-                             Gdk.color_parse('#E7E7E7'),
-                             [])
         self._vte.set_scrollback_lines(-1)
+
+        # XXX support both Vte APIs
+        if _has_new_vte_api():
+            foreground = Gdk.RGBA()
+            foreground.parse('#000000')
+            background = Gdk.RGBA()
+            background.parse('#E7E7E7')
+        else:
+            foreground = Gdk.color_parse('#000000')
+            background = Gdk.color_parse('#E7E7E7')
+
+        self._vte.set_colors(foreground, background, [])
+
         self._child_exited_handler = None
         self._vte.connect('child_exited', self._child_exited_cb)
         self._vte.connect('drag_data_received', self._vte_drop_cb)
@@ -563,7 +578,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         copy2('%s/activity.py' % get_bundle_path(),
               '%s/tmp/activity.py' % self.get_activity_root())
 
-        self._pid = self._vte.fork_command_full(
+        # XXX Support both Vte APIs
+        if _has_new_vte_api():
+            vte_run = self._vte.spawn_sync
+        else:
+            vte_run = self._vte.fork_command_full
+
+        self._pid = vte_run(
             Vte.PtyFlags.DEFAULT,
             get_bundle_path(),
             ['/bin/sh', '-c', 'python %s; sleep 1' % current_file,
