@@ -118,8 +118,12 @@ setup(name='{modulename}',
 
 
 def _has_new_vte_api():
-    return (Vte.MAJOR_VERSION >= 0 and
-            Vte.MINOR_VERSION >= 38)
+    try:
+        return (Vte.MAJOR_VERSION >= 0 and
+                Vte.MINOR_VERSION >= 38)
+    except:
+        # Really old versions of Vte don't have VERSION
+        return False
 
 
 def _find_object_id(activity_id, mimetype='text/x-python'):
