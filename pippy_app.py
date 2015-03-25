@@ -579,7 +579,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         copy2('%s/activity.py' % get_bundle_path(),
               '%s/tmp/activity.py' % self.get_activity_root())
 
-        self._pid = self._vte.fork_command_full(
+        # XXX Support both Vte APIs
+        if _has_new_vte_api():
+            vte_run = self._vte.spawn_sync
+        else:
+            vte_run = self._vte.fork_command_full
+
+        self._pid = vte_run(
             Vte.PtyFlags.DEFAULT,
             get_bundle_path(),
             ['/bin/sh', '-c', 'python %s; sleep 1' % current_file,
