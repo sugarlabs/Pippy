@@ -1,3 +1,8 @@
+65
+
+BUG FIX:
+* Catch deprecated method: vte.fork_command_full (Martin Abente)
+
 64
 
 ENHANCEMENTS:
