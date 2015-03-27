@@ -1,7 +1,18 @@
 65
 
-BUG FIX:
+ENHANCEMENTS:
+* Add tab selection shortcuts (Vikram Ahuja)
+* Add category (Walter Bender)
+
+BUG FIXES:
+* Really old versions of VTE don't have versions (Walter Bender)
 * Catch deprecated method: vte.fork_command_full (Martin Abente)
+* Fix broken Vte.Terminal.set_colors on Fedora 21 (Martin Abente)
+* Code style fixes, pep8 (Vikram Ahuja)
+* Fix tab naming problems (Vikram Ahuja)
+* Ignore Ctrl-w if only one tab open (Vikram Ahuja)
+* Fix tab name changing problems (Sakala Venkata Krishna Rohit)
+* Hide close button if only one tab open, fixes #4818 (Vikram Ahuja)
 
 64
 
