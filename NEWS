@@ -1,3 +1,7 @@
+66
+
+* Cleaner implementation of workaround for old Vte version detection.
+
 65
 
 ENHANCEMENTS:
