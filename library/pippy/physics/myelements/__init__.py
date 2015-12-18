@@ -1,2 +1,2 @@
 __all__ = ['locals', 'menu']
-from elements import Elements
+from .elements import Elements
