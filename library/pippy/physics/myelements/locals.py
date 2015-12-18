@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,16 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 INPUT_METERS = 0
 INPUT_PIXELS = 1
 
 CALLBACK_CONTACT_ADD = 0
 CALLBACK_CONTACT_PERSIST = 1
-CALLBACK_CONTACT_REMOVE  = 2
+CALLBACK_CONTACT_REMOVE = 2
 
-CALLBACK_DRAWING_START  = 3
-CALLBACK_DRAWING_END    = 4
+CALLBACK_DRAWING_START = 3
+CALLBACK_DRAWING_END = 4
 
 FLT_EPSILON = 1.192092896e-07
