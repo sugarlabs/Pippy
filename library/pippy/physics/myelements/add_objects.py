@@ -24,15 +24,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from locals import *
-from elements import box2d
+from .locals import *
+from .elements import box2d
 
 # Imports
 from math import pi
 from math import sqrt
 from math import asin
 
-import tools_poly
+from . import tools_poly
 
 
 class Add:
@@ -48,16 +48,10 @@ class Add:
         """
         return self._rect((-10.0, 0.0), 50.0, 0.1, dynamic=False)
 
-    def triangle(
-            self,
-            pos,
-            sidelength,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5,
-            screenCoord=True):
-        """ Add a triangle | pos & a in the current input unit system (meters or pixels)
+    def triangle(self, pos, sidelength, dynamic=True, density=1.0,
+                 restitution=0.16, friction=0.5, screenCoord=True):
+        """ Add a triangle | pos & a in the current input unit system
+            (meters or pixels)
 
             Parameters:
               pos .... position (x,y)
@@ -68,26 +62,14 @@ class Add:
         """
         vertices = [(-sidelength, 0.0), (sidelength, 0.0),
                     (0.0, 2 * sidelength)]
-        return self.poly(
-            pos,
-            vertices,
-            dynamic,
-            density,
-            restitution,
-            friction,
-            screenCoord)
+        return self.poly(pos, vertices, dynamic, density, restitution,
+                         friction, screenCoord)
 
-    def ball(
-            self,
-            pos,
-            radius,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5,
-            screenCoord=True):
-        """ Add a dynamic ball at pos after correcting the positions and legths to the internal
-            meter system if neccessary (if INPUT_PIXELS), then call self._add_ball(...)
+    def ball(self, pos, radius, dynamic=True, density=1.0, restitution=0.16,
+             friction=0.5, screenCoord=True):
+        """ Add a dynamic ball at pos after correcting the positions and
+            lengths to the internal meter system if neccessary
+            (if INPUT_PIXELS), then call self._add_ball(...)
 
             Parameters:
               pos ..... position (x,y)
@@ -96,29 +78,23 @@ class Add:
 
             Return: box2d.b2Body
         """
-        # Bring coordinates into the world coordinate system (flip, camera
-        # offset, ...)
+        # Bring coordinates into the world coordinate system (flip,
+        # camera offset, ...)
         if screenCoord:
             x, y = self.parent.to_world(pos)
         else:
             x, y = pos
 
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             x /= self.parent.ppm
             y /= self.parent.ppm
             radius /= self.parent.ppm
 
-        return self._ball((x, y), radius, dynamic,
-                          density, restitution, friction)
+        return self._ball((x, y), radius, dynamic, density, restitution,
+                          friction)
 
-    def _ball(
-            self,
-            pos,
-            radius,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5):
+    def _ball(self, pos, radius, dynamic=True, density=1.0, restitution=0.16,
+              friction=0.5):
         # Add a ball without correcting any settings
         # meaning, pos and vertices are in meters
         # Define the body
@@ -152,18 +128,10 @@ class Add:
 
         return body
 
-    def rect(
-            self,
-            pos,
-            width,
-            height,
-            angle=0,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5,
-            screenCoord=True):
-        """ Add a dynamic rectangle with input unit according to self.input (INPUT_PIXELS or INPUT_METERS)
+    def rect(self, pos, width, height, angle=0, dynamic=True, density=1.0,
+             restitution=0.16, friction=0.5, screenCoord=True):
+        """ Add a dynamic rectangle with input unit according to self.input
+            (INPUT_PIXELS or INPUT_METERS)
             Correcting the positions to meters and calling self._add_rect()
 
             Parameters:
@@ -175,15 +143,15 @@ class Add:
 
             Return: box2d.b2Body
         """
-        # Bring coordinates into the world coordinate system (flip, camera
-        # offset, ...)
+        # Bring coordinates into the world coordinate system (flip,
+        # camera offset, ...)
         if screenCoord:
             x, y = self.parent.to_world(pos)
         else:
             x, y = pos
 
         # If required, translate pixel -> meters
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             x /= self.parent.ppm
             y /= self.parent.ppm
             width /= self.parent.ppm
@@ -192,20 +160,14 @@ class Add:
         # grad -> radians
         angle = (angle * pi) / 180
 
-        return self._rect((x, y), width, height, angle,
-                          dynamic, density, restitution, friction)
+        return self._rect((x, y), width, height, angle, dynamic, density,
+                          restitution, friction)
 
-    def wall(
-            self,
-            pos1,
-            pos2,
-            width=5,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5,
-            screenCoord=True):
-        """ Add a static rectangle between two arbitrary points with input unit according to self.input
-            (INPUT_PIXELS or INPUT_METERS) Correcting the positions to meters and calling self._add_rect()
+    def wall(self, pos1, pos2, width=5, density=1.0, restitution=0.16,
+             friction=0.5, screenCoord=True):
+        """ Add a static rectangle between two arbitrary points with input
+            unit according to self.input_unit (INPUT_PIXELS or INPUT_METERS)
+            Correcting the positions to meters and calling self._add_rect()
 
             Return: box2d.b2Body
         """
@@ -219,14 +181,14 @@ class Add:
             x1, y1 = pos2
             x2, y2 = pos1
 
-        # Bring coordinates into the world coordinate system (flip, camera
-        # offset, ...)
+        # Bring coordinates into the world coordinate system (flip,
+        # camera offset, ...)
         if screenCoord:
             x1, y1 = self.parent.to_world((x1, y1))
             x2, y2 = self.parent.to_world((x2, y2))
 
         # If required, translate pixel -> meters
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             x1 /= self.parent.ppm
             y1 /= self.parent.ppm
             x2 /= self.parent.ppm
@@ -240,19 +202,11 @@ class Add:
             halfY = y1 + (y2 - y1) * 0.5
 
             angle = asin((y2 - halfY) / length)
-            return self._rect((halfX, halfY), length, width,
-                              angle, False, density, restitution, friction)
+            return self._rect((halfX, halfY), length, width, angle, False,
+                              density, restitution, friction)
 
-    def _rect(
-            self,
-            pos,
-            width,
-            height,
-            angle=0,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5):
+    def _rect(self, pos, width, height, angle=0, dynamic=True, density=1.0,
+              restitution=0.16, friction=0.5):
         # Add a rect without correcting any settings
         # meaning, pos and vertices are in meters
         # angle is now in radians ((degrees * pi) / 180))
@@ -275,8 +229,8 @@ class Add:
 
         # Add a shape to the Body
         boxDef = box2d.b2FixtureDef()
-        polygonShape = box2d.b2PolygonShape()
 
+        polygonShape = box2d.b2PolygonShape()
         polygonShape.SetAsBox(width, height, (0, 0), angle)
         boxDef.shape = polygonShape
         boxDef.density = density
@@ -286,17 +240,12 @@ class Add:
 
         return body
 
-    def poly(
-            self,
-            pos,
-            vertices,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5,
-            screenCoord=True):
-        """ Add a dynamic polygon, which has the vertices arranged around the poly's center at pos
-            Correcting the positions to meters if INPUT_PIXELS, and calling self._add_poly()
+    def poly(self, pos, vertices, dynamic=True, density=1.0, restitution=0.16,
+             friction=0.5, screenCoord=True):
+        """ Add a dynamic polygon, which has the vertices arranged around
+            the poly's center at pos
+            Correcting the positions to meters if INPUT_PIXELS, and calling
+            self._add_poly()
 
             Parameters:
               pos ....... position (x,y)
@@ -305,15 +254,15 @@ class Add:
 
             Return: box2d.b2Body
         """
-        # Bring coordinates into the world coordinate system (flip, camera
-        # offset, ...)
+        # Bring coordinates into the world coordinate system (flip,
+        # camera offset, ...)
         if screenCoord:
             x, y = self.parent.to_world(pos)
         else:
             x, y = pos
 
         # If required, translate pixel -> meters
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             # translate pixel -> meters
             x /= self.parent.ppm
             y /= self.parent.ppm
@@ -325,17 +274,11 @@ class Add:
                 v_new.append((vx / self.parent.ppm, vy / self.parent.ppm))
             vertices = v_new
 
-        return self._poly((x, y), vertices, dynamic,
-                          density, restitution, friction)
+        return self._poly((x, y), vertices, dynamic, density, restitution,
+                          friction)
 
-    def _poly(
-            self,
-            pos,
-            vertices,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5):
+    def _poly(self, pos, vertices, dynamic=True, density=1.0,
+              restitution=0.16, friction=0.5):
         # add a centered poly at pos without correcting any settings
         # meaning, pos and vertices are in meters
         x, y = pos
@@ -356,25 +299,20 @@ class Add:
         self.parent.element_count += 1
 
         # Add a shape to the Body
-        polyDef = box2d.b2PolygonShape()
+        polyDef = box2d.b2FixtureDef()
 
-        polyDef.setVertices(vertices)
+        polygonShape = box2d.b2PolygonShape()
+        polygonShape.vertices = vertices
+        polyDef.shape = polygonShape
         polyDef.density = density
         polyDef.restitution = restitution
         polyDef.friction = friction
-
         body.CreateFixture(polyDef)
 
         return body
 
-    def concavePoly(
-            self,
-            vertices,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5,
-            screenCoord=True):
+    def concavePoly(self, vertices, dynamic=True, density=1.0,
+                    restitution=0.16, friction=0.5, screenCoord=True):
         # 1. Step: Reduce
         # Detect if the polygon is closed or open
         if vertices[0] != vertices[-1]:
@@ -386,15 +324,15 @@ class Add:
         x, y = c = tools_poly.calc_center(vertices)
         vertices = tools_poly.poly_center_vertices(vertices)
 
-        # Bring coordinates into the world coordinate system (flip, camera
-        # offset, ...)
+        # Bring coordinates into the world coordinate system (flip,
+        # camera offset, ...)
         if screenCoord:
             x, y = self.parent.to_world(c)
         else:
             x, y = c
 
         # If required, translate pixel -> meters
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             # translate pixel -> meters
             x /= self.parent.ppm
             y /= self.parent.ppm
@@ -417,14 +355,17 @@ class Add:
         self.parent.element_count += 1
 
         # Create the reusable Box2D polygon and circle definitions
-        polyDef = box2d.b2PolygonShape()
-        polyDef.vertexCount = 4  # rectangle
+        polyDef = box2d.b2FixtureDef()
+
+        polygonShape = box2d.b2PolygonShape()
+        polygonShape.vertexCount = 4  # rectangle
+        polyDef.shape = polygonShape
         polyDef.density = density
         polyDef.restitution = restitution
         polyDef.friction = friction
 
         circleShape = box2d.b2CircleShape()
-        circleShape.radius = radius
+        circleShape.radius = 0.086
         circleDef = box2d.b2FixtureDef()
         circleDef.shape = circleShape
         circleDef.density = density
@@ -449,10 +390,10 @@ class Add:
 
             # Create a line (rect) for each part of the polygon,
             # and attach it to the body
-            polyDef.setVertices([vi / self.parent.ppm for vi in v])
+            polyDef.shape.vertices = [vi / self.parent.ppm for vi in v]
 
             try:
-                polyDef.checkValues()
+                polyDef.shape.valid
             except ValueError:
                 print "concavePoly: Created an invalid polygon!"
                 return None
@@ -461,7 +402,7 @@ class Add:
 
             # Now add a circle to the points between the rects
             # to avoid sharp edges and gaps
-            if not is_closed and v2.tuple() == vertices[-1]:
+            if not is_closed and v2 == vertices[-1]:
                 # Don't add a circle at the end
                 break
 
@@ -471,13 +412,8 @@ class Add:
         # Return hard and soft reduced vertices
         return body
 
-    def complexPoly(
-            self,
-            vertices,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5):
+    def complexPoly(self, vertices, dynamic=True, density=1.0,
+                    restitution=0.16, friction=0.5):
         # 1. Step: Reduce
         # 2. Step: See if start and end are close, if so then close the polygon
         # 3. Step: Detect if convex or concave
@@ -500,27 +436,23 @@ class Add:
 
         if tools_poly.is_line(vertices):
             # Lines shall be drawn by self.concavePoly(...)
-            print "is line"
+            # print "is line"
             is_convex = False
 
         if is_convex:
-            print "convex"
-            return self.convexPoly(
-                vertices, dynamic, density, restitution, friction), vertices
+            # print "convex"
+            return self.convexPoly(vertices, dynamic, density, restitution,
+                                   friction), vertices
         else:
-            print "concave"
-            return self.concavePoly(
-                vertices, dynamic, density, restitution, friction), vertices
+            # print "concave"
+            return self.concavePoly(vertices, dynamic, density, restitution,
+                                    friction), vertices
 
-    def convexPoly(
-            self,
-            vertices,
-            dynamic=True,
-            density=1.0,
-            restitution=0.16,
-            friction=0.5):
-        """ Add a complex polygon with vertices in absolute positions (meters or pixels, according
-            to INPUT_PIXELS or INPUT_METERS). This function does the reduction and convec hulling
+    def convexPoly(self, vertices, dynamic=True, density=1.0,
+                   restitution=0.16, friction=0.5):
+        """ Add a complex polygon with vertices in absolute positions
+            (meters or pixels, according to INPUT_PIXELS or INPUT_METERS).
+            This function does the reduction and convec hulling
             of the poly, and calls add_poly(...)
 
             Parameters:
@@ -529,16 +461,18 @@ class Add:
 
             Return: box2d.b2Body
         """
-        # NOTE: Box2D has a maximum poly vertex count, defined in Common/box2d.b2Settings.h (box2d.b2_maxPolygonVertices)
-        # We need to make sure, that we reach that by reducing the poly with increased tolerance
-        # Reduce Polygon
+        # NOTE: Box2D has a maximum poly vertex count, defined in
+        # Common/box2d.b2Settings.h (box2d.b2_maxPolygonVertices) We
+        # need to make sure, that we reach that by reducing the poly
+        # with increased tolerance Reduce Polygon
         tolerance = 10  # 5
         v_new = vertices
         while len(v_new) > box2d.b2_maxPolygonVertices:
             tolerance += 1
             v_new = tools_poly.reduce_poly(vertices, tolerance)
 
-        print "convexPoly: Polygon reduced from %i to %i vertices | tolerance: %i" % (len(vertices), len(v_new), tolerance)
+        # print "convexPoly: Polygon reduced from %i to %i vertices |
+        # tolerance: %i" % (len(vertices), len(v_new), tolerance)
         vertices = v_new
 
         # So poly should be alright now
@@ -553,8 +487,8 @@ class Add:
 
         # Define the body
         x, y = tools_poly.calc_center(vertices_orig_reduced)
-        return self.poly((x, y), vertices, dynamic,
-                         density, restitution, friction)
+        return self.poly((x, y), vertices, dynamic, density, restitution,
+                         friction)
 
     def to_b2vec(self, pt):
         # Convert vector to a b2vect
@@ -566,7 +500,6 @@ class Add:
         return pt
 
     def joint(self, *args):
-        print "* Add Joint:", args
 
         if len(args) == 5:
             # Tracking Joint
@@ -592,7 +525,10 @@ class Add:
             jointDef.Initialize(b1, b2, p1, p2)
             jointDef.collideConnected = True
 
-            self.parent.world.CreateJoint(jointDef)
+            try:
+                self.parent.world.CreateJoint(jointDef)
+            except AssertionError:
+                pass
 
         elif len(args) == 3:
             # Revolute Joint between two bodies (unimplemented)
@@ -606,7 +542,11 @@ class Add:
 
             jointDef = box2d.b2RevoluteJointDef()
             jointDef.Initialize(b1, b2, p1)
-            self.parent.world.CreateJoint(jointDef)
+
+            try:
+                self.parent.world.CreateJoint(jointDef)
+            except AssertionError:
+                pass
 
         elif len(args) == 1:
             # Revolute Joint to the Background, body center
@@ -617,7 +557,10 @@ class Add:
             jointDef = box2d.b2RevoluteJointDef()
             jointDef.Initialize(b1, b2, p1)
 
-            self.parent.world.CreateJoint(jointDef)
+            try:
+                self.parent.world.CreateJoint(jointDef)
+            except AssertionError:
+                pass
 
     def motor(self, body, pt, torque=900, speed=-10):
         # Revolute joint to the background with motor torque applied
