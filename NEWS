@@ -1,3 +1,7 @@
+67
+
+* Updated VTE and Box2D support; cleaned up support for ARM (Ezequiel Pereira)
+
 66
 
 * Cleaner implementation of workaround for old Vte version detection.
