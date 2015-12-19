@@ -47,6 +47,9 @@ from gi.repository import Pango
 from gi.repository import Vte
 from gi.repository import GObject
 
+DBusGMainLoop(set_as_default=True)
+bus = dbus.SessionBus()
+
 from sugar3.datastore import datastore
 from sugar3.activity import activity as activity
 from sugar3.activity.widgets import EditToolbar
@@ -77,9 +80,6 @@ from toolbars import DevelopViewToolbar
 
 import sound_check
 import logging
-
-DBusGMainLoop(set_as_default=True)
-bus = dbus.SessionBus()
 
 text_buffer = None
 # magic prefix to use utf-8 source encoding
