@@ -66,6 +66,8 @@ from sugar3.graphics.objectchooser import ObjectChooser
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
 from sugar3.graphics.toolbarbox import ToolbarButton
 from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.toolbarbox import ToolbarBox
+from sugar3.activity.widgets import ActivityToolbarButton
 
 from jarabe.view.customizebundle import generate_unique_id
 
@@ -77,7 +79,7 @@ import groupthink.gtk_tools
 
 from filedialog import FileDialog
 from icondialog import IconDialog
-from notebook import SourceNotebook
+from notebook import SourceNotebook, tab_object
 from toolbars import DevelopViewToolbar
 
 import sound_check
@@ -138,9 +140,11 @@ def _find_object_id(activity_id, mimetype='text/x-python'):
     return None
 
 
-class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
+# XXX: Why do we use ViewSourceActivity?  Sugar already has view source
+# Note:  the structure is very weird, because this was migrated from groupthink
+class PippyActivity(ViewSourceActivity):
     '''Pippy Activity as specified in activity.info'''
-    def early_setup(self):
+    def __init__(self, handle):
         self._pippy_instance = self
         self.session_data = []  # Used to manage saving
         self._loaded_session = []  # Used to manage tabs
@@ -150,11 +154,22 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         sys.path.append(os.path.join(self.get_activity_root(), 'Library'))
 
+        ViewSourceActivity.__init__(self, handle)
+        self.set_canvas(self.initialize_display())
+        self.after_init()
+        self.connect("notify::active", self.__active_cb)
+
     def initialize_display(self):
         '''Build activity toolbar with title input, share button and export
         buttons
         '''
-        activity_toolbar = self.activity_button.page
+        toolbar_box = ToolbarBox()
+        activity_button = ActivityToolbarButton(self)
+        toolbar_box.toolbar.insert(activity_button, 0)
+        self.set_toolbar_box(toolbar_box)
+        activity_button.show()
+        toolbar_box.show()
+        activity_toolbar = activity_button.page
 
         separator = Gtk.SeparatorToolItem()
         activity_toolbar.insert(separator, -1)
@@ -221,6 +236,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                              self._font_size_changed_cb)
         self.get_toolbar_box().toolbar.insert(view_btn, -1)
         self.view_toolbar = view_toolbar
+        view_toolbar.show()
 
         actions_toolbar = self.get_toolbar_box().toolbar
 
@@ -368,6 +384,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self._source_tabs.add_tab()  # New instance, ergo empty tab
 
         vpane.add1(self._source_tabs)
+        self._source_tabs.show()
 
         self._outbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 
@@ -401,6 +418,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._load_config()
 
         vpane.add2(self._outbox)
+        self._outbox.show()
+        vpane.show()
         return vpane
 
     def after_init(self):
@@ -433,6 +452,24 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self.view_toolbar.set_font_size(font_size)
             self._vte.set_font(
                 Pango.FontDescription('Monospace {}'.format(font_size)))
+
+    def __active_cb(self, widget, event):
+        logging.debug('__active_cb %r', self.props.active)
+        if self.props.active:
+            self.resume()
+        else:
+            self.pause()
+
+    def do_visibility_notify_event(self, event):
+        logging.debug('do_visibility_notify_event %r', event.get_state())
+        if event.get_state() == Gdk.VisibilityState.FULLY_OBSCURED:
+            self.pause()
+        else:
+            self.resume()
+
+    def pause(self):
+        # FIXME: We had resume, but no pause?
+        pass
 
     def resume(self):
         if self._dialog is not None:
@@ -932,7 +969,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         else:
             return self._pippy_instance.get_object_id()
 
-    def save_to_journal(self, file_path, cloudstring):
+    def write_file(self, file_path):
         if not self.shared_activity:
             pippy_id = self._get_pippy_object_id()
             data = self._source_tabs.get_all_data()
@@ -940,7 +977,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             session_list = []
             app_temp = os.path.join(self.get_activity_root(), 'instance')
             tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
-            for zipdata, content in map(None, zipped_data, self.session_data):
+            for zipdata, content in zip(zipped_data, self.session_data):
                 name, python_code, path, modified = zipdata
                 if content is not None and content == self._py_object_id:
                     _logger.debug('saving to self')
@@ -1002,8 +1039,10 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self._pippy_instance.metadata['mime_type'] = 'application/json'
             pippy_data = json.dumps(session_list)
         else:
-            self._pippy_instance.metadata['mime_type'] = groupthink_mimetype
-            pippy_data = cloudstring
+            # TODO:  Find out why we ever used the cloud here
+            #self._pippy_instance.metadata['mime_type'] = groupthink_mimetype
+            #pippy_data = cloudstring
+            pass
 
         # Override file path if we created a new Pippy instance
         if self._py_file_loaded_from_journal:
@@ -1019,10 +1058,20 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         self._store_config()
 
-    def load_from_journal(self, file_path):
+    def read_file(self, file_path):
         # Either we are opening Python code or a list of objects
         # stored (json-encoded) in a Pippy instance, or a shared
         # session.
+
+        # Remove initial new/blank thing
+        self.session_data = []
+        self._loaded_session = []
+        try:
+            self._source_tabs.remove_page(0)
+            tab_object.pop(0)
+        except IndexError:
+            pass
+
         if self.metadata['mime_type'] == 'text/x-python':
             _logger.debug('Loading Python code')
             # Opening some Python code directly
@@ -1124,7 +1173,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     self.session_data.append(content)
                     self._loaded_session.append([name, python_code, path])
         elif self.metadata['mime_type'] == groupthink_mimetype:
-            return open(file_path).read()
+            # AAAAAAAAAAAAARRRRRRRRRRRRRGGGGGGGGGHHHHHHHHHH
+            # TODO:  Find what groupthink data actually is under the layers
+            #        an layers of abstraction
+            pass
+
+        for name, content, path in self._loaded_session:
+            self._source_tabs.add_tab(name, content, path)
 
 # TEMPLATES AND INLINE FILES
 ACTIVITY_INFO_TEMPLATE = '''
