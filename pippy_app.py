@@ -36,6 +36,7 @@ import sys
 from shutil import copy2
 from signal import SIGTERM
 from gettext import gettext as _
+import uuid
 
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
@@ -74,8 +75,7 @@ from jarabe.view.customizebundle import generate_unique_id
 from activity import ViewSourceActivity
 from activity import TARGET_TYPE_TEXT
 
-import groupthink.sugar_tools
-import groupthink.gtk_tools
+from collabwrapper.collabwrapper import CollabWrapper
 
 from filedialog import FileDialog
 from icondialog import IconDialog
@@ -155,9 +155,12 @@ class PippyActivity(ViewSourceActivity):
         sys.path.append(os.path.join(self.get_activity_root(), 'Library'))
 
         ViewSourceActivity.__init__(self, handle)
+        self._collab = CollabWrapper(self)
+        self._collab.message.connect(self.__message_cb)
         self.set_canvas(self.initialize_display())
         self.after_init()
         self.connect("notify::active", self.__active_cb)
+        self._collab.setup()
 
     def initialize_display(self):
         '''Build activity toolbar with title input, share button and export
@@ -374,7 +377,7 @@ class PippyActivity(ViewSourceActivity):
         data_path = os.path.join(get_bundle_path(), 'data')
         self.paths.append([_('My examples'), data_path])
 
-        self._source_tabs = SourceNotebook(self)
+        self._source_tabs = SourceNotebook(self, self._collab)
         self._source_tabs.connect('tab-added', self._add_source_cb)
         if self._loaded_session:
             for name, content, path in self._loaded_session:
@@ -495,25 +498,53 @@ class PippyActivity(ViewSourceActivity):
         if path:
             self._select_func_cb(path)
 
-    def when_shared(self):
-        text_buffer = self._source_tabs.get_text_buffer()
-        self.cloud.sharefield = \
-            groupthink.gtk_tools.TextBufferSharePoint(text_buffer)
-        # HACK : There are issues with undo/redoing while in shared
-        # mode. So disable the 'undo' and 'redo' buttons when the activity
-        # is shared.
-        self._edit_toolbar.undo.set_sensitive(False)
-        self._edit_toolbar.redo.set_sensitive(False)
+    def _add_source_cb(self, button, force=False, editor_id=None):
+        if self._collab.props.leader or force:
+            if editor_id is None:
+                editor_id = str(uuid.uuid1())
+            self._source_tabs.add_tab(editor_id=editor_id)
+            self.session_data.append(None)
+            self._source_tabs.get_nth_page(-1).show_all()
+            self._source_tabs.get_text_view().grab_focus()
+            if self._collab.props.leader:
+                self._collab.post(dict(
+                    action='add-source',
+                    editor_id=editor_id))
+        else:
+            # The leader must do it first so that they can set
+            # up the text buffer
+            self._collab.post(dict(action='add-source-request'))
 
-    def _add_source_cb(self, button):
-        self._source_tabs.add_tab()
-        self.session_data.append(None)
-        self._source_tabs.get_nth_page(-1).show_all()
-        self._source_tabs.get_text_view().grab_focus()
+    def __message_cb(self, collab, buddy, msg):
+        action = msg.get('action')
+        if action == 'add-source-request' and self._collab.props.leader:
+            self._add_source_cb(None, force=True)
+        elif action == 'add-source':
+            self._add_source_cb(
+                None, force=True, editor_id=msg.get('editor_id'))
 
     def _vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
             self._vte.feed_child(selection.data)
+
+    def get_data(self):
+        return self._source_tabs.get_all_data()
+
+    def set_data(self, data):
+        # Remove initial new/blank thing
+        self.session_data = []
+        self._loaded_session = []
+        try:
+            self._source_tabs.remove_page(0)
+            tab_object.pop(0)
+        except IndexError:
+            pass
+
+        list_ = zip(*data)
+        for name, code, path, modified, editor_id in list_:
+            self._source_tabs.add_tab(
+                label=name, editor_id=editor_id)
+            self.session_data.append(None)  # maybe?
 
     def _selection_cb(self, value):
         self.save()
@@ -970,28 +1001,42 @@ class PippyActivity(ViewSourceActivity):
             return self._pippy_instance.get_object_id()
 
     def write_file(self, file_path):
-        if not self.shared_activity:
-            pippy_id = self._get_pippy_object_id()
-            data = self._source_tabs.get_all_data()
-            zipped_data = zip(data[0], data[1], data[2], data[3])
-            session_list = []
-            app_temp = os.path.join(self.get_activity_root(), 'instance')
-            tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
-            for zipdata, content in zip(zipped_data, self.session_data):
-                name, python_code, path, modified = zipdata
-                if content is not None and content == self._py_object_id:
-                    _logger.debug('saving to self')
-                    self.metadata['title'] = name
-                    self.metadata['mime_type'] = 'text/x-python'
-                    if pippy_id is not None:
-                        self.metadata['pippy_instance'] = pippy_id
-                    __file = open(file_path, 'w')
-                    __file.write(python_code)
-                    __file.close()
-                    session_list.append([name, content])
-                elif content is not None and content[0] != '/':
-                    _logger.debug('Saving an existing dsobject')
-                    dsobject = datastore.get(content)
+        pippy_id = self._get_pippy_object_id()
+        data = self._source_tabs.get_all_data()
+        zipped_data = zip(*data)
+        session_list = []
+        app_temp = os.path.join(self.get_activity_root(), 'instance')
+        tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
+        for zipdata, content in zip(zipped_data, self.session_data):
+            logging.error('Session data %r', content)
+            name, python_code, path, modified, editor_id = zipdata
+            if content is not None and content == self._py_object_id:
+                _logger.debug('saving to self')
+                self.metadata['title'] = name
+                self.metadata['mime_type'] = 'text/x-python'
+                if pippy_id is not None:
+                    self.metadata['pippy_instance'] = pippy_id
+                __file = open(file_path, 'w')
+                __file.write(python_code)
+                __file.close()
+                session_list.append([name, content])
+            elif content is not None and content[0] != '/':
+                _logger.debug('Saving an existing dsobject')
+                dsobject = datastore.get(content)
+                dsobject.metadata['title'] = name
+                dsobject.metadata['mime_type'] = 'text/x-python'
+                if pippy_id is not None:
+                    dsobject.metadata['pippy_instance'] = pippy_id
+                __file = open(tmpfile, 'w')
+                __file.write(python_code)
+                __file.close()
+                dsobject.set_file_path(tmpfile)
+                datastore.write(dsobject)
+                session_list.append([name, dsobject.object_id])
+            elif modified:
+                _logger.debug('Creating new dsobj for modified code')
+                if len(python_code) > 0:
+                    dsobject = datastore.create()
                     dsobject.metadata['title'] = name
                     dsobject.metadata['mime_type'] = 'text/x-python'
                     if pippy_id is not None:
@@ -1002,47 +1047,28 @@ class PippyActivity(ViewSourceActivity):
                     dsobject.set_file_path(tmpfile)
                     datastore.write(dsobject)
                     session_list.append([name, dsobject.object_id])
-                elif modified:
-                    _logger.debug('Creating new dsobj for modified code')
-                    if len(python_code) > 0:
-                        dsobject = datastore.create()
-                        dsobject.metadata['title'] = name
-                        dsobject.metadata['mime_type'] = 'text/x-python'
-                        if pippy_id is not None:
-                            dsobject.metadata['pippy_instance'] = pippy_id
-                        __file = open(tmpfile, 'w')
-                        __file.write(python_code)
-                        __file.close()
-                        dsobject.set_file_path(tmpfile)
-                        datastore.write(dsobject)
-                        session_list.append([name, dsobject.object_id])
-                        # If there are multiple Nones, we need to find
-                        # the correct one.
-                        if content is None and \
-                           self.session_data.count(None) > 1:
-                            i = zipped_data.index(zipdata)
-                        else:
-                            i = self.session_data.index(content)
-                        self.session_data[i] = dsobject.object_id
-                elif content is not None or path is not None:
-                    _logger.debug('Saving reference to sample file')
-                    if path is None:  # Should not happen, but just in case...
-                        _logger.error('path is None.')
-                        session_list.append([name, content])
+                    # If there are multiple Nones, we need to find
+                    # the correct one.
+                    if content is None and \
+                       self.session_data.count(None) > 1:
+                        i = zipped_data.index(zipdata)
                     else:
-                        session_list.append([name, path])
-                else:  # Should not happen, but just in case...
-                    _logger.error('Nothing to save in tab? %s %s %s %s' %
-                                  (str(name), str(python_code), str(path),
-                                   str(content)))
+                        i = self.session_data.index(content)
+                    self.session_data[i] = dsobject.object_id
+            elif content is not None or path is not None:
+                _logger.debug('Saving reference to sample file')
+                if path is None:  # Should not happen, but just in case...
+                    _logger.error('path is None.')
+                    session_list.append([name, content])
+                else:
+                    session_list.append([name, path])
+            else:  # Should not happen, but just in case...
+                _logger.error('Nothing to save in tab? %s %s %s %s' %
+                              (str(name), str(python_code), str(path),
+                               str(content)))
 
-            self._pippy_instance.metadata['mime_type'] = 'application/json'
-            pippy_data = json.dumps(session_list)
-        else:
-            # TODO:  Find out why we ever used the cloud here
-            #self._pippy_instance.metadata['mime_type'] = groupthink_mimetype
-            #pippy_data = cloudstring
-            pass
+        self._pippy_instance.metadata['mime_type'] = 'application/json'
+        pippy_data = json.dumps(session_list)
 
         # Override file path if we created a new Pippy instance
         if self._py_file_loaded_from_journal:
