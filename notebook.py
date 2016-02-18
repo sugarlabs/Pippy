@@ -188,9 +188,11 @@ class SourceNotebook(AddNotebook):
         AddNotebook.__init__(self)
         self.activity = activity
         self.set_scrollable(True)
+        self.last_tab = 0
         self._font_size = DEFAULT_FONT_SIZE
 
     def add_tab(self, label=None, buffer_text=None, path=None):
+        self.last_tab += 1
         codesw = Gtk.ScrolledWindow()
         codesw.set_policy(Gtk.PolicyType.AUTOMATIC,
                           Gtk.PolicyType.AUTOMATIC)
@@ -204,7 +206,7 @@ class SourceNotebook(AddNotebook):
             self.tablabel = TabLabel(codesw, label, path, self)
         else:
             self.tablabel = TabLabel(codesw,
-                                     _('New Source File %d' % tabdex),
+                                     _('New Source File %d' % self.last_tab),
                                      path, self)
         self.tablabel.connect('tab-close', self._tab_closed_cb)
         self.connect('key-press-event', self._key_press_cb)
@@ -230,7 +232,6 @@ class SourceNotebook(AddNotebook):
                     index = self.get_current_page()
                     self.remove_page(index)
                     tab_object.pop(index)
-                    self.rename_tab(self.get_current_page())
                     try:
                         logging.debug('deleting session_data %s' %
                                       str(self.activity.session_data[index]))
@@ -350,7 +351,6 @@ class SourceNotebook(AddNotebook):
         index = self.page_num(child)
         self.remove_page(index)
         tab_object.pop(index)
-        self.rename_tab(index)
         # Hide close button if only one tab present
         if self.get_n_pages() == 1:
             only_widget = self.get_nth_page(0)
@@ -366,7 +366,7 @@ class SourceNotebook(AddNotebook):
     def rename_tab(self, iterator1):
         for i in range(iterator1, self.get_n_pages()):
             if re.match('New Source File ', tab_object[i].get_text()) != None:
-                tab_object[i].label_text = 'New Source File ' + str(i+1)
+                tab_object[i].label_text = 'New Source File ' + str(self.last_tab+1)
             else:
                 tab_object[i].label_text = tab_object[i].get_text()
             tab_object[i]._label.set_text(tab_object[i].label_text)
