@@ -36,6 +36,7 @@ import sys
 from shutil import copy2
 from signal import SIGTERM
 from gettext import gettext as _
+import uuid
 
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
@@ -66,18 +67,19 @@ from sugar3.graphics.objectchooser import ObjectChooser
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
 from sugar3.graphics.toolbarbox import ToolbarButton
 from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.toolbarbox import ToolbarBox
+from sugar3.activity.widgets import ActivityToolbarButton
 
 from jarabe.view.customizebundle import generate_unique_id
 
 from activity import ViewSourceActivity
 from activity import TARGET_TYPE_TEXT
 
-import groupthink.sugar_tools
-import groupthink.gtk_tools
+from collabwrapper.collabwrapper import CollabWrapper
 
 from filedialog import FileDialog
 from icondialog import IconDialog
-from notebook import SourceNotebook
+from notebook import SourceNotebook, tab_object
 from toolbars import DevelopViewToolbar
 
 import sound_check
@@ -138,9 +140,11 @@ def _find_object_id(activity_id, mimetype='text/x-python'):
     return None
 
 
-class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
+# XXX: Why do we use ViewSourceActivity?  Sugar already has view source
+# Note:  the structure is very weird, because this was migrated from groupthink
+class PippyActivity(ViewSourceActivity):
     '''Pippy Activity as specified in activity.info'''
-    def early_setup(self):
+    def __init__(self, handle):
         self._pippy_instance = self
         self.session_data = []  # Used to manage saving
         self._loaded_session = []  # Used to manage tabs
@@ -150,11 +154,25 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         sys.path.append(os.path.join(self.get_activity_root(), 'Library'))
 
+        ViewSourceActivity.__init__(self, handle)
+        self._collab = CollabWrapper(self)
+        self._collab.message.connect(self.__message_cb)
+        self.set_canvas(self.initialize_display())
+        self.after_init()
+        self.connect("notify::active", self.__active_cb)
+        self._collab.setup()
+
     def initialize_display(self):
         '''Build activity toolbar with title input, share button and export
         buttons
         '''
-        activity_toolbar = self.activity_button.page
+        toolbar_box = ToolbarBox()
+        activity_button = ActivityToolbarButton(self)
+        toolbar_box.toolbar.insert(activity_button, 0)
+        self.set_toolbar_box(toolbar_box)
+        activity_button.show()
+        toolbar_box.show()
+        activity_toolbar = activity_button.page
 
         separator = Gtk.SeparatorToolItem()
         activity_toolbar.insert(separator, -1)
@@ -221,6 +239,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                              self._font_size_changed_cb)
         self.get_toolbar_box().toolbar.insert(view_btn, -1)
         self.view_toolbar = view_toolbar
+        view_toolbar.show()
 
         actions_toolbar = self.get_toolbar_box().toolbar
 
@@ -358,7 +377,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         data_path = os.path.join(get_bundle_path(), 'data')
         self.paths.append([_('My examples'), data_path])
 
-        self._source_tabs = SourceNotebook(self)
+        self._source_tabs = SourceNotebook(self, self._collab)
         self._source_tabs.connect('tab-added', self._add_source_cb)
         if self._loaded_session:
             for name, content, path in self._loaded_session:
@@ -368,6 +387,7 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self._source_tabs.add_tab()  # New instance, ergo empty tab
 
         vpane.add1(self._source_tabs)
+        self._source_tabs.show()
 
         self._outbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 
@@ -401,6 +421,8 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         self._load_config()
 
         vpane.add2(self._outbox)
+        self._outbox.show()
+        vpane.show()
         return vpane
 
     def after_init(self):
@@ -434,6 +456,24 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
             self._vte.set_font(
                 Pango.FontDescription('Monospace {}'.format(font_size)))
 
+    def __active_cb(self, widget, event):
+        logging.debug('__active_cb %r', self.props.active)
+        if self.props.active:
+            self.resume()
+        else:
+            self.pause()
+
+    def do_visibility_notify_event(self, event):
+        logging.debug('do_visibility_notify_event %r', event.get_state())
+        if event.get_state() == Gdk.VisibilityState.FULLY_OBSCURED:
+            self.pause()
+        else:
+            self.resume()
+
+    def pause(self):
+        # FIXME: We had resume, but no pause?
+        pass
+
     def resume(self):
         if self._dialog is not None:
             self._dialog.set_keep_above(True)
@@ -458,25 +498,53 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         if path:
             self._select_func_cb(path)
 
-    def when_shared(self):
-        text_buffer = self._source_tabs.get_text_buffer()
-        self.cloud.sharefield = \
-            groupthink.gtk_tools.TextBufferSharePoint(text_buffer)
-        # HACK : There are issues with undo/redoing while in shared
-        # mode. So disable the 'undo' and 'redo' buttons when the activity
-        # is shared.
-        self._edit_toolbar.undo.set_sensitive(False)
-        self._edit_toolbar.redo.set_sensitive(False)
+    def _add_source_cb(self, button, force=False, editor_id=None):
+        if self._collab.props.leader or force:
+            if editor_id is None:
+                editor_id = str(uuid.uuid1())
+            self._source_tabs.add_tab(editor_id=editor_id)
+            self.session_data.append(None)
+            self._source_tabs.get_nth_page(-1).show_all()
+            self._source_tabs.get_text_view().grab_focus()
+            if self._collab.props.leader:
+                self._collab.post(dict(
+                    action='add-source',
+                    editor_id=editor_id))
+        else:
+            # The leader must do it first so that they can set
+            # up the text buffer
+            self._collab.post(dict(action='add-source-request'))
 
-    def _add_source_cb(self, button):
-        self._source_tabs.add_tab()
-        self.session_data.append(None)
-        self._source_tabs.get_nth_page(-1).show_all()
-        self._source_tabs.get_text_view().grab_focus()
+    def __message_cb(self, collab, buddy, msg):
+        action = msg.get('action')
+        if action == 'add-source-request' and self._collab.props.leader:
+            self._add_source_cb(None, force=True)
+        elif action == 'add-source':
+            self._add_source_cb(
+                None, force=True, editor_id=msg.get('editor_id'))
 
     def _vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
             self._vte.feed_child(selection.data)
+
+    def get_data(self):
+        return self._source_tabs.get_all_data()
+
+    def set_data(self, data):
+        # Remove initial new/blank thing
+        self.session_data = []
+        self._loaded_session = []
+        try:
+            self._source_tabs.remove_page(0)
+            tab_object.pop(0)
+        except IndexError:
+            pass
+
+        list_ = zip(*data)
+        for name, code, path, modified, editor_id in list_:
+            self._source_tabs.add_tab(
+                label=name, editor_id=editor_id)
+            self.session_data.append(None)  # maybe?
 
     def _selection_cb(self, value):
         self.save()
@@ -932,29 +1000,43 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
         else:
             return self._pippy_instance.get_object_id()
 
-    def save_to_journal(self, file_path, cloudstring):
-        if not self.shared_activity:
-            pippy_id = self._get_pippy_object_id()
-            data = self._source_tabs.get_all_data()
-            zipped_data = zip(data[0], data[1], data[2], data[3])
-            session_list = []
-            app_temp = os.path.join(self.get_activity_root(), 'instance')
-            tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
-            for zipdata, content in map(None, zipped_data, self.session_data):
-                name, python_code, path, modified = zipdata
-                if content is not None and content == self._py_object_id:
-                    _logger.debug('saving to self')
-                    self.metadata['title'] = name
-                    self.metadata['mime_type'] = 'text/x-python'
-                    if pippy_id is not None:
-                        self.metadata['pippy_instance'] = pippy_id
-                    __file = open(file_path, 'w')
-                    __file.write(python_code)
-                    __file.close()
-                    session_list.append([name, content])
-                elif content is not None and content[0] != '/':
-                    _logger.debug('Saving an existing dsobject')
-                    dsobject = datastore.get(content)
+    def write_file(self, file_path):
+        pippy_id = self._get_pippy_object_id()
+        data = self._source_tabs.get_all_data()
+        zipped_data = zip(*data)
+        session_list = []
+        app_temp = os.path.join(self.get_activity_root(), 'instance')
+        tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
+        for zipdata, content in zip(zipped_data, self.session_data):
+            logging.error('Session data %r', content)
+            name, python_code, path, modified, editor_id = zipdata
+            if content is not None and content == self._py_object_id:
+                _logger.debug('saving to self')
+                self.metadata['title'] = name
+                self.metadata['mime_type'] = 'text/x-python'
+                if pippy_id is not None:
+                    self.metadata['pippy_instance'] = pippy_id
+                __file = open(file_path, 'w')
+                __file.write(python_code)
+                __file.close()
+                session_list.append([name, content])
+            elif content is not None and content[0] != '/':
+                _logger.debug('Saving an existing dsobject')
+                dsobject = datastore.get(content)
+                dsobject.metadata['title'] = name
+                dsobject.metadata['mime_type'] = 'text/x-python'
+                if pippy_id is not None:
+                    dsobject.metadata['pippy_instance'] = pippy_id
+                __file = open(tmpfile, 'w')
+                __file.write(python_code)
+                __file.close()
+                dsobject.set_file_path(tmpfile)
+                datastore.write(dsobject)
+                session_list.append([name, dsobject.object_id])
+            elif modified:
+                _logger.debug('Creating new dsobj for modified code')
+                if len(python_code) > 0:
+                    dsobject = datastore.create()
                     dsobject.metadata['title'] = name
                     dsobject.metadata['mime_type'] = 'text/x-python'
                     if pippy_id is not None:
@@ -965,45 +1047,28 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     dsobject.set_file_path(tmpfile)
                     datastore.write(dsobject)
                     session_list.append([name, dsobject.object_id])
-                elif modified:
-                    _logger.debug('Creating new dsobj for modified code')
-                    if len(python_code) > 0:
-                        dsobject = datastore.create()
-                        dsobject.metadata['title'] = name
-                        dsobject.metadata['mime_type'] = 'text/x-python'
-                        if pippy_id is not None:
-                            dsobject.metadata['pippy_instance'] = pippy_id
-                        __file = open(tmpfile, 'w')
-                        __file.write(python_code)
-                        __file.close()
-                        dsobject.set_file_path(tmpfile)
-                        datastore.write(dsobject)
-                        session_list.append([name, dsobject.object_id])
-                        # If there are multiple Nones, we need to find
-                        # the correct one.
-                        if content is None and \
-                           self.session_data.count(None) > 1:
-                            i = zipped_data.index(zipdata)
-                        else:
-                            i = self.session_data.index(content)
-                        self.session_data[i] = dsobject.object_id
-                elif content is not None or path is not None:
-                    _logger.debug('Saving reference to sample file')
-                    if path is None:  # Should not happen, but just in case...
-                        _logger.error('path is None.')
-                        session_list.append([name, content])
+                    # If there are multiple Nones, we need to find
+                    # the correct one.
+                    if content is None and \
+                       self.session_data.count(None) > 1:
+                        i = zipped_data.index(zipdata)
                     else:
-                        session_list.append([name, path])
-                else:  # Should not happen, but just in case...
-                    _logger.error('Nothing to save in tab? %s %s %s %s' %
-                                  (str(name), str(python_code), str(path),
-                                   str(content)))
+                        i = self.session_data.index(content)
+                    self.session_data[i] = dsobject.object_id
+            elif content is not None or path is not None:
+                _logger.debug('Saving reference to sample file')
+                if path is None:  # Should not happen, but just in case...
+                    _logger.error('path is None.')
+                    session_list.append([name, content])
+                else:
+                    session_list.append([name, path])
+            else:  # Should not happen, but just in case...
+                _logger.error('Nothing to save in tab? %s %s %s %s' %
+                              (str(name), str(python_code), str(path),
+                               str(content)))
 
-            self._pippy_instance.metadata['mime_type'] = 'application/json'
-            pippy_data = json.dumps(session_list)
-        else:
-            self._pippy_instance.metadata['mime_type'] = groupthink_mimetype
-            pippy_data = cloudstring
+        self._pippy_instance.metadata['mime_type'] = 'application/json'
+        pippy_data = json.dumps(session_list)
 
         # Override file path if we created a new Pippy instance
         if self._py_file_loaded_from_journal:
@@ -1019,10 +1084,20 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
 
         self._store_config()
 
-    def load_from_journal(self, file_path):
+    def read_file(self, file_path):
         # Either we are opening Python code or a list of objects
         # stored (json-encoded) in a Pippy instance, or a shared
         # session.
+
+        # Remove initial new/blank thing
+        self.session_data = []
+        self._loaded_session = []
+        try:
+            self._source_tabs.remove_page(0)
+            tab_object.pop(0)
+        except IndexError:
+            pass
+
         if self.metadata['mime_type'] == 'text/x-python':
             _logger.debug('Loading Python code')
             # Opening some Python code directly
@@ -1124,7 +1199,13 @@ class PippyActivity(ViewSourceActivity, groupthink.sugar_tools.GroupActivity):
                     self.session_data.append(content)
                     self._loaded_session.append([name, python_code, path])
         elif self.metadata['mime_type'] == groupthink_mimetype:
-            return open(file_path).read()
+            # AAAAAAAAAAAAARRRRRRRRRRRRRGGGGGGGGGHHHHHHHHHH
+            # TODO:  Find what groupthink data actually is under the layers
+            #        an layers of abstraction
+            pass
+
+        for name, content, path in self._loaded_session:
+            self._source_tabs.add_tab(name, content, path)
 
 # TEMPLATES AND INLINE FILES
 ACTIVITY_INFO_TEMPLATE = '''

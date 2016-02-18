@@ -19,6 +19,7 @@
 import logging
 import unicodedata
 import re
+import uuid
 
 from gi.repository import Gtk
 from gi.repository import Gdk
@@ -28,6 +29,8 @@ from gi.repository import GtkSource
 from gettext import gettext as _
 
 from sugar3.graphics.toolbutton import ToolButton
+
+from collabwrapper.texteditor import TextBufferCollaberizer
 
 tab_object = list()
 FONT_CHANGE_STEP = 2
@@ -41,12 +44,13 @@ class TabLabel(Gtk.HBox):
                       ([GObject.TYPE_PYOBJECT])),
     }
 
-    def __init__(self, child, label, path, tabs):
+    def __init__(self, child, label, path, tabs, editor_id):
         GObject.GObject.__init__(self)
 
         self.child = child
         self.label_text = label
         self._path = path  # Hide the path in the label
+        self.editor_id = editor_id
         self.tabs = tabs
 
         self.label_box = Gtk.EventBox()
@@ -139,10 +143,12 @@ class AddNotebook(Gtk.Notebook):
 
 class PippySourceView(GtkSource.View):
 
-    def __init__(self, buffer_text):
+    def __init__(self, buffer_text, editor_id, collab):
         GtkSource.View.__init__(self)
 
         text_buffer = GtkSource.Buffer()
+        collaberizer = TextBufferCollaberizer(
+            text_buffer, editor_id, collab)
 
         lang_manager = GtkSource.LanguageManager.get_default()
         if hasattr(lang_manager, 'list_languages'):
@@ -184,28 +190,32 @@ class PippySourceView(GtkSource.View):
 
 
 class SourceNotebook(AddNotebook):
-    def __init__(self, activity):
+    def __init__(self, activity, collab):
         AddNotebook.__init__(self)
         self.activity = activity
+        self._collab = collab
         self.set_scrollable(True)
         self._font_size = DEFAULT_FONT_SIZE
 
-    def add_tab(self, label=None, buffer_text=None, path=None):
+    def add_tab(self, label=None, buffer_text=None, path=None, editor_id=None):
         codesw = Gtk.ScrolledWindow()
         codesw.set_policy(Gtk.PolicyType.AUTOMATIC,
                           Gtk.PolicyType.AUTOMATIC)
-        text_view = PippySourceView(buffer_text)
+        if editor_id is None:
+            editor_id = str(uuid.uuid1())
+        text_view = PippySourceView(
+            buffer_text, editor_id, self._collab)
         text_view.set_font_size(self._font_size)
         codesw.add(text_view)
         text_view.show()
         text_view.grab_focus()
         tabdex = self.get_n_pages() + 1
         if label:
-            self.tablabel = TabLabel(codesw, label, path, self)
+            self.tablabel = TabLabel(codesw, label, path, self, editor_id)
         else:
             self.tablabel = TabLabel(codesw,
                                      _('New Source File %d' % tabdex),
-                                     path, self)
+                                     path, self, editor_id)
         self.tablabel.connect('tab-close', self._tab_closed_cb)
         self.connect('key-press-event', self._key_press_cb)
 
@@ -303,6 +313,7 @@ class SourceNotebook(AddNotebook):
         python_codes = []
         paths = []
         modifieds = []
+        editor_ids = []
         for i in range(0, self.get_n_pages()):
             child = self.get_nth_page(i)
 
@@ -319,7 +330,9 @@ class SourceNotebook(AddNotebook):
 
             modifieds.append(text_buffer.get_modified())
 
-        return (names, python_codes, paths, modifieds)
+            editor_ids.append(self.get_tab_label(child).editor_id)
+
+        return (names, python_codes, paths, modifieds, editor_ids)
 
     def get_current_file_name(self):
         child = self.get_nth_page(self.get_current_page())
