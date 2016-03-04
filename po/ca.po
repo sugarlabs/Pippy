@@ -15,16 +15,18 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: 2012-06-26 20:56+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2015-09-23 13:31+0000\n"
+"Last-Translator: Robert <rbuj@fedoraproject.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1443015084.000000\n"
 
+# well-spelled: Pippy
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "Pippy"
@@ -36,84 +38,92 @@ msgstr "%s codi font"
 
 #: activity.py:91
 msgid "Copy selected text to clipboard"
-msgstr "Copia el text seleccionat al portapapers"
+msgstr "Copia el text seleccionat al porta-retalls"
 
 #: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
-msgstr "Editar"
+msgstr "Edita"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "ATURAT"
 
+# well-spelled: TamTamEdit
 #: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
+"No es pot trobar la biblioteca de sons del TamTamEdit. Vàreu instal·lar el "
+"TamTamEdit?"
 
+# well-spelled: Pippy
 #: pippy_app.py:90
 msgid "Export as Pippy Document"
-msgstr ""
+msgstr "Exporta-ho com un document del Pippy"
 
+# well-spelled: Pippy
 #: pippy_app.py:96
 msgid "Export as Pippy Example"
-msgstr ""
+msgstr "Exporta-ho com un exemple del Pippy"
 
 #: pippy_app.py:102
 msgid "Create Activity Bundle"
-msgstr ""
+msgstr "Crea el paquet de l'activitat"
 
 #: pippy_app.py:111
 msgid "Actions"
-msgstr ""
+msgstr "Accions"
 
 #: pippy_app.py:138 pippy_app.py:141
 msgid "Run!"
-msgstr "Engega!"
+msgstr "Executa!"
 
+# well-spelled: r
 #: pippy_app.py:139
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
 msgid "Stop"
 msgstr "Atura"
 
+# well-spelled: s
 #: pippy_app.py:153
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
 msgid "Clear"
-msgstr "Suprimir"
+msgstr "Neteja"
 
+# well-spelled: c
 #: pippy_app.py:168
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
 #: pippy_app.py:197
 msgid "Examples"
-msgstr "Ejemples"
+msgstr "Exemples"
 
 #: pippy_app.py:229
 msgid "My examples"
-msgstr ""
+msgstr "Els meus exemples"
 
 #: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
-msgstr "%s Activitat"
+msgstr "%s l'activitat"
 
 #: pippy_app.py:438
 msgid "Save as Activity Error"
-msgstr "Desa com a un Error de l'Activitat"
+msgstr "Desa-ho com un error de l'activitat"
 
 #: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
-"Si us plau, dóna el nom principal de l'Activitat abans de provar de desar-la "
-"com a Activitat"
+"Si us plau, doneu a l'activitat un nom significatiu abans d'intentar de "
+"desar-la com una activitat."
 
 #: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
@@ -121,44 +131,44 @@ msgstr "D'acord"
 
 #: pippy_app.py:448
 msgid "Creating activity bundle..."
-msgstr "Creant grup d'Activitats ..."
+msgstr "S'està creant el paquet de l'activitat..."
 
+# well-spelled: Pippy
 #: pippy_app.py:479
 msgid "Pippy Activity"
-msgstr ""
+msgstr "Activitat Pippy"
 
 #: pippy_app.py:483
 msgid "Save as Example Error"
-msgstr ""
+msgstr "Desa-ho com un exemple d'error"
 
 #: pippy_app.py:484
-#, fuzzy
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr ""
-"Si us plau, dóna el nom principal de l'Activitat abans de provar de desar-la "
-"com a Activitat"
+"Si us plau, doneu a l'activitat un nom significatiu abans d'intentar de "
+"desar-la com un exemple."
 
 #: pippy_app.py:492
 msgid "Creating example..."
-msgstr ""
+msgstr "S'està creant l'exemple..."
 
 #: pippy_app.py:499
 msgid "Save as Example Warning"
-msgstr ""
+msgstr "Desa-ho com un exemple d'advertència"
 
 #: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr ""
+msgstr "Aquest exemple ja existeix, voleu sobreescriure'l?"
 
 #: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
-msgstr ""
+msgstr "Es va desar com un exemple."
 
 #: pippy_app.py:546
 msgid "Activity saved to journal."
-msgstr "L'Activitat s'ha desat al Diari"
+msgstr "L'activitat s'ha desat al diari."
 
 #~ msgid "_Run!"
 #~ msgstr "_Engega!"
