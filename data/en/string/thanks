@@ -1,26 +1,36 @@
 table = {
           'Hardware & Mechanicals': 'John Watlington, Mark Foster, Mary Lou Jepsen, Yves Behar, Bret Recor, Mitch Pergola, Martin Schnitzer, Kenneth Jewell, Kevin Young, Jacques Gagne, Nicholas Negroponte, Frank Lee, Victor Chau, Albert Hsu, HT Chen, Vance Ke, Ben Chuang, Johnson Huang, Sam Chang, Alex Chu, Roger Huang, and the rest of the Quanta team, the Marvell team, the AMD team, the ChiMei team...',
+          
           'Firmware':               'Ron Minnich, Richard Smith, Mitch Bradley, Tom Sylla, Lilian Walter, Bruce Wang, James Cameron',
+
           'Kernel & Drivers':       'Jaya Kumar, Jon Corbet, Reynaldo Verdejo, Pierre Ossman, Dave Woodhouse, Matthew Garrett, Chris Ball, Andy Tanenbaum, Linus Torvalds, Dave Jones, Andres Salomon, Marcelo Tosatti..',
-          'Graphics systems':       'Jordan Crouse, Daniel Stone, Zephaniah Hull, Bernardo Innocenti, Behdad Esfahbod, Jim Gettys, Adam 
-Jackson, RobertTheKing, William Orr, Simon Schampijer, Gary Martin',
-          'Programming':            'Guido Van Rossum, Johan Dahlin, Brian Silverman, Alan Kay, Kim Rose, Bert Freudenberg, Yoshiki Ohshima, 
-Takashi Yamamiya, Scott Wallace, Ted Kaehler, Stephane Ducasse, Hilaire Fernandes, David Narveaz, Tim Moody, Martin Langhoff, Paul Fox, Tim 
-Shepard, Martin Abente Lahaye, Sam Parkinson, James Cameron, Ignacio Rodriguez, Jerry Vonau, Sebastian Silva, Ana Balica, rcunning01, 
-Frederick Grose, Prason Shukla, Emil Dudev, Christofer Yael, cheekujodhpur, Agustin Zubiaga, Daniel Francis',
+          
+          'Graphics systems':       'Jordan Crouse, Daniel Stone, Zephaniah Hull, Bernardo Innocenti, Behdad Esfahbod, Jim Gettys, Adam Jackson, RobertTheKing, William Orr, Simon Schampijer, Gary Martin',
+          
+          'Programming':            'Guido Van Rossum, Johan Dahlin, Brian Silverman, Alan Kay, Kim Rose, Bert Freudenberg, Yoshiki Ohshima, Takashi Yamamiya, Scott Wallace, Ted Kaehler, Stephane Ducasse, Hilaire Fernandes, David Narveaz, Tim Moody, Martin Langhoff, Paul Fox, Tim Shepard, Martin Abente Lahaye, Sam Parkinson, James Cameron, Ignacio Rodriguez, Jerry Vonau, Sebastian Silva, Ana Balica, rcunning01 Frederick Grose, Prason Shukla, Emil Dudev, Christofer Yael, cheekujodhpur, Agustin Zubiaga, Daniel Francis',
+          
           'Sugar':                  'Marco Pesenti Gritti, Dan Williams, Chris Blizzard, John Palmieri, Lisa Strausfeld, Christian Marc Schmidt, Takaaki Okada, Eben Eliason, Walter Bender, Tomeu Vizoso, Simon Schampijer, Reinier Heeres, Ben Saller, Martin Dengler, Benjamin Berg, Daniel Drake, Jameson Quinn, Miguel Alvarez...',
+          
           'Activities':             'Erik Blankinship, Bakhtiar Mikhak, Manusheel Gupta, J.M. Maurer (uwog) and the Abiword team, the Mozilla team, Jean Piche, Barry Vercoe, Richard Boulanger, Greg Thompson, Arjun Sarwal, Cody Lodrige, Shannon Sullivan, Idit Harel, and the MaMaMedia team, John Huang, Bruno Coudoin, Eduardo Silva, Hakon Wium Lie, Don Hopkins, Muriel de Souza Godoi, Benjamin M. Schwartz..',
+          
           'Network':                'Michael Bletsas, James Cameron, Javier Cardona, Ronak Chokshi, Polychronis Ypodimatopoulos, Simon McVittie, Dafydd Harries, Sjoerd Simons, Morgan Collett, Guillaume Desmottes, Robert McQueen..',
+          
           'Security':               'Ivan Krstic, Michael Stone, C. Scott Ananian, Noah Kantrowitz, Herbert Poetzl, Marcus Leech..',
+          
           'Content':                'SJ Klein, Mako Hill, Xavier Alvarez, Alfonso de la Guarda, Sayamindu Dasgupta, Mallory Chua, Lauren Klein, Zdenek Broz, Felicity Tepper, Andy Sisson, Christine Madsen, Matthew Steven Carlos, Justin Thorp, Ian Bicking, Christopher Fabian, Wayne Mackintosh, the OurStories team, Will Wright, Chuck Normann..',
-          'Testing':                'Kim Quirk, Alex Latham, Giannis Galanis, Ricardo Carrano, Zach Cerza, John Fuhrer, Tom Gilliard, Niraj 
-Nakrani',
-          'Country Support':        'Carla Gomez Monroy, David Cavallo, Matt Keller, Khaled Hassounah, Antonio Battro, Audrey Choi, Habib Kahn, 
-Arnan (Roger) Sipitakiat, Reuben Caron',
+          
+          'Testing':                'Kim Quirk, Alex Latham, Giannis Galanis, Ricardo Carrano, Zach Cerza, John Fuhrer, Tom Gilliard, Niraj Nakrani',
+          
+          'Country Support':        'Carla Gomez Monroy, David Cavallo, Matt Keller, Khaled Hassounah, Antonio Battro, Audrey Choi, Habib Kahn, Arnan (Roger) Sipitakiat, Reuben Caron',
+          
           'Administrative Support': 'Nia Lewis, Felice Gardner, Lindsay Petrillose, Jill Clarke, Julia Reynolds, Tracy Price, David Robertson, Danny Clark',
+          
           'Finance & Legal':        'Eben Moglen, Bruce Parker, William Kolb, John Sare, Sandra Lee, Richard Bernstein, Jaclyn Tsai, Jaime Cheng, Robert Fadel, Charles Kane (Grasshopper), Kathy Paur, Andriani Ferti',
+          
           'PR and Media':           'Larry Weber, Jackie Lustig, Jodi Petrie, George Snell, Kyle Austin, Hilary Meserole, Erick A. Betancourt, Michael Borosky, Sylvain Lefebvre, Martin Le Sauteur',
+          
           'Directors & Advisors':   'Howard Anderson, Rebecca Allen, Ayo Kusamotu, Jose Maria Aznar, V. Michael Bove, Jr., Rodrigo Mesquita, Seymour Papert, Ted Selker, Ethan Beard (Google); John Roese (Nortel); Dandy Hsu (Quanta); Marcelo Claure (Brightstar); Gary Dillabough (eBay); Gustavo Arenas (AMD); Mike Evans (Red Hat); Ed Horowitz (SES Astra); Jeremy Philips (NewsCorp); Scott Soong (Chi Lin); Sehat Sutardja (Marvell); Joe Jacobson (MIT Media Lab); Steve Kaufman (Riverside); and Tom Meredith (MFI)',
+          
           'Pippy':                  'Chris Ball, C. Scott Ananian, James Cameron, Anish Mangal'
        }
 
