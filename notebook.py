@@ -30,7 +30,7 @@ from gettext import gettext as _
 
 from sugar3.graphics.toolbutton import ToolButton
 
-from collabwrapper.texteditor import TextBufferCollaberizer
+from texteditor import TextBufferCollaberizer
 
 tab_object = list()
 FONT_CHANGE_STEP = 2

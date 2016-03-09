@@ -75,7 +75,7 @@ from jarabe.view.customizebundle import generate_unique_id
 from activity import ViewSourceActivity
 from activity import TARGET_TYPE_TEXT
 
-from collabwrapper.collabwrapper import CollabWrapper
+from collabwrapper import CollabWrapper
 
 from filedialog import FileDialog
 from icondialog import IconDialog
