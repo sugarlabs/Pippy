@@ -178,6 +178,7 @@ class CollabWrapper(GObject.GObject):
                 self._alert(_('Joining activity...'),
                             _('Please wait for the connection...'))
         else:
+            self._leader = True
             if not self.activity.metadata or self.activity.metadata.get(
                     'share-scope', SCOPE_PRIVATE) == \
                     SCOPE_PRIVATE:
@@ -203,8 +204,6 @@ class CollabWrapper(GObject.GObject):
         self.shared_activity = self.activity.shared_activity
         self._setup_text_channel()
         self._listen_for_channels()
-
-        self._leader = True
         _logger.debug('I am sharing...')
 
     def __joined_cb(self, sender):
@@ -364,6 +363,14 @@ class CollabWrapper(GObject.GObject):
         '''
         return CLIENT + '.' + self.activity.get_bundle_id()
 
+    @GObject.property
+    def leader(self):
+        '''
+        Boolean of if this client is the leader in this activity.  The
+        way the leader is decided may change, however there should only
+        ever be 1 leader for an activity.
+        '''
+        return self._leader
 
 FT_STATE_NONE = 0
 FT_STATE_PENDING = 1
@@ -657,8 +664,7 @@ class OutgoingFileTransfer(_BaseOutgoingTransfer):
         self._create_channel(file_size)
 
     def _get_input_stream(self):
-        logging.debug('opening %s for reading', self._file_name)
-        input_stream = Gio.File.new_for_path(self._file_name).read(None)
+        input_stream = Gio.File.new_for_path(self._path).read(None)
 
 
 class OutgoingBlobTransfer(_BaseOutgoingTransfer):
