@@ -24,9 +24,6 @@ size = width, height = screen.get_size()
 # turn off the cursor
 pygame.mouse.set_visible(False)
 
-# turn on key repeating (repeat 40 times per second)
-pygame.key.set_repeat(25, 25)
-
 # start the screen all black
 bgcolor = (0, 0, 0)
 screen.fill(bgcolor)
@@ -36,7 +33,6 @@ paddle_width = 20
 paddle_length = 100
 paddle_radius = paddle_length / 2
 paddle_color = (250, 250, 250)
-step = 6  # paddle moves 3 pixels at a go
 
 # ball constants
 ball_color = (250, 250, 250)
@@ -44,7 +40,7 @@ ball_radius = 25
 
 # game constants
 fsize = 48
-msg = 'Press \'g\' to start game'
+msg = "Press 'g' to start game"
 
 font = pygame.font.Font(None, fsize)
 text = font.render(msg, True, (250, 250, 250))
@@ -81,7 +77,7 @@ while pippy.pygame.next_frame():
                 while balls > 0:
 
                     ball_position = [ball_radius, ball_radius]
-                    ball_mvect = [randint(3, 5), randint(3, 5)]
+                    ball_mvect = [randint(9, 12), randint(5, 12)]
                     ball_limit = size
                     balls = balls - 1
 
@@ -94,14 +90,8 @@ while pippy.pygame.next_frame():
                             elif event.type == KEYDOWN:
                                 if event.key == K_ESCAPE:
                                     sys.exit()
-                                elif event.key == 273 \
-                                    or event.key == 265 \
-                                    or event.key == 264:  # up
-                                    paddle_location = paddle_location - step
-                                elif event.key == 274 \
-                                    or event.key == 259 \
-                                    or event.key == 258:  # down
-                                    paddle_location = paddle_location + step
+
+                        (_, paddle_location) = pygame.mouse.get_pos()
 
                         # make sure the paddle is in-bounds
                         if paddle_location - paddle_radius < 0:
@@ -132,6 +122,7 @@ while pippy.pygame.next_frame():
 
                         # update the display
                         pygame.display.flip()
+                        pippy.pygame.next_frame(max_fps=25)
 
                         # update the ball
                         for i in range(2):
@@ -152,3 +143,5 @@ while pippy.pygame.next_frame():
                                 and ball_position[1] < paddle_location + paddle_radius:
                                 ball_position[i] = ball_limit[i] - ball_radius - paddle_width - 1
                                 ball_mvect[i] = (-1) * ball_mvect[i]
+
+        pippy.pygame.next_frame(max_fps=5)
