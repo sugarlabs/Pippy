@@ -101,7 +101,7 @@ _logger = logging.getLogger('pippy-activity')
 
 groupthink_mimetype = 'pickle/groupthink-pippy'
 
-DISUTILS_SETUP_SCRIPT = """#!/usr/bin/python
+DISTUTILS_SETUP_SCRIPT = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
 from distutils.core import setup
 setup(name='{modulename}',
@@ -112,7 +112,7 @@ setup(name='{modulename}',
       )
 """  # This is .format()'ed with the list of the file names.
 
-DISUTILS_SETUP_SCRIPT = """#!/usr/bin/python
+DISTUTILS_SETUP_SCRIPT = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
 from distutils.core import setup
 setup(name='{modulename}',
@@ -213,10 +213,10 @@ class PippyActivity(ViewSourceActivity):
         activity_toolbar.insert(button, -1)
         button.show()
 
-        button = ToolButton('pippy-create-disutils')
+        button = ToolButton('pippy-create-distutils')
         # TRANS: A distutils package is used to distribute Python modules
-        button.set_tooltip(_('Export as a disutils package'))
-        button.connect('clicked', self._export_disutils_cb)
+        button.set_tooltip(_('Export as a distutils package'))
+        button.connect('clicked', self._export_distutils_cb)
         activity_toolbar.insert(button, -1)
         button.show()
 
@@ -858,7 +858,7 @@ class PippyActivity(ViewSourceActivity):
             for line in text:
                 f.write(line)
 
-    def _export_disutils_cb(self, button):
+    def _export_distutils_cb(self, button):
         app_temp = os.path.join(self.get_activity_root(), 'instance')
         data = self._source_tabs.get_all_data()
         for filename, content in zip(data[0], data[1]):
@@ -871,17 +871,17 @@ class PippyActivity(ViewSourceActivity):
         title = self._pippy_instance.metadata['title']
         if title is _('Pippy Activity'):
             alert = Alert()
-            alert.props.title = _('Save as disutils package error')
+            alert.props.title = _('Save as distutils package error')
             alert.props.msg = _('Please give your activity a meaningful '
                                 'name before attempting to save it '
-                                'as an disutils package.')
+                                'as an distutils package.')
             ok_icon = Icon(icon_name='dialog-ok')
             alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
             alert.connect('response', self._dismiss_alert_cb)
             self.add_alert(alert)
             return
 
-        setup_script = DISUTILS_SETUP_SCRIPT.format(modulename=title,
+        setup_script = DISTUTILS_SETUP_SCRIPT.format(modulename=title,
                                                     filenames=filenames)
         setupfile = open(os.path.join(app_temp, 'setup.py'), 'w')
         setupfile.write(setup_script)
@@ -897,7 +897,7 @@ class PippyActivity(ViewSourceActivity):
         os.chmod(app_temp, 0777)
         jobject = datastore.create()
         metadata = {
-            'title': '%s disutils bundle' % title,
+            'title': '%s distutils bundle' % title,
             'title_set_by_user': '1',
             'mime_type': 'application/x-gzip',
         }

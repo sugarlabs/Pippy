@@ -100,7 +100,7 @@ BUG FIX:
 55
 
 ENHANCEMENTS:
-* Export as disutils, as library, as example (Sai Vineet)
+* Export as distutils, as library, as example (Sai Vineet)
 * Edit on multiple tabs (Sai Vineet)
 * Add custom icon selection when saving as Sugar activity (Ignacio Rodriguez)
 * New icons
