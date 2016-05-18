@@ -256,8 +256,10 @@ class PippyActivity(ViewSourceActivity):
 
         icon_bw = Gtk.Image()
         icon_bw.set_from_file(os.path.join(icons_path, 'run_bw.svg'))
+        icon_bw.show()
         icon_color = Gtk.Image()
         icon_color.set_from_file(os.path.join(icons_path, 'run_color.svg'))
+        icon_color.show()
         button = ToolButton(label=_('Run!'))
         button.props.accelerator = _('<alt>r')
         button.set_icon_widget(icon_bw)
@@ -270,8 +272,10 @@ class PippyActivity(ViewSourceActivity):
 
         icon_bw = Gtk.Image()
         icon_bw.set_from_file(os.path.join(icons_path, 'stopit_bw.svg'))
+        icon_bw.show()
         icon_color = Gtk.Image()
         icon_color.set_from_file(os.path.join(icons_path, 'stopit_color.svg'))
+        icon_color.show()
         button = ToolButton(label=_('Stop'))
         button.props.accelerator = _('<alt>s')
         button.set_icon_widget(icon_bw)
@@ -284,8 +288,10 @@ class PippyActivity(ViewSourceActivity):
 
         icon_bw = Gtk.Image()
         icon_bw.set_from_file(os.path.join(icons_path, 'eraser_bw.svg'))
+        icon_bw.show()
         icon_color = Gtk.Image()
         icon_color.set_from_file(os.path.join(icons_path, 'eraser_color.svg'))
+        icon_color.show()
         button = ToolButton(label=_('Clear'))
         button.props.accelerator = _('<alt>c')
         button.set_icon_widget(icon_bw)
