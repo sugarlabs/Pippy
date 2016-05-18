@@ -197,6 +197,8 @@ class PippyActivity(ViewSourceActivity):
         button.set_tooltip(_('Save this file to the Pippy library'))
         button.connect('clicked', self._save_as_library)
         activity_toolbar.insert(button, -1)
+        if not self._library_writable():
+            button.set_sensitive(False)
         button.show()
 
         button = ToolButton('pippy-export-example')
@@ -688,6 +690,9 @@ class PippyActivity(ViewSourceActivity):
                 os.kill(self._pid[1], SIGTERM)
         except:
             pass  # Process must already be dead.
+
+    def _library_writable(self):
+        return os.access(os.path.join(get_bundle_path(), 'library'), os.W_OK)
 
     def _save_as_library(self, button):
         library_dir = os.path.join(get_bundle_path(), 'library')
