@@ -311,7 +311,7 @@ class PippyActivity(ViewSourceActivity):
         separator.show()
 
         button = ToolButton('pippy-openoff')
-        button.set_tooltip(_('Load example'))
+        button.set_tooltip(_('Open an example'))
         button.connect('clicked', self._load_example_cb)
         self.get_toolbar_box().toolbar.insert(button, -1)
         button.show()
