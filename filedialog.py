@@ -129,22 +129,22 @@ class FileDialog(Gtk.Dialog):
                            Gdk.color_parse('black'))
 
         vbox = Gtk.VBox()
-        files = sorted(os.listdir(path))
+        for root, dirs, files in os.walk(path):
 
-        if not files:
-            return None
+            if not files:
+                return None
 
-        for _file in files:
-            if _file.endswith('~'):
-                continue
-            entry = {"name": _(_file.capitalize()),
-                     "path": os.path.join(path, _file)}
+            for _file in files:
+                if _file.endswith('~'):
+                    continue
+                entry = {"name": _(_file.capitalize()),
+                         "path": os.path.join(path, _file)}
 
-            button = Gtk.Button(entry['name'])
-            button.set_tooltip_text(entry['path'])
-            button.set_has_tooltip(False)
-            button.connect('clicked', self._destroy, True)
-            vbox.pack_start(button, False, False, 1)
+                button = Gtk.Button(entry['name'])
+                button.set_tooltip_text(entry['path'])
+                button.set_has_tooltip(False)
+                button.connect('clicked', self._destroy, True)
+                vbox.pack_start(button, False, False, 1)
 
         expander.add(vbox)
 
