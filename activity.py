@@ -24,7 +24,10 @@ from gi import require_version
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import Pango
-require_version('Vte', '2.90')
+try:
+    require_version('Vte', '2.91')
+except:
+    require_version('Vte', '2.90')
 from gi.repository import Vte
 from gi.repository import GLib
 
