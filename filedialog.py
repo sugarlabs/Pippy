@@ -76,7 +76,7 @@ class FileDialog(Gtk.Dialog):
         toolbox = ToolbarBox()
         toolbar = toolbox.toolbar
 
-        label = Gtk.Label(_('Open an example bundle'))
+        label = Gtk.Label(_('Choose an example to open'))
         label.modify_fg(Gtk.StateType.NORMAL,
                         Gdk.color_parse('white'))
 
