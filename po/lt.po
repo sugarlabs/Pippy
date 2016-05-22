@@ -7,49 +7,50 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: 2011-04-08 06:13+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2016-04-28 09:19+0000\n"
+"Last-Translator: Moo <hazap@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
-"100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.0.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1461835183.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
-msgstr ""
+msgstr "Pippi"
 
 #: activity.py:49
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "%s šaltinis"
 
 #: activity.py:91
 msgid "Copy selected text to clipboard"
-msgstr ""
+msgstr "Kopijuoti pažymėtą tekstą į iškarpinę"
 
 #: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
-msgstr ""
+msgstr "Redaguoti"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
-msgstr ""
+msgstr "PRISTABDYTA"
 
 #: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
+msgstr "Nepavyksta rasti TamTamEdit garso bibliotekos. Ar įdiegėte TamTamEdit?"
 
 #: pippy_app.py:90
 msgid "Export as Pippy Document"
-msgstr ""
+msgstr "Eksportuoti kaip Pippi dokumentą"
 
 #: pippy_app.py:96
 msgid "Export as Pippy Example"
-msgstr ""
+msgstr "Eksportuoti kaip Pippi pavyzdį"
 
 #: pippy_app.py:102
 msgid "Create Activity Bundle"
@@ -61,35 +62,35 @@ msgstr ""
 
 #: pippy_app.py:138 pippy_app.py:141
 msgid "Run!"
-msgstr ""
+msgstr "Vykdyti!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
 msgid "Stop"
-msgstr ""
+msgstr "Stabdyti"
 
 #: pippy_app.py:153
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
 msgid "Clear"
-msgstr ""
+msgstr "Išvalyti"
 
 #: pippy_app.py:168
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
 #: pippy_app.py:197
 msgid "Examples"
-msgstr ""
+msgstr "Pavyzdžiai"
 
 #: pippy_app.py:229
 msgid "My examples"
-msgstr ""
+msgstr "Mano pavyzdžiai"
 
 #: pippy_app.py:358
 #, python-format
@@ -97,14 +98,17 @@ msgid "%s Activity"
 msgstr ""
 
 #: pippy_app.py:438
+#, fuzzy
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Įrašymo kaip veikla klaida"
 
 #: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
+"Prašome, prieš bandant įrašyti kaip veiklą, suteikti savo veiklai prasmingą "
+"pavadinimą."
 
 #: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
@@ -116,21 +120,24 @@ msgstr ""
 
 #: pippy_app.py:479
 msgid "Pippy Activity"
-msgstr ""
+msgstr "Pippi veikla"
 
 #: pippy_app.py:483
+#, fuzzy
 msgid "Save as Example Error"
-msgstr ""
+msgstr "Įrašymo kaip pavyzdys klaida"
 
 #: pippy_app.py:484
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr ""
+"Prašome, prieš bandant įrašyti kaip pavyzdį, suteikti savo veiklai prasmingą "
+"pavadinimą."
 
 #: pippy_app.py:492
 msgid "Creating example..."
-msgstr ""
+msgstr "Kuriamas pavyzdys..."
 
 #: pippy_app.py:499
 msgid "Save as Example Warning"
@@ -138,7 +145,7 @@ msgstr ""
 
 #: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr ""
+msgstr "Šis pavyzdys jau yra. Ar norite jį perrašyti?"
 
 #: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
@@ -146,4 +153,4 @@ msgstr ""
 
 #: pippy_app.py:546
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "Veikla įrašyta į žurnalą."

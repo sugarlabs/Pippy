@@ -2,74 +2,69 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: 2016-02-06 21:58+0000\n"
-"Last-Translator: ursus <sugar.libfrid@antichef.com>\n"
+"PO-Revision-Date: 2016-05-21 23:15+0000\n"
+"Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: hu\n"
+"Language: gn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1454795921.000000\n"
+"X-POOTLE-MTIME: 1463872522.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
-msgstr "Pippy"
+msgstr "Peppy"
 
 #: activity.py:49
 #, python-format
 msgid "%s Source"
-msgstr "%s Forrás"
+msgstr "%s Ypy"
 
 #: activity.py:91
 msgid "Copy selected text to clipboard"
-msgstr "Másolja a kiválasztott szöveg a vágólapra"
+msgstr "Kopia moñe'erã portapeles-pe"
 
 #: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
-msgstr "Szerkesztés"
+msgstr "Moambue"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
-msgstr "Szünet"
+msgstr "Mbegue"
 
 #: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr "Nem található a TamTamEdit hangkönyvtár. Telepítetted a TamTamEditet?"
+msgstr ""
+"Ndoikatúi ojetopa librería de audio mba'apo TamTamEdit rehegua. Remoĩma "
+"Mba'apo TamTamEdit?"
 
 #: pippy_app.py:90
 msgid "Export as Pippy Document"
-msgstr "Exportálás Pippy dokumentumként"
+msgstr "Emondo kuatia'arandu Peppyicha"
 
 #: pippy_app.py:96
 msgid "Export as Pippy Example"
-msgstr "Exportálás Pippy mintaként"
+msgstr "Ñemondo Peppy techapyrãicha"
 
 #: pippy_app.py:102
 msgid "Create Activity Bundle"
-msgstr ""
+msgstr "Jejapo peteĩ mba'apo"
 
 #: pippy_app.py:111
 msgid "Actions"
-msgstr "Intézkedések"
+msgstr "Tembiapo"
 
 #: pippy_app.py:138 pippy_app.py:141
 msgid "Run!"
-msgstr "Futtat!"
+msgstr "Eñepyrũ!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
@@ -77,7 +72,7 @@ msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
 msgid "Stop"
-msgstr "Állj"
+msgstr "Epyta"
 
 #: pippy_app.py:153
 msgid "<alt>s"
@@ -85,7 +80,7 @@ msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
 msgid "Clear"
-msgstr "Töröl"
+msgstr "Mopotĩ"
 
 #: pippy_app.py:168
 msgid "<alt>c"
@@ -93,74 +88,66 @@ msgstr "<alt>c"
 
 #: pippy_app.py:197
 msgid "Examples"
-msgstr "Példák"
+msgstr "Techapyrãkuéra"
 
 #: pippy_app.py:229
 msgid "My examples"
-msgstr ""
+msgstr "Che techapyrãkuéra"
 
 #: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
-msgstr "%s Aktivitás"
+msgstr "%s Tembiapo"
 
 #: pippy_app.py:438
 msgid "Save as Activity Error"
-msgstr "Mentés Aktivitás hibaként"
+msgstr "Ñongatu Tembiapo jejavývaicha"
 
 #: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
-msgstr ""
+msgstr "Ikaturámo embohéra nde mba'apo japekandive eñongatumboye mba'apóicha."
 
 #: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: pippy_app.py:448
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Ojejapohina peteĩ mba'apo mbohyrupapyre"
 
 #: pippy_app.py:479
 msgid "Pippy Activity"
-msgstr ""
+msgstr "Mba'apo Peppy"
 
 #: pippy_app.py:483
 msgid "Save as Example Error"
-msgstr ""
+msgstr "Ñongatu techapyrã oĩvaívaicha"
 
 #: pippy_app.py:484
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr ""
+"Ikatumíramo embohéra nde mba'apo japekándive eñongatumboyve techapyrãicha."
 
 #: pippy_app.py:492
 msgid "Creating example..."
-msgstr ""
+msgstr "Ojejapohína techapỹra..."
 
 #: pippy_app.py:499
 msgid "Save as Example Warning"
-msgstr ""
+msgstr "Ñongatu techapyrã ñemomarandúicha"
 
 #: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr ""
+msgstr "Ko techapyrã oĩma. Rehaisejey?"
 
 #: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
-msgstr ""
+msgstr "Oñeñongatu techapyrãicha."
 
 #: pippy_app.py:546
 msgid "Activity saved to journal."
-msgstr ""
-
-#~ msgid "As Pippy Document"
-#~ msgstr "Pippy dokumentként"
-
-#~ msgid "As Activity Bundle"
-#~ msgstr "Aktivitás csomagként"
-
-#~ msgid "Please install TamTamEdit's sound library."
-#~ msgstr "Kérem telepítse a TamTamEdit's sound könyvtárat"
+msgstr "Mba'apo oñeñongatu tembiapokuérañeñongatuha."
