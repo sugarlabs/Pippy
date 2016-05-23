@@ -627,8 +627,11 @@ class PippyActivity(ViewSourceActivity):
 
     def __copybutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
-        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        text_buffer.copy_clipboard(clipboard)
+        if self._vte.get_has_selection():
+            self._vte.copy_clipboard()
+        elif text_buffer.get_has_selection():
+            clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+            text_buffer.copy_clipboard(clipboard)
 
     def __pastebutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
