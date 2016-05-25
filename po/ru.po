@@ -15,16 +15,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: 2012-06-26 22:47+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2016-04-21 01:31+0000\n"
+"Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.0.5\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1461202318.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -54,15 +55,15 @@ msgstr ""
 
 #: pippy_app.py:90
 msgid "Export as Pippy Document"
-msgstr ""
+msgstr "Экспортировать как Pippy Документ"
 
 #: pippy_app.py:96
 msgid "Export as Pippy Example"
-msgstr ""
+msgstr "Экспортировать как Pippy Образец"
 
 #: pippy_app.py:102
 msgid "Create Activity Bundle"
-msgstr ""
+msgstr "Создать Активную Связку"
 
 #: pippy_app.py:111
 msgid "Actions"
