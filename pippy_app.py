@@ -46,7 +46,10 @@ from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GLib
 from gi.repository import Pango
-require_version('Vte', '2.90')
+try:
+    require_version('Vte', '2.91')
+except:
+    require_version('Vte', '2.90')
 from gi.repository import Vte
 from gi.repository import GObject
 
@@ -98,7 +101,7 @@ _logger = logging.getLogger('pippy-activity')
 
 groupthink_mimetype = 'pickle/groupthink-pippy'
 
-DISUTILS_SETUP_SCRIPT = """#!/usr/bin/python
+DISTUTILS_SETUP_SCRIPT = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
 from distutils.core import setup
 setup(name='{modulename}',
@@ -109,7 +112,7 @@ setup(name='{modulename}',
       )
 """  # This is .format()'ed with the list of the file names.
 
-DISUTILS_SETUP_SCRIPT = """#!/usr/bin/python
+DISTUTILS_SETUP_SCRIPT = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
 from distutils.core import setup
 setup(name='{modulename}',
@@ -194,6 +197,8 @@ class PippyActivity(ViewSourceActivity):
         button.set_tooltip(_('Save this file to the Pippy library'))
         button.connect('clicked', self._save_as_library)
         activity_toolbar.insert(button, -1)
+        if not self._library_writable():
+            button.set_sensitive(False)
         button.show()
 
         button = ToolButton('pippy-export-example')
@@ -208,10 +213,10 @@ class PippyActivity(ViewSourceActivity):
         activity_toolbar.insert(button, -1)
         button.show()
 
-        button = ToolButton('pippy-create-disutils')
+        button = ToolButton('pippy-create-distutils')
         # TRANS: A distutils package is used to distribute Python modules
-        button.set_tooltip(_('Export as a disutils package'))
-        button.connect('clicked', self._export_disutils_cb)
+        button.set_tooltip(_('Export as a distutils package'))
+        button.connect('clicked', self._export_distutils_cb)
         activity_toolbar.insert(button, -1)
         button.show()
 
@@ -253,8 +258,10 @@ class PippyActivity(ViewSourceActivity):
 
         icon_bw = Gtk.Image()
         icon_bw.set_from_file(os.path.join(icons_path, 'run_bw.svg'))
+        icon_bw.show()
         icon_color = Gtk.Image()
         icon_color.set_from_file(os.path.join(icons_path, 'run_color.svg'))
+        icon_color.show()
         button = ToolButton(label=_('Run!'))
         button.props.accelerator = _('<alt>r')
         button.set_icon_widget(icon_bw)
@@ -267,8 +274,10 @@ class PippyActivity(ViewSourceActivity):
 
         icon_bw = Gtk.Image()
         icon_bw.set_from_file(os.path.join(icons_path, 'stopit_bw.svg'))
+        icon_bw.show()
         icon_color = Gtk.Image()
         icon_color.set_from_file(os.path.join(icons_path, 'stopit_color.svg'))
+        icon_color.show()
         button = ToolButton(label=_('Stop'))
         button.props.accelerator = _('<alt>s')
         button.set_icon_widget(icon_bw)
@@ -281,8 +290,10 @@ class PippyActivity(ViewSourceActivity):
 
         icon_bw = Gtk.Image()
         icon_bw.set_from_file(os.path.join(icons_path, 'eraser_bw.svg'))
+        icon_bw.show()
         icon_color = Gtk.Image()
         icon_color.set_from_file(os.path.join(icons_path, 'eraser_color.svg'))
+        icon_color.show()
         button = ToolButton(label=_('Clear'))
         button.props.accelerator = _('<alt>c')
         button.set_icon_widget(icon_bw)
@@ -300,7 +311,7 @@ class PippyActivity(ViewSourceActivity):
         separator.show()
 
         button = ToolButton('pippy-openoff')
-        button.set_tooltip(_('Load example'))
+        button.set_tooltip(_('Open an example'))
         button.connect('clicked', self._load_example_cb)
         self.get_toolbar_box().toolbar.insert(button, -1)
         button.show()
@@ -551,17 +562,8 @@ class PippyActivity(ViewSourceActivity):
         _logger.debug('clicked! %s' % value['path'])
         _file = open(value['path'], 'r')
         lines = _file.readlines()
+        self._add_source_cb(None)
         text_buffer = self._source_tabs.get_text_buffer()
-        current_content = text_buffer.get_text(
-            *text_buffer.get_bounds(),
-            include_hidden_chars=True)
-        if current_content != "":
-            # Add a new page to the notebook with the example
-            self._add_source_cb(None)
-        if text_buffer.get_modified():
-            self._source_tabs.add_tab()
-            self.session_data.append(None)
-            text_buffer = self._source_tabs.get_text_buffer()
         text_buffer.set_text(''.join(lines))
         text_buffer.set_modified(False)
         self._pippy_instance.metadata['title'] = value['name']
@@ -625,8 +627,11 @@ class PippyActivity(ViewSourceActivity):
 
     def __copybutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
-        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        text_buffer.copy_clipboard(clipboard)
+        if self._vte.get_has_selection():
+            self._vte.copy_clipboard()
+        elif text_buffer.get_has_selection():
+            clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+            text_buffer.copy_clipboard(clipboard)
 
     def __pastebutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
@@ -679,6 +684,9 @@ class PippyActivity(ViewSourceActivity):
                 os.kill(self._pid[1], SIGTERM)
         except:
             pass  # Process must already be dead.
+
+    def _library_writable(self):
+        return os.access(os.path.join(get_bundle_path(), 'library'), os.W_OK)
 
     def _save_as_library(self, button):
         library_dir = os.path.join(get_bundle_path(), 'library')
@@ -844,7 +852,7 @@ class PippyActivity(ViewSourceActivity):
             for line in text:
                 f.write(line)
 
-    def _export_disutils_cb(self, button):
+    def _export_distutils_cb(self, button):
         app_temp = os.path.join(self.get_activity_root(), 'instance')
         data = self._source_tabs.get_all_data()
         for filename, content in zip(data[0], data[1]):
@@ -857,17 +865,17 @@ class PippyActivity(ViewSourceActivity):
         title = self._pippy_instance.metadata['title']
         if title is _('Pippy Activity'):
             alert = Alert()
-            alert.props.title = _('Save as disutils package error')
+            alert.props.title = _('Save as distutils package error')
             alert.props.msg = _('Please give your activity a meaningful '
                                 'name before attempting to save it '
-                                'as an disutils package.')
+                                'as an distutils package.')
             ok_icon = Icon(icon_name='dialog-ok')
             alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
             alert.connect('response', self._dismiss_alert_cb)
             self.add_alert(alert)
             return
 
-        setup_script = DISUTILS_SETUP_SCRIPT.format(modulename=title,
+        setup_script = DISTUTILS_SETUP_SCRIPT.format(modulename=title,
                                                     filenames=filenames)
         setupfile = open(os.path.join(app_temp, 'setup.py'), 'w')
         setupfile.write(setup_script)
@@ -883,7 +891,7 @@ class PippyActivity(ViewSourceActivity):
         os.chmod(app_temp, 0777)
         jobject = datastore.create()
         metadata = {
-            'title': '%s disutils bundle' % title,
+            'title': '%s distutils bundle' % title,
             'title_set_by_user': '1',
             'mime_type': 'application/x-gzip',
         }
