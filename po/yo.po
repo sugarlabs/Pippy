@@ -10,147 +10,152 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2016-09-23 23:35+0000\n"
+"Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: yo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.0.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1474673719.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
-msgstr ""
+msgstr "Pippy"
 
 #: activity.py:49
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "%s Orisun"
 
 #: activity.py:91
 msgid "Copy selected text to clipboard"
-msgstr ""
+msgstr "Da ti a ti yan ọrọ to sileti"
 
 #: activity.py:96 pippy_app.py:113 pippy_app.py:118
 msgid "Edit"
-msgstr ""
+msgstr "Ṣatunkọ"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
-msgstr ""
+msgstr "Bii"
 
 #: library/pippy/sound.py:54
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
+msgstr "Ko le ri TamTamEdit ohun ìkàwé. Nje o fi sori ẹrọ TamTamEdit?"
 
 #: pippy_app.py:90
 msgid "Export as Pippy Document"
-msgstr ""
+msgstr "Okeere bi Pippy Iwe"
 
 #: pippy_app.py:96
 msgid "Export as Pippy Example"
-msgstr ""
+msgstr "Okeere bi Pippy Apere"
 
 #: pippy_app.py:102
 msgid "Create Activity Bundle"
-msgstr ""
+msgstr "Ṣẹda aṣayan iṣẹ lapapo"
 
 #: pippy_app.py:111
 msgid "Actions"
-msgstr ""
+msgstr "Išë"
 
 #: pippy_app.py:138 pippy_app.py:141
 msgid "Run!"
-msgstr ""
+msgstr "Ṣiṣe awọn!"
 
 #: pippy_app.py:139
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
 #: pippy_app.py:152 pippy_app.py:158
 msgid "Stop"
-msgstr ""
+msgstr "Duro"
 
 #: pippy_app.py:153
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
 #: pippy_app.py:167 pippy_app.py:173
 msgid "Clear"
-msgstr ""
+msgstr "Parẹ́"
 
 #: pippy_app.py:168
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
 #: pippy_app.py:197
 msgid "Examples"
-msgstr ""
+msgstr "Apeere"
 
 #: pippy_app.py:229
 msgid "My examples"
-msgstr ""
+msgstr "Mi apeere"
 
 #: pippy_app.py:358
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "%s aṣayan iṣẹ-ṣiṣe"
 
 #: pippy_app.py:438
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Fi bi aṣayan iṣẹ-ṣiṣe aṣiṣe"
 
 #: pippy_app.py:439
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
+"Jọwọ fun ṣiṣe kan ti o nilari orukọ ṣaaju ki o to pinnu lati fi o bi ohun-"
+"ṣiṣe."
 
 #: pippy_app.py:442 pippy_app.py:486
 msgid "Ok"
-msgstr ""
+msgstr "Dara"
 
 #: pippy_app.py:448
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Ṣiṣẹda aṣayan iṣẹ-ṣiṣe lapapo..."
 
 #: pippy_app.py:479
 msgid "Pippy Activity"
-msgstr ""
+msgstr "Pippy aṣayan iṣẹ-ṣiṣe"
 
 #: pippy_app.py:483
 msgid "Save as Example Error"
-msgstr ""
+msgstr "Fi bi Apere aṣiṣe"
 
 #: pippy_app.py:484
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr ""
+"Jọwọ fun ṣiṣe kan ti o nilari orukọ ṣaaju ki o to pinnu lati fi o bi ohun "
+"apẹẹrẹ."
 
 #: pippy_app.py:492
 msgid "Creating example..."
-msgstr ""
+msgstr "Ṣiṣẹda apẹẹrẹ..."
 
 #: pippy_app.py:499
 msgid "Save as Example Warning"
-msgstr ""
+msgstr "Fi bi Apere Ikilọ"
 
 #: pippy_app.py:500
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr ""
+msgstr "Yi apẹẹrẹ tẹlẹ wa. Ṣe o fẹ lati ìkọlélórí o?"
 
 #: pippy_app.py:506 pippy_app.py:562
 msgid "Saved as example."
-msgstr ""
+msgstr "Ti o ti fipamọ bi awọn apẹẹrẹ."
 
 #: pippy_app.py:546
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "Aṣayan iṣẹ-ṣiṣe ti o ti fipamọ to akosile."
