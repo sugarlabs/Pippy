@@ -77,7 +77,7 @@ class TextBufferCollaberizer(object):
         self._buffer.connect('delete-range', self.__text_buffer_deleted_cb)
         self._buffer.set_text('')
 
-        if not self._collab.props.leader:
+        if not self._collab._leader:
             # We must be joining an activity and just made the buffer
             self._collab.post(dict(
                 action='init_request',
