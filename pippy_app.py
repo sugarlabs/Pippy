@@ -591,11 +591,6 @@ class PippyActivity(ViewSourceActivity):
 
     def _clear_button_cb(self, button):
         self.save()
-        text_buffer = self._source_tabs.get_text_buffer()
-        text_buffer.set_text('')
-        text_buffer.set_modified(False)
-        self._pippy_instance.metadata['title'] = \
-            _('%s Activity') % get_bundle_name()
         self._stop_button_cb(None)
         self._reset_vte()
         self._source_tabs.get_text_view().grab_focus()
