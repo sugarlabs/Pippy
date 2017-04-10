@@ -42,6 +42,7 @@ import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 
 from gi import require_version
+require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GLib
