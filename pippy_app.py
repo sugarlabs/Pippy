@@ -510,14 +510,14 @@ class PippyActivity(ViewSourceActivity):
             self._select_func_cb(path)
 
     def _add_source_cb(self, button, force=False, editor_id=None):
-        if self._collab.props.leader or force:
+        if self._collab._leader or force:
             if editor_id is None:
                 editor_id = str(uuid.uuid1())
             self._source_tabs.add_tab(editor_id=editor_id)
             self.session_data.append(None)
             self._source_tabs.get_nth_page(-1).show_all()
             self._source_tabs.get_text_view().grab_focus()
-            if self._collab.props.leader:
+            if self._collab._leader:
                 self._collab.post(dict(
                     action='add-source',
                     editor_id=editor_id))
@@ -528,7 +528,7 @@ class PippyActivity(ViewSourceActivity):
 
     def __message_cb(self, collab, buddy, msg):
         action = msg.get('action')
-        if action == 'add-source-request' and self._collab.props.leader:
+        if action == 'add-source-request' and self._collab._leader:
             self._add_source_cb(None, force=True)
         elif action == 'add-source':
             self._add_source_cb(
