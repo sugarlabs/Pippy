@@ -21,10 +21,12 @@ import unicodedata
 import re
 import uuid
 
+from gi import require_version
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
 from gi.repository import Pango
+require_version('GtkSource', '3.0')
 from gi.repository import GtkSource
 from gettext import gettext as _
 
