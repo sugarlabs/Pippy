@@ -22,7 +22,7 @@ from gi.repository import GObject
 from gettext import gettext as _
 from sugar3.graphics.toolbutton import ToolButton
 
-from notebook import FONT_CHANGE_STEP, DEFAULT_FONT_SIZE
+from codenotebook import FONT_CHANGE_STEP, DEFAULT_FONT_SIZE
 
 
 class DevelopViewToolbar(Gtk.Toolbar):

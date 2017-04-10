@@ -82,7 +82,7 @@ from collabwrapper import CollabWrapper
 
 from filedialog import FileDialog
 from icondialog import IconDialog
-from notebook import SourceNotebook, tab_object
+from codenotebook import SourceNotebook, tab_object
 from toolbars import DevelopViewToolbar
 
 import sound_check
