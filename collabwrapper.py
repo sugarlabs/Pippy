@@ -80,21 +80,19 @@ from telepathy.interfaces import \
     CHANNEL_TYPE_TEXT, \
     CHANNEL_TYPE_FILE_TRANSFER, \
     CONN_INTERFACE_ALIASING, \
-    CONNECTION_INTERFACE_REQUESTS, \
     CHANNEL, \
     CLIENT
 from telepathy.constants import \
     CHANNEL_GROUP_FLAG_CHANNEL_SPECIFIC_HANDLES, \
     CONNECTION_HANDLE_TYPE_CONTACT, \
     CHANNEL_TEXT_MESSAGE_TYPE_NORMAL, \
-    CONNECTION_HANDLE_TYPE_CONTACT, \
     SOCKET_ADDRESS_TYPE_UNIX, \
     SOCKET_ACCESS_CONTROL_LOCALHOST
 from telepathy.client import Connection, Channel
 
 from sugar3.presence import presenceservice
 from sugar3.activity.activity import SCOPE_PRIVATE
-from sugar3.graphics.alert import NotifyAlert, Alert
+from sugar3.graphics.alert import NotifyAlert
 
 import logging
 _logger = logging.getLogger('text-channel-wrapper')
@@ -406,7 +404,6 @@ class _BaseFileTransfer(GObject.GObject):
         state (FT_STATE_*), current state of the transfer
         transferred_bytes (int), number of bytes transfered so far
     '''
-
 
     def __init__(self):
         GObject.GObject.__init__(self)

@@ -1,4 +1,5 @@
 # Copyright (C) 2015, Batchu Venkat Vishal
+#
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
@@ -15,7 +16,6 @@
 # Boston, MA 02111-1307, USA.
 
 import logging
-import time
 
 from gi.repository import Gtk
 
@@ -26,8 +26,8 @@ except ImportError:
     from collabwrapper import CollabWrapper
 
 '''
-The collabtexteditor moudle provides a text editor widget 
-which can be included in any activity and then multiple 
+The texteditor module provides a text editor widget
+which can be included in any activity and then multiple
 users can collaborate and edit together in the editor.
 '''
 
@@ -60,6 +60,7 @@ class CollabTextEditor(Gtk.TextView):
             self.textbuffer, editor_id, collab)
         self.textbuffer.set_text("")
         self.show()
+
 
 class TextBufferCollaberizer(object):
 
@@ -106,16 +107,19 @@ class TextBufferCollaberizer(object):
             self._buffer.set_text(message.get('current_content'))
             self._callbacks_status = True
         if action == 'entry_inserted':
-            start_iter=self._buffer.get_iter_at_line_offset(message.get('start_iter_line'),
-                    message.get('start_iter_offset'))
+            start_iter = self._buffer.get_iter_at_line_offset(
+                message.get('start_iter_line'),
+                message.get('start_iter_offset'))
             self._callbacks_status = False
             self._buffer.insert(start_iter, message.get('new_text'))
             self._callbacks_status = True
         if action == 'entry_deleted':
-            start_iter=self._buffer.get_iter_at_line_offset(message.get('start_iter_line'),
-                    message.get('start_iter_offset'))
-            end_iter=self._buffer.get_iter_at_line_offset(message.get('end_iter_line'),
-                    message.get('end_iter_offset'))
+            start_iter = self._buffer.get_iter_at_line_offset(
+                message.get('start_iter_line'),
+                message.get('start_iter_offset'))
+            end_iter = self._buffer.get_iter_at_line_offset(
+                message.get('end_iter_line'),
+                message.get('end_iter_offset'))
             self._callbacks_status = False
             self._buffer.delete(start_iter, end_iter)
             self._callbacks_status = True
@@ -129,7 +133,7 @@ class TextBufferCollaberizer(object):
                 res_id=self._id,
                 current_content=text
             ))
-    
+
     def __joined_cb(self, sender):
         if self._collab._leader:
             return
@@ -139,26 +143,27 @@ class TextBufferCollaberizer(object):
         ))
 
     '''
-    This will send a message to all your buddies to set their editors to 
+    This will send a message to all your buddies to set their editors to
     sync with the text specified as an argument.
 
     Args:
         text : Text to be set in all the editors
     '''
     def __set_text_synced(self, text):
-        if self._callbacks_status == False:
+        if self._callbacks_status is False:
             return
-        if self.has_initialized == False:
+        if self.has_initialized is False:
             self.has_initialized = True
         self._callbacks_status = False
         self._buffer.set_text(text)
         self._callbacks_status = True
-        self._collab.post(dict(action='sync_editors', res_id=self._id,
-            current_content=text))
+        self._collab.post(dict(action='sync_editors',
+                               res_id=self._id,
+                               current_content=text))
 
     '''
-    The text buffer inserted callback is called whenever text is 
-    inserted in the editor, so that other users get updated with 
+    The text buffer inserted callback is called whenever text is
+    inserted in the editor, so that other users get updated with
     these changes.
 
     Args:
@@ -167,20 +172,22 @@ class TextBufferCollaberizer(object):
     '''
 
     def __text_buffer_inserted_cb(self, textbuffer, start, text, length):
-        if self._callbacks_status == False:
+        if self._callbacks_status is False:
             return
-        if self.has_initialized == False:
+        if self.has_initialized is False:
             self.has_initialized = True
         logging.debug('Text inserted is %s' % (text))
         logging.debug('Text has been updated, %s' % (textbuffer.get_text(
             textbuffer.get_start_iter(), textbuffer.get_end_iter(), True)))
         self._collab.post(dict(action='entry_inserted',
-                               res_id=self._id, start_iter_offset=start.get_line_offset(), 
-                               start_iter_line=start.get_line(), new_text=text))
+                               res_id=self._id,
+                               start_iter_offset=start.get_line_offset(),
+                               start_iter_line=start.get_line(),
+                               new_text=text))
 
     '''
-    The text buffer deleted callback is called whenever any text is 
-    removed in the editor, so that other users get updated with 
+    The text buffer deleted callback is called whenever any text is
+    removed in the editor, so that other users get updated with
     these changes.
 
     Args:
@@ -190,15 +197,17 @@ class TextBufferCollaberizer(object):
     '''
 
     def __text_buffer_deleted_cb(self, textbuffer, start, end):
-        if self._callbacks_status == False:
+        if self._callbacks_status is False:
             return
-        if self.has_initialized == False:
+        if self.has_initialized is False:
             self.has_initialized = True
         logging.debug('Text deleted is %s' %
                       (textbuffer.get_text(start, end, True)))
         logging.debug('Text has been updated, %s' % (textbuffer.get_text(
             textbuffer.get_start_iter(), textbuffer.get_end_iter(), True)))
         self._collab.post(dict(action='entry_deleted',
-                               res_id=self._id, start_iter_offset=start.get_line_offset(), 
-                               start_iter_line=start.get_line(),end_iter_offset=end.get_line_offset(), 
+                               res_id=self._id,
+                               start_iter_offset=start.get_line_offset(),
+                               start_iter_line=start.get_line(),
+                               end_iter_offset=end.get_line_offset(),
                                end_iter_line=end.get_line()))
