@@ -661,7 +661,7 @@ class OutgoingFileTransfer(_BaseOutgoingTransfer):
         self._create_channel(file_size)
 
     def _get_input_stream(self):
-        input_stream = Gio.File.new_for_path(self._path).read(None)
+        return Gio.File.new_for_path(self._path).read(None)
 
 
 class OutgoingBlobTransfer(_BaseOutgoingTransfer):
