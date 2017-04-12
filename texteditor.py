@@ -19,12 +19,6 @@ import logging
 
 from gi.repository import Gtk
 
-try:
-    from sugar3.presence.wrapper import CollabWrapper
-    logging.error('USING SUGAR COLLAB WRAPPER')
-except ImportError:
-    from collabwrapper import CollabWrapper
-
 '''
 The texteditor module provides a text editor widget
 which can be included in any activity and then multiple
