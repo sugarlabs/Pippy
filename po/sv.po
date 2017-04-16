@@ -2,166 +2,307 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-19 00:34-0400\n"
-"PO-Revision-Date: 2012-06-26 22:55+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"POT-Creation-Date: 2017-03-24 17:39+1100\n"
+"PO-Revision-Date: 2017-03-29 11:24+0000\n"
+"Last-Translator: Anders <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1490786653.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "Pippy"
 
-#: activity.py:49
+#: activity/activity.info:3
+msgid ""
+"Searching for programmers! Here you can use examples to begin learning the "
+"language your computer understands called \"Python.\""
+msgstr ""
+"Söker efter programmerare! Här kan du använda exempel för att börja lära dig "
+"språket \"Python\" som din dator förstår."
+
+#: filedialog.py:79
+msgid "Choose an example to open"
+msgstr "Välj ett exempel att öppna"
+
+#: collabwrapper.py:178
+msgid "Joining activity..."
+msgstr "Går med i aktivitet..."
+
+#: collabwrapper.py:179 collabwrapper.py:191
+msgid "Please wait for the connection..."
+msgstr "Vänta på anslutningen..."
+
+#: collabwrapper.py:190
+msgid "Resuming shared activity..."
+msgstr "Återupptar delad aktivitet..."
+
+#: toolbars.py:42
+msgid "Zoom in"
+msgstr "Zooma in"
+
+#: toolbars.py:48
+msgid "Zoom out"
+msgstr "Zooma ut"
+
+#: activity.py:65
 #, python-format
 msgid "%s Source"
-msgstr "%s källkod"
+msgstr "Källkod för %s"
 
-#: activity.py:91
-msgid "Copy selected text to clipboard"
-msgstr "Kopiera markerad text"
+#: icondialog.py:116
+msgid "Select an icon"
+msgstr "Välj en ikon"
 
-#: activity.py:96 pippy_app.py:113 pippy_app.py:118
+#: notebook.py:219
+#, python-format
+msgid "New Source File %d"
+msgstr "Ny källfil %d"
+
+#: sound_check.py:27 library/pippy/sound.py:41
+msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
+msgstr "Kan inte hitta TamTamEdit-ljudbibliotek. Har du installerat TamTamEdit?"
+
+#: pippy_app.py:97
+msgid "graphics"
+msgstr "grafik"
+
+#: pippy_app.py:97
+msgid "math"
+msgstr "matematik"
+
+#: pippy_app.py:97
+msgid "python"
+msgstr "python"
+
+#: pippy_app.py:97
+msgid "sound"
+msgstr "ljud"
+
+#: pippy_app.py:98
+msgid "string"
+msgstr "sträng"
+
+#: pippy_app.py:98
+msgid "tutorials"
+msgstr "guider"
+
+#: pippy_app.py:185
+msgid "Import Python file to new tab"
+msgstr "Importera Python-fil till ny flik"
+
+#: pippy_app.py:191
+msgid "Export as Pippy document"
+msgstr "Exportera som Pippy-dokument"
+
+#: pippy_app.py:197
+msgid "Save this file to the Pippy library"
+msgstr "Spara denna fil till Pippy-biblioteket"
+
+#: pippy_app.py:205
+msgid "Export as new Pippy example"
+msgstr "Exportera som nytt Pippy-exempel"
+
+#: pippy_app.py:211
+msgid "Create a Sugar activity bundle"
+msgstr "Skapa ett Sugar-aktivitetspaket"
+
+#. TRANS: A distutils package is used to distribute Python modules
+#: pippy_app.py:218
+msgid "Export as a distutils package"
+msgstr "Exportera som ett distutils-paket"
+
+#: pippy_app.py:228
 msgid "Edit"
 msgstr "Redigera"
+
+#: pippy_app.py:242
+msgid "View"
+msgstr "Visa"
+
+#: pippy_app.py:252 pippy_app.py:500
+msgid "Show output panel"
+msgstr "Visa utmatningspanel"
+
+#: pippy_app.py:265 pippy_app.py:268
+msgid "Run!"
+msgstr "Kör!"
+
+#: pippy_app.py:266
+msgid "<alt>r"
+msgstr "<alt>k"
+
+#: pippy_app.py:281 pippy_app.py:287
+msgid "Stop"
+msgstr "Stoppa"
+
+#: pippy_app.py:282
+msgid "<alt>s"
+msgstr "<alt>s"
+
+#: pippy_app.py:297 pippy_app.py:303
+msgid "Clear"
+msgstr "Rensa"
+
+#: pippy_app.py:298
+msgid "<alt>c"
+msgstr "<alt>r"
+
+#: pippy_app.py:314
+msgid "Open an example"
+msgstr "Öppna ett exempel"
+
+#: pippy_app.py:389
+msgid "My examples"
+msgstr "Mina exempel"
+
+#: pippy_app.py:496
+msgid "Hide output panel"
+msgstr "Dölj utmatningspanel"
+
+#: pippy_app.py:598
+#, python-format
+msgid "%s Activity"
+msgstr "%s-aktivitet"
+
+#: pippy_app.py:708
+msgid "Python File added to Library"
+msgstr "Python-fil tillagd till bibliotek"
+
+#: pippy_app.py:709
+#, python-brace-format
+msgid ""
+"The file you selected has been added to the library. Use \"import "
+"{importname}\" to import the library for using."
+msgstr ""
+"Filen som du valde har lagts till i biblioteket. använd \"import {importnamn}"
+"\" för att importera biblioteket för användning."
+
+#: pippy_app.py:719
+msgid "Saved"
+msgstr "Sparat"
+
+#: pippy_app.py:720
+msgid "The document has been saved to journal."
+msgstr "Dokumentet har sparats till dagboken."
+
+#: pippy_app.py:734 pippy_app.py:741
+msgid "Error importing Python file"
+msgstr "Fel vid import av Python-fil"
+
+#: pippy_app.py:735
+msgid "The file you selected is not a Python file."
+msgstr "Filen som du valt är inte en Python-fil."
+
+#: pippy_app.py:742
+msgid "The file you selected is already open"
+msgstr "Filen som du valt är redan öppen"
+
+#: pippy_app.py:767 pippy_app.py:826
+msgid "Save as Activity Error"
+msgstr "Spara som aktivitetsfel"
+
+#: pippy_app.py:768
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an activity."
+msgstr ""
+"Ge din aktivitet ett betydelsefullt namn innan du försöker spara den som en "
+"aktivitet."
+
+#: pippy_app.py:771 pippy_app.py:778 pippy_app.py:873 pippy_app.py:915
+msgid "Ok"
+msgstr "Ok"
+
+#: pippy_app.py:779
+msgid "Activity icon"
+msgstr "Aktivitetsikon"
+
+#: pippy_app.py:780
+msgid "Please select an activity icon."
+msgstr "Välj en aktivitetsikon."
+
+#: pippy_app.py:785 pippy_app.py:800
+msgid "Creating activity bundle..."
+msgstr "Skapar en aktivitet..."
+
+#: pippy_app.py:866 pippy_app.py:908
+msgid "Pippy Activity"
+msgstr "Pippy-aktivitet"
+
+#: pippy_app.py:868
+msgid "Save as distutils package error"
+msgstr "Fel vid sparande som distutils-paket"
+
+#: pippy_app.py:869
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an distutils package."
+msgstr ""
+"Ge din aktivitet ett betydelsefullt namn innan du försöker spara den som ett "
+"distutils-paket."
+
+#: pippy_app.py:910
+msgid "Save as Example Error"
+msgstr "Fel vid sparande som exempel"
+
+#: pippy_app.py:912
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an example."
+msgstr ""
+"Ge din aktivitet ett betydelsefullt namn innan du försöker spara den som ett "
+"exempel."
+
+#: pippy_app.py:921
+msgid "Creating example..."
+msgstr "Skapar exempel..."
+
+#: pippy_app.py:927
+msgid "Save as Example Warning"
+msgstr "Spara som exempel-varning"
+
+#: pippy_app.py:928
+msgid "This example already exists. Do you want to overwrite it?"
+msgstr "Detta exempel finns redan. Vill du skriva över det?"
+
+#: pippy_app.py:935 pippy_app.py:993
+msgid "Saved as example."
+msgstr "Sparad som exempel."
+
+#: pippy_app.py:957
+msgid "Error saving activity to journal."
+msgstr "Fel då aktivitet skulle sparas i dagboken."
+
+#: pippy_app.py:977
+msgid "Activity saved to journal."
+msgstr "Aktiviteten har sparats i dagboken."
+
+#: pippy_app.py:1119
+msgid "Error"
+msgstr "Fel"
+
+#: pippy_app.py:1120
+msgid "Error reading data."
+msgstr "Fel vid läsning av data."
+
+#: pippy_app.py:1448
+msgid "Working..."
+msgstr "Arbetar..."
+
+#: pippy_app.py:1451
+msgid "done!"
+msgstr "färdig!"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "PAUSAD"
-
-#: library/pippy/sound.py:54
-msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr ""
-
-#: pippy_app.py:90
-msgid "Export as Pippy Document"
-msgstr ""
-
-#: pippy_app.py:96
-msgid "Export as Pippy Example"
-msgstr ""
-
-#: pippy_app.py:102
-msgid "Create Activity Bundle"
-msgstr ""
-
-#: pippy_app.py:111
-msgid "Actions"
-msgstr ""
-
-#: pippy_app.py:138 pippy_app.py:141
-msgid "Run!"
-msgstr "Kör!"
-
-#: pippy_app.py:139
-msgid "<alt>r"
-msgstr ""
-
-#: pippy_app.py:152 pippy_app.py:158
-#, fuzzy
-msgid "Stop"
-msgstr "Avsluta"
-
-#: pippy_app.py:153
-msgid "<alt>s"
-msgstr ""
-
-#: pippy_app.py:167 pippy_app.py:173
-msgid "Clear"
-msgstr ""
-
-#: pippy_app.py:168
-msgid "<alt>c"
-msgstr ""
-
-#: pippy_app.py:197
-msgid "Examples"
-msgstr "Exempel"
-
-#: pippy_app.py:229
-msgid "My examples"
-msgstr ""
-
-#: pippy_app.py:358
-#, python-format
-msgid "%s Activity"
-msgstr "%s Aktivitet"
-
-#: pippy_app.py:438
-msgid "Save as Activity Error"
-msgstr "Spara som aktivitetsfel"
-
-#: pippy_app.py:439
-msgid ""
-"Please give your activity a meaningful name before attempting to save it as "
-"an activity."
-msgstr "Ge din aktivitet ett betydelsefullt namn innan du sparar den."
-
-#: pippy_app.py:442 pippy_app.py:486
-msgid "Ok"
-msgstr "Ok"
-
-#: pippy_app.py:448
-msgid "Creating activity bundle..."
-msgstr "Skapar en aktivitet..."
-
-#: pippy_app.py:479
-msgid "Pippy Activity"
-msgstr ""
-
-#: pippy_app.py:483
-msgid "Save as Example Error"
-msgstr ""
-
-#: pippy_app.py:484
-#, fuzzy
-msgid ""
-"Please give your activity a meaningful name before attempting to save it as "
-"an example."
-msgstr "Ge din aktivitet ett betydelsefullt namn innan du sparar den."
-
-#: pippy_app.py:492
-msgid "Creating example..."
-msgstr ""
-
-#: pippy_app.py:499
-msgid "Save as Example Warning"
-msgstr ""
-
-#: pippy_app.py:500
-msgid "This example already exists. Do you want to overwrite it?"
-msgstr ""
-
-#: pippy_app.py:506 pippy_app.py:562
-msgid "Saved as example."
-msgstr ""
-
-#: pippy_app.py:546
-msgid "Activity saved to journal."
-msgstr "Aktiviteten har sparats i dagboken."
-
-#~ msgid "As Pippy Document"
-#~ msgstr "Som ett Pippydokument"
-
-#~ msgid "As Activity Bundle"
-#~ msgstr "Som en aktivitet"
-
-#~ msgid "Please install TamTamEdit's sound library."
-#~ msgstr "Installera TamTamRedigerarens ljudbibliotek."
