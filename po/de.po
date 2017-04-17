@@ -2,63 +2,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: Fructose-de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"POT-Creation-Date: 2017-03-24 17:39+1100\n"
 "PO-Revision-Date: 2013-06-03 21:03+0200\n"
 "Last-Translator: Markus <m.slg@gmx.de>\n"
 "Language-Team: Deutsch <LL@li.org>\n"
@@ -68,96 +16,201 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
-"X-Poedit-Country: Germany\n"
-"X-Poedit-Language: German\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
 msgstr "Pippy"
 
-#: activity.py:49
+#: activity/activity.info:3
+msgid ""
+"Searching for programmers! Here you can use examples to begin learning the "
+"language your computer understands called \"Python.\""
+msgstr ""
+
+#: filedialog.py:79
+msgid "Choose an example to open"
+msgstr ""
+
+#: collabwrapper.py:178
+msgid "Joining activity..."
+msgstr ""
+
+#: collabwrapper.py:179 collabwrapper.py:191
+msgid "Please wait for the connection..."
+msgstr ""
+
+#: collabwrapper.py:190
+msgid "Resuming shared activity..."
+msgstr ""
+
+#: toolbars.py:42
+msgid "Zoom in"
+msgstr ""
+
+#: toolbars.py:48
+msgid "Zoom out"
+msgstr ""
+
+#: activity.py:65
 #, python-format
 msgid "%s Source"
 msgstr "%s Quelltext"
 
-#: activity.py:91
-msgid "Copy selected text to clipboard"
-msgstr "Ausgewählten Text in die Zwischenablage kopieren"
+#: icondialog.py:116
+msgid "Select an icon"
+msgstr ""
 
-#: activity.py:96 pippy_app.py:113 pippy_app.py:118
-msgid "Edit"
-msgstr "Bearbeiten"
+#: notebook.py:219
+#, python-format
+msgid "New Source File %d"
+msgstr ""
 
-#: library/pippy/game.py:36
-msgid "PAUSED"
-msgstr "ANGEHALTEN"
-
-#: library/pippy/sound.py:54
+#: sound_check.py:27 library/pippy/sound.py:41
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 "Kann die TamTamEdit-Klangbibliothek nicht finden. Hast du TamTamEdit "
 "installiert?"
 
-#: pippy_app.py:90
-msgid "Export as Pippy Document"
-msgstr "Exportieren als Pippy-Dokument"
+#: pippy_app.py:97
+msgid "graphics"
+msgstr ""
 
-#: pippy_app.py:96
-msgid "Export as Pippy Example"
-msgstr "Exportieren als Pippy-Beispiel"
+#: pippy_app.py:97
+msgid "math"
+msgstr ""
 
-#: pippy_app.py:102
-msgid "Create Activity Bundle"
-msgstr "Aktivitätspaket erstellen"
+#: pippy_app.py:97
+msgid "python"
+msgstr ""
 
-#: pippy_app.py:111
-msgid "Actions"
-msgstr "Aktionen"
+#: pippy_app.py:97
+msgid "sound"
+msgstr ""
 
-#: pippy_app.py:138 pippy_app.py:141
+#: pippy_app.py:98
+msgid "string"
+msgstr ""
+
+#: pippy_app.py:98
+msgid "tutorials"
+msgstr ""
+
+#: pippy_app.py:185
+msgid "Import Python file to new tab"
+msgstr ""
+
+#: pippy_app.py:191
+msgid "Export as Pippy document"
+msgstr ""
+
+#: pippy_app.py:197
+msgid "Save this file to the Pippy library"
+msgstr ""
+
+#: pippy_app.py:205
+msgid "Export as new Pippy example"
+msgstr ""
+
+#: pippy_app.py:211
+msgid "Create a Sugar activity bundle"
+msgstr ""
+
+#. TRANS: A distutils package is used to distribute Python modules
+#: pippy_app.py:218
+msgid "Export as a distutils package"
+msgstr ""
+
+#: pippy_app.py:228
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: pippy_app.py:242
+msgid "View"
+msgstr ""
+
+#: pippy_app.py:252 pippy_app.py:500
+msgid "Show output panel"
+msgstr ""
+
+#: pippy_app.py:265 pippy_app.py:268
 msgid "Run!"
 msgstr "Los!"
 
-#: pippy_app.py:139
+#: pippy_app.py:266
 msgid "<alt>r"
 msgstr "<alt>l"
 
-#: pippy_app.py:152 pippy_app.py:158
+#: pippy_app.py:281 pippy_app.py:287
 msgid "Stop"
 msgstr "Stopp"
 
-#: pippy_app.py:153
+#: pippy_app.py:282
 msgid "<alt>s"
 msgstr "<alt>s"
 
 # (Markus S.) war '_Säubern', später 'Leeren'
-#: pippy_app.py:167 pippy_app.py:173
+#: pippy_app.py:297 pippy_app.py:303
 msgid "Clear"
 msgstr "Löschen"
 
 # (Markus S.) sollte zu 'Leeren' passen, aber 'l' ist schon zuvor belegt.
-#: pippy_app.py:168
+#: pippy_app.py:298
 msgid "<alt>c"
 msgstr "<alt>e"
 
-#: pippy_app.py:197
-msgid "Examples"
-msgstr "Beispiele"
+#: pippy_app.py:314
+msgid "Open an example"
+msgstr ""
 
-#: pippy_app.py:229
+#: pippy_app.py:389
 msgid "My examples"
 msgstr "Meine Beispiele"
 
-#: pippy_app.py:358
+#: pippy_app.py:496
+msgid "Hide output panel"
+msgstr ""
+
+#: pippy_app.py:598
 #, python-format
 msgid "%s Activity"
 msgstr "%s Aktivität"
 
-#: pippy_app.py:438
+#: pippy_app.py:708
+msgid "Python File added to Library"
+msgstr ""
+
+#: pippy_app.py:709
+#, python-brace-format
+msgid ""
+"The file you selected has been added to the library. Use \"import "
+"{importname}\" to import the library for using."
+msgstr ""
+
+#: pippy_app.py:719
+msgid "Saved"
+msgstr ""
+
+#: pippy_app.py:720
+msgid "The document has been saved to journal."
+msgstr ""
+
+#: pippy_app.py:734 pippy_app.py:741
+msgid "Error importing Python file"
+msgstr ""
+
+#: pippy_app.py:735
+msgid "The file you selected is not a Python file."
+msgstr ""
+
+#: pippy_app.py:742
+msgid "The file you selected is already open"
+msgstr ""
+
+#: pippy_app.py:767 pippy_app.py:826
 msgid "Save as Activity Error"
 msgstr "Als Aktivitätsfehler speichern"
 
-#: pippy_app.py:439
+#: pippy_app.py:768
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -165,23 +218,41 @@ msgstr ""
 "Gib deiner Aktivität einen aussagekräftigen Namen, bevor du sie als solche "
 "abspeicherst."
 
-#: pippy_app.py:442 pippy_app.py:486
+#: pippy_app.py:771 pippy_app.py:778 pippy_app.py:873 pippy_app.py:915
 msgid "Ok"
 msgstr "Ok"
 
-#: pippy_app.py:448
+#: pippy_app.py:779
+msgid "Activity icon"
+msgstr ""
+
+#: pippy_app.py:780
+msgid "Please select an activity icon."
+msgstr ""
+
+#: pippy_app.py:785 pippy_app.py:800
 msgid "Creating activity bundle..."
 msgstr "Erstelle Aktivitätspaket..."
 
-#: pippy_app.py:479
+#: pippy_app.py:866 pippy_app.py:908
 msgid "Pippy Activity"
 msgstr "Pippy-Aktivität"
 
-#: pippy_app.py:483
+#: pippy_app.py:868
+msgid "Save as distutils package error"
+msgstr ""
+
+#: pippy_app.py:869
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an distutils package."
+msgstr ""
+
+#: pippy_app.py:910
 msgid "Save as Example Error"
 msgstr "Als Beispielfehler speichern"
 
-#: pippy_app.py:484
+#: pippy_app.py:912
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
@@ -189,40 +260,46 @@ msgstr ""
 "Gib deiner Aktivität einen aussagekräftigen Namen, bevor du sie als Beispiel "
 "abzuspeichern versuchst."
 
-#: pippy_app.py:492
+#: pippy_app.py:921
 msgid "Creating example..."
 msgstr "Erstelle Beispiel..."
 
-#: pippy_app.py:499
+#: pippy_app.py:927
 msgid "Save as Example Warning"
 msgstr "Als Beispielwarnung speichern"
 
-#: pippy_app.py:500
+#: pippy_app.py:928
 msgid "This example already exists. Do you want to overwrite it?"
 msgstr "Dieses Beispiel existiert bereits. Willst du es überschreiben?"
 
-#: pippy_app.py:506 pippy_app.py:562
+#: pippy_app.py:935 pippy_app.py:993
 msgid "Saved as example."
 msgstr "Als Beispiel gespeichert."
 
-#: pippy_app.py:546
+#: pippy_app.py:957
+msgid "Error saving activity to journal."
+msgstr ""
+
+#: pippy_app.py:977
 msgid "Activity saved to journal."
 msgstr "Aktivität ins Tagebuch gespeichert."
 
-#~ msgid "_Run!"
-#~ msgstr "_Los!"
+#: pippy_app.py:1119
+msgid "Error"
+msgstr ""
 
-#~ msgid "As Pippy Document"
-#~ msgstr "Als Pippy-Dokument"
+#: pippy_app.py:1120
+msgid "Error reading data."
+msgstr ""
 
-#~ msgid "As Activity Bundle"
-#~ msgstr "Als Aktivitätspaket"
+#: pippy_app.py:1448
+msgid "Working..."
+msgstr ""
 
-#~ msgid "As Pippy Example"
-#~ msgstr "Als Pippy-Beispiel"
+#: pippy_app.py:1451
+msgid "done!"
+msgstr ""
 
-#~ msgid "Please install TamTamEdit's sound library."
-#~ msgstr "Bitte die Klangbibliothek von TamTamEdit installieren."
-
-#~ msgid "Stop!"
-#~ msgstr "Stopp!"
+#: library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "ANGEHALTEN"

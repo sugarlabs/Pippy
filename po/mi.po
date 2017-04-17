@@ -2,16 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-19 00:34-0400\n"
+"POT-Creation-Date: 2017-03-24 17:39+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: mi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,86 +20,193 @@ msgstr ""
 msgid "Pippy"
 msgstr "Pipi"
 
-#: activity.py:49
+#: activity/activity.info:3
+msgid ""
+"Searching for programmers! Here you can use examples to begin learning the "
+"language your computer understands called \"Python.\""
+msgstr ""
+
+#: filedialog.py:79
+msgid "Choose an example to open"
+msgstr ""
+
+#: collabwrapper.py:178
+msgid "Joining activity..."
+msgstr ""
+
+#: collabwrapper.py:179 collabwrapper.py:191
+msgid "Please wait for the connection..."
+msgstr ""
+
+#: collabwrapper.py:190
+msgid "Resuming shared activity..."
+msgstr ""
+
+#: toolbars.py:42
+msgid "Zoom in"
+msgstr ""
+
+#: toolbars.py:48
+msgid "Zoom out"
+msgstr ""
+
+#: activity.py:65
 #, python-format
 msgid "%s Source"
 msgstr "%s Pūtake"
 
-#: activity.py:91
-msgid "Copy selected text to clipboard"
-msgstr "Tāruatia ngā kupu kua tīpakohia ki te papatopenga"
+#: icondialog.py:116
+msgid "Select an icon"
+msgstr ""
 
-#: activity.py:96 pippy_app.py:113 pippy_app.py:118
-msgid "Edit"
-msgstr "Whakatika"
+#: notebook.py:219
+#, python-format
+msgid "New Source File %d"
+msgstr ""
 
-#: library/pippy/game.py:36
-msgid "PAUSED"
-msgstr "KUA TĀRIA"
-
-#: library/pippy/sound.py:54
+#: sound_check.py:27 library/pippy/sound.py:41
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 "Kāore e taea te kite i te puna oro TamTamEdit. I tāuta koe i te TamTamEdit?"
 
-#: pippy_app.py:90
-msgid "Export as Pippy Document"
-msgstr "Kaweake hei Tuhinga Pipi"
+#: pippy_app.py:97
+msgid "graphics"
+msgstr ""
 
-#: pippy_app.py:96
-msgid "Export as Pippy Example"
-msgstr "Kaweake hei Tauira Pipi"
+#: pippy_app.py:97
+msgid "math"
+msgstr ""
 
-#: pippy_app.py:102
-msgid "Create Activity Bundle"
-msgstr "Waihanga Pūkai Hohe"
+#: pippy_app.py:97
+msgid "python"
+msgstr ""
 
-#: pippy_app.py:111
-msgid "Actions"
-msgstr "Ngā Hohe"
+#: pippy_app.py:97
+msgid "sound"
+msgstr ""
 
-#: pippy_app.py:138 pippy_app.py:141
+#: pippy_app.py:98
+msgid "string"
+msgstr ""
+
+#: pippy_app.py:98
+msgid "tutorials"
+msgstr ""
+
+#: pippy_app.py:185
+msgid "Import Python file to new tab"
+msgstr ""
+
+#: pippy_app.py:191
+msgid "Export as Pippy document"
+msgstr ""
+
+#: pippy_app.py:197
+msgid "Save this file to the Pippy library"
+msgstr ""
+
+#: pippy_app.py:205
+msgid "Export as new Pippy example"
+msgstr ""
+
+#: pippy_app.py:211
+msgid "Create a Sugar activity bundle"
+msgstr ""
+
+#. TRANS: A distutils package is used to distribute Python modules
+#: pippy_app.py:218
+msgid "Export as a distutils package"
+msgstr ""
+
+#: pippy_app.py:228
+msgid "Edit"
+msgstr "Whakatika"
+
+#: pippy_app.py:242
+msgid "View"
+msgstr ""
+
+#: pippy_app.py:252 pippy_app.py:500
+msgid "Show output panel"
+msgstr ""
+
+#: pippy_app.py:265 pippy_app.py:268
 msgid "Run!"
 msgstr "Whakahaere!"
 
-#: pippy_app.py:139
+#: pippy_app.py:266
 msgid "<alt>r"
 msgstr "<alt>r"
 
-#: pippy_app.py:152 pippy_app.py:158
+#: pippy_app.py:281 pippy_app.py:287
 msgid "Stop"
 msgstr "Tū"
 
-#: pippy_app.py:153
+#: pippy_app.py:282
 msgid "<alt>s"
 msgstr "<alt>s"
 
-#: pippy_app.py:167 pippy_app.py:173
+#: pippy_app.py:297 pippy_app.py:303
 msgid "Clear"
 msgstr "Ūkui"
 
-#: pippy_app.py:168
+#: pippy_app.py:298
 msgid "<alt>c"
 msgstr "<alt>c"
 
-#: pippy_app.py:197
-msgid "Examples"
-msgstr "Ngā Tauira"
+#: pippy_app.py:314
+msgid "Open an example"
+msgstr ""
 
-#: pippy_app.py:229
+#: pippy_app.py:389
 msgid "My examples"
 msgstr "Aku tauira"
 
-#: pippy_app.py:358
+#: pippy_app.py:496
+msgid "Hide output panel"
+msgstr ""
+
+#: pippy_app.py:598
 #, python-format
 msgid "%s Activity"
 msgstr "%s Hohe"
 
-#: pippy_app.py:438
+#: pippy_app.py:708
+msgid "Python File added to Library"
+msgstr ""
+
+#: pippy_app.py:709
+#, python-brace-format
+msgid ""
+"The file you selected has been added to the library. Use \"import "
+"{importname}\" to import the library for using."
+msgstr ""
+
+#: pippy_app.py:719
+msgid "Saved"
+msgstr ""
+
+#: pippy_app.py:720
+msgid "The document has been saved to journal."
+msgstr ""
+
+#: pippy_app.py:734 pippy_app.py:741
+msgid "Error importing Python file"
+msgstr ""
+
+#: pippy_app.py:735
+msgid "The file you selected is not a Python file."
+msgstr ""
+
+#: pippy_app.py:742
+msgid "The file you selected is already open"
+msgstr ""
+
+#: pippy_app.py:767 pippy_app.py:826
 msgid "Save as Activity Error"
 msgstr "Tiaki hei Hapa Hohe"
 
-#: pippy_app.py:439
+#: pippy_app.py:768
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
@@ -108,23 +214,41 @@ msgstr ""
 "Hoatu koa i tētahi ingoa whai mana ki tō hohe i mua i te ngana ki te tiaki "
 "hei hohe."
 
-#: pippy_app.py:442 pippy_app.py:486
+#: pippy_app.py:771 pippy_app.py:778 pippy_app.py:873 pippy_app.py:915
 msgid "Ok"
 msgstr "Āe"
 
-#: pippy_app.py:448
+#: pippy_app.py:779
+msgid "Activity icon"
+msgstr ""
+
+#: pippy_app.py:780
+msgid "Please select an activity icon."
+msgstr ""
+
+#: pippy_app.py:785 pippy_app.py:800
 msgid "Creating activity bundle..."
 msgstr "Waihanga ana i te pūkai hohe..."
 
-#: pippy_app.py:479
+#: pippy_app.py:866 pippy_app.py:908
 msgid "Pippy Activity"
 msgstr "Hohe Pipi"
 
-#: pippy_app.py:483
+#: pippy_app.py:868
+msgid "Save as distutils package error"
+msgstr ""
+
+#: pippy_app.py:869
+msgid ""
+"Please give your activity a meaningful name before attempting to save it as "
+"an distutils package."
+msgstr ""
+
+#: pippy_app.py:910
 msgid "Save as Example Error"
 msgstr "Tiaki hei Hapa Tauira"
 
-#: pippy_app.py:484
+#: pippy_app.py:912
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
@@ -132,22 +256,46 @@ msgstr ""
 "Hoatu koa i tētahi ingoa whai mana ki tō hohe i mua i te ngana ki te tiaki "
 "hei tauira."
 
-#: pippy_app.py:492
+#: pippy_app.py:921
 msgid "Creating example..."
 msgstr "Waihanga ana i tētahi tauira..."
 
-#: pippy_app.py:499
+#: pippy_app.py:927
 msgid "Save as Example Warning"
 msgstr "Tiaki hei Tauira Whakatūpato"
 
-#: pippy_app.py:500
+#: pippy_app.py:928
 msgid "This example already exists. Do you want to overwrite it?"
 msgstr "Kei te tīari kē tēnei tauira. Tuhirua anō?"
 
-#: pippy_app.py:506 pippy_app.py:562
+#: pippy_app.py:935 pippy_app.py:993
 msgid "Saved as example."
 msgstr "Kua tiakina hei tauira."
 
-#: pippy_app.py:546
+#: pippy_app.py:957
+msgid "Error saving activity to journal."
+msgstr ""
+
+#: pippy_app.py:977
 msgid "Activity saved to journal."
 msgstr "Hohe kua tiakina ki te tuhitaka."
+
+#: pippy_app.py:1119
+msgid "Error"
+msgstr ""
+
+#: pippy_app.py:1120
+msgid "Error reading data."
+msgstr ""
+
+#: pippy_app.py:1448
+msgid "Working..."
+msgstr ""
+
+#: pippy_app.py:1451
+msgid "done!"
+msgstr ""
+
+#: library/pippy/game.py:36
+msgid "PAUSED"
+msgstr "KUA TĀRIA"

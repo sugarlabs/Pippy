@@ -2,178 +2,184 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 17:39+1100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2017-04-07 13:01+0000\n"
+"Last-Translator: yurchor <yurchor@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1491570088.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
-msgstr ""
+msgstr "Pippy"
 
 #: activity/activity.info:3
 msgid ""
 "Searching for programmers! Here you can use examples to begin learning the "
 "language your computer understands called \"Python.\""
 msgstr ""
+"Шукаємо програмістів! Тут ви можете скористатися прикладами для того, щоб "
+"почати вчити мову, яку розуміє ваш комп’ютер і яка називається «Python»."
 
 #: filedialog.py:79
 msgid "Choose an example to open"
-msgstr ""
+msgstr "Виберіть приклад, який слід відкрити"
 
 #: collabwrapper.py:178
 msgid "Joining activity..."
-msgstr ""
+msgstr "Долучаємося до дії…"
 
 #: collabwrapper.py:179 collabwrapper.py:191
 msgid "Please wait for the connection..."
-msgstr ""
+msgstr "Будь ласка, зачекайте, доки буде встановлено з’єднання…"
 
 #: collabwrapper.py:190
 msgid "Resuming shared activity..."
-msgstr ""
+msgstr "Відновлюємо спільні дії…"
 
 #: toolbars.py:42
 msgid "Zoom in"
-msgstr ""
+msgstr "Збільшити"
 
 #: toolbars.py:48
 msgid "Zoom out"
-msgstr ""
+msgstr "Зменшити"
 
 #: activity.py:65
 #, python-format
 msgid "%s Source"
-msgstr ""
+msgstr "Код %s"
 
 #: icondialog.py:116
 msgid "Select an icon"
-msgstr ""
+msgstr "Вибрати піктограму"
 
 #: notebook.py:219
 #, python-format
 msgid "New Source File %d"
-msgstr ""
+msgstr "Новий файл коду %d"
 
 #: sound_check.py:27 library/pippy/sound.py:41
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
+"Не вдалося знайти бібліотеки для роботи зі звуком TamTamEdit. Чи встановлено "
+"TamTamEdit?"
 
 #: pippy_app.py:97
 msgid "graphics"
-msgstr ""
+msgstr "графіка"
 
 #: pippy_app.py:97
 msgid "math"
-msgstr ""
+msgstr "математика"
 
 #: pippy_app.py:97
 msgid "python"
-msgstr ""
+msgstr "python"
 
 #: pippy_app.py:97
 msgid "sound"
-msgstr ""
+msgstr "звук"
 
 #: pippy_app.py:98
 msgid "string"
-msgstr ""
+msgstr "рядок"
 
 #: pippy_app.py:98
 msgid "tutorials"
-msgstr ""
+msgstr "підручники"
 
 #: pippy_app.py:185
 msgid "Import Python file to new tab"
-msgstr ""
+msgstr "Імпортувати файл Python до нової вкладки"
 
 #: pippy_app.py:191
 msgid "Export as Pippy document"
-msgstr ""
+msgstr "Експортувати як документ Pippy"
 
 #: pippy_app.py:197
 msgid "Save this file to the Pippy library"
-msgstr ""
+msgstr "Зберегти цей файл до бібліотеки Pippy"
 
 #: pippy_app.py:205
 msgid "Export as new Pippy example"
-msgstr ""
+msgstr "Експортувати як новий приклад Pippy"
 
 #: pippy_app.py:211
 msgid "Create a Sugar activity bundle"
-msgstr ""
+msgstr "Створити пакунок дії Sugar"
 
 #. TRANS: A distutils package is used to distribute Python modules
 #: pippy_app.py:218
 msgid "Export as a distutils package"
-msgstr ""
+msgstr "Експортувати як пакунок distutils"
 
 #: pippy_app.py:228
 msgid "Edit"
-msgstr ""
+msgstr "Зміни"
 
 #: pippy_app.py:242
 msgid "View"
-msgstr ""
+msgstr "Перегляд"
 
 #: pippy_app.py:252 pippy_app.py:500
 msgid "Show output panel"
-msgstr ""
+msgstr "Показати панель виведення"
 
 #: pippy_app.py:265 pippy_app.py:268
 msgid "Run!"
-msgstr ""
+msgstr "Виконати!"
 
 #: pippy_app.py:266
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
 #: pippy_app.py:281 pippy_app.py:287
 msgid "Stop"
-msgstr ""
+msgstr "Зупинити"
 
 #: pippy_app.py:282
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
 #: pippy_app.py:297 pippy_app.py:303
 msgid "Clear"
-msgstr ""
+msgstr "Спорожнити"
 
 #: pippy_app.py:298
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
 #: pippy_app.py:314
 msgid "Open an example"
-msgstr ""
+msgstr "Відкрити приклад"
 
 #: pippy_app.py:389
 msgid "My examples"
-msgstr ""
+msgstr "Мої приклади"
 
 #: pippy_app.py:496
 msgid "Hide output panel"
-msgstr ""
+msgstr "Приховати панель виведення"
 
 #: pippy_app.py:598
 #, python-format
 msgid "%s Activity"
-msgstr ""
+msgstr "Дія %s"
 
 #: pippy_app.py:708
 msgid "Python File added to Library"
-msgstr ""
+msgstr "До бібліотеки додано файл Python"
 
 #: pippy_app.py:709
 #, python-brace-format
@@ -181,117 +187,125 @@ msgid ""
 "The file you selected has been added to the library. Use \"import "
 "{importname}\" to import the library for using."
 msgstr ""
+"Позначений вами файл було додано до бібліотеки. Скористайтеся командою «"
+"import {importname}», щоб імпортувати бібліотеку для використання."
 
 #: pippy_app.py:719
 msgid "Saved"
-msgstr ""
+msgstr "Збережено"
 
 #: pippy_app.py:720
 msgid "The document has been saved to journal."
-msgstr ""
+msgstr "Документ було збережено до журналу."
 
 #: pippy_app.py:734 pippy_app.py:741
 msgid "Error importing Python file"
-msgstr ""
+msgstr "Помилка під час спроби імпортувати файл Python"
 
 #: pippy_app.py:735
 msgid "The file you selected is not a Python file."
-msgstr ""
+msgstr "Вибраний вами файл не є файлом коду Python."
 
 #: pippy_app.py:742
 msgid "The file you selected is already open"
-msgstr ""
+msgstr "Вибраний вами файл вже відкрито"
 
 #: pippy_app.py:767 pippy_app.py:826
 msgid "Save as Activity Error"
-msgstr ""
+msgstr "Зберегти як помилку дії"
 
 #: pippy_app.py:768
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
+"Будь ласка, надайте цій дії змістовної назви, перш ніж намагатися зберегти "
+"її як дію."
 
 #: pippy_app.py:771 pippy_app.py:778 pippy_app.py:873 pippy_app.py:915
 msgid "Ok"
-msgstr ""
+msgstr "Гаразд"
 
 #: pippy_app.py:779
 msgid "Activity icon"
-msgstr ""
+msgstr "Піктограма дії"
 
 #: pippy_app.py:780
 msgid "Please select an activity icon."
-msgstr ""
+msgstr "Будь ласка, виберіть піктограму дії."
 
 #: pippy_app.py:785 pippy_app.py:800
 msgid "Creating activity bundle..."
-msgstr ""
+msgstr "Створюємо пакунок дії…"
 
 #: pippy_app.py:866 pippy_app.py:908
 msgid "Pippy Activity"
-msgstr ""
+msgstr "Дія Pippy"
 
 #: pippy_app.py:868
 msgid "Save as distutils package error"
-msgstr ""
+msgstr "Помилка під час спроби зберегти як пакунок distutils"
 
 #: pippy_app.py:869
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an distutils package."
 msgstr ""
+"Будь ласка, надайте цій дії змістовної назви, перш ніж намагатися зберегти "
+"її як пакунок distutils."
 
 #: pippy_app.py:910
 msgid "Save as Example Error"
-msgstr ""
+msgstr "Помилка під час збереження прикладу"
 
 #: pippy_app.py:912
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr ""
+"Будь ласка, надайте цій дії змістовної назви, перш ніж намагатися зберегти "
+"її як приклад."
 
 #: pippy_app.py:921
 msgid "Creating example..."
-msgstr ""
+msgstr "Створюємо приклад…"
 
 #: pippy_app.py:927
 msgid "Save as Example Warning"
-msgstr ""
+msgstr "Попередження під час збереження прикладу"
 
 #: pippy_app.py:928
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr ""
+msgstr "Цей приклад вже існує. Ви дійсно хочете перезаписати його?"
 
 #: pippy_app.py:935 pippy_app.py:993
 msgid "Saved as example."
-msgstr ""
+msgstr "Збережено як приклад."
 
 #: pippy_app.py:957
 msgid "Error saving activity to journal."
-msgstr ""
+msgstr "Помилка під час спроби зберегти дію до журналу."
 
 #: pippy_app.py:977
 msgid "Activity saved to journal."
-msgstr ""
+msgstr "Дію збережено до журналу."
 
 #: pippy_app.py:1119
 msgid "Error"
-msgstr ""
+msgstr "Помилка"
 
 #: pippy_app.py:1120
 msgid "Error reading data."
-msgstr ""
+msgstr "Помилка під час спроби прочитати дані."
 
 #: pippy_app.py:1448
 msgid "Working..."
-msgstr ""
+msgstr "Працюємо…"
 
 #: pippy_app.py:1451
 msgid "done!"
-msgstr ""
+msgstr "Готово!"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
-msgstr ""
+msgstr "ПРИЗУПИНЕНО"
