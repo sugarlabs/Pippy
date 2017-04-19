@@ -298,3 +298,4 @@ msgstr ""
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
+msgstr ""
