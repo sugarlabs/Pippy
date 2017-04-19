@@ -1015,7 +1015,7 @@ class PippyActivity(ViewSourceActivity):
         app_temp = os.path.join(self.get_activity_root(), 'instance')
         tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
         for zipdata, content in zip(zipped_data, self.session_data):
-            logging.error('Session data %r', content)
+            logging.debug('Session data %r', content)
             name, python_code, path, modified, editor_id = zipdata
             if content is not None and content == self._py_object_id:
                 _logger.debug('saving to self')
@@ -1070,7 +1070,7 @@ class PippyActivity(ViewSourceActivity):
                 else:
                     session_list.append([name, path])
             else:  # Should not happen, but just in case...
-                _logger.error('Nothing to save in tab? %s %s %s %s' %
+                _logger.debug('Nothing to save in tab? %s %s %s %s' %
                               (str(name), str(python_code), str(path),
                                str(content)))
 
