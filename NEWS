@@ -1,3 +1,30 @@
+71
+
+* Demote unnecessary errors (James Cameron)
+* Add missing msgstr in po/bg.po (James Cameron)
+* Update repository URL (James Cameron)
+* Fix version warnings from Python GI API (James Cameron)
+* Trim headers, synch to Pootle (Chris Leonard)
+* fix_erase (Icarito)
+* New examples (Cristian Garcia)
+* Clear only the canvas not the code. Fixes #44. (Icarito)
+* Fix AttributeError on missing 'leader' attribute (György Balló)
+* Add Gtk and Sugar examples (Cristian Garcia)
+* merge Albanian strings (Chris Leonard)
+* merge Yoruba strings (Chris Leonard)
+* honor max-participants (AbrahmAB)
+* Copy from Vte or text buffer (James Cameron)
+* Rename example load to open (James Cameron)
+* Load examples in new tab (James Cameron)
+* Typo, disutils to distutils (James Cameron)
+* Save as library; only if writable (James Cameron)
+* Load example; omit En and Es directories (James Cameron)
+* Pong example playability (James Cameron)
+* Repair Gtk tutorial examples (James Cameron)
+* Fix missing run, stop, clear icons (James Cameron)
+* Use either Vte version (James Cameron)
+* use latest collabwrapper.py (James Cameron)
+
 70
 
 * More collabwrapper fixes (James Cameron)
