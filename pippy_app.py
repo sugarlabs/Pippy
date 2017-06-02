@@ -872,7 +872,7 @@ class PippyActivity(ViewSourceActivity):
             return
 
         setup_script = DISTUTILS_SETUP_SCRIPT.format(modulename=title,
-                                                    filenames=filenames)
+                                                     filenames=filenames)
         setupfile = open(os.path.join(app_temp, 'setup.py'), 'w')
         setupfile.write(setup_script)
         setupfile.close()

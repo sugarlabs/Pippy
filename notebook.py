@@ -149,8 +149,7 @@ class PippySourceView(GtkSource.View):
         GtkSource.View.__init__(self)
 
         text_buffer = GtkSource.Buffer()
-        collaberizer = TextBufferCollaberizer(
-            text_buffer, editor_id, collab)
+        TextBufferCollaberizer(text_buffer, editor_id, collab)
 
         lang_manager = GtkSource.LanguageManager.get_default()
         if hasattr(lang_manager, 'list_languages'):
@@ -213,7 +212,6 @@ class SourceNotebook(AddNotebook):
         codesw.add(text_view)
         text_view.show()
         text_view.grab_focus()
-        tabdex = self.get_n_pages() + 1
         if label:
             self.tablabel = TabLabel(codesw, label, path, self, editor_id)
         else:
@@ -380,8 +378,10 @@ class SourceNotebook(AddNotebook):
 
     def rename_tab(self, iterator1):
         for i in range(iterator1, self.get_n_pages()):
-            if re.match('New Source File ', tab_object[i].get_text()) != None:
-                tab_object[i].label_text = 'New Source File ' + str(self.last_tab+1)
+            mo = re.match('New Source File ', tab_object[i].get_text())
+            if mo is not None:
+                tab_object[i].label_text = 'New Source File ' + \
+                                           str(self.last_tab + 1)
             else:
                 tab_object[i].label_text = tab_object[i].get_text()
             tab_object[i]._label.set_text(tab_object[i].label_text)
