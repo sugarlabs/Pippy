@@ -1,3 +1,7 @@
+71.1
+
+* Fix for Fedora 18 32-bit fail to start #4926 (James Cameron)
+
 71
 
 * Demote unnecessary errors (James Cameron)
