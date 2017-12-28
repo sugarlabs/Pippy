@@ -100,8 +100,6 @@ DEFAULT_CATEGORIES = [_('graphics'), _('math'), _('python'), _('sound'),
 
 _logger = logging.getLogger('pippy-activity')
 
-groupthink_mimetype = 'pickle/groupthink-pippy'
-
 DISTUTILS_SETUP_SCRIPT = """#!/usr/bin/python
 # -*- coding: utf-8 -*-
 from distutils.core import setup
@@ -144,8 +142,6 @@ def _find_object_id(activity_id, mimetype='text/x-python'):
     return None
 
 
-# XXX: Why do we use ViewSourceActivity?  Sugar already has view source
-# Note:  the structure is very weird, because this was migrated from groupthink
 class PippyActivity(ViewSourceActivity):
     '''Pippy Activity as specified in activity.info'''
     def __init__(self, handle):
@@ -1205,11 +1201,6 @@ class PippyActivity(ViewSourceActivity):
                 if content not in self.session_data:
                     self.session_data.append(content)
                     self._loaded_session.append([name, python_code, path])
-        elif self.metadata['mime_type'] == groupthink_mimetype:
-            # AAAAAAAAAAAAARRRRRRRRRRRRRGGGGGGGGGHHHHHHHHHH
-            # TODO:  Find what groupthink data actually is under the layers
-            #        an layers of abstraction
-            pass
 
         for name, content, path in self._loaded_session:
             self._source_tabs.add_tab(name, content, path)
@@ -1279,7 +1270,7 @@ def pippy_activity_extra_files():
     # Cheat here and generate the map from the fs contents.
     extra = {}
     bp = get_bundle_path()
-    for d in ['po', 'data', 'groupthink', 'post']:  # everybody gets library
+    for d in ['po', 'data', 'post']:  # everybody gets library
         for root, dirs, files in os.walk(os.path.join(bp, d)):
             for name in files:
                 fn = os.path.join(root, name).replace(bp + '/', '')
@@ -1310,7 +1301,7 @@ def pippy_activity_bundle_id():
 
 def pippy_activity_mime_types():
     '''Return the mime types handled by the generated activity, as a list.'''
-    return ['text/x-python', groupthink_mimetype]
+    return ['text/x-python']
 
 
 def pippy_activity_extra_info():
