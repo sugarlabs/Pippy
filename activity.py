@@ -219,15 +219,28 @@ class PyGameActivity(ViewSourceActivity):
             sys.path[0:0] = [library_path]
             g = globals()
             g['__name__'] = '__main__'
-            execfile(pippy_app_path, g, g)  # start pygame
+            execfile(pippy_app_path, g, g) # start pygame
             sys.exit(0)
         super(PyGameActivity, self).__init__(handle)
         from gi.repository import GObject
         from gi.repository import Gtk
-        toolbox = activity.ActivityToolbox(self)
-        toolbar = toolbox.get_activity_toolbar()
-        self.set_toolbox(toolbox)
+        self.max_participants = 1 # no sharing
+        toolbox = ToolbarBox()
+        activity_button_toolbar = ActivityToolbarButton(self)
+        toolbox.toolbar.insert(activity_button_toolbar, 0)
+        activity_button_toolbar.show()
+        self.set_toolbar_box(toolbox)
         toolbox.show()
+        separator = Gtk.SeparatorToolItem()
+        separator.props.draw = False
+        separator.set_expand(True)
+        toolbox.toolbar.insert(separator, -1)
+        separator.show()
+        stop_button = StopButton(self)
+        stop_button.props.accelerator = '<Ctrl>q'
+        toolbox.toolbar.insert(stop_button, -1)
+        stop_button.show()
+        toolbox.toolbar.show_all()
         socket = Gtk.Socket()
         socket.set_flags(socket.flags() | Gtk.CAN_FOCUS)
         socket.show()
@@ -236,10 +249,6 @@ class PyGameActivity(ViewSourceActivity):
         self.show_all()
         socket.grab_focus()
         GObject.child_watch_add(self.child_pid, lambda pid, cond: self.close())
-        # hide the buttons we don't use.
-        toolbar.share.hide()  # this should share bundle.
-        toolbar.keep.hide()
-
 
 def _main():
     """Launch this activity from the command line."""
