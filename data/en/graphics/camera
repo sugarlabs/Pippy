@@ -1,6 +1,10 @@
 # camera: take a picture, animate it on screen
 
-import gst
+import gi 
+gi.require_version("Gst", "1.0")
+from gi.repository import Gst
+Gst.init(None)
+
 import pippy
 import pygame
 import sys
@@ -20,8 +24,8 @@ pygame.mouse.set_visible(False)
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 # grab a frame from camera to file
-pipeline = gst.parse_launch('v4l2src ! ffmpegcolorspace ! jpegenc ! filesink location=/tmp/pippypic.jpg')
-pipeline.set_state(gst.STATE_PLAYING)
+pipeline = Gst.parse_launch('v4l2src ! videoconvert ! jpegenc ! filesink location=/tmp/pippypic.jpg')
+pipeline.set_state(Gst.State.PLAYING)
 
 # keep trying to load in the grabbed camera frame until it works
 while True:
@@ -32,7 +36,7 @@ while True:
     time.sleep(1)
 
 # stop the camera frame grabbing
-pipeline.set_state(gst.STATE_NULL)
+pipeline.set_state(Gst.State.NULL)
 
 # set initial rotation angle and scale
 angle = 0.0
