@@ -111,7 +111,7 @@ def is_line(vertices, tolerance=25.0):
 
     # Get maximum difference
     alpha_diff = fabs(alphas[-1] - alphas[0])
-    print "alpha difference:", alpha_diff
+    print("alpha difference:", alpha_diff)
 
     if alpha_diff < tolerance:
         return True
@@ -141,7 +141,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
     dir = None
     is_convex = True
 
-    for i in xrange(len(vertices) - 1):
+    for i in range(len(vertices) - 1):
         if i == 0:
             p_old = vertices[i]
             continue
@@ -173,7 +173,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
             angle = degrees(acos(a / (b * c)))
         except:
             # cos=1.0
-            print "cos=", a / (b * c)
+            print("cos=", a / (b * c))
             continue
 
         # Check if inside tolerance

@@ -82,7 +82,7 @@ class _Cache(gobject.GObject):
         return len(self._array)
 
     def __getitem__(self, key):
-        if isinstance(key, basestring):
+        if isinstance(key, str):
             return self._dict[key]
         else:
             return self._array[key]
@@ -280,11 +280,11 @@ if __name__ == "__main__":
     SCREEN_SIZE = 10
 
     def mock_debug(string):
-        print "\tDEBUG: %s" % string
+        print("\tDEBUG: %s" % string)
     logging.debug = mock_debug
 
     def mock_find(query, sorting=None, limit=None, offset=None, properties=[]):
-        print "mock_find %r %r" % (offset, (offset + limit))
+        print("mock_find %r %r" % (offset, (offset + limit)))
 
         if limit is None or offset is None:
             raise RuntimeError("Unimplemented test.")
@@ -299,40 +299,40 @@ if __name__ == "__main__":
 
     result_set = find({})
 
-    print "Get first page"
+    print("Get first page")
     objects = result_set.read(SCREEN_SIZE)
-    print [obj.object_id for obj in objects]
-    assert range(0, SCREEN_SIZE) == [obj.object_id for obj in objects]
-    print ""
+    print([obj.object_id for obj in objects])
+    assert list(range(0, SCREEN_SIZE)) == [obj.object_id for obj in objects]
+    print("")
 
-    print "Scroll to 5th item"
+    print("Scroll to 5th item")
     result_set.seek(5)
     objects = result_set.read(SCREEN_SIZE)
-    print [obj.object_id for obj in objects]
-    assert range(5, SCREEN_SIZE + 5) == [obj.object_id for obj in objects]
-    print ""
+    print([obj.object_id for obj in objects])
+    assert list(range(5, SCREEN_SIZE + 5)) == [obj.object_id for obj in objects]
+    print("")
 
-    print "Scroll back to beginning"
+    print("Scroll back to beginning")
     result_set.seek(0)
     objects = result_set.read(SCREEN_SIZE)
-    print [obj.object_id for obj in objects]
-    assert range(0, SCREEN_SIZE) == [obj.object_id for obj in objects]
-    print ""
+    print([obj.object_id for obj in objects])
+    assert list(range(0, SCREEN_SIZE)) == [obj.object_id for obj in objects]
+    print("")
 
-    print "Hit PgDn five times"
+    print("Hit PgDn five times")
     for i in range(0, 5):
         result_set.seek((i + 1) * SCREEN_SIZE)
         objects = result_set.read(SCREEN_SIZE)
-        print [obj.object_id for obj in objects]
-        assert range((i + 1) * SCREEN_SIZE, (i + 2) * SCREEN_SIZE) == \
+        print([obj.object_id for obj in objects])
+        assert list(range((i + 1) * SCREEN_SIZE, (i + 2) * SCREEN_SIZE)) == \
             [obj.object_id for obj in objects]
-    print ""
+    print("")
 
-    print "Hit PgUp five times"
+    print("Hit PgUp five times")
     for i in range(0, 5)[::-1]:
         result_set.seek(i * SCREEN_SIZE)
         objects = result_set.read(SCREEN_SIZE)
-        print [obj.object_id for obj in objects]
-        assert range(i * SCREEN_SIZE, (i + 1) * SCREEN_SIZE) == \
+        print([obj.object_id for obj in objects])
+        assert list(range(i * SCREEN_SIZE, (i + 1) * SCREEN_SIZE)) == \
             [obj.object_id for obj in objects]
-    print ""
+    print("")

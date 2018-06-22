@@ -76,7 +76,7 @@ def next_frame(max_fps=20, idle_timeout=20, clock=None, pause=pause):
         clock = _default_clock
     clock.tick(max_fps)
 
-    if pygame.event.peek(xrange(pygame.NOEVENT, pygame.USEREVENT)):
+    if pygame.event.peek(range(pygame.NOEVENT, pygame.USEREVENT)):
         # we're not idle anymore.
         _last_event_time = pygame.time.get_ticks()
     elif (pygame.time.get_ticks() - _last_event_time) >= idle_timeout * 1000:

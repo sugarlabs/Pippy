@@ -302,7 +302,7 @@ class SourceNotebook(AddNotebook):
             label = label + '.py'
 
         label = label.replace(' ', '_')
-        if isinstance(label, unicode):
+        if isinstance(label, str):
             label = \
                 unicodedata.normalize('NFKD', label).encode('ascii', 'ignore')
 
@@ -345,7 +345,7 @@ class SourceNotebook(AddNotebook):
     def set_font_size(self, font_size):
         self._font_size = font_size
 
-        for i in xrange(self.get_n_pages()):
+        for i in range(self.get_n_pages()):
             page = self.get_nth_page(i)
             children = page.get_children()
             children[0].set_font_size(self._font_size)
