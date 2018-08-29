@@ -67,7 +67,7 @@ class ViewSourceActivity(activity.Activity):
                 'suggested_filename': 'pippy_app.py',
                 'icon-color': profile.get_color().to_string(),
                 'mime_type': 'text/x-python',
-                }
+            }
             for k, v in metadata.items():
                 jobject.metadata[k] = v  # dict.update method is missing =(
             jobject.file_path = os.path.join(get_bundle_path(), 'pippy_app.py')
@@ -219,12 +219,12 @@ class PyGameActivity(ViewSourceActivity):
             sys.path[0:0] = [library_path]
             g = globals()
             g['__name__'] = '__main__'
-            execfile(pippy_app_path, g, g) # start pygame
+            execfile(pippy_app_path, g, g)  # start pygame
             sys.exit(0)
         super(PyGameActivity, self).__init__(handle)
         from gi.repository import GObject
         from gi.repository import Gtk
-        self.max_participants = 1 # no sharing
+        self.max_participants = 1  # no sharing
         toolbox = ToolbarBox()
         activity_button_toolbar = ActivityToolbarButton(self)
         toolbox.toolbar.insert(activity_button_toolbar, 0)
@@ -249,6 +249,7 @@ class PyGameActivity(ViewSourceActivity):
         self.show_all()
         socket.grab_focus()
         GObject.child_watch_add(self.child_pid, lambda pid, cond: self.close())
+
 
 def _main():
     """Launch this activity from the command line."""
