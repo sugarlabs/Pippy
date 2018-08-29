@@ -61,7 +61,6 @@ from sugar3.datastore import datastore
 from sugar3.activity import activity as activity
 from sugar3.activity.widgets import EditToolbar
 from sugar3.activity.widgets import StopButton
-from sugar3.activity.activity import get_bundle_name
 from sugar3.activity.activity import get_bundle_path
 from sugar3.graphics.alert import Alert
 from sugar3.graphics.alert import ConfirmationAlert
@@ -852,7 +851,7 @@ class PippyActivity(ViewSourceActivity):
             fileobj.write(content)
             fileobj.close()
 
-        filenames = ','.join([("'"+name[:-3]+"'") for name in data[0]])
+        filenames = ','.join([("'" + name[:-3] + "'") for name in data[0]])
 
         title = self._pippy_instance.metadata['title']
         if title is _('Pippy Activity'):
@@ -1359,7 +1358,7 @@ def main():
                        int(round(uniform(1000, 9999), 0)))),
         'mime_types': '',
         'extra_info': '',
-        }
+    }
     # Are any of these things in the module?
     try_import = False
 
@@ -1394,7 +1393,7 @@ def main():
             'activity/activity.info': ACTIVITY_INFO_TEMPLATE % bundle_info,
             'activity/activity-icon.svg': bundle_info['icon'],
             'NEWS': bundle_info['news'],
-            }
+        }
         extra_files.update(bundle_info['extra_files'])
         for path, contents in extra_files.items():
             # safety first!

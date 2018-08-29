@@ -168,7 +168,7 @@ class IconDialog(Gtk.Window):
                 icon_path = info.get_filename()
 
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
-                        icon_path, 55, 55)
+                icon_path, 55, 55)
             store.insert(-1, [pixbuf, icon, icon_path])
 
         return icon_view
