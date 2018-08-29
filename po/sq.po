@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 17:39+1100\n"
-"PO-Revision-Date: 2016-10-26 18:41+0000\n"
+"PO-Revision-Date: 2018-02-04 10:33+0000\n"
 "Last-Translator: Besnik_b <besnik@programeshqip.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sq\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1477507308.000000\n"
+"X-POOTLE-MTIME: 1517740438.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -27,30 +27,32 @@ msgid ""
 "Searching for programmers! Here you can use examples to begin learning the "
 "language your computer understands called \"Python.\""
 msgstr ""
+"Kërkim për programues! Këtu mund të përdorni shembuj për të filluar të "
+"mësoni gjuhën që kupton kompjuteri juaj, të quajtur \"Python\"."
 
 #: filedialog.py:79
 msgid "Choose an example to open"
-msgstr ""
+msgstr "Zgjidhni një shembull të hapet"
 
 #: collabwrapper.py:178
 msgid "Joining activity..."
-msgstr ""
+msgstr "Po hyhet në veprimtari…"
 
 #: collabwrapper.py:179 collabwrapper.py:191
 msgid "Please wait for the connection..."
-msgstr ""
+msgstr "Ju lutemi, pritni për lidhjen…"
 
 #: collabwrapper.py:190
 msgid "Resuming shared activity..."
-msgstr ""
+msgstr "Po rimerret veprimtari e përbashkët…"
 
 #: toolbars.py:42
 msgid "Zoom in"
-msgstr ""
+msgstr "Zmadhoje"
 
 #: toolbars.py:48
 msgid "Zoom out"
-msgstr ""
+msgstr "Zvogëloje"
 
 #: activity.py:65
 #, python-format
@@ -59,12 +61,12 @@ msgstr "Burim %s"
 
 #: icondialog.py:116
 msgid "Select an icon"
-msgstr ""
+msgstr "Përzgjidhni një ikonë"
 
 #: notebook.py:219
 #, python-format
 msgid "New Source File %d"
-msgstr ""
+msgstr "Kartelë e Re Burim %d"
 
 #: sound_check.py:27 library/pippy/sound.py:41
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
@@ -73,52 +75,52 @@ msgstr ""
 
 #: pippy_app.py:97
 msgid "graphics"
-msgstr ""
+msgstr "grafika"
 
 #: pippy_app.py:97
 msgid "math"
-msgstr ""
+msgstr "llogaritje"
 
 #: pippy_app.py:97
 msgid "python"
-msgstr ""
+msgstr "python"
 
 #: pippy_app.py:97
 msgid "sound"
-msgstr ""
+msgstr "tingull"
 
 #: pippy_app.py:98
 msgid "string"
-msgstr ""
+msgstr "varg"
 
 #: pippy_app.py:98
 msgid "tutorials"
-msgstr ""
+msgstr "përkujdesore"
 
 #: pippy_app.py:185
 msgid "Import Python file to new tab"
-msgstr ""
+msgstr "Importoni kartelë Python te një skedë e re"
 
 #: pippy_app.py:191
 msgid "Export as Pippy document"
-msgstr ""
+msgstr "Eksportoje si dokument Pippy"
 
 #: pippy_app.py:197
 msgid "Save this file to the Pippy library"
-msgstr ""
+msgstr "Ruaje këtë kartelë te biblioteka Pippy"
 
 #: pippy_app.py:205
 msgid "Export as new Pippy example"
-msgstr ""
+msgstr "Eksportoje si një shembull Pippy"
 
 #: pippy_app.py:211
 msgid "Create a Sugar activity bundle"
-msgstr ""
+msgstr "Krijoni një paketë veprimtarish Sugar"
 
 #. TRANS: A distutils package is used to distribute Python modules
 #: pippy_app.py:218
 msgid "Export as a distutils package"
-msgstr ""
+msgstr "Eksportoje si paketë distutils"
 
 #: pippy_app.py:228
 msgid "Edit"
@@ -126,11 +128,11 @@ msgstr "Përpunojeni"
 
 #: pippy_app.py:242
 msgid "View"
-msgstr ""
+msgstr "Shiheni"
 
 #: pippy_app.py:252 pippy_app.py:500
 msgid "Show output panel"
-msgstr ""
+msgstr "Shfaq panel përfundimesh"
 
 #: pippy_app.py:265 pippy_app.py:268
 msgid "Run!"
@@ -158,7 +160,7 @@ msgstr "<alt>k"
 
 #: pippy_app.py:314
 msgid "Open an example"
-msgstr ""
+msgstr "Hapni një shembull"
 
 #: pippy_app.py:389
 msgid "My examples"
@@ -166,7 +168,7 @@ msgstr "Shembujt e mi"
 
 #: pippy_app.py:496
 msgid "Hide output panel"
-msgstr ""
+msgstr "Fshih panel përfundimesh"
 
 #: pippy_app.py:598
 #, python-format
@@ -175,7 +177,7 @@ msgstr "Veprimtaria %s"
 
 #: pippy_app.py:708
 msgid "Python File added to Library"
-msgstr ""
+msgstr "Kartela Python u shtua te Libraria"
 
 #: pippy_app.py:709
 #, python-brace-format
@@ -183,26 +185,28 @@ msgid ""
 "The file you selected has been added to the library. Use \"import "
 "{importname}\" to import the library for using."
 msgstr ""
+"Kartela që keni përzgjedhur u shtua te biblioteka. Përdorni urdhrin \"import "
+"{importname}\" që të importoni bibliotekën për ta përdorur."
 
 #: pippy_app.py:719
 msgid "Saved"
-msgstr ""
+msgstr "U ruajt"
 
 #: pippy_app.py:720
 msgid "The document has been saved to journal."
-msgstr ""
+msgstr "Dokumenti u ruajt në ditar."
 
 #: pippy_app.py:734 pippy_app.py:741
 msgid "Error importing Python file"
-msgstr ""
+msgstr "Gabim në importimin e kartelës Python"
 
 #: pippy_app.py:735
 msgid "The file you selected is not a Python file."
-msgstr ""
+msgstr "Kartela që përzgjodhët s’është kartelë Python."
 
 #: pippy_app.py:742
 msgid "The file you selected is already open"
-msgstr ""
+msgstr "Kartela që përzgjodhët është e hapur tashmë"
 
 #: pippy_app.py:767 pippy_app.py:826
 msgid "Save as Activity Error"
@@ -222,11 +226,11 @@ msgstr "Ok"
 
 #: pippy_app.py:779
 msgid "Activity icon"
-msgstr ""
+msgstr "Ikonë veprimtarie"
 
 #: pippy_app.py:780
 msgid "Please select an activity icon."
-msgstr ""
+msgstr "Ju lutemi, përzgjidhni një ikonë veprimtarie."
 
 #: pippy_app.py:785 pippy_app.py:800
 msgid "Creating activity bundle..."
@@ -238,13 +242,15 @@ msgstr "Veprimtaria Pipi"
 
 #: pippy_app.py:868
 msgid "Save as distutils package error"
-msgstr ""
+msgstr "Gabim në ruajtjen si paketë distutils"
 
 #: pippy_app.py:869
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an distutils package."
 msgstr ""
+"Ju lutemi, jepini veprimtarisë tuaj një emër me kuptim, përpara se të "
+"përpiqeni ta ruani si paketë distutils."
 
 #: pippy_app.py:910
 msgid "Save as Example Error"
@@ -276,7 +282,7 @@ msgstr "U ruajt si shembull."
 
 #: pippy_app.py:957
 msgid "Error saving activity to journal."
-msgstr ""
+msgstr "Gabim gjatë ruajtjes së veprimtarisë në ditar."
 
 #: pippy_app.py:977
 msgid "Activity saved to journal."
@@ -284,19 +290,19 @@ msgstr "Veprimtaria u ruajt në ditar."
 
 #: pippy_app.py:1119
 msgid "Error"
-msgstr ""
+msgstr "Gabim"
 
 #: pippy_app.py:1120
 msgid "Error reading data."
-msgstr ""
+msgstr "Gabim gjatë leximit të të dhënave."
 
 #: pippy_app.py:1448
 msgid "Working..."
-msgstr ""
+msgstr "Po punohet…"
 
 #: pippy_app.py:1451
 msgid "done!"
-msgstr ""
+msgstr "u bë!"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
