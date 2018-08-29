@@ -1,3 +1,15 @@
+72
+
+* Fix license inconsistencies, remove groupthink (James Cameron),
+* Port PyGameActivity to Sugar Toolkit for GTK+ 3 (Yash Agrawal),
+* Port camera example to GTK+ 3 (Rahul Bothra),
+* Update README (Rudra Sadhu),
+* Add .gitignore (Vipul Gupta),
+* Update metadata in activity.info (Vipul Gupta),
+* Add COPYING files (Vipul Gupta),
+* Add Screenshots (Vipul Gupta),
+* New translations (Chris Leonard et al).
+
 71.1
 
 * Fix for Fedora 18 32-bit fail to start #4926 (James Cameron)
