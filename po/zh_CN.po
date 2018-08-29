@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 17:39+1100\n"
-"PO-Revision-Date: 2012-06-24 01:47+0200\n"
-"Last-Translator: lite <litekok@gmail.com>\n"
+"PO-Revision-Date: 2017-08-03 04:58+0000\n"
+"Last-Translator: Liang <1656703453@qq.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1501736304.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -25,31 +26,31 @@ msgstr "小蟒"
 msgid ""
 "Searching for programmers! Here you can use examples to begin learning the "
 "language your computer understands called \"Python.\""
-msgstr ""
+msgstr "寻找程序员！在这里你可以运用示例开始学习你的电脑理解的语言，这种语言称作“Python”。"
 
 #: filedialog.py:79
 msgid "Choose an example to open"
-msgstr ""
+msgstr "选择一个示例打开"
 
 #: collabwrapper.py:178
 msgid "Joining activity..."
-msgstr ""
+msgstr "参加活动……"
 
 #: collabwrapper.py:179 collabwrapper.py:191
 msgid "Please wait for the connection..."
-msgstr ""
+msgstr "请等待连接……"
 
 #: collabwrapper.py:190
 msgid "Resuming shared activity..."
-msgstr ""
+msgstr "恢复共享活动……"
 
 #: toolbars.py:42
 msgid "Zoom in"
-msgstr ""
+msgstr "放大"
 
 #: toolbars.py:48
 msgid "Zoom out"
-msgstr ""
+msgstr "缩小"
 
 #: activity.py:65
 #, python-format
@@ -58,12 +59,12 @@ msgstr "%s 源码"
 
 #: icondialog.py:116
 msgid "Select an icon"
-msgstr ""
+msgstr "选择一个图标"
 
 #: notebook.py:219
 #, python-format
 msgid "New Source File %d"
-msgstr ""
+msgstr "新的源码文件 %d"
 
 #: sound_check.py:27 library/pippy/sound.py:41
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
@@ -71,19 +72,19 @@ msgstr "找不到TamTamEdit声音库，你有安装TamTamEdit吗？"
 
 #: pippy_app.py:97
 msgid "graphics"
-msgstr ""
+msgstr "绘图"
 
 #: pippy_app.py:97
 msgid "math"
-msgstr ""
+msgstr "数学"
 
 #: pippy_app.py:97
 msgid "python"
-msgstr ""
+msgstr "python"
 
 #: pippy_app.py:97
 msgid "sound"
-msgstr ""
+msgstr "声音"
 
 #: pippy_app.py:98
 msgid "string"
@@ -91,19 +92,19 @@ msgstr ""
 
 #: pippy_app.py:98
 msgid "tutorials"
-msgstr ""
+msgstr "教程"
 
 #: pippy_app.py:185
 msgid "Import Python file to new tab"
-msgstr ""
+msgstr "在新标签导入Python文件"
 
 #: pippy_app.py:191
 msgid "Export as Pippy document"
-msgstr ""
+msgstr "导出为Pippy文档"
 
 #: pippy_app.py:197
 msgid "Save this file to the Pippy library"
-msgstr ""
+msgstr "将这个文件保存到Pippy库中"
 
 #: pippy_app.py:205
 msgid "Export as new Pippy example"
@@ -185,23 +186,23 @@ msgstr ""
 
 #: pippy_app.py:719
 msgid "Saved"
-msgstr ""
+msgstr "已保存"
 
 #: pippy_app.py:720
 msgid "The document has been saved to journal."
-msgstr ""
+msgstr "这个文档已经保存到日记中"
 
 #: pippy_app.py:734 pippy_app.py:741
 msgid "Error importing Python file"
-msgstr ""
+msgstr "导入Python文件时出错"
 
 #: pippy_app.py:735
 msgid "The file you selected is not a Python file."
-msgstr ""
+msgstr "你选择的这个文件不是一个Python文件。"
 
 #: pippy_app.py:742
 msgid "The file you selected is already open"
-msgstr ""
+msgstr "你选择的这个文件已经打开了"
 
 # This is a bad translation - literally, "mistake in preserving as activity."
 #: pippy_app.py:767 pippy_app.py:826
@@ -221,11 +222,11 @@ msgstr "确定"
 
 #: pippy_app.py:779
 msgid "Activity icon"
-msgstr ""
+msgstr "活动的图标"
 
 #: pippy_app.py:780
 msgid "Please select an activity icon."
-msgstr ""
+msgstr "请选择一个活动图标。"
 
 #: pippy_app.py:785 pippy_app.py:800
 msgid "Creating activity bundle..."
@@ -237,13 +238,13 @@ msgstr "小蟒活动"
 
 #: pippy_app.py:868
 msgid "Save as distutils package error"
-msgstr ""
+msgstr "另存为distutils包错误"
 
 #: pippy_app.py:869
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an distutils package."
-msgstr ""
+msgstr "在你试图保存你的活动为distutils包之前，请给它取一个有意义的名字。"
 
 #: pippy_app.py:910
 msgid "Save as Example Error"
@@ -270,34 +271,35 @@ msgstr "该范例已存在。要覆盖它吗？"
 
 #: pippy_app.py:935 pippy_app.py:993
 msgid "Saved as example."
-msgstr "保存为范例。"
+msgstr "保存为示例。"
 
 #: pippy_app.py:957
 msgid "Error saving activity to journal."
-msgstr ""
+msgstr "保存活动到日记时出错。"
 
 # Using the existing words for "activity" and "journal" here.
 #: pippy_app.py:977
 msgid "Activity saved to journal."
-msgstr "活动保存到日志。"
+msgstr "活动已经保存到日记。"
 
 #: pippy_app.py:1119
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: pippy_app.py:1120
 msgid "Error reading data."
-msgstr ""
+msgstr "读取数据时出错"
 
 #: pippy_app.py:1448
 msgid "Working..."
-msgstr ""
+msgstr "工作中……"
 
 #: pippy_app.py:1451
 msgid "done!"
-msgstr ""
+msgstr "完成！"
 
 # literally, "suspended."
 #: library/pippy/game.py:36
+#, fuzzy
 msgid "PAUSED"
 msgstr "暂停"

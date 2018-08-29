@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 17:39+1100\n"
-"PO-Revision-Date: 2016-05-26 02:20+0000\n"
-"Last-Translator: Chris <cjl@sugarlabs.org>\n"
+"PO-Revision-Date: 2017-08-18 19:31+0000\n"
+"Last-Translator: MartínOesterreich <martin.otte80@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: gug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1464229231.000000\n"
+"X-POOTLE-MTIME: 1503084667.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -27,30 +27,32 @@ msgid ""
 "Searching for programmers! Here you can use examples to begin learning the "
 "language your computer understands called \"Python.\""
 msgstr ""
+"buscando programador kuera ! ápe oikatu kuera puru techapyrã kuera opyta "
+"empezar aprendiendo pe lenguaje hina nde kombutadóra oikũmby lla "
 
 #: filedialog.py:79
 msgid "Choose an example to open"
-msgstr ""
+msgstr "oiporavo peteĩ techapyrã opyta mboty'o "
 
 #: collabwrapper.py:178
 msgid "Joining activity..."
-msgstr ""
+msgstr "uniéndose actividadpe . . . "
 
 #: collabwrapper.py:179 collabwrapper.py:191
 msgid "Please wait for the connection..."
-msgstr ""
+msgstr "rehe pytyvõ oha'arõ rehe pe joapy . . . "
 
 #: collabwrapper.py:190
 msgid "Resuming shared activity..."
-msgstr ""
+msgstr "resumiendo actividad compartida. . ."
 
 #: toolbars.py:42
 msgid "Zoom in"
-msgstr ""
+msgstr "mboja "
 
 #: toolbars.py:48
 msgid "Zoom out"
-msgstr ""
+msgstr "momombyry "
 
 #: activity.py:65
 #, python-format
@@ -59,12 +61,12 @@ msgstr "%s Ypy"
 
 #: icondialog.py:116
 msgid "Select an icon"
-msgstr ""
+msgstr "selecciona peteĩ icono "
 
 #: notebook.py:219
 #, python-format
 msgid "New Source File %d"
-msgstr ""
+msgstr "pyahu ñongatuha fuente %d"
 
 #: sound_check.py:27 library/pippy/sound.py:41
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
@@ -74,52 +76,52 @@ msgstr ""
 
 #: pippy_app.py:97
 msgid "graphics"
-msgstr ""
+msgstr "gráfico kuera "
 
 #: pippy_app.py:97
 msgid "math"
-msgstr ""
+msgstr "matemática kuera "
 
 #: pippy_app.py:97
 msgid "python"
-msgstr ""
+msgstr "python"
 
 #: pippy_app.py:97
 msgid "sound"
-msgstr ""
+msgstr "pu "
 
 #: pippy_app.py:98
 msgid "string"
-msgstr ""
+msgstr "texto "
 
 #: pippy_app.py:98
 msgid "tutorials"
-msgstr ""
+msgstr "tutoriale kuera "
 
 #: pippy_app.py:185
 msgid "Import Python file to new tab"
-msgstr ""
+msgstr "gueru ñongatuha python peteĩ pyahu topea me/pe "
 
 #: pippy_app.py:191
 msgid "Export as Pippy document"
-msgstr ""
+msgstr "mondo akaru kuatia'arandu peppy "
 
 #: pippy_app.py:197
 msgid "Save this file to the Pippy library"
-msgstr ""
+msgstr "ñongatu ko ñongatuha lape librería peppy "
 
 #: pippy_app.py:205
 msgid "Export as new Pippy example"
-msgstr ""
+msgstr "mondo akaru techapyrã peppy mba'e "
 
 #: pippy_app.py:211
 msgid "Create a Sugar activity bundle"
-msgstr ""
+msgstr "ojapo peteĩ jokuapy actividad mba'e sugar"
 
 #. TRANS: A distutils package is used to distribute Python modules
 #: pippy_app.py:218
 msgid "Export as a distutils package"
-msgstr ""
+msgstr "mondo akaru peteĩ jokuapy distutil kuera mba'e "
 
 #: pippy_app.py:228
 msgid "Edit"
@@ -127,11 +129,11 @@ msgstr "Moambue"
 
 #: pippy_app.py:242
 msgid "View"
-msgstr ""
+msgstr " techa "
 
 #: pippy_app.py:252 pippy_app.py:500
 msgid "Show output panel"
-msgstr ""
+msgstr "hechauka panel salida mba'e "
 
 #: pippy_app.py:265 pippy_app.py:268
 msgid "Run!"
@@ -159,7 +161,7 @@ msgstr "<alt>c"
 
 #: pippy_app.py:314
 msgid "Open an example"
-msgstr ""
+msgstr "mboty'o peteĩ techapyrã "
 
 #: pippy_app.py:389
 msgid "My examples"
@@ -167,7 +169,7 @@ msgstr "Che techapyrãkuéra"
 
 #: pippy_app.py:496
 msgid "Hide output panel"
-msgstr ""
+msgstr "mo'ã panel salida mba'e "
 
 #: pippy_app.py:598
 #, python-format
@@ -176,7 +178,7 @@ msgstr "%s Tembiapo"
 
 #: pippy_app.py:708
 msgid "Python File added to Library"
-msgstr ""
+msgstr "ñongatuha python mbojo'ava/papyre lape librería"
 
 #: pippy_app.py:709
 #, python-brace-format
@@ -184,26 +186,28 @@ msgid ""
 "The file you selected has been added to the library. Use \"import "
 "{importname}\" to import the library for using."
 msgstr ""
+"pe ñongatuha hina ha kuera seleccionado ha sido mbojo'ava/papyre lape "
+"librería. oipuru \"import {nombreimportado}\" opyta gueru pe librerí "
 
 #: pippy_app.py:719
 msgid "Saved"
-msgstr ""
+msgstr "ñongatupy "
 
 #: pippy_app.py:720
 msgid "The document has been saved to journal."
-msgstr ""
+msgstr "pe kuatia'arandu ha sido ñongatupy pe kuatiahaipyre . "
 
 #: pippy_app.py:734 pippy_app.py:741
 msgid "Error importing Python file"
-msgstr ""
+msgstr "jejavy importando ñongatuha python"
 
 #: pippy_app.py:735
 msgid "The file you selected is not a Python file."
-msgstr ""
+msgstr "pe ñongatuha hina seleccionaste nahániri ha'e peteĩ ñongatuha python. "
 
 #: pippy_app.py:742
 msgid "The file you selected is already open"
-msgstr ""
+msgstr "pe ñongatuha hina seleccionaste oĩ jái ma "
 
 #: pippy_app.py:767 pippy_app.py:826
 msgid "Save as Activity Error"
@@ -221,11 +225,11 @@ msgstr "Ok"
 
 #: pippy_app.py:779
 msgid "Activity icon"
-msgstr ""
+msgstr "icono actividad "
 
 #: pippy_app.py:780
 msgid "Please select an activity icon."
-msgstr ""
+msgstr "rehe pytyvõ selecciona peteĩ icono opyta pe actividad "
 
 #: pippy_app.py:785 pippy_app.py:800
 msgid "Creating activity bundle..."
@@ -237,13 +241,15 @@ msgstr "Mba'apo Peppy"
 
 #: pippy_app.py:868
 msgid "Save as distutils package error"
-msgstr ""
+msgstr "ñongatu akaru jokuapy jejavy mba'e distutil kuera "
 
 #: pippy_app.py:869
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an distutils package."
 msgstr ""
+"rehe pytyvõ dale tupe actividad peteĩ téra significativo mboyve intentar "
+"mba'e guardarla akaru peteĩ jokuapy distutil kuera. "
 
 #: pippy_app.py:910
 msgid "Save as Example Error"
@@ -274,7 +280,7 @@ msgstr "Oñeñongatu techapyrãicha."
 
 #: pippy_app.py:957
 msgid "Error saving activity to journal."
-msgstr ""
+msgstr "jejavy guardando actividad pe kuatiahaipyre . "
 
 #: pippy_app.py:977
 msgid "Activity saved to journal."
@@ -282,19 +288,19 @@ msgstr "Mba'apo oñeñongatu tembiapokuérañeñongatuha."
 
 #: pippy_app.py:1119
 msgid "Error"
-msgstr ""
+msgstr "jejavy "
 
 #: pippy_app.py:1120
 msgid "Error reading data."
-msgstr ""
+msgstr "jejavy leyendo amoarange kuera. "
 
 #: pippy_app.py:1448
 msgid "Working..."
-msgstr ""
+msgstr "ñemba,apo"
 
 #: pippy_app.py:1451
 msgid "done!"
-msgstr ""
+msgstr "¡oikova!"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"

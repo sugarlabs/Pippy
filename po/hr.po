@@ -1,77 +1,73 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# This file is distributed under the same license as the Pippy package.
+# Božidar Putanec <bozidarp@yahoo.com>, 2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Pippy\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 17:39+1100\n"
-"PO-Revision-Date: 2017-11-12 20:14+0000\n"
-"Last-Translator: Moo <hazap@hotmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: lt\n"
+"PO-Revision-Date: 2017-05-16 14:59-0700\n"
+"Last-Translator: Božidar Putanec <bozidarp@yahoo.com>\n"
+"Language-Team: Croatian <LL@li.org>\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"(n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1510517641.000000\n"
+"X-Generator: Poedit 2.0.1\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
-msgstr "Pippi"
+msgstr "Pippy"
 
 #: activity/activity.info:3
 msgid ""
-"Searching for programmers! Here you can use examples to begin learning the "
-"language your computer understands called \"Python.\""
+"Searching for programmers! Here you can use examples to begin learning the language your computer understands "
+"called \"Python.\""
 msgstr ""
-"Ieškome programuotojų! Čia galėsite naudoti pavyzdžius, kad pradėtumėte "
-"mokytis jūsų kompiuteriui suprantamos kalbos, pavadinimu \"Python\"."
+"Tražimo programere! Ovdje su primjeri na kojima možeš započeti učiti jezik koji tvoje računalo razumije, a zove se "
+"„Python“."
 
 #: filedialog.py:79
 msgid "Choose an example to open"
-msgstr ""
+msgstr "Odaberi primjer za učitavanje"
 
 #: collabwrapper.py:178
 msgid "Joining activity..."
-msgstr ""
+msgstr "Pridruživanje aktivnosti..."
 
 #: collabwrapper.py:179 collabwrapper.py:191
 msgid "Please wait for the connection..."
-msgstr ""
+msgstr "Pričekaj na povezivanje..."
 
 #: collabwrapper.py:190
 msgid "Resuming shared activity..."
-msgstr ""
+msgstr "Nastavljanje zajedničke aktivnosti..."
 
 #: toolbars.py:42
 msgid "Zoom in"
-msgstr "Didinti"
+msgstr "Povećavanje"
 
 #: toolbars.py:48
 msgid "Zoom out"
-msgstr "Mažinti"
+msgstr "Smanjivanje"
 
 #: activity.py:65
 #, python-format
 msgid "%s Source"
-msgstr "%s šaltinis"
+msgstr "Izvorni kȏd %s"
 
 #: icondialog.py:116
 msgid "Select an icon"
-msgstr ""
+msgstr "Odaberi ikonu"
 
 #: notebook.py:219
 #, python-format
 msgid "New Source File %d"
-msgstr ""
+msgstr "Nova izvorna datoteka %d"
 
 #: sound_check.py:27 library/pippy/sound.py:41
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
-msgstr "Nepavyksta rasti TamTamEdit garso bibliotekos. Ar įdiegėte TamTamEdit?"
+msgstr "Zvučnu biblioteku TamTamEdit nije moguće naći. Instalirao si TamTamEdit?"
 
 #: pippy_app.py:97
 msgid "graphics"
@@ -87,56 +83,56 @@ msgstr "python"
 
 #: pippy_app.py:97
 msgid "sound"
-msgstr "garsas"
+msgstr "zvuk"
 
 #: pippy_app.py:98
 msgid "string"
-msgstr ""
+msgstr "string"
 
 #: pippy_app.py:98
 msgid "tutorials"
-msgstr ""
+msgstr "priručnici"
 
 #: pippy_app.py:185
 msgid "Import Python file to new tab"
-msgstr "Importuoti Python failą į naują kortelę"
+msgstr "Uvezi (import) Python datoteku u novu karticu"
 
 #: pippy_app.py:191
 msgid "Export as Pippy document"
-msgstr "Eksportuoti kaip Pippy dokumentą"
+msgstr "Izvezi (eksport) kao Pippy dokument"
 
 #: pippy_app.py:197
 msgid "Save this file to the Pippy library"
-msgstr "Įrašyti šį failą į Pippy biblioteką"
+msgstr "Spremi ovu datoteku u Pippy biblioteku"
 
 #: pippy_app.py:205
 msgid "Export as new Pippy example"
-msgstr "Eksportuoti kaip naują Pippy pavyzdį"
+msgstr "Izvezi (eksport) kao novi Pippy primjer"
 
 #: pippy_app.py:211
-msgid "Create a Sugar activity bundle"
-msgstr ""
+msgid "Create activity bundle"
+msgstr "Stvori paket aktivnosti za Sugar"
 
 #. TRANS: A distutils package is used to distribute Python modules
 #: pippy_app.py:218
 msgid "Export as a distutils package"
-msgstr ""
+msgstr "Izvezi (eksport) kao distutils paket"
 
 #: pippy_app.py:228
 msgid "Edit"
-msgstr "Redaguoti"
+msgstr "Uredi"
 
 #: pippy_app.py:242
 msgid "View"
-msgstr ""
+msgstr "Pregled"
 
 #: pippy_app.py:252 pippy_app.py:500
 msgid "Show output panel"
-msgstr "Rodyti išvesties skydelį"
+msgstr "Otvori okno za izlazne rezultate"
 
 #: pippy_app.py:265 pippy_app.py:268
 msgid "Run!"
-msgstr "Vykdyti!"
+msgstr "Izvrši!"
 
 #: pippy_app.py:266
 msgid "<alt>r"
@@ -144,7 +140,7 @@ msgstr "<alt>r"
 
 #: pippy_app.py:281 pippy_app.py:287
 msgid "Stop"
-msgstr "Stabdyti"
+msgstr "Stop"
 
 #: pippy_app.py:282
 msgid "<alt>s"
@@ -152,7 +148,7 @@ msgstr "<alt>s"
 
 #: pippy_app.py:297 pippy_app.py:303
 msgid "Clear"
-msgstr "Išvalyti"
+msgstr "Izbriši"
 
 #: pippy_app.py:298
 msgid "<alt>c"
@@ -160,146 +156,136 @@ msgstr "<alt>c"
 
 #: pippy_app.py:314
 msgid "Open an example"
-msgstr "Atverti pavyzdį"
+msgstr "Učitaj jedan od primjera"
 
 #: pippy_app.py:389
 msgid "My examples"
-msgstr "Mano pavyzdžiai"
+msgstr "Moji primjeri"
 
 #: pippy_app.py:496
 msgid "Hide output panel"
-msgstr "Slėpti išvesties skydelį"
+msgstr "Zatvori okno za izlazne rezultate"
 
 #: pippy_app.py:598
 #, python-format
 msgid "%s Activity"
-msgstr "%s veikla"
+msgstr "Aktivnost %s"
 
 #: pippy_app.py:708
 msgid "Python File added to Library"
-msgstr ""
+msgstr "Python datoteka dodana je biblioteci"
 
 #: pippy_app.py:709
 #, python-brace-format
 msgid ""
-"The file you selected has been added to the library. Use \"import "
-"{importname}\" to import the library for using."
+"The file you selected has been added to the library. Use \"import {importname}\" to import the library for using."
 msgstr ""
+"Datoteku koju si odabrao već je biblioteci. Rabi naredbu „import {importname}“ da uvezeš biblioteku za upotrebu."
 
 #: pippy_app.py:719
 msgid "Saved"
-msgstr "Įrašyta"
+msgstr "Spremljeno"
 
 #: pippy_app.py:720
 msgid "The document has been saved to journal."
-msgstr "Dokumentas įrašytas į žurnalą."
+msgstr "Dokument je spremljen u dnevnik."
 
 #: pippy_app.py:734 pippy_app.py:741
 msgid "Error importing Python file"
-msgstr "Klaida, importuojant Python failą"
+msgstr "Pogreška pri uvozu Python datoteke"
 
 #: pippy_app.py:735
 msgid "The file you selected is not a Python file."
-msgstr "Jūsų pasirinktas failas nėra Python failas."
+msgstr "Datoteka koju si odabrao nije Python datoteka."
 
 #: pippy_app.py:742
 msgid "The file you selected is already open"
-msgstr "Jūsų pasirinktas failas jau yra atvertas"
+msgstr "Datoteka koju si odabrao već je učitana"
 
 #: pippy_app.py:767 pippy_app.py:826
 msgid "Save as Activity Error"
-msgstr "Klaida, įrašant kaip veiklą"
+msgstr "Spremi kao grešku u Aktivnosti"
 
 #: pippy_app.py:768
-msgid ""
-"Please give your activity a meaningful name before attempting to save it as "
-"an activity."
-msgstr ""
-"Prašome, prieš bandant įrašyti kaip veiklą, suteikti savo veiklai prasmingą "
-"pavadinimą."
+msgid "Please give your activity a meaningful name before attempting to save it as an activity."
+msgstr "Prije nego pokušaš spremiti svoju aktivnost trebaš joj dati smisleno ime."
 
 #: pippy_app.py:771 pippy_app.py:778 pippy_app.py:873 pippy_app.py:915
 msgid "Ok"
-msgstr "Gerai"
+msgstr "U redu"
 
 #: pippy_app.py:779
 msgid "Activity icon"
-msgstr ""
+msgstr "Ikona za Aktivnost"
 
 #: pippy_app.py:780
 msgid "Please select an activity icon."
-msgstr ""
+msgstr "Odaberi ikonu za aktivnost."
 
 #: pippy_app.py:785 pippy_app.py:800
 msgid "Creating activity bundle..."
-msgstr "Kuriamas veiklos rinkinys..."
+msgstr "Stvaranje paketa aktivnosti..."
 
 #: pippy_app.py:866 pippy_app.py:908
 msgid "Pippy Activity"
-msgstr "Pippi veikla"
+msgstr "Aktivnost Pippy"
 
 #: pippy_app.py:868
 msgid "Save as distutils package error"
-msgstr ""
+msgstr "Spremi kao distutils paketa grešku"
 
 #: pippy_app.py:869
-msgid ""
-"Please give your activity a meaningful name before attempting to save it as "
-"an distutils package."
-msgstr ""
+msgid "Please give your activity a meaningful name before attempting to save it as an distutils package."
+msgstr "Prije nego pokušaš spremiti svoju aktivnost kao distutils paket trebaš joj dati smisleno ime."
 
 #: pippy_app.py:910
 msgid "Save as Example Error"
-msgstr "Klaida, įrašant kaip pavyzdį"
+msgstr "Spremi kao primjer greške"
 
 #: pippy_app.py:912
-msgid ""
-"Please give your activity a meaningful name before attempting to save it as "
-"an example."
-msgstr ""
-"Prašome, prieš bandant įrašyti kaip pavyzdį, suteikti savo veiklai prasmingą "
-"pavadinimą."
+msgid "Please give your activity a meaningful name before attempting to save it as an example."
+msgstr "Prije nego pokušaš spremiti svoju aktivnost kao primjer trebaš joj dati smisleno ime."
 
 #: pippy_app.py:921
 msgid "Creating example..."
-msgstr "Kuriamas pavyzdys..."
+msgstr "Stvaranje primjera..."
 
 #: pippy_app.py:927
 msgid "Save as Example Warning"
-msgstr "Įspėjimas, įrašant kaip pavyzdį"
+msgstr "Spremi kao primjer upozorenja"
 
 #: pippy_app.py:928
 msgid "This example already exists. Do you want to overwrite it?"
-msgstr "Šis pavyzdys jau yra. Ar norite jį perrašyti?"
+msgstr "Ovaj primjer već postoji. Želiš ga prebrisati?"
 
 #: pippy_app.py:935 pippy_app.py:993
 msgid "Saved as example."
-msgstr "Įrašyta kaip pavyzdys."
+msgstr "Spremi kao primjer."
 
 #: pippy_app.py:957
 msgid "Error saving activity to journal."
-msgstr "Klaida, įrašant veiklą į žurnalą."
+msgstr "Dogodila se greška pri spremanju aktivnosti u dnevnik."
 
 #: pippy_app.py:977
 msgid "Activity saved to journal."
-msgstr "Veikla įrašyta į žurnalą."
+msgstr "Aktivnost je spremljena u dnevnik."
 
 #: pippy_app.py:1119
 msgid "Error"
-msgstr "Klaida"
+msgstr "Greška"
 
 #: pippy_app.py:1120
 msgid "Error reading data."
-msgstr "Klaida, skaitant duomenis."
+msgstr "Dogodila se greška pri čitanju podataka."
 
 #: pippy_app.py:1448
 msgid "Working..."
-msgstr "Dirbama..."
+msgstr "Radimo..."
 
 #: pippy_app.py:1451
 msgid "done!"
-msgstr "atlikta!"
+msgstr "gotovo!"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
-msgstr "PRISTABDYTA"
+msgstr "ZAUSTAVLJENO"

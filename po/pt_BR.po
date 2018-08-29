@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 17:39+1100\n"
-"PO-Revision-Date: 2015-01-30 16:57+0000\n"
-"Last-Translator: Felipe <fefcas@gmail.com>\n"
+"PO-Revision-Date: 2018-08-20 20:25+0000\n"
+"Last-Translator: Paulo Francisco <slomp@ufrgs.br>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1422637042.000000\n"
+"X-POOTLE-MTIME: 1534796735.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -27,30 +27,33 @@ msgid ""
 "Searching for programmers! Here you can use examples to begin learning the "
 "language your computer understands called \"Python.\""
 msgstr ""
+"Procurando por programadores! Aqui você pode usar exemplos para aprender a "
+"linguagem que seu computador compreende, que é chamada \"Python.\""
 
 #: filedialog.py:79
 msgid "Choose an example to open"
-msgstr ""
+msgstr "Escolha o exemplo para abrir"
 
+# The same could be translated as "Juntando-se". "Aderindo", or "Participando"....
 #: collabwrapper.py:178
 msgid "Joining activity..."
-msgstr ""
+msgstr "Aderindo à atividade..."
 
 #: collabwrapper.py:179 collabwrapper.py:191
 msgid "Please wait for the connection..."
-msgstr ""
+msgstr "Por favor espere pela conexão..."
 
 #: collabwrapper.py:190
 msgid "Resuming shared activity..."
-msgstr ""
+msgstr "Reiniciar atividade compartilhada..."
 
 #: toolbars.py:42
 msgid "Zoom in"
-msgstr ""
+msgstr "Aumentar o zoom"
 
 #: toolbars.py:48
 msgid "Zoom out"
-msgstr ""
+msgstr "Diminuir o zoom"
 
 #: activity.py:65
 #, python-format
@@ -59,12 +62,12 @@ msgstr "Fonte de %s"
 
 #: icondialog.py:116
 msgid "Select an icon"
-msgstr ""
+msgstr "Selecionar um ícone"
 
 #: notebook.py:219
 #, python-format
 msgid "New Source File %d"
-msgstr ""
+msgstr "Novo Arquivo Fonte %d"
 
 #: sound_check.py:27 library/pippy/sound.py:41
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
@@ -74,52 +77,52 @@ msgstr ""
 
 #: pippy_app.py:97
 msgid "graphics"
-msgstr ""
+msgstr "gráficos"
 
 #: pippy_app.py:97
 msgid "math"
-msgstr ""
+msgstr "matemática"
 
 #: pippy_app.py:97
 msgid "python"
-msgstr ""
+msgstr "python"
 
 #: pippy_app.py:97
 msgid "sound"
-msgstr ""
+msgstr "som"
 
 #: pippy_app.py:98
 msgid "string"
-msgstr ""
+msgstr "linha"
 
 #: pippy_app.py:98
 msgid "tutorials"
-msgstr ""
+msgstr "tutoriais"
 
 #: pippy_app.py:185
 msgid "Import Python file to new tab"
-msgstr ""
+msgstr "Importar arquivo Python para nova aba"
 
 #: pippy_app.py:191
 msgid "Export as Pippy document"
-msgstr ""
+msgstr "Exportar como documento Pippy"
 
 #: pippy_app.py:197
 msgid "Save this file to the Pippy library"
-msgstr ""
+msgstr "Salvar este arquivo na biblioteca Pippy"
 
 #: pippy_app.py:205
 msgid "Export as new Pippy example"
-msgstr ""
+msgstr "Exportar como um novo exemplo Pippy"
 
 #: pippy_app.py:211
 msgid "Create a Sugar activity bundle"
-msgstr ""
+msgstr "Crie um grupo de atividades Sugar"
 
 #. TRANS: A distutils package is used to distribute Python modules
 #: pippy_app.py:218
 msgid "Export as a distutils package"
-msgstr ""
+msgstr "Exportar como um pacote distutils"
 
 #: pippy_app.py:228
 msgid "Edit"
@@ -127,15 +130,16 @@ msgstr "Editar"
 
 #: pippy_app.py:242
 msgid "View"
-msgstr ""
+msgstr "Visualizar"
 
+# I need context to better translate this phrase.
 #: pippy_app.py:252 pippy_app.py:500
 msgid "Show output panel"
-msgstr ""
+msgstr "Mostrar painel de resultados"
 
 #: pippy_app.py:265 pippy_app.py:268
 msgid "Run!"
-msgstr "Rodar!"
+msgstr "Executar!"
 
 #: pippy_app.py:266
 msgid "<alt>r"
@@ -159,15 +163,16 @@ msgstr "<alt>c"
 
 #: pippy_app.py:314
 msgid "Open an example"
-msgstr ""
+msgstr "Abrir um exemplo"
 
 #: pippy_app.py:389
 msgid "My examples"
 msgstr "Meus exemplos"
 
+# I need context to better translate this phrase.
 #: pippy_app.py:496
 msgid "Hide output panel"
-msgstr ""
+msgstr "Ocultar painel de resultados"
 
 #: pippy_app.py:598
 #, python-format
@@ -176,7 +181,7 @@ msgstr "Atividade %s"
 
 #: pippy_app.py:708
 msgid "Python File added to Library"
-msgstr ""
+msgstr "Arquivo Python adicionado à Biblioteca"
 
 #: pippy_app.py:709
 #, python-brace-format
@@ -184,26 +189,28 @@ msgid ""
 "The file you selected has been added to the library. Use \"import "
 "{importname}\" to import the library for using."
 msgstr ""
+"O arquivo selecionado foi adicionado à biblioteca. Caso queira importar "
+"arquivos da biblioteca, use \"import {nome do arquivo importado}\"."
 
 #: pippy_app.py:719
 msgid "Saved"
-msgstr ""
+msgstr "Salvo"
 
 #: pippy_app.py:720
 msgid "The document has been saved to journal."
-msgstr ""
+msgstr "O documento foi salvo no Diário."
 
 #: pippy_app.py:734 pippy_app.py:741
 msgid "Error importing Python file"
-msgstr ""
+msgstr "Erro ao importar arquivo Python"
 
 #: pippy_app.py:735
 msgid "The file you selected is not a Python file."
-msgstr ""
+msgstr "O arquivo selecionado não é um arquivo Python."
 
 #: pippy_app.py:742
 msgid "The file you selected is already open"
-msgstr ""
+msgstr "O arquivo selecionado já está aberto"
 
 #: pippy_app.py:767 pippy_app.py:826
 msgid "Save as Activity Error"
@@ -213,9 +220,7 @@ msgstr "Salvar como Erro de Atividade"
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
-msgstr ""
-"Por favor dê à sua atividade um nome único antes de tentar salvá-la como uma "
-"atividade."
+msgstr "Por favor dê à sua atividade um nome antes de tentar salvá-la."
 
 #: pippy_app.py:771 pippy_app.py:778 pippy_app.py:873 pippy_app.py:915
 msgid "Ok"
@@ -223,11 +228,11 @@ msgstr "Confirma"
 
 #: pippy_app.py:779
 msgid "Activity icon"
-msgstr ""
+msgstr "Ícone de atividade"
 
 #: pippy_app.py:780
 msgid "Please select an activity icon."
-msgstr ""
+msgstr "Por favor selecione um ícone para a atividade."
 
 #: pippy_app.py:785 pippy_app.py:800
 msgid "Creating activity bundle..."
@@ -239,17 +244,19 @@ msgstr "Atividade Pippy"
 
 #: pippy_app.py:868
 msgid "Save as distutils package error"
-msgstr ""
+msgstr "Salve os pacotes de erro como distutils"
 
 #: pippy_app.py:869
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an distutils package."
 msgstr ""
+"Por favor de um nome significativo para sua atividade antes de tentar salvá-"
+"la para o pacote distutils."
 
 #: pippy_app.py:910
 msgid "Save as Example Error"
-msgstr "Salvar como Erro de Exemplo"
+msgstr "Salvar como Exemplo de Erro"
 
 #: pippy_app.py:912
 msgid ""
@@ -265,7 +272,7 @@ msgstr "Criando exemplo..."
 
 #: pippy_app.py:927
 msgid "Save as Example Warning"
-msgstr "Avisar ao gravar como exemplo"
+msgstr "Salvar como Exemplo de Alerta"
 
 #: pippy_app.py:928
 msgid "This example already exists. Do you want to overwrite it?"
@@ -277,27 +284,27 @@ msgstr "Salvo como exemplo"
 
 #: pippy_app.py:957
 msgid "Error saving activity to journal."
-msgstr ""
+msgstr "Erro ao salvar a atividade para o Diário."
 
 #: pippy_app.py:977
 msgid "Activity saved to journal."
-msgstr "Atividade salva no diário."
+msgstr "Atividade salva no Diário."
 
 #: pippy_app.py:1119
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: pippy_app.py:1120
 msgid "Error reading data."
-msgstr ""
+msgstr "Erro na leitura de dados."
 
 #: pippy_app.py:1448
 msgid "Working..."
-msgstr ""
+msgstr "Trabalhando..."
 
 #: pippy_app.py:1451
 msgid "done!"
-msgstr ""
+msgstr "feito!"
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
