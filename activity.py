@@ -129,14 +129,19 @@ class VteActivity(ViewSourceActivity):
 
         toolbox.toolbar.show_all()
 
+        def color_parse(self, color):
+            rgba = Gdk.RGBA()
+            rgba.parse(color)
+            return rgba
+
         # creates vte widget
         self._vte = Vte.Terminal()
         self._vte.set_size(30, 5)
         self._vte.set_size_request(200, 300)
         font = 'Monospace 10'
         self._vte.set_font(Pango.FontDescription(font))
-        self._vte.set_colors(Gdk.color_parse('#000000'),
-                             Gdk.color_parse('#E7E7E7'),
+        self._vte.set_colors(self.color_parse('#000000'),
+                             self.color_parse('#E7E7E7'),
                              [])
         '''
         self._vte.connect('selection-changed', self._on_selection_changed_cb)
