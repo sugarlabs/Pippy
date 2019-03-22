@@ -42,9 +42,10 @@ import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 
 from gi import require_version
+require_version('Gdk', '3.0')
 require_version('Gtk', '3.0')
-from gi.repository import Gtk
 from gi.repository import Gdk
+from gi.repository import Gtk
 from gi.repository import GLib
 from gi.repository import Pango
 try:
