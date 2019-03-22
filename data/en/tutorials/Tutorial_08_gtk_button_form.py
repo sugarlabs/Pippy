@@ -12,7 +12,7 @@ class PyApp(Gtk.Window):
         self.set_position(Gtk.WindowPosition.CENTER_ALWAYS)
 
         def button_cb(widget):
-            print 'click'
+            print('click')
 
         button = Gtk.Button('Button')
         fixed = Gtk.Fixed()

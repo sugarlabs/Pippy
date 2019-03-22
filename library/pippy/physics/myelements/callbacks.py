@@ -39,7 +39,7 @@ class CallbackHandler:
 
         # init callback dict to avoid those slow try
         # (especially for self.get, as it is called *often*)
-        for i in xrange(10):
+        for i in range(10):
             self.callbacks[i] = []
 
     def add(self, callback_type, callback_handler, *args):
@@ -62,7 +62,7 @@ class CallbackHandler:
             if self.parent.listener is None:
                 self.parent.listener = kContactListener(self.get)
                 self.parent.world.SetContactListener(self.parent.listener)
-                print "* ContactListener added"
+                print("* ContactListener added")
 
         # Get callback dict for this callback_type
         c = self.callbacks[callback_type]
