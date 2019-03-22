@@ -21,8 +21,10 @@ import logging
 from gettext import gettext as _
 
 from gi import require_version
-from gi.repository import Gtk
+require_version('Gdk', '3.0')
+require_version('Gtk', '3.0')
 from gi.repository import Gdk
+from gi.repository import Gtk
 from gi.repository import Pango
 try:
     require_version('Vte', '2.91')
