@@ -24,7 +24,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """Pippy Activity: A simple Python programming activity ."""
-from __future__ import with_statement
+
 
 import re
 import os
@@ -547,7 +547,7 @@ class PippyActivity(ViewSourceActivity):
         except IndexError:
             pass
 
-        list_ = zip(*data)
+        list_ = list(zip(*data))
         for name, code, path, modified, editor_id in list_:
             self._source_tabs.add_tab(
                 label=name, editor_id=editor_id)
@@ -593,7 +593,7 @@ class PippyActivity(ViewSourceActivity):
 
     def _write_all_buffers(self, tmp_dir):
         data = self._source_tabs.get_all_data()
-        zipdata = zip(data[0], data[1])
+        zipdata = list(zip(data[0], data[1]))
         for name, content in zipdata:
             with open(os.path.join(tmp_dir, name), 'w') as f:
                 # Write utf-8 coding prefix if there's not one already
@@ -879,14 +879,14 @@ class PippyActivity(ViewSourceActivity):
              '-v'])
 
         # Hand off to journal
-        os.chmod(app_temp, 0777)
+        os.chmod(app_temp, 0o777)
         jobject = datastore.create()
         metadata = {
             'title': '%s distutils bundle' % title,
             'title_set_by_user': '1',
             'mime_type': 'application/x-gzip',
         }
-        for k, v in metadata.items():
+        for k, v in list(metadata.items()):
             # The dict.update method is missing =(
             jobject.metadata[k] = v
         tarname = 'dist/{modulename}-1.0.tar.gz'.format(modulename=title)
@@ -949,7 +949,7 @@ class PippyActivity(ViewSourceActivity):
                 self._vte.feed('\r\n')
                 return  # Something went wrong.
             # Hand off to journal
-            os.chmod(app_temp, 0755)
+            os.chmod(app_temp, 0o755)
             jobject = datastore.create()
             metadata = {
                 'title': '%s Bundle' % title,
@@ -959,7 +959,7 @@ class PippyActivity(ViewSourceActivity):
                 'icon-color': profile.get_color().to_string(),
                 'mime_type': 'application/vnd.olpc-sugar',
             }
-            for k, v in metadata.items():
+            for k, v in list(metadata.items()):
                 # The dict.update method is missing =(
                 jobject.metadata[k] = v
             jobject.file_path = os.path.join(app_temp, bundle_file[0])
@@ -1005,7 +1005,7 @@ class PippyActivity(ViewSourceActivity):
     def write_file(self, file_path):
         pippy_id = self._get_pippy_object_id()
         data = self._source_tabs.get_all_data()
-        zipped_data = zip(*data)
+        zipped_data = list(zip(*data))
         session_list = []
         app_temp = os.path.join(self.get_activity_root(), 'instance')
         tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
@@ -1363,7 +1363,7 @@ def main():
     try_import = False
 
     info = readmodule_ex(module, [sourcedir] + options.path)
-    for func in bundle_info.keys():
+    for func in list(bundle_info.keys()):
         p_a_func = 'pippy_activity_%s' % func
         if p_a_func in info:
             try_import = True
@@ -1372,7 +1372,7 @@ def main():
         oldpath = list(sys.path)
         sys.path[0:0] = [sourcedir] + options.path
         modobj = __import__(module)
-        for func in bundle_info.keys():
+        for func in list(bundle_info.keys()):
             p_a_func = 'pippy_activity_%s' % func
             if p_a_func in modobj.__dict__:
                 bundle_info[func] = modobj.__dict__[p_a_func]()
@@ -1395,7 +1395,7 @@ def main():
             'NEWS': bundle_info['news'],
         }
         extra_files.update(bundle_info['extra_files'])
-        for path, contents in extra_files.items():
+        for path, contents in list(extra_files.items()):
             # safety first!
             assert '..' not in path
             dirname, filename = os.path.split(path)

@@ -19,7 +19,7 @@ if version_info >= (2,6,0):
         try:
             fp, pathname, description = imp.find_module('_Box2D', [dirname(__file__)])
         except ImportError:
-            import _Box2D
+            from . import _Box2D
             return _Box2D
         if fp is not None:
             try:
@@ -30,7 +30,7 @@ if version_info >= (2,6,0):
     _Box2D = swig_import_helper()
     del swig_import_helper
 else:
-    import _Box2D
+    from . import _Box2D
 del version_info
 try:
     _swig_property = property
@@ -121,7 +121,7 @@ def _dir_filter(self):
 
 def _init_kwargs(self, **kwargs):
     cls = self.__class__
-    for key, value in kwargs.items():
+    for key, value in list(kwargs.items()):
         try:
             getattr(cls, key)
         except AttributeError:
@@ -452,7 +452,7 @@ def _generator_from_linked_list(first):
         one = first
         while one:
             yield one
-            one = one.next
+            one = one.__next__
 
 def _list_from_linked_list(first):
     if not first:
@@ -462,7 +462,7 @@ def _list_from_linked_list(first):
     lst = []
     while one:
         lst.append(one)
-        one = one.next
+        one = one.__next__
 
     # linked lists are stored in reverse order from creation order
     lst.reverse() 
@@ -856,7 +856,7 @@ class b2Vec2(object):
     def __set(self, x, y):
         self.x = x
         self.y = y
-    def __nonzero__(self):
+    def __bool__(self):
         return self.x!=0.0 or self.y!=0.0
 
     tuple = property(lambda self: (self.x, self.y), lambda self, value: self.__set(*value))
@@ -1055,7 +1055,7 @@ class b2Vec3(object):
         self.x = x
         self.y = y
         self.z = z
-    def __nonzero__(self):
+    def __bool__(self):
         return self.x!=0.0 or self.y!=0.0 or self.z!=0.0
 
     tuple = property(lambda self: (self.x, self.y, self.z), lambda self, value: self.__set(*value))
@@ -2115,7 +2115,7 @@ class b2Color(object):
         if len(value) != 3:
             raise ValueError('Expected length 3 list')
         self.r, self.g, self.b = value[0], value[1], value[2]
-    def __nonzero__(self):
+    def __bool__(self):
         return self.r!=0.0 or self.g!=0.0 or self.b!=0.0
 
     list  = property(lambda self: list(self), __set_tuple)
@@ -4080,7 +4080,7 @@ class b2Body(object):
         shape=type_()
         fixture=b2FixtureDef(shape=shape)
         
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             # Note that these hasattrs use the types to get around
             # the fact that some properties are write-only (like 'box' in
             # polygon shapes), and as such do not show up with 'hasattr'.
@@ -5073,7 +5073,7 @@ class b2World(object):
 
         self.allowSleeping = doSleep
 
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             try:
                 setattr(self, key, value)
             except Exception as ex:

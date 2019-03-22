@@ -32,11 +32,11 @@ __contact__ = '<elements@linuxuser.at>'
 try:
     import Box2D as box2d
 except:
-    print 'Could not load the pybox2d library (Box2D).'
-    print 'Please run "setup.py install" to install the dependencies.'
-    print
-    print 'Or recompile pybox2d for your system and python version.'
-    print "See http://code.google.com/p/pybox2d"
+    print('Could not load the pybox2d library (Box2D).')
+    print('Please run "setup.py install" to install the dependencies.')
+    print()
+    print('Or recompile pybox2d for your system and python version.')
+    print("See http://code.google.com/p/pybox2d")
     exit()
 
 # Standard Imports
@@ -377,7 +377,7 @@ class Elements:
                     self.renderer.draw_polygon(clr, points)
 
                 else:
-                    print "unknown shape type:%d" % shape.type
+                    print("unknown shape type:%d" % shape.type)
 
         for joint in self.world.joints:
             p2 = joint.anchorA
@@ -410,7 +410,7 @@ class Elements:
             self.mouseJoint.target = (x, y)
 
     def pickle_save(self, fn, additional_vars={}):
-        import cPickle as pickle
+        import _pickle as pickle
         self.add.remove_mouseJoint()
 
         if not additional_vars and hasattr(self, '_pickle_vars'):
@@ -423,10 +423,10 @@ class Elements:
         try:
             pickle.dump(save_values, open(fn, 'wb'))
         except Exception as s:
-            print 'Pickling failed: ', s
+            print('Pickling failed: ', s)
             return
 
-        print 'Saved to %s' % fn
+        print('Saved to %s' % fn)
 
     def pickle_load(self, fn, set_vars=True, additional_vars=[]):
         """
@@ -434,26 +434,26 @@ class Elements:
         additional_vars is a dictionary to be populated with the
         loaded variables.
         """
-        import cPickle as pickle
+        import pickle as pickle
         try:
             world, variables = pickle.load(open(fn, 'rb'))
             world = world._pickle_finalize()
             variables = box2d.pickle_fix(world, variables, 'load')
         except Exception as s:
-            print 'Error while loading world: ', s
+            print('Error while loading world: ', s)
             return
 
         self.world = world
 
         if set_vars:
             # reset the additional saved variables:
-            for var, value in variables.items():
+            for var, value in list(variables.items()):
                 if hasattr(self, var):
                     setattr(self, var, value)
                 else:
-                    print 'Unknown property %s=%s' % (var, value)
+                    print('Unknown property %s=%s' % (var, value))
 
-        print 'Loaded from %s' % fn
+        print('Loaded from %s' % fn)
 
         return variables
 
@@ -531,7 +531,7 @@ class Elements:
             addvars = additional_vars
             trackinfo = addvars['trackinfo']
             backup = trackinfo
-            for key, info in backup.iteritems():
+            for key, info in backup.items():
                 if not info[3]:
                     try:
                         trackinfo[key][0] = info[0].userData['saveid']
@@ -626,12 +626,12 @@ class Elements:
 
         self.additional_vars = {}
         addvars = {}
-        for (k, v) in worldmodel['additional_vars'].items():
+        for (k, v) in list(worldmodel['additional_vars'].items()):
             addvars[k] = v
 
         if serialized and 'trackinfo' in addvars:
             trackinfo = addvars['trackinfo']
-            for key, info in trackinfo.iteritems():
+            for key, info in trackinfo.items():
                 if not info[3]:
                     addvars['trackinfo'][key][0] = \
                         self.getBodyWithSaveId(info[0])

@@ -13,7 +13,7 @@ class PyApp(Gtk.Window):
 
         def entry_cb(widget, event):
             if Gdk.keyval_name(event.keyval) == 'Return':
-                print widget.get_text()
+                print(widget.get_text())
 
         entry = Gtk.Entry()
         entry.connect('key_press_event', entry_cb)

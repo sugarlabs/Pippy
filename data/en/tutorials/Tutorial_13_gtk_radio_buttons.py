@@ -32,7 +32,7 @@ class PyApp(Gtk.Window):
 
     def _activate_cb(self, button, button_index):
         if button.get_active():
-            print 'You selected %d button' % button_index
+            print('You selected %d button' % button_index)
 
 
 PyApp()

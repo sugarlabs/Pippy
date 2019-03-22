@@ -160,7 +160,7 @@ class MenuClass:
         focus_in = self.focus
 
         found = False
-        for i in xrange(len(self.items)):
+        for i in range(len(self.items)):
             item = self.items[i]
             if item.pos_inside(pos):
                 found = True
@@ -195,7 +195,7 @@ class MenuClass:
 
         surface.blit(s, (0, 0))
 
-        for i in xrange(len(self.items)):
+        for i in range(len(self.items)):
             item = self.items[i]
             if not item.parent:
                 x, y, w, h = item.rect

@@ -395,7 +395,7 @@ class Add:
             try:
                 polyDef.shape.valid
             except ValueError:
-                print "concavePoly: Created an invalid polygon!"
+                print("concavePoly: Created an invalid polygon!")
                 return None
 
             body.CreateFixture(polyDef)

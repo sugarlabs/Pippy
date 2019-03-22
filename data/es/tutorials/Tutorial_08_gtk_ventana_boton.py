@@ -11,7 +11,7 @@ class PyApp(Gtk.Window):
         self.set_size_request(250, 200)
 
         def button_cb(widget):
-            print 'click'
+            print('click')
 
         button = Gtk.Button("Boton")
         fixed = Gtk.Fixed()

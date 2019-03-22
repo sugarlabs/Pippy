@@ -68,7 +68,7 @@ class ViewSourceActivity(activity.Activity):
                 'icon-color': profile.get_color().to_string(),
                 'mime_type': 'text/x-python',
             }
-            for k, v in metadata.items():
+            for k, v in list(metadata.items()):
                 jobject.metadata[k] = v  # dict.update method is missing =(
             jobject.file_path = os.path.join(get_bundle_path(), 'pippy_app.py')
             datastore.write(jobject)
@@ -219,7 +219,7 @@ class PyGameActivity(ViewSourceActivity):
             sys.path[0:0] = [library_path]
             g = globals()
             g['__name__'] = '__main__'
-            execfile(pippy_app_path, g, g)  # start pygame
+            exec(compile(open(pippy_app_path).read(), pippy_app_path, 'exec'), g, g)  # start pygame
             sys.exit(0)
         super(PyGameActivity, self).__init__(handle)
         from gi.repository import GObject
