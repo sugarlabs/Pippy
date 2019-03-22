@@ -123,7 +123,6 @@ class VteActivity(ViewSourceActivity):
         separator.show()
 
         stop_button = StopButton(self)
-        stop_button.props.accelerator = '<Ctrl>q'
         toolbox.toolbar.insert(stop_button, -1)
         stop_button.show()
 
@@ -237,7 +236,6 @@ class PyGameActivity(ViewSourceActivity):
         toolbox.toolbar.insert(separator, -1)
         separator.show()
         stop_button = StopButton(self)
-        stop_button.props.accelerator = '<Ctrl>q'
         toolbox.toolbar.insert(stop_button, -1)
         stop_button.show()
         toolbox.toolbar.show_all()
