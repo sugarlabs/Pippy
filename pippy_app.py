@@ -91,7 +91,7 @@ import logging
 
 text_buffer = None
 # magic prefix to use utf-8 source encoding
-PYTHON_PREFIX = '''#!/usr/bin/python
+PYTHON_PREFIX = '''#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 '''
 # Force category names into Pootle
@@ -100,7 +100,7 @@ DEFAULT_CATEGORIES = [_('graphics'), _('math'), _('python'), _('sound'),
 
 _logger = logging.getLogger('pippy-activity')
 
-DISTUTILS_SETUP_SCRIPT = """#!/usr/bin/python
+DISTUTILS_SETUP_SCRIPT = """#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from distutils.core import setup
 setup(name='{modulename}',
@@ -111,7 +111,7 @@ setup(name='{modulename}',
       )
 """  # This is .format()'ed with the list of the file names.
 
-DISTUTILS_SETUP_SCRIPT = """#!/usr/bin/python
+DISTUTILS_SETUP_SCRIPT = """#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from distutils.core import setup
 setup(name='{modulename}',
@@ -684,7 +684,7 @@ class PippyActivity(ViewSourceActivity):
         self._pid = vte_run(
             Vte.PtyFlags.DEFAULT,
             get_bundle_path(),
-            ['/bin/sh', '-c', 'python %s; sleep 1' % current_file,
+            ['/bin/sh', '-c', 'python3 %s; sleep 1' % current_file,
              'PYTHONPATH=%s/library:%s' % (get_bundle_path(),
                                            os.getenv('PYTHONPATH', ''))],
             ['PYTHONPATH=%s/library:%s' % (get_bundle_path(),
@@ -829,7 +829,7 @@ class PippyActivity(ViewSourceActivity):
                 # FIXME: vte invocation was raising errors.
                 # Switched to subprocss
                 output = subprocess.check_output(
-                    ['/usr/bin/python2',
+                    ['/usr/bin/python3',
                      '%s/pippy_app.py' % get_bundle_path(),
                      '-p', '%s/library' % get_bundle_path(),
                      '-d', app_temp, title, sourcefile, icon])
@@ -899,7 +899,7 @@ class PippyActivity(ViewSourceActivity):
         os.chdir(app_temp)
 
         subprocess.check_output(
-            ['/usr/bin/python', os.path.join(app_temp, 'setup.py'), 'sdist',
+            ['/usr/bin/python3', os.path.join(app_temp, 'setup.py'), 'sdist',
              '-v'])
 
         # Hand off to journal
@@ -1143,7 +1143,7 @@ class PippyActivity(ViewSourceActivity):
 
             self._py_file_loaded_from_journal = True
 
-            # Discard the '#!/usr/bin/python' and 'coding: utf-8' lines,
+            # Discard the '#!/usr/bin/python3' and 'coding: utf-8' lines,
             # if present
             python_code = re.sub(r'^' + re.escape(PYTHON_PREFIX), '', text)
             name = self.metadata['title']

@@ -178,7 +178,7 @@ class VteActivity(ViewSourceActivity):
         self._pid = self._vte.fork_command_full(
             Vte.PtyFlags.DEFAULT,
             bundle_path,
-            ['/bin/sh', '-c', 'python %s/pippy_app.py; sleep 1' % bundle_path],
+            ['/bin/sh', '-c', 'python3 %s/pippy_app.py; sleep 1' % bundle_path],
             ["PYTHONPATH=%s/library" % bundle_path],
             GLib.SpawnFlags.DO_NOT_REAP_CHILD,
             None,
