@@ -19,7 +19,7 @@ class PyApp(Gtk.Window):
         menubar = Gtk.MenuBar()
         vbox.pack_start(menubar, False, False, 0)
 
-        self.label = Gtk.Label('Activa un item del menu')
+        self.label = Gtk.Label(label='Activa un item del menu')
         vbox.pack_start(self.label, True, True, 0)
 
         menu_file = Gtk.Menu()
@@ -103,7 +103,7 @@ class PyApp(Gtk.Window):
         menu_edit.append(separator)
 
         label = 'Pagina vertical'
-        item_vertical = Gtk.RadioMenuItem(label)
+        item_vertical = Gtk.RadioMenuItem(label=label)
         item_vertical.set_active(True)
         item_vertical.connect('toggled', self._toggled_cb, label)
         menu_edit.append(item_vertical)
@@ -127,7 +127,7 @@ class PyApp(Gtk.Window):
 
         menu_help = Gtk.Menu()
 
-        item_help = Gtk.MenuItem('Ayuda')
+        item_help = Gtk.MenuItem(label='Ayuda')
         item_help.set_submenu(menu_help)
         menubar.append(item_help)
 

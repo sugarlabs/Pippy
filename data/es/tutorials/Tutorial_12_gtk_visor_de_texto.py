@@ -24,7 +24,7 @@ class PyApp(Gtk.Window):
         box = Gtk.HBox()
         textview.add_child_at_anchor(box, anchor)
 
-        button = Gtk.Button('Haz click en mi')
+        button = Gtk.Button(label='Haz click en mi')
         button.connect('clicked', self._clicked_cb, textbuffer)
         box.pack_start(button, False, False, 0)
 

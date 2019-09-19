@@ -17,7 +17,7 @@ class PyApp(Gtk.Window):
         scrolled.add(vbox)
 
         for x in range(1, 16):
-            boton = Gtk.Button('Button %d' % x)
+            boton = Gtk.Button(label='Button %d' % x)
             vbox.pack_start(boton, False, False, 1)
 
         self.add(scrolled)
