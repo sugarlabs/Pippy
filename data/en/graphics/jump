@@ -1,6 +1,6 @@
 import pippy
 
-for i in xrange(0, 50):
+for i in range(0, 50):
     pippy.console.clear()
     if i < 25:
         pippy.console.red()
@@ -8,25 +8,25 @@ for i in xrange(0, 50):
         pippy.console.blue()
 
     # Note that we have to escape backslashes
-    print '\\o/'
-    print '_|_'
-    print '   '
+    print('\\o/')
+    print('_|_')
+    print('   ')
     pippy.wait()
 
     pippy.console.clear()
-    print '_o_'
-    print ' | '
-    print '/ \\'
+    print('_o_')
+    print(' | ')
+    print('/ \\')
     pippy.wait()
 
     pippy.console.clear()
-    print ' o '
-    print '/|\\'
-    print '| |'
+    print(' o ')
+    print('/|\\')
+    print('| |')
     pippy.wait()
 
     pippy.console.clear()
-    print '_o_'
-    print ' | '
-    print '/ \\'
+    print('_o_')
+    print(' | ')
+    print('/ \\')
     pippy.wait()

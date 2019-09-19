@@ -31,12 +31,12 @@ def DrawGrid(grid):
     for x in range(rows):
         for y in range(cols):
                 if grid[x][y] != 1:
-                    print '.',
+                    print('.', end=' ')
                 else:
                     neighbors = CountNeighbors(grid, x, y)
-                    print chr(neighbors+48),
+                    print(chr(neighbors+48), end=' ')
 #                   print 'o',
-        print '\n',
+        print('\n', end=' ')
 
 
 def CountNeighbors(grid, x, y):
@@ -119,13 +119,13 @@ def Iterator(rows, cols, pulses):
     grid = LoadCells(rows, cols)
     while pulse <= pulses:
 #       os.system('clear')
-        print 'Pulse: ', pulse
+        print('Pulse: ', pulse)
 #       Iteration(grid)
         grid = Iteration(grid)
         DrawGrid(grid)
         pulse += 1
         time.sleep(0.2)
 
-number = input('Please input the number of rows and cols (unique number):')
-pulses = input('Please input the number of pulses:')
+number = eval(input('Please input the number of rows and cols (unique number):'))
+pulses = eval(input('Please input the number of pulses:'))
 Iterator(number, 4*number, pulses)
