@@ -303,8 +303,7 @@ class SourceNotebook(AddNotebook):
 
         label = label.replace(' ', '_')
         if isinstance(label, str):
-            label = \
-                unicodedata.normalize('NFKD', label).encode('ascii', 'ignore')
+            label = unicodedata.normalize('NFKD', label)
 
         return label
 
