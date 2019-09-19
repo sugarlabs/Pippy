@@ -35,25 +35,25 @@ class PyApp(Gtk.Window):
         palette_box = Gtk.VBox()
         palette.set_content(palette_box)
 
-        checkbutton1 = Gtk.CheckButton('Option 1')
+        checkbutton1 = Gtk.CheckButton(label='Option 1')
         palette_box.pack_start(checkbutton1, False, False, 0)
 
-        checkbutton2 = Gtk.CheckButton('Option 2')
+        checkbutton2 = Gtk.CheckButton(label='Option 2')
         palette_box.pack_start(checkbutton2, False, False, 0)
 
-        checkbutton3 = Gtk.CheckButton('Option 3')
+        checkbutton3 = Gtk.CheckButton(label='Option 3')
         palette_box.pack_start(checkbutton3, False, False, 0)
 
         separator = Gtk.VSeparator()
         palette_box.pack_start(separator, False, False, 0)
 
-        radio_button1 = Gtk.RadioButton('Option 1')
+        radio_button1 = Gtk.RadioButton(label='Option 1')
         palette_box.pack_start(radio_button1, False, False, 0)
 
-        radio_button2 = Gtk.RadioButton('Option 2', group=radio_button1)
+        radio_button2 = Gtk.RadioButton(label='Option 2', group=radio_button1)
         palette_box.pack_start(radio_button2, False, False, 0)
 
-        radio_button3 = Gtk.RadioButton('Option 3', group=radio_button1)
+        radio_button3 = Gtk.RadioButton(label='Option 3', group=radio_button1)
         palette_box.pack_start(radio_button3, False, False, 0)
 
         palette_box.show_all()

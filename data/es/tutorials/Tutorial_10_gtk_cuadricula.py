@@ -15,19 +15,19 @@ class PyApp(Gtk.Window):
         grid.set_column_homogeneous(True)
         grid.set_row_homogeneous(True)
 
-        button = Gtk.Button('Boton 1')
+        button = Gtk.Button(label='Boton 1')
         grid.attach(button, 0, 0, 1, 1)
 
-        button = Gtk.Button('Boton 2')
+        button = Gtk.Button(label='Boton 2')
         grid.attach(button, 0, 2, 1, 2)
 
-        button = Gtk.Button('Boton 3')
+        button = Gtk.Button(label='Boton 3')
         grid.attach(button, 1, 1, 2, 2)
 
-        button = Gtk.Button('Boton 4')
+        button = Gtk.Button(label='Boton 4')
         grid.attach(button, 2, 0, 2, 1)
 
-        button = Gtk.Button('Boton 5')
+        button = Gtk.Button(label='Boton 5')
         grid.attach(button, 3, 3, 3, 3)
 
         self.add(grid)

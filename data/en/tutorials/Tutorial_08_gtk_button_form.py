@@ -14,7 +14,7 @@ class PyApp(Gtk.Window):
         def button_cb(widget):
             print('click')
 
-        button = Gtk.Button('Button')
+        button = Gtk.Button(label='Button')
         fixed = Gtk.Fixed()
         fixed.put(button, 20, 30)
         button.connect('clicked', button_cb)

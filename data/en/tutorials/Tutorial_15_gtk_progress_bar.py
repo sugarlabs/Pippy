@@ -23,7 +23,7 @@ class PyApp(Gtk.Window):
         self.bar1.set_vexpand(True)
         grid.attach(self.bar1, 1, 0, 3, 1)
 
-        label = Gtk.Label("Una barra de progreso simple")
+        label = Gtk.Label(label="Una barra de progreso simple")
         label.set_hexpand(True)
         grid.attach(label, 1, 1, 1, 1)
 
@@ -32,7 +32,7 @@ class PyApp(Gtk.Window):
         self.bar2.set_vexpand(True)
         grid.attach(self.bar2, 1, 2, 3, 1)
 
-        label = Gtk.Label("Una barra de progreso con pulsos")
+        label = Gtk.Label(label="Una barra de progreso con pulsos")
         grid.attach(label, 1, 3, 1, 1)
 
         GObject.timeout_add(200, self._update)

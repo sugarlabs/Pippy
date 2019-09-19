@@ -142,7 +142,7 @@ class FileDialog(Gtk.Dialog):
                 entry = {"name": _(_file.capitalize()),
                          "path": os.path.join(path, _file)}
 
-                button = Gtk.Button(entry['name'])
+                button = Gtk.Button(label=entry['name'])
                 button.set_tooltip_text(entry['path'])
                 button.set_has_tooltip(False)
                 button.connect('clicked', self._destroy, True)
