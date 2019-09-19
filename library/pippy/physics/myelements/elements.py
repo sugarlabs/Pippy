@@ -410,7 +410,7 @@ class Elements:
             self.mouseJoint.target = (x, y)
 
     def pickle_save(self, fn, additional_vars={}):
-        import _pickle as pickle
+        import pickle as pickle
         self.add.remove_mouseJoint()
 
         if not additional_vars and hasattr(self, '_pickle_vars'):
