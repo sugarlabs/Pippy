@@ -220,7 +220,7 @@ class PyGameActivity(ViewSourceActivity):
             sys.path[0:0] = [library_path]
             g = globals()
             g['__name__'] = '__main__'
-            exec(compile(open(pippy_app_path).read(), pippy_app_path, 'exec'), g, g)  # start pygame
+            exec(compile(open(pippy_app_path, "rb").read(), pippy_app_path, 'exec'), g, g)  # start pygame
             sys.exit(0)
         super(PyGameActivity, self).__init__(handle)
         from gi.repository import GObject
