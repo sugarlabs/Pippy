@@ -39,16 +39,16 @@ def size():
             if c == delimit:
                 break
             buf.append(c)
-        return ''.join(buf)
+        return b''.join(buf)
     oldattr = termios.tcgetattr(fd)  # make sure we can restore tty state
     tty.setraw(fd, termios.TCSANOW)  # set to raw mode.
-    os.write(fd, '\x1B[18t')         # write the 'query screen size' command
-    read_to_delimit('\x1b')          # parse response.
-    read_to_delimit('[')
-    size = read_to_delimit('t')
+    os.write(fd, b'\x1B[18t')         # write the 'query screen size' command
+    read_to_delimit(b'\x1b')          # parse response.
+    read_to_delimit(b'[')
+    size = read_to_delimit(b't')
     # Output can be '8;rows;cols' or 'rows;cols' depending on vte version.
     # (SL #843)
-    values = size.split(';')
+    values = size.split(b';')
     if len(values) == 3:
         rows = int(values[1])
         cols = int(values[2])
@@ -74,14 +74,14 @@ def getpos():
             if c == delimit:
                 break
             buf.append(c)
-        return ''.join(buf)
+        return b''.join(buf)
     oldattr = termios.tcgetattr(fd)  # make sure we can restore tty state
     tty.setraw(fd, termios.TCSANOW)  # set to raw mode.
-    os.write(fd, '\x1B[6n')          # Report Cursor Position
-    read_to_delimit('\x1b')          # parse response.
-    read_to_delimit('[')
-    row = int(read_to_delimit(';'))
-    col = int(read_to_delimit('R'))
+    os.write(fd, b'\x1B[6n')          # Report Cursor Position
+    read_to_delimit(b'\x1b')          # parse response.
+    read_to_delimit(b'[')
+    row = int(read_to_delimit(b';'))
+    col = int(read_to_delimit(b'R'))
     termios.tcsetattr(fd, termios.TCSANOW, oldattr)  # reset tty
     return col, row
 
