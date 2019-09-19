@@ -1,7 +1,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-from gi.repository import GObject
+from gi.repository import GLib
 
 
 class PyApp(Gtk.Window):
@@ -35,7 +35,7 @@ class PyApp(Gtk.Window):
         label = Gtk.Label(label="Una barra de progreso con pulsos")
         grid.attach(label, 1, 3, 1, 1)
 
-        GObject.timeout_add(200, self._update)
+        GLib.timeout_add(200, self._update)
 
         self.add(grid)
         self.show_all()
