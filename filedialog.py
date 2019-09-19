@@ -134,6 +134,8 @@ class FileDialog(Gtk.Dialog):
             if not files:
                 return None
 
+            files.sort()
+
             for _file in files:
                 if _file.endswith('~'):
                     continue
