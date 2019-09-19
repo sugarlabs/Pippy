@@ -13,13 +13,13 @@ for i in range(0, lines):
     newvector = vector[:]
     for j in range(0, len(vector) - 1):
         if (newvector[j] == 0):
-            print ' ',
+            print(' ', end=' ')
         else:
             remainder = newvector[j] % modulus
             if (remainder == 0):
-                print 'O',
+                print('O', end=' ')
             else:
-                print '.',
+                print('.', end=' ')
         newvector[j] = vector[j - 1] + vector[j + 1]
-    print
+    print()
     vector = newvector[:]

@@ -8,7 +8,7 @@
 vowels = ['a', 'e', 'i', 'o', 'u']
 
 # then we ask for a string to make the replacements
-text = raw_input("Please input your text to translate to jeringoso:")
+text = input("Please input your text to translate to jeringoso:")
 length = len(text)
 jeringoso = ""
 for i in range(length):
@@ -18,4 +18,4 @@ for i in range(length):
     else:
         jeringoso = jeringoso + char
 
-print jeringoso
+print(jeringoso)
