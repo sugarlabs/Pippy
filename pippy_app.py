@@ -605,7 +605,7 @@ class PippyActivity(ViewSourceActivity):
 
     def _reset_vte(self):
         self._vte.grab_focus()
-        self._vte.feed('\x1B[H\x1B[J\x1B[0;39m')
+        self._vte.feed(b'\x1B[H\x1B[J\x1B[0;39m')
 
     def __undobutton_cb(self, butston):
         text_buffer = self._source_tabs.get_text_buffer()
@@ -774,8 +774,8 @@ class PippyActivity(ViewSourceActivity):
         self._stop_button_cb(None)  # try stopping old code first.
         self._reset_vte()
         self._outbox.show_all()
-        self._vte.feed(_("Creating activity bundle..."))
-        self._vte.feed("\r\n")
+        self._vte.feed(_("Creating activity bundle...").encode())
+        self._vte.feed(b'\r\n')
         TMPDIR = 'instance'
         app_temp = mkdtemp('.activity', 'Pippy',
                            os.path.join(self.get_activity_root(), TMPDIR))
@@ -789,8 +789,8 @@ class PippyActivity(ViewSourceActivity):
                 icon = window.get_icon()
             self._stop_button_cb(None)  # Try stopping old code first.
             self._reset_vte()
-            self._vte.feed(_('Creating activity bundle...'))
-            self._vte.feed('\r\n')
+            self._vte.feed(_('Creating activity bundle...').encode())
+            self._vte.feed(b'\r\n')
 
             TMPDIR = 'instance'
             app_temp = mkdtemp('.activity', 'Pippy',
@@ -811,12 +811,12 @@ class PippyActivity(ViewSourceActivity):
                      '-p', '%s/library' % get_bundle_path(),
                      '-d', app_temp, title, sourcefile, icon])
                 self._vte.feed(output)
-                self._vte.feed('\r\n')
+                self._vte.feed(b'\r\n')
                 self._bundle_cb(title, app_temp)
             except subprocess.CalledProcessError:
                 rmtree(app_temp, ignore_errors=True)  # clean up!
-                self._vte.feed(_('Save as Activity Error'))
-                self._vte.feed('\r\n')
+                self._vte.feed(_('Save as Activity Error').encode())
+                self._vte.feed(b'\r\n')
                 raise
 
         def _alert_response(alert, response_id):
@@ -910,8 +910,8 @@ class PippyActivity(ViewSourceActivity):
             return
         self._stop_button_cb(None)  # Try stopping old code first.
         self._reset_vte()
-        self._vte.feed(_('Creating example...'))
-        self._vte.feed('\r\n')
+        self._vte.feed(_('Creating example...').encode())
+        self._vte.feed(b'\r\n')
         local_data = os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'], 'data')
         local_file = os.path.join(local_data, title)
         if os.path.exists(local_file):
@@ -924,8 +924,8 @@ class PippyActivity(ViewSourceActivity):
         else:
             self.write_file(local_file)
             self._reset_vte()
-            self._vte.feed(_('Saved as example.'))
-            self._vte.feed('\r\n')
+            self._vte.feed(_('Saved as example.').encode())
+            self._vte.feed(b'\r\n')
             self._add_to_example_list(local_file)
 
     def _child_exited_cb(self, *args):
@@ -945,9 +945,9 @@ class PippyActivity(ViewSourceActivity):
             if len(bundle_file) != 1:
                 _logger.debug("Couldn't find bundle: %s" %
                               str(bundle_file))
-                self._vte.feed('\r\n')
-                self._vte.feed(_('Error saving activity to journal.'))
-                self._vte.feed('\r\n')
+                self._vte.feed(b'\r\n')
+                self._vte.feed(_('Error saving activity to journal.').encode())
+                self._vte.feed(b'\r\n')
                 return  # Something went wrong.
             # Hand off to journal
             os.chmod(app_temp, 0o755)
@@ -965,9 +965,9 @@ class PippyActivity(ViewSourceActivity):
                 jobject.metadata[k] = v
             jobject.file_path = os.path.join(app_temp, bundle_file[0])
             datastore.write(jobject)
-            self._vte.feed('\r\n')
-            self._vte.feed(_('Activity saved to journal.'))
-            self._vte.feed('\r\n')
+            self._vte.feed(b'\r\n')
+            self._vte.feed(_('Activity saved to journal.').encode())
+            self._vte.feed(b'\r\n')
             self.journal_show_object(jobject.object_id)
             jobject.destroy()
         finally:
@@ -982,8 +982,8 @@ class PippyActivity(ViewSourceActivity):
         if response_id is Gtk.ResponseType.OK:
             self.write_file(local_file)
             self._reset_vte()
-            self._vte.feed(_('Saved as example.'))
-            self._vte.feed('\r\n')
+            self._vte.feed(_('Saved as example.').encode())
+            self._vte.feed(b'\r\n')
         else:
             self._reset_vte()
 
