@@ -280,11 +280,11 @@ if __name__ == "__main__":
     SCREEN_SIZE = 10
 
     def mock_debug(string):
-        print(("\tDEBUG: %s" % string))
+        print("\tDEBUG: %s" % string)
     logging.debug = mock_debug
 
     def mock_find(query, sorting=None, limit=None, offset=None, properties=[]):
-        print(("mock_find %r %r" % (offset, (offset + limit))))
+        print("mock_find %r %r" % (offset, (offset + limit)))
 
         if limit is None or offset is None:
             raise RuntimeError("Unimplemented test.")
