@@ -148,6 +148,11 @@ class PippySourceView(GtkSource.View):
     def __init__(self, buffer_text, editor_id, collab):
         GtkSource.View.__init__(self)
 
+        self._css_provider = Gtk.CssProvider()
+        self.set_light()
+        self.get_style_context().add_provider(
+            self._css_provider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+
         text_buffer = GtkSource.Buffer()
         TextBufferCollaberizer(text_buffer, editor_id, collab)
 
@@ -189,6 +194,21 @@ class PippySourceView(GtkSource.View):
             Pango.FontDescription(
                 'Monospace {}'.format(font_size)))
 
+    def set_dark(self):
+        theme = b"""
+            textview text {
+                background: @black;
+                color: @white;
+            }"""
+        self._css_provider.load_from_data(theme)
+
+    def set_light(self):
+        theme = b"""
+            textview text {
+                background: @white;
+                color: @black;
+            }"""
+        self._css_provider.load_from_data(theme)
 
 class SourceNotebook(AddNotebook):
     def __init__(self, activity, collab):
@@ -351,6 +371,18 @@ class SourceNotebook(AddNotebook):
 
     def get_font_size(self):
         return self._font_size
+
+    def set_light(self):
+        for i in range(self.get_n_pages()):
+            page = self.get_nth_page(i)
+            children = page.get_children()
+            children[0].set_light()
+
+    def set_dark(self):
+        for i in range(self.get_n_pages()):
+            page = self.get_nth_page(i)
+            children = page.get_children()
+            children[0].set_dark()
 
     def child_exited_cb(self, *args):
         '''Called whenever a child exits.  If there's a handler, runadd it.'''

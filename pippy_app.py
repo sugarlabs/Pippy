@@ -251,6 +251,14 @@ class PippyActivity(ViewSourceActivity):
         actions_toolbar.insert(self._toggle_output, -1)
         self._toggle_output.show()
 
+        self._inverted_colors = ToggleToolButton(icon_name='dark-theme')
+        self._inverted_colors.set_tooltip(_('Inverted Colors'))
+        self._inverted_colors.set_accelerator('<Ctrl><Shift>I')
+        self._inverted_colors.connect(
+            'toggled', self.__inverted_colors_toggled_cb)
+        actions_toolbar.insert(self._inverted_colors, -1)
+        self._inverted_colors.show()
+
         icons_path = os.path.join(get_bundle_path(), 'icons')
 
         icon_bw = Gtk.Image()
@@ -404,17 +412,7 @@ class PippyActivity(ViewSourceActivity):
         self._vte.set_size(30, 5)
         self._vte.set_scrollback_lines(-1)
 
-        # XXX support both Vte APIs
-        if _has_new_vte_api():
-            foreground = Gdk.RGBA()
-            foreground.parse('#000000')
-            background = Gdk.RGBA()
-            background.parse('#E7E7E7')
-        else:
-            foreground = Gdk.color_parse('#000000')
-            background = Gdk.color_parse('#E7E7E7')
-
-        self._vte.set_colors(foreground, background, [])
+        self._vte_set_colors('#000000', '#E7E7E7')
 
         self._child_exited_handler = None
         self._vte.connect('child_exited', self._child_exited_cb)
@@ -432,6 +430,19 @@ class PippyActivity(ViewSourceActivity):
         self._outbox.show()
         vpane.show()
         return vpane
+
+    def _vte_set_colors(self, bg, fg):
+        # XXX support both Vte APIs
+        if _has_new_vte_api():
+            foreground = Gdk.RGBA()
+            foreground.parse(bg)
+            background = Gdk.RGBA()
+            background.parse(fg)
+        else:
+            foreground = Gdk.color_parse(bg)
+            background = Gdk.color_parse(fg)
+
+        self._vte.set_colors(foreground, background, [])
 
     def after_init(self):
         self._outbox.hide()
@@ -496,6 +507,18 @@ class PippyActivity(ViewSourceActivity):
             self._outbox.hide()
             self._toggle_output.set_tooltip(_('Show output panel'))
             self._toggle_output.set_icon_name('tray-show')
+
+    def __inverted_colors_toggled_cb(self, button):
+        if button.props.active:
+            self._vte_set_colors('#E7E7E7', '#000000')
+            self._source_tabs.set_dark()
+            button.set_icon_name('light-theme')
+            button.set_tooltip(_('Normal Colors'))
+        else:
+            self._vte_set_colors('#000000', '#E7E7E7')
+            self._source_tabs.set_light()
+            button.set_icon_name('dark-theme')
+            button.set_tooltip(_('Inverted Colors'))
 
     def _load_example_cb(self, widget):
         widget.set_icon_name('pippy-openon')
