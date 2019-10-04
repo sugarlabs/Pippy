@@ -168,6 +168,7 @@ class CollabWrapper(GObject.GObject):
         self._leader = False
         self._init_waiting = False
         self._text_channel = None
+        self._owner = presenceservice.get_instance().get_owner()
 
     def setup(self):
         '''
@@ -399,6 +400,13 @@ class CollabWrapper(GObject.GObject):
         ever be one leader for an activity.
         '''
         return self._leader
+
+    @GObject.property
+    def owner(self):
+        '''
+        Ourselves, :class:`sugar3.presence.buddy.Owner`
+        '''
+        return self._owner
 
 
 FT_STATE_NONE = 0
