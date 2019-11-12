@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 17:39+1100\n"
-"PO-Revision-Date: 2018-08-20 20:25+0000\n"
+"PO-Revision-Date: 2019-03-09 00:55+0000\n"
 "Last-Translator: Paulo Francisco <slomp@ufrgs.br>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1534796735.000000\n"
+"X-POOTLE-MTIME: 1552092953.000000\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -58,7 +58,7 @@ msgstr "Diminuir o zoom"
 #: activity.py:65
 #, python-format
 msgid "%s Source"
-msgstr "Fonte de %s"
+msgstr "%s Fonte"
 
 #: icondialog.py:116
 msgid "Select an icon"
@@ -280,7 +280,7 @@ msgstr "Este exemplo já existe. Você quer sobrescrevê-lo?"
 
 #: pippy_app.py:935 pippy_app.py:993
 msgid "Saved as example."
-msgstr "Salvo como exemplo"
+msgstr "Salvo como exemplo."
 
 #: pippy_app.py:957
 msgid "Error saving activity to journal."
