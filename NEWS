@@ -1,3 +1,14 @@
+72.1
+
+* Update Collabwrapper to favour TelepathyGLib (Aniket Mathur),
+* Remove empty locale files (James Cameron),
+* Using default acclerator (Aniket Mathur),
+* Define PyGObject versions before import (Aniket Mathur),
+* Add dark mode for embedded terminal and source view (James Cameron),
+* Fix example ordering (James Cameron),
+* Fix GTK deprecation warnings in tutorials (James Cameron),
+* Port from GObject to GLib in tutorials (James Cameron).
+
 72
 
 * Fix license inconsistencies, remove groupthink (James Cameron),
