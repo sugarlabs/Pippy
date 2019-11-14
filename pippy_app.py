@@ -1178,7 +1178,7 @@ class PippyActivity(ViewSourceActivity):
                         if 'mime_type' not in dsobject.metadata:
                             _logger.error(
                                 'Warning: %s missing mime_type' % content)
-                        elif dsobject.metadata['mime_type'] != 'text/python':
+                        elif dsobject.metadata['mime_type'] != 'text/x-python':
                             _logger.error(
                                 'Warning: %s has unexpected mime_type %s' %
                                 (content, dsobject.metadata['mime_type']))
