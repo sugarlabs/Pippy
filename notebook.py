@@ -44,6 +44,9 @@ class TabLabel(Gtk.HBox):
         'tab-close': (GObject.SignalFlags.RUN_FIRST,
                       None,
                       ([GObject.TYPE_PYOBJECT])),
+        'tab-rename': (GObject.SignalFlags.RUN_FIRST,
+                      None,
+                      ([GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT, ])),
     }
 
     def __init__(self, child, label, path, tabs, editor_id):
@@ -77,8 +80,9 @@ class TabLabel(Gtk.HBox):
         self._close_button = button
         tab_object.append(self)
 
-    def set_text(self, title):
-        self._label.set_text(title)
+    def set_text(self, label):
+        self.label_text = label
+        self._label.set_text(self.label_text)
 
     def get_text(self):
         return self._label.get_text()
@@ -111,8 +115,11 @@ class TabLabel(Gtk.HBox):
             self.label_entry.show()
 
     def _label_entry_cb(self, entry, focus=None):
-        if self.label_entry.get_text() != "":
-            self.label_text = self.label_entry.get_text()
+        label = self.label_entry.get_text()
+        if label != "":
+            if label != self.label_text:
+                self.label_text = label
+                self.emit('tab-rename', self.child, label)
         self.label_box.show_all()
         self.label_entry.hide()
         self._label.set_text(self.label_text)
@@ -129,6 +136,9 @@ class AddNotebook(Gtk.Notebook):
         'tab-added': (GObject.SignalFlags.RUN_FIRST,
                       None,
                       ([])),
+        'tab-renamed': (GObject.SignalFlags.RUN_FIRST,
+                      None,
+                      ([GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT, ])),
     }
 
     def __init__(self):
@@ -213,17 +223,18 @@ class SourceNotebook(AddNotebook):
         text_view.show()
         text_view.grab_focus()
         if label:
-            self.tablabel = TabLabel(codesw, label, path, self, editor_id)
+            tablabel = TabLabel(codesw, label, path, self, editor_id)
         else:
-            self.tablabel = TabLabel(codesw,
+            tablabel = TabLabel(codesw,
                                      _('New Source File %d' % self.last_tab),
                                      path, self, editor_id)
-        self.tablabel.connect('tab-close', self._tab_closed_cb)
+        tablabel.connect('tab-close', self._tab_closed_cb)
+        tablabel.connect('tab-rename', self._tab_renamed_cb)
         self.connect('key-press-event', self._key_press_cb)
 
         codesw.show_all()
 
-        index = self.append_page(codesw, self.tablabel)
+        index = self.append_page(codesw, tablabel)
         self.props.page = index  # Set new page as active tab
 
         # Show close only when tabs > 1
@@ -376,12 +387,13 @@ class SourceNotebook(AddNotebook):
         except IndexError:
             pass
 
-    def rename_tab(self, iterator1):
-        for i in range(iterator1, self.get_n_pages()):
-            mo = re.match('New Source File ', tab_object[i].get_text())
-            if mo is not None:
-                tab_object[i].label_text = 'New Source File ' + \
-                                           str(self.last_tab + 1)
-            else:
-                tab_object[i].label_text = tab_object[i].get_text()
-            tab_object[i]._label.set_text(tab_object[i].label_text)
+    def _tab_renamed_cb(self, tablabel, child, name):
+        index = self.page_num(child)
+        logging.debug('SourceNotebook._tab_renamed_cb %r %r' % (index, name))
+        self.emit('tab-renamed', index, name)
+
+    def rename_tab(self, index, name):
+        logging.debug('SourceNotebook.rename_tab %r %r' % (index, name))
+        page = self.get_nth_page(index)
+        tablabel = self.get_tab_label(page)
+        tablabel.set_text(name)

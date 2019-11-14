@@ -387,6 +387,7 @@ class PippyActivity(ViewSourceActivity):
 
         self._source_tabs = SourceNotebook(self, self._collab)
         self._source_tabs.connect('tab-added', self._add_source_cb)
+        self._source_tabs.connect('tab-renamed', self._rename_source_cb)
         if self._loaded_session:
             for name, content, path in self._loaded_session:
                 self._source_tabs.add_tab(name, content, path)
@@ -523,6 +524,10 @@ class PippyActivity(ViewSourceActivity):
             # up the text buffer
             self._collab.post(dict(action='add-source-request'))
 
+    def _rename_source_cb(self, notebook, page, name):
+        _logger.debug('_rename_source_cb %r %r' % (page, name))
+        self._collab.post(dict(action='rename-source', page=page, name=name))
+
     def __message_cb(self, collab, buddy, msg):
         action = msg.get('action')
         if action == 'add-source-request' and self._collab._leader:
@@ -530,6 +535,11 @@ class PippyActivity(ViewSourceActivity):
         elif action == 'add-source':
             self._add_source_cb(
                 None, force=True, editor_id=msg.get('editor_id'))
+        elif action == 'rename-source':
+            page = msg.get('page')
+            name = msg.get('name')
+            _logger.debug('__message_cb rename-source %r %r' % (page, name))
+            self._source_tabs.rename_tab(page, name)
 
     def _vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
