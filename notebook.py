@@ -280,7 +280,7 @@ class SourceNotebook(AddNotebook):
     def set_current_label(self, label):
         child = self.get_nth_page(self.get_current_page())
         widget = self.get_tab_label(child)
-        widget.set_text(self._purify_file(label))
+        widget.set_text(self.purify_name(label))
 
     def set_current_path(self, path):
         child = self.get_nth_page(self.get_current_page())
@@ -297,7 +297,7 @@ class SourceNotebook(AddNotebook):
         text_view = tab[0]
         return text_view
 
-    def _purify_file(self, label):
+    def purify_name(self, label):
         if not label.endswith('.py'):
             label = label + '.py'
 
@@ -318,7 +318,7 @@ class SourceNotebook(AddNotebook):
         for i in range(0, self.get_n_pages()):
             child = self.get_nth_page(i)
 
-            label = self._purify_file(self.get_tab_label(child).get_text())
+            label = self.get_tab_label(child).get_text()
             names.append(label)
 
             path = self.get_tab_label(child).get_path()
@@ -338,7 +338,7 @@ class SourceNotebook(AddNotebook):
     def get_current_file_name(self):
         child = self.get_nth_page(self.get_current_page())
         label = self.get_tab_label(child).get_text()
-        label = self._purify_file(label)
+        label = self.purify_name(label)
 
         return label
 
