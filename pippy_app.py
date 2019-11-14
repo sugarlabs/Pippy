@@ -476,14 +476,14 @@ class PippyActivity(ViewSourceActivity):
                 Pango.FontDescription('Monospace {}'.format(font_size)))
 
     def __active_cb(self, widget, event):
-        logging.debug('__active_cb %r', self.props.active)
+        _logger.debug('__active_cb %r', self.props.active)
         if self.props.active:
             self.resume()
         else:
             self.pause()
 
     def do_visibility_notify_event(self, event):
-        logging.debug('do_visibility_notify_event %r', event.get_state())
+        _logger.debug('do_visibility_notify_event %r', event.get_state())
         if event.get_state() == Gdk.VisibilityState.FULLY_OBSCURED:
             self.pause()
         else:
@@ -1035,7 +1035,7 @@ class PippyActivity(ViewSourceActivity):
         app_temp = os.path.join(self.get_activity_root(), 'instance')
         tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
         for zipdata, content in zip(zipped_data, self.session_data):
-            logging.debug('Session data %r', content)
+            _logger.debug('Session data %r', content)
             name, python_code, path, modified, editor_id = zipdata
             if content is not None and content == self._py_object_id:
                 _logger.debug('saving to self')
