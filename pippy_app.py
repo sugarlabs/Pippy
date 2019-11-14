@@ -619,6 +619,7 @@ class PippyActivity(ViewSourceActivity):
         data = self._source_tabs.get_all_data()
         zipdata = list(zip(data[0], data[1]))
         for name, content in zipdata:
+            name = self._source_tabs.purify_name(name)
             with open(os.path.join(tmp_dir, name), 'w') as f:
                 # Write utf-8 coding prefix if there's not one already
                 if re.match(r'coding[:=]\s*([-\w.]+)',
