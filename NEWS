@@ -1,3 +1,10 @@
+72.2
+
+* Fix mime_type log error (James Cameron),
+* Fix renaming of notebook tab label during collaboration (James Cameron),
+* Use logging consistently (James Cameron),
+* Share renaming of notebook tabs (James Cameron),
+
 72.1
 
 * Update Collabwrapper to favour TelepathyGLib (Aniket Mathur),
