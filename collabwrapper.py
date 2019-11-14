@@ -308,7 +308,7 @@ class CollabWrapper(GObject.GObject):
                     OutgoingBlobTransfer(
                         buddy,
                         self.shared_activity.telepathy_conn,
-                        data,
+                        data.encode(),
                         self.get_client_name(),
                         ACTION_INIT_RESPONSE,
                         ACTIVITY_FT_MIME)
