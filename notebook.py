@@ -139,6 +139,9 @@ class AddNotebook(Gtk.Notebook):
         'tab-renamed': (GObject.SignalFlags.RUN_FIRST,
                       None,
                       ([GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT, ])),
+        'tab-closed': (GObject.SignalFlags.RUN_FIRST,
+                      None,
+                      ([GObject.TYPE_PYOBJECT, ])),
     }
 
     def __init__(self):
@@ -371,8 +374,7 @@ class SourceNotebook(AddNotebook):
         if h is not None:
             h()
 
-    def _tab_closed_cb(self, notebook, child):
-        index = self.page_num(child)
+    def __tab_close(self, index):
         self.remove_page(index)
         tab_object.pop(index)
         # Hide close button if only one tab present
@@ -386,6 +388,16 @@ class SourceNotebook(AddNotebook):
             del self.activity.session_data[index]
         except IndexError:
             pass
+
+    def _tab_closed_cb(self, notebook, child):
+        index = self.page_num(child)
+        logging.debug('SourceNotebook._tab_closed_cb %r' % (index))
+        self.__tab_close(index)
+        self.emit('tab-closed', index)
+
+    def close_tab(self, index):
+        logging.debug('SourceNotebook.close_tab %r' % (index))
+        self.__tab_close(index)
 
     def _tab_renamed_cb(self, tablabel, child, name):
         index = self.page_num(child)
