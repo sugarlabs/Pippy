@@ -829,12 +829,12 @@ class _TextChannelWrapper(object):
                 nick = self._conn[
                     CONN_INTERFACE_ALIASING].RequestAliases([sender])[0]
                 buddy = {'nick': nick, 'color': '#000000,#808080'}
-                _logger.debug('exception: recieved from sender %r buddy %r' %
+                _logger.debug('exception: received from sender %r buddy %r' %
                               (sender, buddy))
             else:
                 # XXX: cache these
                 buddy = self._get_buddy(sender)
-                _logger.debug('Else: recieved from sender %r buddy %r' %
+                _logger.debug('Else: received from sender %r buddy %r' %
                               (sender, buddy))
 
             self._activity_cb(buddy, msg)
