@@ -396,6 +396,7 @@ class PippyActivity(ViewSourceActivity):
         self._source_tabs = SourceNotebook(self, self._collab)
         self._source_tabs.connect('tab-added', self._add_source_cb)
         self._source_tabs.connect('tab-renamed', self._rename_source_cb)
+        self._source_tabs.connect('tab-closed', self._close_source_cb)
         if self._loaded_session:
             for name, content, path in self._loaded_session:
                 self._source_tabs.add_tab(name, content, path)
@@ -551,6 +552,10 @@ class PippyActivity(ViewSourceActivity):
         _logger.debug('_rename_source_cb %r %r' % (page, name))
         self._collab.post(dict(action='rename-source', page=page, name=name))
 
+    def _close_source_cb(self, notebook, page):
+        _logger.debug('_close_source_cb %r' % (page))
+        self._collab.post(dict(action='close-source', page=page))
+
     def __message_cb(self, collab, buddy, msg):
         action = msg.get('action')
         if action == 'add-source-request' and self._collab._leader:
@@ -563,6 +568,10 @@ class PippyActivity(ViewSourceActivity):
             name = msg.get('name')
             _logger.debug('__message_cb rename-source %r %r' % (page, name))
             self._source_tabs.rename_tab(page, name)
+        elif action == 'close-source':
+            page = msg.get('page')
+            _logger.debug('__message_cb close-source %r' % (page))
+            self._source_tabs.close_tab(page)
 
     def _vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
@@ -578,6 +587,7 @@ class PippyActivity(ViewSourceActivity):
         try:
             self._source_tabs.remove_page(0)
             tab_object.pop(0)
+            self._source_tabs.last_tab = 0
         except IndexError:
             pass
 
@@ -1132,6 +1142,7 @@ class PippyActivity(ViewSourceActivity):
         try:
             self._source_tabs.remove_page(0)
             tab_object.pop(0)
+            self._source_tabs.last_tab = 0
         except IndexError:
             pass
 
