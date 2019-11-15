@@ -308,3 +308,14 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "ATURAT"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Esborra"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "Voleu esborrar \"%s\" de forma permanent?"
+

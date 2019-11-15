@@ -301,3 +301,14 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "EM PAUSA"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Apagar"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "Tem a certeza que pretende eliminar permanentemente \"%s\"?"
+

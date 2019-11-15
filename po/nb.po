@@ -173,3 +173,8 @@ msgstr "Aktivitet lagret til dagbok."
 
 #~ msgid "Please install TamTamEdit's sound library."
 #~ msgstr "Vennligst installer TamTamEdit sitt lydbibliotek."
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Slett"
+

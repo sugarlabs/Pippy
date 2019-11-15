@@ -289,3 +289,14 @@ msgstr "gotovo!"
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "ZAUSTAVLJENO"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Izbrisati"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "Želiš trajno izbrisati „%s“?"
+

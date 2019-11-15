@@ -308,3 +308,14 @@ msgstr "klaar!"
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "GEPAUZEERD"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Wissen"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "Wil je permanent verwijderen \"%s\"?"
+

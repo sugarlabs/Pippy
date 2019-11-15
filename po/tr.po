@@ -299,3 +299,8 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "Ara"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Silme"
+

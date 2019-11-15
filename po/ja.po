@@ -296,3 +296,8 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "一時停止中"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "消去する"
+

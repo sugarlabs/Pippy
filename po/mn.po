@@ -298,3 +298,8 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "ТҮР ЗОГССОН"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Арилгах"
+

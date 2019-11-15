@@ -300,3 +300,14 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "Bii"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "nu"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "Ṣe o fẹ lati patapata nu \"%s\"?"
+

@@ -301,3 +301,8 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "ПАУЗИРАНО"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Избриши"
+

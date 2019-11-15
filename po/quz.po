@@ -318,3 +318,14 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "SAYARICHISQA"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Pichay"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "¿Sapa kutichu pichayta munanki kay kaq \"%s\" nisqataqa?"
+
