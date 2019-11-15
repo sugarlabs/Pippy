@@ -151,3 +151,14 @@ msgstr "Oñeñongatu techapyrãicha."
 #: pippy_app.py:546
 msgid "Activity saved to journal."
 msgstr "Mba'apo oñeñongatu tembiapokuérañeñongatuha."
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Mbogue"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "Emboguese opyta haguãicha \"%s\"?"
+

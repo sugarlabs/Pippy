@@ -299,3 +299,14 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "இடைநிறுத்து"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "அழி"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "உங்களுக்கு நிரந்திரமாக அழிக்க விருப்பமா \"%s\"?"
+

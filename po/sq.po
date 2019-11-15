@@ -307,3 +307,14 @@ msgstr "u bë!"
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "E PUSHUAR"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Fshije"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "Doni të fshihet \"%s\" përgjithmonë?"
+

@@ -31,6 +31,7 @@ from gi.repository import GtkSource
 from gettext import gettext as _
 
 from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.alert import ConfirmationAlert
 
 from texteditor import TextBufferCollaberizer
 
@@ -273,21 +274,8 @@ class SourceNotebook(AddNotebook):
         if event.get_state() & Gdk.ModifierType.CONTROL_MASK:
             if key_name == 'w':
                 if self.get_n_pages() > 1:
-                    index = self.get_current_page()
-                    self.remove_page(index)
-                    tab_object.pop(index)
-                    try:
-                        logging.debug('deleting session_data %s' %
-                                      str(self.activity.session_data[index]))
-                        del self.activity.session_data[index]
-                    except IndexError:
-                        pass
-                    # Show close only when tabs > 1
-                    only_widget = self.get_nth_page(0)
-                    if self.get_n_pages() == 1:
-                        self.get_tab_label(only_widget).hide_close_button()
-                    else:
-                        self.get_tab_label(only_widget).show_close_button()
+                    self._tab_closed_cb(
+                        None, self.get_nth_page(self.get_current_page()))
             elif key_name in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
                 if int(key_name) <= self.get_n_pages():
                     self.set_current_page(int(key_name) - 1)
@@ -419,7 +407,24 @@ class SourceNotebook(AddNotebook):
 
     def _tab_closed_cb(self, notebook, child):
         index = self.page_num(child)
-        logging.debug('SourceNotebook._tab_closed_cb %r' % (index))
+
+        page = self.get_nth_page(index)
+        tablabel = self.get_tab_label(page)
+        alert = ConfirmationAlert()
+        alert.props.title = _('Erase')
+        alert.props.msg = _('Do you want to permanently erase \"%s\"?') \
+                          % tablabel.get_text()
+        alert.connect('response', self._tab_close_alert_response_cb, index)
+        self.activity.add_alert(alert)
+
+    def _tab_close_alert_response_cb(self, alert, response_id, index):
+        self.activity.remove_alert(alert)
+
+        if response_id is not Gtk.ResponseType.OK:
+            return
+
+        logging.debug(
+            'SourceNotebook._tab_close_alert_response_cb %r' % (index))
         self.__tab_close(index)
         self.emit('tab-closed', index)
 

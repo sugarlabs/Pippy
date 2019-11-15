@@ -303,3 +303,14 @@ msgstr "完成！"
 #, fuzzy
 msgid "PAUSED"
 msgstr "暂停"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "删除"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "你想永久删除“%s”？"
+

@@ -297,3 +297,8 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "স্থগিত"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "মুছে ফেলো"
+

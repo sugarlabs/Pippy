@@ -303,3 +303,14 @@ msgstr "atlikta!"
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "PRISTABDYTA"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Ištrinti"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "Ar norite negrįžtamai ištrinti \"%s\"?"
+

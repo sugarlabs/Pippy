@@ -297,3 +297,14 @@ msgstr ""
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "विराम"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "मिटाएँ"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "आप स्थायी रूप से \"%s\" को मिटाना चाहते हैं?"
+

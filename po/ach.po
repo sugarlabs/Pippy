@@ -304,3 +304,14 @@ msgstr "otum!"
 #: library/pippy/game.py:36
 msgid "PAUSED"
 msgstr "OCUNG"
+
+#: notebook.py:428
+msgid "Erase"
+msgstr "Jwa"
+
+
+#: notebook.py:429
+#, python-format
+msgid "Do you want to permanently erase \"%s\"?"
+msgstr "Imito jwayo matwal \"%s\"?"
+
