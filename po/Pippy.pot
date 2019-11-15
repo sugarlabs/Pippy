@@ -135,6 +135,10 @@ msgstr ""
 msgid "Show output panel"
 msgstr ""
 
+#: pippy_app.py:256 pippy_app.py:524
+msgid "Inverted Colors"
+msgstr ""
+
 #: pippy_app.py:261 pippy_app.py:264
 msgid "Run!"
 msgstr ""
@@ -169,6 +173,10 @@ msgstr ""
 
 #: pippy_app.py:492
 msgid "Hide output panel"
+msgstr ""
+
+#: pippy_app.py:519
+msgid "Normal Colors"
 msgstr ""
 
 #: pippy_app.py:699
