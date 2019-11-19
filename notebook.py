@@ -381,6 +381,15 @@ class SourceNotebook(AddNotebook):
         index = self.page_num(child)
 
         page = self.get_nth_page(index)
+
+        text_buffer = page.get_children()[0].get_buffer()
+        char_count = text_buffer.get_char_count()
+
+        if char_count == 0:
+            self.__tab_close(index)
+            self.emit('tab-closed', index)
+            return
+
         tablabel = self.get_tab_label(page)
         alert = ConfirmationAlert()
         alert.props.title = _('Erase')
