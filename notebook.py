@@ -411,14 +411,23 @@ class SourceNotebook(AddNotebook):
         page = self.get_nth_page(index)
 
         text_buffer = page.get_children()[0].get_buffer()
-        char_count = text_buffer.get_char_count()
+        empty = text_buffer.get_char_count() == 0
 
-        if char_count == 0:
+        if empty:
             self.__tab_close(index)
             self.emit('tab-closed', index)
             return
 
         tablabel = self.get_tab_label(page)
+        path = tablabel.get_path()
+        example = self.activity.is_example(path)
+        pristine = not text_buffer.get_modified()
+
+        if example and pristine:
+            self.__tab_close(index)
+            self.emit('tab-closed', index)
+            return
+
         alert = ConfirmationAlert()
         alert.props.title = _('Erase')
         alert.props.msg = _('Do you want to permanently erase \"%s\"?') \

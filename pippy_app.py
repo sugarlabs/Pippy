@@ -1038,6 +1038,16 @@ class PippyActivity(ViewSourceActivity):
         self.model.set_value(_iter, 0, entry)
         self.model.set_value(_iter, 1, entry['name'])
 
+    def is_example(self, path):
+        if path is None:
+            return False
+
+        for name in self.paths:
+            if path.startswith(name[1]):
+                return True
+
+        return False
+
     def _get_pippy_object_id(self):
         ''' We need the object_id of this pippy instance to save in the .py
             file metadata'''
