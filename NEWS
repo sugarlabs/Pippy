@@ -1,3 +1,9 @@
+72.3
+
+* Share closing of notebook tabs (James Cameron),
+* Add notebook tab close confirmation alert (James Cameron),
+* Avoid close confirmation on unchanged examples or empty tabs (James Cameron),
+
 72.2
 
 * Fix mime_type log error (James Cameron),
