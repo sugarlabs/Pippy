@@ -162,6 +162,15 @@ class PippyActivity(ViewSourceActivity):
         self.connect("notify::active", self.__active_cb)
         self._collab.setup()
 
+        def focus():
+            """ Enforce focus for the text view once. """
+            widget = self.get_toplevel().get_focus()
+            if widget is None:
+                self._source_tabs.get_text_view().grab_focus()
+                return True
+            return False
+        GLib.timeout_add(100, focus)
+
     def initialize_display(self):
         '''Build activity toolbar with title input, share button and export
         buttons
