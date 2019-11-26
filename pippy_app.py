@@ -300,13 +300,13 @@ class PippyActivity(ViewSourceActivity):
         icon_color = Gtk.Image()
         icon_color.set_from_file(os.path.join(icons_path, 'eraser_color.svg'))
         icon_color.show()
-        button = ToolButton(label=_('Clear'))
+        button = ToolButton(label=_('Clear output panel'))
         button.props.accelerator = _('<alt>c')
         button.set_icon_widget(icon_bw)
         button.connect('clicked', self._clear_button_cb)
         button.connect('clicked', self._flash_cb,
                        dict({'bw': icon_bw, 'color': icon_color}))
-        button.set_tooltip(_('Clear'))
+        button.set_tooltip(_('Clear output panel'))
         actions_toolbar.insert(button, -1)
         button.show()
 
