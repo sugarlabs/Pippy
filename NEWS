@@ -1,3 +1,17 @@
+74
+
+* Fix keep error in a shared instance (James Cameron),
+* Fix harmless mime_type log error (James Cameron),
+* Fix data loss of notebook tab label during collaboration (James Cameron),
+* Use logging consistently (James Cameron),
+* Port CollabWrapper to Python 3 (James Cameron),
+* Share renaming of notebook tabs (James Cameron),
+* Share closing of notebook tabs (James Cameron),
+* Add notebook tab close confirmation alert (James Cameron),
+* Avoid close confirmation on unchanged examples or empty tabs (James Cameron),
+* Grab focus for the text view on startup (James Cameron),
+* Rename clear button (James Cameron).
+
 73
 
 * Update Collabwrapper to favour TelepathyGLib (Aniket Mathur),
