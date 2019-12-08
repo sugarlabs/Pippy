@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007,2008,2009 Chris Ball, based on Collabora's
@@ -1274,7 +1274,7 @@ ACTIVITY_INFO_TEMPLATE = '''
 [Activity]
 name = %(title)s
 bundle_id = %(bundle_id)s
-exec = sugar-activity %(class)s
+exec = sugar-activity3 %(class)s
 icon = activity-icon
 activity_version = %(version)d
 mime_types = %(mime_types)s
