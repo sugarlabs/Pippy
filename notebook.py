@@ -295,7 +295,10 @@ class SourceNotebook(AddNotebook):
         return text_buffer
 
     def get_text_view(self):
-        tab = self.get_nth_page(self.get_current_page()).get_children()
+        page = self.get_current_page()
+        if page == -1:
+            return None
+        tab = self.get_nth_page(page).get_children()
         text_view = tab[0]
         return text_view
 

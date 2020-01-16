@@ -165,8 +165,9 @@ class PippyActivity(ViewSourceActivity):
         def focus():
             """ Enforce focus for the text view once. """
             widget = self.get_toplevel().get_focus()
-            if widget is None:
-                self._source_tabs.get_text_view().grab_focus()
+            textview = self._source_tabs.get_text_view()
+            if widget is None and textview is not None:
+                textview.grab_focus()
                 return True
             return False
         GLib.timeout_add(100, focus)
