@@ -1,3 +1,12 @@
+75
+
+* Port to Python 3 - inline template and #! (Srevin Saju),
+* New icon (Srevin Saju),
+* Set focus on empty page (Martin Abente),
+* Port to GTK 3 - query module (Ibiam Chihurumnaya),
+* Remove Box2D binaries (Ibiam Chihurumnaya),
+* Port to Python 3 - missed #! (James Cameron),
+
 74
 
 * Fix keep error in a shared instance (James Cameron),
