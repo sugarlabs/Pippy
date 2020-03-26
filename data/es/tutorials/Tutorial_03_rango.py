@@ -9,7 +9,7 @@ def suma_en_rango(num1, num2):
 numero1 = int(eval(input('Escribe primer numero: ')))
 numero2 = int(eval(input('Escribe segundo numero: ')))
 
-if numero1 > numero2:
+if numero1 < numero2:
     suma_en_rango(numero1, numero2)
 else:
     suma_en_rango(numero2, numero1)
