@@ -1,3 +1,9 @@
+72.4
+
+* Grab focus for the text view on startup (James Cameron, Martin Abente),
+* Rename clear button (James Cameron),
+* Properly use sugar3.datastore (Ibiam Chihurumnaya),
+
 72.3
 
 * Share closing of notebook tabs (James Cameron),
