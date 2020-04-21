@@ -921,6 +921,23 @@ class PippyActivity(ViewSourceActivity):
             self.add_alert(alert)
             return
 
+        found = next((
+            name for name in data[0]
+            if name != self._source_tabs.purify_name(name)),
+            [None])
+        if found:
+            example = self._source_tabs.purify_name(found)
+            alert = Alert()
+            alert.props.title = _('Save as distutils package error')
+            alert.props.msg = _('Please give your source files a proper '
+                                'name, for example "%s", before attempting to '
+                                'save it as an distutils package.') % example
+            ok_icon = Icon(icon_name='dialog-ok')
+            alert.add_button(Gtk.ResponseType.OK, _('Ok'), ok_icon)
+            alert.connect('response', self._dismiss_alert_cb)
+            self.add_alert(alert)
+            return
+
         setup_script = DISTUTILS_SETUP_SCRIPT.format(modulename=title,
                                                      filenames=filenames)
         setupfile = open(os.path.join(app_temp, 'setup.py'), 'w')
