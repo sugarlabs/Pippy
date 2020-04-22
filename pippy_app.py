@@ -924,8 +924,8 @@ class PippyActivity(ViewSourceActivity):
         found = next((
             name for name in data[0]
             if name != self._source_tabs.purify_name(name)),
-            [None])
-        if found:
+            None)
+        if found is not None:
             example = self._source_tabs.purify_name(found)
             alert = Alert()
             alert.props.title = _('Save as distutils package error')
