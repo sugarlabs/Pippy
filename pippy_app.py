@@ -557,6 +557,9 @@ class PippyActivity(ViewSourceActivity):
             # The leader must do it first so that they can set
             # up the text buffer
             self._collab.post(dict(action='add-source-request'))
+        # Check if dark mode enabled, apply it
+        if self._inverted_colors.props.active:
+            self._source_tabs.set_dark()
 
     def _rename_source_cb(self, notebook, page, name):
         _logger.debug('_rename_source_cb %r %r' % (page, name))
