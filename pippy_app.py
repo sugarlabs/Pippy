@@ -1094,6 +1094,8 @@ class PippyActivity(ViewSourceActivity):
         session_list = []
         app_temp = os.path.join(self.get_activity_root(), 'instance')
         tmpfile = os.path.join(app_temp, 'pippy-tempfile-storing.py')
+        if not self.session_data:
+            self.session_data.append(None)
         for zipdata, content in zip(zipped_data, self.session_data):
             _logger.debug('Session data %r', content)
             name, python_code, path, modified, editor_id = zipdata
@@ -1287,8 +1289,12 @@ class PippyActivity(ViewSourceActivity):
                     self.session_data.append(content)
                     self._loaded_session.append([name, python_code, path])
 
-        for name, content, path in self._loaded_session:
-            self._source_tabs.add_tab(name, content, path)
+        # Create tabs from the datastore, else add a blank tab
+        if self._loaded_session:
+            for name, content, path in self._loaded_session:
+                self._source_tabs.add_tab(name, content, path)
+        else:
+            self._source_tabs.add_tab()
 
 # TEMPLATES AND INLINE FILES
 ACTIVITY_INFO_TEMPLATE = '''
