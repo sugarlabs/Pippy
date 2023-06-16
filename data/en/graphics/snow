@@ -11,7 +11,7 @@ pygame.init()
 
 # create the window and keep track of the surface
 # for drawing into
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((0, 0), pygame.NOFRAME | pygame.FULLSCREEN)
 
 # ask for screen's width and height
 width, height = screen.get_size()

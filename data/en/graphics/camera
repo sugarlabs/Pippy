@@ -21,7 +21,7 @@ pygame.mouse.set_visible(False)
 
 # create the pygame window and return a Surface object for
 # drawing in that window.
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((0, 0), pygame.NOFRAME | pygame.FULLSCREEN)
 
 # grab a frame from camera to file
 pipeline = Gst.parse_launch('v4l2src ! videoconvert ! jpegenc ! filesink location=/tmp/pippypic.jpg')
