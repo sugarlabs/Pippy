@@ -9,7 +9,7 @@ from pippy import physics
 
 # initialize pygame first thing
 pygame.init()
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((0, 0), pygame.NOFRAME | pygame.FULLSCREEN)
 
 # set up the physics world (instance of Elements)
 world = physics.Elements(screen.get_size())
