@@ -1,3 +1,13 @@
+76
+
+* Check box2d installation when loading box2d example (Sparsh Goenka),
+* Fix undo and redo buttons remaining sensitive (Sparsh Goenka),
+* Fix full screen glitch (Sparsh Goenka)
+* Fix no source tab on resume of empty file (Shaan Subbaiah),
+* Fix dark mode is not set on new tabs (Shaan Subbaiah),
+* Verify source files names before exporting to distutils (Martin Abente),
+* Fix bug in demo (Sebastian Silva)
+
 75
 
 * Port to Python 3 - inline template and #! (Srevin Saju),
