@@ -238,7 +238,9 @@ class PippyActivity(ViewSourceActivity):
         self._edit_toolbar.show()
 
         self._edit_toolbar.undo.connect('clicked', self.__undobutton_cb)
+        self._edit_toolbar.undo.set_sensitive(False)
         self._edit_toolbar.redo.connect('clicked', self.__redobutton_cb)
+        self._edit_toolbar.redo.set_sensitive(False)
         self._edit_toolbar.copy.connect('clicked', self.__copybutton_cb)
         self._edit_toolbar.paste.connect('clicked', self.__pastebutton_cb)
 
@@ -404,6 +406,7 @@ class PippyActivity(ViewSourceActivity):
         self.paths.append([_('My examples'), data_path])
 
         self._source_tabs = SourceNotebook(self, self._collab)
+        self._source_tabs._edit_toolbar = self._edit_toolbar
         self._source_tabs.connect('tab-added', self._add_source_cb)
         self._source_tabs.connect('tab-renamed', self._rename_source_cb)
         self._source_tabs.connect('tab-closed', self._close_source_cb)
@@ -558,6 +561,7 @@ class PippyActivity(ViewSourceActivity):
             # up the text buffer
             self._collab.post(dict(action='add-source-request'))
         # Check if dark mode enabled, apply it
+        self._source_tabs.update_edit_toolbar()
         if self._inverted_colors.props.active:
             self._source_tabs.set_dark()
 
@@ -566,6 +570,7 @@ class PippyActivity(ViewSourceActivity):
         self._collab.post(dict(action='rename-source', page=page, name=name))
 
     def _close_source_cb(self, notebook, page):
+        self._source_tabs.update_edit_toolbar()
         _logger.debug('_close_source_cb %r' % (page))
         self._collab.post(dict(action='close-source', page=page))
 
@@ -664,15 +669,21 @@ class PippyActivity(ViewSourceActivity):
         self._vte.grab_focus()
         self._vte.feed(b'\x1B[H\x1B[J\x1B[0;39m')
 
-    def __undobutton_cb(self, butston):
+    def __undobutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
         if text_buffer.can_undo():
             text_buffer.undo()
+            self._edit_toolbar.redo.set_sensitive(True)
+        if not text_buffer.can_undo():
+            button.set_sensitive(False)
 
     def __redobutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
         if text_buffer.can_redo():
             text_buffer.redo()
+            self._edit_toolbar.undo.set_sensitive(True)
+        if not text_buffer.can_redo():
+            button.set_sensitive(False)
 
     def __copybutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()

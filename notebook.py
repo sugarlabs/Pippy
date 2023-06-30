@@ -48,6 +48,9 @@ class TabLabel(Gtk.HBox):
         'tab-rename': (GObject.SignalFlags.RUN_FIRST,
                       None,
                       ([GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT, ])),
+        'tab-switch': (GObject.SignalFlags.RUN_FIRST,
+                      None,
+                      ([GObject.TYPE_PYOBJECT])),
     }
 
     def __init__(self, child, label, path, tabs, editor_id):
@@ -109,6 +112,7 @@ class TabLabel(Gtk.HBox):
     def _label_clicked(self, eventbox, data):
         if self.tabs.page_num(self.child) is not self.tabs.get_current_page():
             self.child.grab_focus()
+            self.emit('tab-switch', self.child)
         else:
             self.label_entry.set_text(self.label_text)
             eventbox.hide()
@@ -225,10 +229,11 @@ class PippySourceView(GtkSource.View):
         self._css_provider.load_from_data(theme)
 
 class SourceNotebook(AddNotebook):
-    def __init__(self, activity, collab):
+    def __init__(self, activity, collab, edit_toolbar=None):
         AddNotebook.__init__(self)
         self.activity = activity
         self._collab = collab
+        self._edit_toolbar = edit_toolbar
         self.set_scrollable(True)
         self.last_tab = 0
         self._font_size = DEFAULT_FONT_SIZE
@@ -254,7 +259,9 @@ class SourceNotebook(AddNotebook):
                                      path, self, editor_id)
         tablabel.connect('tab-close', self._tab_closed_cb)
         tablabel.connect('tab-rename', self._tab_renamed_cb)
+        tablabel.connect('tab-switch', self._tab_switched_cb)
         self.connect('key-press-event', self._key_press_cb)
+        self.connect('key-release-event', self._key_release_cb)
 
         codesw.show_all()
 
@@ -298,6 +305,17 @@ class SourceNotebook(AddNotebook):
                 return False
             return True
         return False
+
+    def update_edit_toolbar(self, text_buffer=None):
+        if self._edit_toolbar is None:
+            return
+        if text_buffer is None:
+            text_buffer = self.get_text_buffer()
+        self._edit_toolbar.undo.set_sensitive(text_buffer.can_undo())
+        self._edit_toolbar.redo.set_sensitive(text_buffer.can_redo())
+    
+    def _key_release_cb(self, widget, event):
+        self.update_edit_toolbar()
 
     def set_current_label(self, label):
         child = self.get_nth_page(self.get_current_page())
@@ -457,6 +475,12 @@ class SourceNotebook(AddNotebook):
         index = self.page_num(child)
         logging.debug('SourceNotebook._tab_renamed_cb %r %r' % (index, name))
         self.emit('tab-renamed', index, name)
+
+    def _tab_switched_cb(self, notebook, child):
+        index = self.page_num(child)
+        page = self.get_nth_page(index)
+        text_buffer = page.get_children()[0].get_buffer()
+        self.update_edit_toolbar(text_buffer)
 
     def rename_tab(self, index, name):
         logging.debug('SourceNotebook.rename_tab %r %r' % (index, name))
