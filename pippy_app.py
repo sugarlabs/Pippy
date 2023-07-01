@@ -405,8 +405,7 @@ class PippyActivity(ViewSourceActivity):
         data_path = os.path.join(get_bundle_path(), 'data')
         self.paths.append([_('My examples'), data_path])
 
-        self._source_tabs = SourceNotebook(self, self._collab)
-        self._source_tabs._edit_toolbar = self._edit_toolbar
+        self._source_tabs = SourceNotebook(self, self._collab, self._edit_toolbar)
         self._source_tabs.connect('tab-added', self._add_source_cb)
         self._source_tabs.connect('tab-renamed', self._rename_source_cb)
         self._source_tabs.connect('tab-closed', self._close_source_cb)
