@@ -541,7 +541,34 @@ class PippyActivity(ViewSourceActivity):
         self._dialog.run()
         path = self._dialog.get_path()
         if path:
+            if path.endswith('physics') and not self._ensure_box2d_support():
+                return
             self._select_func_cb(path)
+
+    def _ensure_box2d_support(self):
+        try:
+            import Box2D
+        except ImportError:
+            dialog = Gtk.MessageDialog(
+                None, Gtk.DialogFlags.MODAL,
+                Gtk.MessageType.WARNING,
+                Gtk.ButtonsType.NONE,
+                _('Box2D is not installed on your system'))
+            dialog.format_secondary_text(
+                _('Box2D is required to run this example. This example will fail to run. Do you still wish to continue?'))
+            dialog.add_button("Force Load", Gtk.ResponseType.OK)
+            dialog.add_button("Cancel", Gtk.ResponseType.CANCEL)
+
+            from sugar3.graphics import style
+            dialog.modify_bg(Gtk.StateType.NORMAL, style.COLOR_TOOLBAR_GREY.get_gdk_color())
+            dialog.modify_fg(Gtk.StateType.NORMAL, Gdk.color_parse('white'))
+    
+            response = dialog.run()
+            dialog.destroy()
+            if response == Gtk.ResponseType.OK:
+                return True
+            return False
+        return True
 
     def _add_source_cb(self, button, force=False, editor_id=None):
         if self._collab._leader or force:
