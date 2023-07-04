@@ -552,21 +552,17 @@ class PippyActivity(ViewSourceActivity):
             dialog = Gtk.MessageDialog(
                 None, Gtk.DialogFlags.MODAL,
                 Gtk.MessageType.WARNING,
-                Gtk.ButtonsType.NONE,
+                Gtk.ButtonsType.OK,
                 _('Box2D is not installed on your system'))
             dialog.format_secondary_text(
-                _('Box2D is required to run this example. This example will fail to run. Do you still wish to continue?'))
-            dialog.add_button("Force Load", Gtk.ResponseType.OK)
-            dialog.add_button("Cancel", Gtk.ResponseType.CANCEL)
+                _('Box2D is required to run this example.'))
 
             from sugar3.graphics import style
             dialog.modify_bg(Gtk.StateType.NORMAL, style.COLOR_TOOLBAR_GREY.get_gdk_color())
             dialog.modify_fg(Gtk.StateType.NORMAL, Gdk.color_parse('white'))
     
-            response = dialog.run()
+            dialog.run()
             dialog.destroy()
-            if response == Gtk.ResponseType.OK:
-                return True
             return False
         return True
 
