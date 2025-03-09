@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/pythom
 # -*- coding: utf-8 -*-
 # Copyright (C) 2007,2008,2010 One Laptop per Child Association, Inc.
 # Written by C. Scott Ananian <cscott@laptop.org>
