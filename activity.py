@@ -16,8 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-"""Pippy activity helper classes."""
 import logging
+import os
+import subprocess
+import sys
+import json
 from gettext import gettext as _
 
 from gi import require_version
@@ -26,24 +29,49 @@ require_version('Gtk', '3.0')
 from gi.repository import Gdk
 from gi.repository import Gtk
 from gi.repository import Pango
+from gi.repository import GLib
+from gi.repository import GObject
+
+VTE_VERSION = None
 try:
     require_version('Vte', '2.91')
-except:
-    require_version('Vte', '2.90')
+    VTE_VERSION = '2.91'
+except Exception as e:
+    logging.warning(f"Vte 2.91 not found, falling back to 2.90: {e}")
+    try:
+        require_version('Vte', '2.90')
+        VTE_VERSION = '2.90'
+    except Exception as e:
+        logging.error(f"No compatible VTE library found: {e}")
+        sys.exit(1)
 from gi.repository import Vte
-from gi.repository import GLib
 
 from sugar3.activity import activity
 from sugar3.activity.widgets import ActivityToolbarButton
 from sugar3.activity.widgets import StopButton
 from sugar3.graphics.toolbarbox import ToolbarBox
 
+CONFIG_FILE = 'config.json'
+try:
+    with open(CONFIG_FILE, 'r') as f:
+        config = json.load(f)
+except FileNotFoundError:
+    logging.error(f"Configuration file '{CONFIG_FILE}' not found. Using defaults.")
+    config = {}
+
+TARGET_TYPE_TEXT = 80
+PIPPY_APP_FILENAME = config.get('pippy_app_filename', 'pippy_app.py')
+LIBRARY_PATH = config.get('library_path', 'library')
+TERMINAL_FONT = config.get('terminal_font', 'Monospace 10')
+TERMINAL_COLORS = config.get('terminal_colors', {
+    'foreground': '#000000',
+    'background': '#E7E7E7'
+})
 
 class ViewSourceActivity(activity.Activity):
-    """Activity subclass which handles the 'view source' key."""
     def __init__(self, handle, **kwargs):
         super(ViewSourceActivity, self).__init__(handle, **kwargs)
-        self.__source_object_id = None  # XXX: persist this across invocations?
+        self.__source_object_id = None
         self.connect('key-press-event', self._key_press_cb)
         self._pid = None
 
@@ -54,8 +82,6 @@ class ViewSourceActivity(activity.Activity):
         return False
 
     def view_source(self):
-        """Implement the 'view source' key by saving pippy_app.py to the
-        datastore, and then telling the Journal to view it."""
         if self.__source_object_id is None:
             from sugar3 import profile
             from sugar3.datastore import datastore
@@ -66,37 +92,41 @@ class ViewSourceActivity(activity.Activity):
             metadata = {
                 'title': _('%s Source') % get_bundle_name(),
                 'title_set_by_user': '1',
-                'suggested_filename': 'pippy_app.py',
+                'suggested_filename': PIPPY_APP_FILENAME,
                 'icon-color': profile.get_color().to_string(),
                 'mime_type': 'text/x-python',
             }
             for k, v in list(metadata.items()):
-                jobject.metadata[k] = v  # dict.update method is missing =(
-            jobject.file_path = os.path.join(get_bundle_path(), 'pippy_app.py')
+                jobject.metadata[k] = v
+            app_path = os.path.join(get_bundle_path(), PIPPY_APP_FILENAME)
+            jobject.file_path = app_path
             datastore.write(jobject)
             self.__source_object_id = jobject.object_id
             jobject.destroy()
         self.journal_show_object(self.__source_object_id)
 
     def journal_show_object(self, object_id):
-        """Invoke journal_show_object from sugar.activity.activity if it
-        exists."""
         try:
             from sugar3.activity.activity import show_object_in_journal
             show_object_in_journal(object_id)
         except ImportError:
-            pass  # no love from sugar.
+            logging.warning("Could not import show_object_in_journal")
 
-TARGET_TYPE_TEXT = 80
+    def show_error_dialog(self, message):
+        dialog = Gtk.MessageDialog(
+            parent=self,
+            flags=0,
+            message_type=Gtk.MessageType.ERROR,
+            buttons=Gtk.ButtonsType.OK,
+            text=message
+        )
+        dialog.run()
+        dialog.destroy()
 
-
-class VteActivity(ViewSourceActivity):
-    """Activity subclass built around the Vte terminal widget."""
-    def __init__(self, handle):
-        super(VteActivity, self).__init__(handle)
-
-        self.max_participants = 1  # no sharing
-
+class BaseActivity(ViewSourceActivity):
+    def __init__(self, handle, **kwargs):
+        super(BaseActivity, self).__init__(handle, **kwargs)
+        self.max_participants = 1
         toolbox = ToolbarBox()
         activity_button_toolbar = ActivityToolbarButton(self)
         toolbox.toolbar.insert(activity_button_toolbar, 0)
@@ -104,176 +134,121 @@ class VteActivity(ViewSourceActivity):
         self.set_toolbar_box(toolbox)
         toolbox.show()
         self.toolbar = toolbox.toolbar
-
-        '''
-        # add 'copy' icon from standard toolbar.
-        edittoolbar = activity.EditToolbar()
-        edittoolbar.copy.set_tooltip(_('Copy selected text to clipboard'))
-        edittoolbar.copy.connect('clicked', self._on_copy_clicked_cb)
-        edittoolbar.paste.connect('clicked', self._on_paste_clicked_cb)
-        # as long as nothing is selected, copy needs to be insensitive.
-        edittoolbar.copy.set_sensitive(False)
-        toolbox.add_toolbar(_('Edit'), edittoolbar)
-        edittoolbar.show()
-        self._copy_button = edittoolbar.copy
-        '''
-
         separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
         separator.set_expand(True)
         toolbox.toolbar.insert(separator, -1)
         separator.show()
-
         stop_button = StopButton(self)
         toolbox.toolbar.insert(stop_button, -1)
         stop_button.show()
-
         toolbox.toolbar.show_all()
 
-        # creates vte widget
+class VteActivity(BaseActivity):
+    def __init__(self, handle, **kwargs):
+        super(VteActivity, self).__init__(handle, **kwargs)
         self._vte = Vte.Terminal()
         self._vte.set_size(30, 5)
         self._vte.set_size_request(200, 300)
-        font = 'Monospace 10'
-        self._vte.set_font(Pango.FontDescription(font))
-        self._vte.set_colors(Gdk.color_parse('#000000'),
-                             Gdk.color_parse('#E7E7E7'),
-                             [])
-        '''
-        self._vte.connect('selection-changed', self._on_selection_changed_cb)
-        # FIXME It does not work because it expects and receives
-        # StructMeta Gtk.TargetEntry
-        #
-        #self._vte.drag_dest_set(Gtk.DestDefaults.ALL,
-        #                        [("text/plain", 0, TARGET_TYPE_TEXT)],
-        #                        Gdk.DragAction.COPY)
-
-        self._vte.connect('drag_data_received', self._on_drop_cb)
-        '''
-        # ...and its scrollbar
+        self._vte.set_font(Pango.FontDescription(TERMINAL_FONT))
+        fg = Gdk.RGBA()
+        fg.parse(TERMINAL_COLORS['foreground'])
+        bg = Gdk.RGBA()
+        bg.parse(TERMINAL_COLORS['background'])
+        self._vte.set_colors(fg, bg, [])
         vtebox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         vtebox.pack_start(self._vte, True, True, 0)
         vtesb = Gtk.Scrollbar(orientation=Gtk.Orientation.VERTICAL)
-        # vtesb.set_adjustment(self._vte.get_adjustment())
+        vtesb.set_adjustment(self._vte.get_vadjustment())
         vtesb.show()
         vtebox.pack_start(vtesb, False, False, 0)
         self.set_canvas(vtebox)
         self.show_all()
-        '''
-        # hide the buttons we don't use.
-        toolbar.share.hide()  # this should share bundle.
-        edittoolbar.undo.hide()
-        edittoolbar.redo.hide()
-        edittoolbar.separator.hide()
-        '''
-
-        # now start subprocess.
         self._vte.connect('child-exited', self.on_child_exit)
         self._vte.grab_focus()
         bundle_path = activity.get_bundle_path()
-        # the 'sleep 1' works around a bug with the command dying before
-        # the vte widget manages to snarf the last bits of its output
-        logging.error(bundle_path)
+        logging.debug(f"Bundle path: {bundle_path}")
+        env = os.environ.copy()
+        env["PYTHONPATH"] = f"{bundle_path}/{LIBRARY_PATH}"
+        cmd = ['/bin/sh', '-c', f'python3 {bundle_path}/{PIPPY_APP_FILENAME}; sleep 1']
+        try:
+            if VTE_VERSION == '2.91':
+                self._pid = self._vte.spawn_async(
+                    Vte.PtyFlags.DEFAULT,
+                    bundle_path,
+                    cmd,
+                    [f"PYTHONPATH={bundle_path}/{LIBRARY_PATH}"],
+                    GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+                    None, None,
+                    -1,
+                    None, None)
+            else:
+                self._pid = self._vte.fork_command_full(
+                    Vte.PtyFlags.DEFAULT,
+                    bundle_path,
+                    cmd,
+                    [f"PYTHONPATH={bundle_path}/{LIBRARY_PATH}"],
+                    GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+                    None,
+                    None)
+        except Exception as e:
+            logging.error(f"Failed to start terminal process: {e}")
+            self.show_error_dialog(f"Failed to start terminal: {e}")
 
-        self._pid = self._vte.fork_command_full(
-            Vte.PtyFlags.DEFAULT,
-            bundle_path,
-            ['/bin/sh', '-c', 'python3 %s/pippy_app.py; sleep 1' % bundle_path],
-            ["PYTHONPATH=%s/library" % bundle_path],
-            GLib.SpawnFlags.DO_NOT_REAP_CHILD,
-            None,
-            None,)
+    def on_child_exit(self, terminal, status=None):
+        if status is not None:
+            logging.debug(f"Child exited with status: {status}")
+        else:
+            logging.debug("Child exited")
 
-    def _on_copy_clicked_cb(self, widget):
-        if self._vte.get_has_selection():
-            self._vte.copy_clipboard()
-
-    def _on_paste_clicked_cb(self, widget):
-        self._vte.paste_clipboard()
-
-    def _on_selection_changed_cb(self, widget):
-        self._copy_button.set_sensitive(self._vte.get_has_selection())
-
-    def _on_drop_cb(self, widget, context, x, y, selection, targetType, time):
-        if targetType == TARGET_TYPE_TEXT:
-            self._vte.feed_child(selection.data)
-
-    def on_child_exit(self, widget):
-        """This method is invoked when the user's script exits."""
-        pass  # override in subclass
-
-
-class PyGameActivity(ViewSourceActivity):
-    """Activity wrapper for a pygame."""
-    def __init__(self, handle):
-        # fork pygame before we initialize the activity.
-        import os
-        import pygame
-        import sys
-        pygame.init()
-        windowid = pygame.display.get_wm_info()['wmwindow']
-        self.child_pid = os.fork()
-        if self.child_pid == 0:
-            bp = activity.get_bundle_path()
-            library_path = os.path.join(bp, 'library')
-            pippy_app_path = os.path.join(bp, 'pippy_app.py')
-            sys.path[0:0] = [library_path]
-            g = globals()
-            g['__name__'] = '__main__'
-            exec(compile(open(pippy_app_path, "rb").read(), pippy_app_path, 'exec'), g, g)  # start pygame
-            sys.exit(0)
-        super(PyGameActivity, self).__init__(handle)
-        from gi.repository import GObject
-        from gi.repository import Gtk
-        self.max_participants = 1  # no sharing
-        toolbox = ToolbarBox()
-        activity_button_toolbar = ActivityToolbarButton(self)
-        toolbox.toolbar.insert(activity_button_toolbar, 0)
-        activity_button_toolbar.show()
-        self.set_toolbar_box(toolbox)
-        toolbox.show()
-        separator = Gtk.SeparatorToolItem()
-        separator.props.draw = False
-        separator.set_expand(True)
-        toolbox.toolbar.insert(separator, -1)
-        separator.show()
-        stop_button = StopButton(self)
-        toolbox.toolbar.insert(stop_button, -1)
-        stop_button.show()
-        toolbox.toolbar.show_all()
+class PyGameActivity(BaseActivity):
+    def __init__(self, handle, **kwargs):
+        super(PyGameActivity, self).__init__(handle, **kwargs)
+        self.child_pid = self._launch_pygame()
         socket = Gtk.Socket()
-        socket.set_flags(socket.flags() | Gtk.CAN_FOCUS)
+        socket.set_can_focus(True)
         socket.show()
         self.set_canvas(socket)
-        socket.add_id(windowid)
+        try:
+            import pygame
+            windowid = pygame.display.get_wm_info()['wmwindow']
+            socket.add_id(windowid)
+        except Exception as e:
+            logging.error(f"Failed to add pygame window to socket: {e}")
+            self.show_error_dialog(f"Failed to initialize Pygame: {e}")
         self.show_all()
         socket.grab_focus()
         GObject.child_watch_add(self.child_pid, lambda pid, cond: self.close())
 
+    def _launch_pygame(self):
+        import os
+        child_pid = os.fork()
+        if child_pid == 0:
+            try:
+                bp = activity.get_bundle_path()
+                pippy_app_path = os.path.join(bp, PIPPY_APP_FILENAME)
+                subprocess.run(['python3', pippy_app_path], check=True)
+                sys.exit(0)
+            except Exception as e:
+                logging.error(f"Fatal error in pygame process: {e}")
+                sys.exit(1)
+        return child_pid
 
 def _main():
-    """Launch this activity from the command line."""
-    pass
-    '''
-    from sugar3.activity import activityfactory
-    # from sugar3.activity.registry import ActivityInfo
-    from sugar3.bundle.activitybundle import ActivityBundle
-    import os
-    ab = ActivityBundle(os.path.dirname(__file__) or '.')
-    ai = ActivityInfo(name=ab.get_name(),
-                      icon=None,
-                      bundle_id=ab.get_bundle_id(),
-                      version=ab.get_activity_version(),
-                      path=ab.get_path(),
-                      show_launcher=ab.get_show_launcher(),
-                      command=ab.get_command(),
-                      favorite=True,
-                      installation_time=ab.get_installation_time(),
-                      position_x=0, position_y=0)
-    env = activityfactory.get_environment(ai)
-    cmd_args = activityfactory.get_command(ai)
-    os.execvpe(cmd_args[0], cmd_args, env)
-    '''
+    import argparse
+    parser = argparse.ArgumentParser(description="Launch the Pippy activity.")
+    parser.add_argument('--pygame', action='store_true', help="Launch the Pygame activity.")
+    parser.add_argument('--vte', action='store_true', help="Launch the VTE activity.")
+    args = parser.parse_args()
+    if args.pygame:
+        activity = PyGameActivity(None)
+    elif args.vte:
+        activity = VteActivity(None)
+    else:
+        print("Please specify an activity type (--pygame or --vte).")
+        return
+    activity.show()
+    Gtk.main()
 
 if __name__ == '__main__':
     _main()
