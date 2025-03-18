@@ -171,16 +171,18 @@ class VteActivity(ViewSourceActivity):
         # the 'sleep 1' works around a bug with the command dying before
         # the vte widget manages to snarf the last bits of its output
         logging.error(bundle_path)
-
-        self._pid = self._vte.fork_command_full(
+        
+        self._pid = self._vte.spawn_async( 
             Vte.PtyFlags.DEFAULT,
             bundle_path,
             ['/bin/sh', '-c', 'python3 %s/pippy_app.py; sleep 1' % bundle_path],
             ["PYTHONPATH=%s/library" % bundle_path],
             GLib.SpawnFlags.DO_NOT_REAP_CHILD,
             None,
-            None,)
-
+            None,
+            -1,  # no timeout
+            None,  
+            None)  
     def _on_copy_clicked_cb(self, widget):
         if self._vte.get_has_selection():
             self._vte.copy_clipboard()
