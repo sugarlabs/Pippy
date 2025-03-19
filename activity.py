@@ -133,9 +133,12 @@ class VteActivity(ViewSourceActivity):
         self._vte.set_size_request(200, 300)
         font = 'Monospace 10'
         self._vte.set_font(Pango.FontDescription(font))
-        self._vte.set_colors(Gdk.color_parse('#000000'),
-                             Gdk.color_parse('#E7E7E7'),
-                             [])
+        fg = Gdk.RGBA()   # Gdk.RGBA colors instead of Gdk.Color objects for Vte 2.91
+        bg = Gdk.RGBA()
+        fg.parse('#000000')
+        bg.parse('#E7E7E7')
+        self._vte.set_colors(fg, bg, [])
+        
         '''
         self._vte.connect('selection-changed', self._on_selection_changed_cb)
         # FIXME It does not work because it expects and receives
@@ -171,8 +174,8 @@ class VteActivity(ViewSourceActivity):
         # the 'sleep 1' works around a bug with the command dying before
         # the vte widget manages to snarf the last bits of its output
         logging.error(bundle_path)
-        
-        self._pid = self._vte.spawn_async( 
+
+        self._pid = self._vte.spawn_async(
             Vte.PtyFlags.DEFAULT,
             bundle_path,
             ['/bin/sh', '-c', 'python3 %s/pippy_app.py; sleep 1' % bundle_path],
@@ -182,7 +185,7 @@ class VteActivity(ViewSourceActivity):
             None,
             -1,  # no timeout
             None,  
-            None)  
+            None) 
     def _on_copy_clicked_cb(self, widget):
         if self._vte.get_has_selection():
             self._vte.copy_clipboard()
@@ -195,9 +198,12 @@ class VteActivity(ViewSourceActivity):
 
     def _on_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
-            self._vte.feed_child(selection.data)
+            if isinstance(selection.data, str): # feed_child() in Vte 2.91 requires bytes instead of strings
+                self._vte.feed_child(selection.data.encode('utf-8'))
+            else:
+                self._vte.feed_child(selection.data)
 
-    def on_child_exit(self, widget):
+    def on_child_exit(self, widget, status=None): # defaulting added parameter in on_child_exit in Vte 2.91
         """This method is invoked when the user's script exits."""
         pass  # override in subclass
 
