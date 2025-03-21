@@ -120,15 +120,6 @@ setup(name='{modulename}',
 """  # This is .format()'ed with the list of the file names.
 
 
-def _has_new_vte_api():
-    try:
-        return (Vte.MAJOR_VERSION >= 0 and
-                Vte.MINOR_VERSION >= 38)
-    except:
-        # Really old versions of Vte don't have VERSION
-        return False
-
-
 def _find_object_id(activity_id, mimetype='text/x-python'):
     ''' Round-about way of accessing self._jobject.object_id '''
     dsobjects, nobjects = datastore.find({'mime_type': [mimetype]})
@@ -443,15 +434,10 @@ class PippyActivity(ViewSourceActivity):
         return vpane
 
     def _vte_set_colors(self, bg, fg):
-        # XXX support both Vte APIs
-        if _has_new_vte_api():
-            foreground = Gdk.RGBA()
-            foreground.parse(bg)
-            background = Gdk.RGBA()
-            background.parse(fg)
-        else:
-            foreground = Gdk.color_parse(bg)
-            background = Gdk.color_parse(fg)
+        foreground = Gdk.RGBA() #Gdk.color_parse() changed to Gdk.RGBA() objects system for VTE 2.91 
+        foreground.parse(bg)
+        background = Gdk.RGBA()
+        background.parse(fg)
 
         self._vte.set_colors(foreground, background, [])
 
@@ -739,13 +725,7 @@ class PippyActivity(ViewSourceActivity):
         copy2('%s/activity.py' % get_bundle_path(),
               '%s/tmp/activity.py' % self.get_activity_root())
 
-        # XXX Support both Vte APIs
-        if _has_new_vte_api():
-            vte_run = self._vte.spawn_sync
-        else:
-            vte_run = self._vte.fork_command_full
-
-        self._pid = vte_run(
+        self._pid = self._vte.spawn_sync(
             Vte.PtyFlags.DEFAULT,
             get_bundle_path(),
             ['/bin/sh', '-c', 'python3 %s; sleep 1' % current_file,
@@ -760,7 +740,7 @@ class PippyActivity(ViewSourceActivity):
     def _stop_button_cb(self, button):
         try:
             if self._pid is not None:
-                os.kill(self._pid[1], SIGTERM)
+                os.kill(self._pid[0], SIGTERM) #VTE 2.90's fork_command_full, the PID was returned in index 1 of the tuple, but in VTE 2.91's spawn_sync, it's at index 0
         except:
             pass  # Process must already be dead.
 
