@@ -238,6 +238,17 @@ class SourceNotebook(AddNotebook):
         self.last_tab = 0
         self._font_size = DEFAULT_FONT_SIZE
 
+        # Add tooltip to the "Add Tab" button
+        self._add_tab.set_tooltip_text(_('New coding tab!       Alt+T'))
+
+        # Connect Alt+T shortcut to emit tab-added signal
+        accel_group = Gtk.AccelGroup()
+        self.activity.add_accel_group(accel_group)  # Register with the activity
+        self._add_tab.add_accelerator(
+            'activate', accel_group,
+            Gdk.KEY_t, Gdk.ModifierType.MOD1_MASK, Gtk.AccelFlags.VISIBLE
+        )
+
     def add_tab(self, label=None, buffer_text=None, path=None, editor_id=None):
         self.last_tab += 1
         codesw = Gtk.ScrolledWindow()
