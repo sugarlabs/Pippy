@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-10 10:37+1100\n"
+"POT-Creation-Date: 2025-04-07 07:08+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgid ""
 "language your computer understands called \"Python\"."
 msgstr ""
 
-#: activity.py:67
+#: activity.py:64
 #, python-format
 msgid "%s Source"
 msgstr ""
@@ -60,243 +60,259 @@ msgstr ""
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
 msgstr ""
 
-#: notebook.py:253
+#: notebook.py:258
 #, python-format
 msgid "New Source File %d"
 msgstr ""
 
-#: notebook.py:435
+#: notebook.py:453
 msgid "Erase"
 msgstr ""
 
-#: notebook.py:436
+#: notebook.py:454
 #, python-format
 msgid "Do you want to permanently erase \"%s\"?"
 msgstr ""
 
-#: pippy_app.py:98
+#: pippy_app.py:95
 msgid "graphics"
 msgstr ""
 
-#: pippy_app.py:98
+#: pippy_app.py:95
 msgid "math"
 msgstr ""
 
-#: pippy_app.py:98
+#: pippy_app.py:95
 msgid "python"
 msgstr ""
 
-#: pippy_app.py:98
+#: pippy_app.py:95
 msgid "sound"
 msgstr ""
 
-#: pippy_app.py:99
+#: pippy_app.py:96
 msgid "string"
 msgstr ""
 
-#: pippy_app.py:99
+#: pippy_app.py:96
 msgid "tutorials"
 msgstr ""
 
-#: pippy_app.py:192
+#: pippy_app.py:189
 msgid "Import Python file to new tab"
 msgstr ""
 
-#: pippy_app.py:198
+#: pippy_app.py:195
 msgid "Export as Pippy document"
 msgstr ""
 
-#: pippy_app.py:204
+#: pippy_app.py:201
 msgid "Save this file to the Pippy library"
 msgstr ""
 
-#: pippy_app.py:212
+#: pippy_app.py:209
 msgid "Export as new Pippy example"
 msgstr ""
 
-#: pippy_app.py:218
+#: pippy_app.py:215
 msgid "Create a Sugar activity bundle"
 msgstr ""
 
 #. TRANS: A distutils package is used to distribute Python modules
-#: pippy_app.py:225
+#: pippy_app.py:222
 msgid "Export as a distutils package"
 msgstr ""
 
-#: pippy_app.py:235
+#: pippy_app.py:232
 msgid "Edit"
 msgstr ""
 
-#: pippy_app.py:249
+#: pippy_app.py:248
 msgid "View"
 msgstr ""
 
-#: pippy_app.py:259 pippy_app.py:520
+#: pippy_app.py:258 pippy_app.py:519
 msgid "Show output panel"
 msgstr ""
 
-#: pippy_app.py:265 pippy_app.py:533
+#: pippy_app.py:264 pippy_app.py:532
 msgid "Inverted Colors"
 msgstr ""
 
-#: pippy_app.py:280 pippy_app.py:283
+#: pippy_app.py:279 pippy_app.py:282
 msgid "Run!"
 msgstr ""
 
-#: pippy_app.py:281
+#: pippy_app.py:280
 msgid "<alt>r"
 msgstr ""
 
-#: pippy_app.py:296 pippy_app.py:302
+#: pippy_app.py:295 pippy_app.py:301
 msgid "Stop"
 msgstr ""
 
-#: pippy_app.py:297
+#: pippy_app.py:296
 msgid "<alt>s"
 msgstr ""
 
-#: pippy_app.py:312 pippy_app.py:318
+#: pippy_app.py:311 pippy_app.py:317
 msgid "Clear output panel"
 msgstr ""
 
-#: pippy_app.py:313
+#: pippy_app.py:312
 msgid "<alt>c"
 msgstr ""
 
-#: pippy_app.py:329
+#: pippy_app.py:328
 msgid "Open an example"
 msgstr ""
 
-#: pippy_app.py:404
+#: pippy_app.py:403
 msgid "My examples"
 msgstr ""
 
-#: pippy_app.py:516
+#: pippy_app.py:515
 msgid "Hide output panel"
 msgstr ""
 
-#: pippy_app.py:528
+#: pippy_app.py:527
 msgid "Normal Colors"
 msgstr ""
 
-#: pippy_app.py:754
+#: pippy_app.py:553
+msgid "Box2D is not installed on your system"
+msgstr ""
+
+#: pippy_app.py:555
+msgid "Box2D is required to run this example."
+msgstr ""
+
+#: pippy_app.py:787
 msgid "Python File added to Library"
 msgstr ""
 
-#: pippy_app.py:755
+#: pippy_app.py:788
 #, python-brace-format
 msgid ""
 "The file you selected has been added to the library. Use \"import "
 "{importname}\" to import the library for using."
 msgstr ""
 
-#: pippy_app.py:765
+#: pippy_app.py:798
 msgid "Saved"
 msgstr ""
 
-#: pippy_app.py:766
+#: pippy_app.py:799
 msgid "The document has been saved to journal."
 msgstr ""
 
-#: pippy_app.py:780 pippy_app.py:787
+#: pippy_app.py:813 pippy_app.py:820
 msgid "Error importing Python file"
 msgstr ""
 
-#: pippy_app.py:781
+#: pippy_app.py:814
 msgid "The file you selected is not a Python file."
 msgstr ""
 
-#: pippy_app.py:788
+#: pippy_app.py:821
 msgid "The file you selected is already open"
 msgstr ""
 
-#: pippy_app.py:813 pippy_app.py:872
+#: pippy_app.py:846 pippy_app.py:905
 msgid "Save as Activity Error"
 msgstr ""
 
-#: pippy_app.py:814
+#: pippy_app.py:847
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an activity."
 msgstr ""
 
-#: pippy_app.py:817 pippy_app.py:824 pippy_app.py:919 pippy_app.py:961
+#: pippy_app.py:850 pippy_app.py:857 pippy_app.py:952 pippy_app.py:969
+#: pippy_app.py:1011
 msgid "Ok"
 msgstr ""
 
-#: pippy_app.py:825
+#: pippy_app.py:858
 msgid "Activity icon"
 msgstr ""
 
-#: pippy_app.py:826
+#: pippy_app.py:859
 msgid "Please select an activity icon."
 msgstr ""
 
-#: pippy_app.py:831 pippy_app.py:846
+#: pippy_app.py:864 pippy_app.py:879
 msgid "Creating activity bundle..."
 msgstr ""
 
-#: pippy_app.py:912 pippy_app.py:954
+#: pippy_app.py:945 pippy_app.py:1004
 msgid "Pippy Activity"
 msgstr ""
 
-#: pippy_app.py:914
+#: pippy_app.py:947 pippy_app.py:964
 msgid "Save as distutils package error"
 msgstr ""
 
-#: pippy_app.py:915
+#: pippy_app.py:948
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an distutils package."
 msgstr ""
 
-#: pippy_app.py:956
+#: pippy_app.py:965
+#, python-format
+msgid ""
+"Please give your source files a proper name, for example \"%s\", before "
+"attempting to save it as an distutils package."
+msgstr ""
+
+#: pippy_app.py:1006
 msgid "Save as Example Error"
 msgstr ""
 
-#: pippy_app.py:958
+#: pippy_app.py:1008
 msgid ""
 "Please give your activity a meaningful name before attempting to save it as "
 "an example."
 msgstr ""
 
-#: pippy_app.py:967
+#: pippy_app.py:1017
 msgid "Creating example..."
 msgstr ""
 
-#: pippy_app.py:973
+#: pippy_app.py:1023
 msgid "Save as Example Warning"
 msgstr ""
 
-#: pippy_app.py:974
+#: pippy_app.py:1024
 msgid "This example already exists. Do you want to overwrite it?"
 msgstr ""
 
-#: pippy_app.py:981 pippy_app.py:1039
+#: pippy_app.py:1031 pippy_app.py:1089
 msgid "Saved as example."
 msgstr ""
 
-#: pippy_app.py:1003
+#: pippy_app.py:1053
 msgid "Error saving activity to journal."
 msgstr ""
 
-#: pippy_app.py:1023
+#: pippy_app.py:1073
 msgid "Activity saved to journal."
 msgstr ""
 
-#: pippy_app.py:1176
+#: pippy_app.py:1228
 msgid "Error"
 msgstr ""
 
-#: pippy_app.py:1177
+#: pippy_app.py:1229
 msgid "Error reading data."
 msgstr ""
 
-#: pippy_app.py:1500
+#: pippy_app.py:1556
 msgid "Working..."
 msgstr ""
 
-#: pippy_app.py:1503
+#: pippy_app.py:1559
 msgid "done!"
 msgstr ""
 
