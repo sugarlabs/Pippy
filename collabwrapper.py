@@ -168,6 +168,7 @@ class CollabWrapper(GObject.GObject):
         self._leader = False
         self._init_waiting = False
         self._text_channel = None
+        self._owner = presenceservice.get_instance().get_owner()
 
     def setup(self):
         '''
@@ -391,7 +392,7 @@ class CollabWrapper(GObject.GObject):
         '''
         return CLIENT + '.' + self.activity.get_bundle_id()
 
-    @GObject.property
+    @GObject.Property
     def leader(self):
         '''
         Boolean of if this client is the leader in this activity.  The
@@ -400,21 +401,33 @@ class CollabWrapper(GObject.GObject):
         '''
         return self._leader
 
+    @GObject.Property
+    def owner(self):
+        '''
+        Ourselves, :class:`sugar3.presence.buddy.Owner`
+        '''
+        return self._owner
 
-FT_STATE_NONE = 0
-FT_STATE_PENDING = 1
-FT_STATE_ACCEPTED = 2
-FT_STATE_OPEN = 3
-FT_STATE_COMPLETED = 4
-FT_STATE_CANCELLED = 5
 
-FT_REASON_NONE = 0
-FT_REASON_REQUESTED = 1
-FT_REASON_LOCAL_STOPPED = 2
-FT_REASON_REMOTE_STOPPED = 3
-FT_REASON_LOCAL_ERROR = 4
-FT_REASON_LOCAL_ERROR = 5
-FT_REASON_REMOTE_ERROR = 6
+FT_STATE_NONE = TelepathyGLib.FileTransferState.NONE
+FT_STATE_PENDING = TelepathyGLib.FileTransferState.PENDING
+FT_STATE_ACCEPTED = TelepathyGLib.FileTransferState.ACCEPTED
+FT_STATE_OPEN = TelepathyGLib.FileTransferState.OPEN
+FT_STATE_COMPLETED = TelepathyGLib.FileTransferState.COMPLETED
+FT_STATE_CANCELLED = TelepathyGLib.FileTransferState.CANCELLED
+
+FT_REASON_NONE = \
+    TelepathyGLib.FileTransferStateChangeReason.NONE
+FT_REASON_REQUESTED = \
+    TelepathyGLib.FileTransferStateChangeReason.REQUESTED
+FT_REASON_LOCAL_STOPPED = \
+    TelepathyGLib.FileTransferStateChangeReason.LOCAL_STOPPED
+FT_REASON_REMOTE_STOPPED = \
+    TelepathyGLib.FileTransferStateChangeReason.REMOTE_STOPPED
+FT_REASON_LOCAL_ERROR = \
+    TelepathyGLib.FileTransferStateChangeReason.LOCAL_ERROR
+FT_REASON_REMOTE_ERROR = \
+    TelepathyGLib.FileTransferStateChangeReason.REMOTE_ERROR
 
 
 class _BaseFileTransfer(GObject.GObject):
@@ -481,7 +494,7 @@ class _BaseFileTransfer(GObject.GObject):
     def _get_transferred_bytes(self):
         return self._transferred_bytes
 
-    transferred_bytes = GObject.property(type=int,
+    transferred_bytes = GObject.Property(type=int,
                                          default=0,
                                          getter=_get_transferred_bytes,
                                          setter=_set_transferred_bytes)
@@ -501,7 +514,7 @@ class _BaseFileTransfer(GObject.GObject):
     def _get_state(self):
         return self._state
 
-    state = GObject.property(type=int, getter=_get_state, setter=_set_state)
+    state = GObject.Property(type=int, getter=_get_state, setter=_set_state)
 
     def cancel(self):
         '''
@@ -821,12 +834,12 @@ class _TextChannelWrapper(object):
                 nick = self._conn[
                     CONN_INTERFACE_ALIASING].RequestAliases([sender])[0]
                 buddy = {'nick': nick, 'color': '#000000,#808080'}
-                _logger.debug('exception: recieved from sender %r buddy %r' %
+                _logger.debug('exception: received from sender %r buddy %r' %
                               (sender, buddy))
             else:
                 # XXX: cache these
                 buddy = self._get_buddy(sender)
-                _logger.debug('Else: recieved from sender %r buddy %r' %
+                _logger.debug('Else: received from sender %r buddy %r' %
                               (sender, buddy))
 
             self._activity_cb(buddy, msg)
@@ -862,8 +875,8 @@ class _TextChannelWrapper(object):
         my_csh = group.GetSelfHandle()
         if my_csh == cs_handle:
             handle = conn.GetSelfHandle()
-        elif (group.GetGroupFlags() &
-              CHANNEL_GROUP_FLAG_CHANNEL_SPECIFIC_HANDLES):
+        elif group.GetGroupFlags() & \
+              CHANNEL_GROUP_FLAG_CHANNEL_SPECIFIC_HANDLES:
             handle = group.GetHandleOwners([cs_handle])[0]
         else:
             handle = cs_handle
