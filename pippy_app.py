@@ -37,6 +37,9 @@ from shutil import copy2
 from signal import SIGTERM
 from gettext import gettext as _
 import uuid
+import threading
+import http.client
+import urllib.parse
 
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
@@ -151,12 +154,18 @@ class PippyActivity(ViewSourceActivity):
         self._py_file_loaded_from_journal = False
         self._py_object_id = None
         self._dialog = None
+        self._code_analysis_timeout_id = None
+        self._last_analyzed_text = ""
 
         sys.path.append(os.path.join(self.get_activity_root(), 'Library'))
 
         ViewSourceActivity.__init__(self, handle)
         self._collab = CollabWrapper(self)
         self._collab.message.connect(self.__message_cb)
+        
+        # Initialize Code Llama helper
+        self._llama_helper = CodeLlamaHelper()
+        
         self.set_canvas(self.initialize_display())
         self.after_init()
         self.connect("notify::active", self.__active_cb)
@@ -343,9 +352,14 @@ class PippyActivity(ViewSourceActivity):
         self.get_toolbar_box().toolbar.insert(stop, -1)
         stop.show()
 
+        # Create a vertical pane for main content and terminal
         vpane = Gtk.Paned.new(orientation=Gtk.Orientation.VERTICAL)
         vpane.set_position(400)  # setting initial position
 
+        # Create a horizontal pane for editor and Code Llama
+        hpane = Gtk.Paned.new(orientation=Gtk.Orientation.HORIZONTAL)
+        hpane.set_position(600)  # Default horizontal split position
+        
         self.paths = []
 
         try:
@@ -416,8 +430,29 @@ class PippyActivity(ViewSourceActivity):
             self.session_data.append(None)
             self._source_tabs.add_tab()  # New instance, ergo empty tab
 
-        vpane.add1(self._source_tabs)
+        # Create the Code Llama pane
+        self._llama_pane = CodeLlamaPane(self._llama_helper)
+        
+        # Add refresh button to a button box
+        button_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        button_box.pack_start(self._llama_pane.refresh_button, False, False, 5)
+        
+        # Create a container for the Code Llama pane and its buttons
+        llama_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        llama_container.pack_start(button_box, False, False, 5)
+        llama_container.pack_start(self._llama_pane, True, True, 0)
+        llama_container.show_all()
+        
+        # Add source tabs to left side of horizontal pane
+        hpane.add1(self._source_tabs)
         self._source_tabs.show()
+        
+        # Add Code Llama pane to right side of horizontal pane
+        hpane.add2(llama_container)
+        
+        # Add horizontal pane to the top of vertical pane
+        vpane.add1(hpane)
+        hpane.show()
 
         self._outbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 
@@ -440,6 +475,9 @@ class PippyActivity(ViewSourceActivity):
 
         self._load_config()
 
+        # Set up automatic code analysis
+        self._setup_code_analysis()
+        
         vpane.add2(self._outbox)
         self._outbox.show()
         vpane.show()
@@ -1328,6 +1366,92 @@ class PippyActivity(ViewSourceActivity):
                 self._source_tabs.add_tab(name, content, path)
         else:
             self._source_tabs.add_tab()
+            
+        # Connect to the text buffer for code analysis
+        self._connect_text_buffer()
+        
+        # Analyze the initial code
+        if self._auto_analyze and self._auto_analyze.get_active():
+            GLib.timeout_add(1000, self._analyze_current_code)
+
+    def _setup_code_analysis(self):
+        """Set up the timer for automatic code analysis"""
+        # Add a toolbar button for Code Llama settings
+        actions_toolbar = self.get_toolbar_box().toolbar
+        
+        # Create a toggle button for automatic analysis
+        self._auto_analyze = ToggleToolButton('view-source')
+        self._auto_analyze.set_tooltip(_('Toggle automatic code analysis'))
+        self._auto_analyze.set_active(True)  # Enable by default
+        self._auto_analyze.connect('toggled', self._toggle_auto_analysis_cb)
+        actions_toolbar.insert(self._auto_analyze, -1)
+        self._auto_analyze.show()
+        
+        # Start listening for text changes
+        self._connect_text_buffer()
+        
+        # Connect to tab switch events
+        self._source_tabs.connect('switch-page', self._tab_switched_cb)
+    
+    def _connect_text_buffer(self):
+        """Connect to the current text buffer to monitor changes"""
+        text_buffer = self._source_tabs.get_text_buffer()
+        if text_buffer:
+            text_buffer.connect('changed', self._on_text_changed)
+    
+    def _on_text_changed(self, text_buffer):
+        """Called when the text buffer changes"""
+        if not self._auto_analyze.get_active():
+            return
+            
+        # Cancel existing timeout
+        if self._code_analysis_timeout_id:
+            GLib.source_remove(self._code_analysis_timeout_id)
+            
+        # Set new timeout (2 seconds after typing stops)
+        self._code_analysis_timeout_id = GLib.timeout_add(
+            2000, self._analyze_current_code)
+    
+    def _tab_switched_cb(self, notebook, page, page_num):
+        """Handle switching between tabs"""
+        # Re-connect to the text buffer of the new tab
+        self._connect_text_buffer()
+        
+        # Analyze the code in the new tab
+        if self._auto_analyze.get_active():
+            # Use a small delay to ensure the tab switch is complete
+            GLib.timeout_add(100, self._analyze_current_code)
+    
+    def _toggle_auto_analysis_cb(self, button):
+        """Toggle automatic code analysis"""
+        if button.get_active():
+            # Immediately analyze current code
+            self._analyze_current_code()
+        else:
+            # Cancel any pending analysis
+            if self._code_analysis_timeout_id:
+                GLib.source_remove(self._code_analysis_timeout_id)
+                self._code_analysis_timeout_id = None
+    
+    def _analyze_current_code(self):
+        """Analyze the current code in the editor"""
+        text_buffer = self._source_tabs.get_text_buffer()
+        if text_buffer:
+            start, end = text_buffer.get_bounds()
+            text = text_buffer.get_text(start, end, True)
+            
+            # Don't re-analyze the same code
+            if text == self._last_analyzed_text:
+                return False
+                
+            self._last_analyzed_text = text
+            
+            # Send to Code Llama
+            self._llama_pane.request_suggestions(text)
+            
+        # Don't repeat the timeout
+        self._code_analysis_timeout_id = None
+        return False
 
 # TEMPLATES AND INLINE FILES
 ACTIVITY_INFO_TEMPLATE = '''
@@ -1561,3 +1685,187 @@ if __name__ == '__main__':
     main()
     print(_('done!'))
     sys.exit(0)
+
+class CodeLlamaHelper:
+    """Helper class for interacting with Code Llama server"""
+    def __init__(self, host="localhost", port=8080):
+        self.host = host
+        self.port = port
+        self.base_url = f"http://{host}:{port}"
+        
+    def check_connection(self):
+        """Check if the Code Llama server is running"""
+        try:
+            conn = http.client.HTTPConnection(self.host, self.port, timeout=5)
+            conn.request("GET", "/")
+            response = conn.getresponse()
+            return response.status == 200
+        except Exception:
+            return False
+        finally:
+            conn.close()
+            
+    def get_code_suggestions(self, code):
+        """Get code suggestions from Code Llama"""
+        try:
+            conn = http.client.HTTPConnection(self.host, self.port)
+            headers = {'Content-Type': 'application/json'}
+            data = json.dumps({
+                'code': code,
+                'max_tokens': 150
+            })
+            conn.request("POST", "/suggestions", data, headers)
+            response = conn.getresponse()
+            if response.status == 200:
+                result = json.loads(response.read().decode())
+                return result.get('suggestions', 'No suggestions available')
+            else:
+                return f"Error: {response.status} {response.reason}"
+        except Exception as e:
+            return f"Error connecting to Code Llama: {str(e)}"
+        finally:
+            conn.close()
+            
+    def send_chat_message(self, message):
+        """Send a chat message to Code Llama"""
+        try:
+            conn = http.client.HTTPConnection(self.host, self.port)
+            headers = {'Content-Type': 'application/json'}
+            data = json.dumps({
+                'message': message
+            })
+            conn.request("POST", "/chat", data, headers)
+            response = conn.getresponse()
+            if response.status == 200:
+                result = json.loads(response.read().decode())
+                return result.get('response', 'No response available')
+            else:
+                return f"Error: {response.status} {response.reason}"
+        except Exception as e:
+            return f"Error connecting to Code Llama: {str(e)}"
+        finally:
+            conn.close()
+
+class CodeLlamaPane(Gtk.ScrolledWindow):
+    """Widget to display Code Llama suggestions and chat"""
+    def __init__(self, llama_helper):
+        Gtk.ScrolledWindow.__init__(self)
+        self.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        
+        self.llama_helper = llama_helper
+        self.last_analyzed_code = ""
+        
+        # Create main container
+        self.main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        self.add(self.main_box)
+        
+        # Create the text view for displaying suggestions and chat
+        self.suggestion_view = Gtk.TextView()
+        self.suggestion_view.set_editable(False)
+        self.suggestion_view.set_wrap_mode(Gtk.WrapMode.WORD)
+        self.suggestion_buffer = self.suggestion_view.get_buffer()
+        
+        # Use a monospace font
+        self.suggestion_view.override_font(
+            Pango.FontDescription('Monospace 10'))
+        
+        # Add tags for different message types
+        self.header_tag = self.suggestion_buffer.create_tag(
+            "header", weight=Pango.Weight.BOLD, size_points=12)
+        self.user_tag = self.suggestion_buffer.create_tag(
+            "user", weight=Pango.Weight.BOLD, foreground="blue")
+        self.ai_tag = self.suggestion_buffer.create_tag(
+            "ai", weight=Pango.Weight.BOLD, foreground="green")
+        
+        # Add the text view to a scrolled window
+        self.text_scroll = Gtk.ScrolledWindow()
+        self.text_scroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        self.text_scroll.add(self.suggestion_view)
+        self.main_box.pack_start(self.text_scroll, True, True, 0)
+        
+        # Create input area
+        self.input_box = Gtk.Box(spacing=5)
+        self.main_box.pack_end(self.input_box, False, False, 0)
+        
+        # Create text entry
+        self.message_entry = Gtk.Entry()
+        self.message_entry.set_placeholder_text("Type your message here...")
+        self.message_entry.connect("activate", self.on_send_message)
+        self.input_box.pack_start(self.message_entry, True, True, 0)
+        
+        # Create send button
+        self.send_button = Gtk.Button(label="Send")
+        self.send_button.connect("clicked", self.on_send_message)
+        self.input_box.pack_start(self.send_button, False, False, 0)
+        
+        # Create analyze button
+        self.refresh_button = Gtk.Button("Analyze Code with Code Llama")
+        self.refresh_button.connect("clicked", self.on_refresh_clicked)
+        self.main_box.pack_end(self.refresh_button, False, False, 0)
+        
+        self.update_suggestions("Connect to Code Llama", 
+                               "Code Llama is not connected. Please start the Code Llama server.")
+        
+        self.show_all()
+        
+    def on_send_message(self, widget):
+        """Handle sending a chat message"""
+        message = self.message_entry.get_text().strip()
+        if not message:
+            return
+            
+        # Add user message to chat
+        self.add_message(message, is_user=True)
+        self.message_entry.set_text("")
+        
+        # Send message to Code Llama
+        def send_message_thread():
+            try:
+                response = self.llama_helper.send_chat_message(message)
+                GLib.idle_add(self.add_message, response, False)
+            except Exception as e:
+                GLib.idle_add(self.add_message, f"Error: {str(e)}", False)
+                
+        threading.Thread(target=send_message_thread, daemon=True).start()
+        
+    def add_message(self, message, is_user=True):
+        """Add a message to the chat"""
+        iter = self.suggestion_buffer.get_end_iter()
+        tag = self.user_tag if is_user else self.ai_tag
+        prefix = "You: " if is_user else "AI: "
+        
+        self.suggestion_buffer.insert_with_tags(iter, f"\n{prefix}", tag)
+        self.suggestion_buffer.insert(iter, f"{message}\n")
+        
+        # Scroll to the end
+        self.suggestion_view.scroll_to_iter(
+            self.suggestion_buffer.get_end_iter(), 0.0, False, 0.0, 0.0)
+        
+    def on_refresh_clicked(self, widget):
+        """Handle refresh button click"""
+        self.request_suggestions()
+        
+    def update_suggestions(self, title, content):
+        """Update the suggestion text view with new content"""
+        self.suggestion_buffer.set_text("")
+        iter = self.suggestion_buffer.get_iter_at_offset(0)
+        
+        self.suggestion_buffer.insert_with_tags(iter, title + "\n\n", self.header_tag)
+        self.suggestion_buffer.insert(iter, content)
+    
+    def request_suggestions(self, code=None):
+        """Request suggestions from Code Llama in a separate thread"""
+        if code is not None:
+            self.last_analyzed_code = code
+            
+        if not self.last_analyzed_code:
+            return
+            
+        self.update_suggestions("Analyzing code...", 
+                               "Sending code to Code Llama for analysis.")
+            
+        def get_suggestions_thread():
+            suggestions = self.llama_helper.get_code_suggestions(self.last_analyzed_code)
+            GLib.idle_add(self.update_suggestions, "Code Analysis", suggestions)
+            
+        threading.Thread(target=get_suggestions_thread, daemon=True).start()

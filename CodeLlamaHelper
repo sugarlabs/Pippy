@@ -1,0 +1,46 @@
+class CodeLlamaHelper:
+    """Helper class to interact with a local Code Llama instance"""
+    def __init__(self, host="localhost", port=8080):
+        self.host = host
+        self.port = port
+        self.is_connected = False
+        self.check_connection()
+    
+    def check_connection(self):
+        """Check if we can connect to Code Llama server"""
+        try:
+            conn = http.client.HTTPConnection(self.host, self.port, timeout=2)
+            conn.request("GET", "/health")
+            response = conn.getresponse()
+            self.is_connected = (response.status == 200)
+            conn.close()
+            return self.is_connected
+        except Exception:
+            self.is_connected = False
+            return False
+            
+    def get_code_suggestions(self, code):
+        """Send code to Code Llama and get suggestions back"""
+        if not self.is_connected:
+            if not self.check_connection():
+                return "Code Llama server not available. Please ensure it's running at {}:{}".format(
+                    self.host, self.port)
+        
+        try:
+            conn = http.client.HTTPConnection(self.host, self.port)
+            
+            headers = {'Content-type': 'application/json'}
+            data = json.dumps({"code": code, "max_tokens": 500})
+            
+            conn.request("POST", "/suggestions", data, headers)
+            response = conn.getresponse()
+            
+            if response.status == 200:
+                result = response.read().decode()
+                conn.close()
+                return json.loads(result).get('suggestions', "No suggestions available")
+            else:
+                conn.close()
+                return "Error: " + str(response.status)
+        except Exception as e:
+            return "Error connecting to Code Llama: " + str(e) 
