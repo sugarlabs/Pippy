@@ -74,7 +74,6 @@ from sugar3.graphics.toolbutton import ToolButton
 from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.activity.widgets import ActivityToolbarButton
 
-from jarabe.view.customizebundle import generate_unique_id
 
 from activity import ViewSourceActivity
 from activity import TARGET_TYPE_TEXT
@@ -1479,7 +1478,7 @@ def main():
         'icon': icon,
         'class': 'activity.VteActivity',
         'bundle_id': ('org.sugarlabs.pippy.%s%d' %
-                      (generate_unique_id(),
+                      (str(uuid.uuid4()).replace('-', ''),
                        int(round(uniform(1000, 9999), 0)))),
         'mime_types': '',
         'extra_info': '',
