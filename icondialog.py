@@ -20,7 +20,6 @@ import shutil
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GdkPixbuf
-from jarabe.journal.model import get_documents_path
 from sugar3.activity.activity import get_bundle_path
 from sugar3.graphics.toolbutton import ToolButton
 from sugar3.graphics.toolbarbox import ToolbarBox
@@ -33,7 +32,7 @@ DEFAULT_ICON = os.path.join(get_bundle_path(), 'activity',
 
 
 def get_document_icons():
-    icons = os.listdir(get_documents_path())
+    icons = os.listdir(os.path.expanduser("~/Documents"))
     icons_ = []
     for icon in icons:
         if icon.endswith('.svg'):
@@ -85,7 +84,7 @@ class IconDialog(Gtk.Window):
         self.set_destroy_with_parent(True)
 
         self.theme = Gtk.IconTheme.get_default()
-        self.theme.append_search_path(get_documents_path())
+        self.theme.append_search_path(os.path.expanduser("~/Documents"))
 
         self._icon = None
         grid = Gtk.Grid()
@@ -162,7 +161,7 @@ class IconDialog(Gtk.Window):
                 continue
             icon_path = os.path.join(get_user_path(), icon + ".svg")
             if not os.path.exists(icon_path):
-                icon_path = os.path.join(get_documents_path(), icon + ".svg")
+                icon_path = os.path.join(os.path.expanduser("~/Documents"), icon + ".svg")
 
             if not os.path.exists(icon_path):
                 icon_path = info.get_filename()
