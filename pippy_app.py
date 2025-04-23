@@ -246,6 +246,7 @@ class PippyActivity(ViewSourceActivity):
         view_btn.props.page = view_toolbar
         view_btn.props.icon_name = 'toolbar-view'
         view_btn.props.label = _('View')
+        # Connect the font size change callback
         view_toolbar.connect('font-size-changed',
                              self._font_size_changed_cb)
         self.get_toolbar_box().toolbar.insert(view_btn, -1)
@@ -267,6 +268,9 @@ class PippyActivity(ViewSourceActivity):
             'toggled', self.__inverted_colors_toggled_cb)
         actions_toolbar.insert(self._inverted_colors, -1)
         self._inverted_colors.show()
+
+        # Move font resize buttons from view toolbar to main toolbar
+        view_toolbar.add_buttons_to_toolbar(actions_toolbar)
 
         icons_path = os.path.join(get_bundle_path(), 'icons')
 
@@ -462,6 +466,8 @@ class PippyActivity(ViewSourceActivity):
         self._source_tabs.set_font_size(size)
         self._vte.set_font(
             Pango.FontDescription('Monospace {}'.format(size)))
+        # Store configuration to persist font size
+        self._store_config()
 
     def _store_config(self):
         font_size = self._source_tabs.get_font_size()
