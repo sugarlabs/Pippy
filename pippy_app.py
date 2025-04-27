@@ -406,15 +406,33 @@ class PippyActivity(ViewSourceActivity):
         self._source_tabs.connect('tab-added', self._add_source_cb)
         self._source_tabs.connect('tab-renamed', self._rename_source_cb)
         self._source_tabs.connect('tab-closed', self._close_source_cb)
+        self._source_tabs.connect('switch-page', self._switch_page_cb)
+        
         if self._loaded_session:
             for name, content, path in self._loaded_session:
                 self._source_tabs.add_tab(name, content, path)
         else:
             self.session_data.append(None)
             self._source_tabs.add_tab()  # New instance, ergo empty tab
+            
+        # Force a switch to first tab to make sure terminal is created
+        if self._source_tabs.get_n_pages() > 0:
+            self._source_tabs.set_current_page(0)
 
         vpane.add1(self._source_tabs)
         self._source_tabs.show()
+
+        # Create a dictionary to store terminals and process IDs for each tab
+        self._vte_terminals = {}
+        self._pids = {}
+        
+        # Create a container to hold all terminals
+        self._terminal_container = Gtk.Stack()
+        vpane.add2(self._terminal_container)
+        self._terminal_container.show()
+        
+        # Create initial terminal
+        self._create_terminal_for_current_tab()
 
         self._outbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 
@@ -443,6 +461,11 @@ class PippyActivity(ViewSourceActivity):
         return vpane
 
     def _vte_set_colors(self, bg, fg):
+        # Apply colors to all terminals
+        for vte in self._vte_terminals.values():
+            self._vte_set_colors_for_terminal(vte, bg, fg)
+
+    def _vte_set_colors_for_terminal(self, vte, bg, fg):
         # XXX support both Vte APIs
         if _has_new_vte_api():
             foreground = Gdk.RGBA()
@@ -453,15 +476,23 @@ class PippyActivity(ViewSourceActivity):
             foreground = Gdk.color_parse(bg)
             background = Gdk.color_parse(fg)
 
-        self._vte.set_colors(foreground, background, [])
+        vte.set_colors(foreground, background, [])
 
     def after_init(self):
-        self._outbox.hide()
+        self._terminal_container.hide()
+        
+        # Create terminals for all existing tabs
+        for i in range(self._source_tabs.get_n_pages()):
+            page = self._source_tabs.get_nth_page(i)
+            editor_id = self._source_tabs.get_tab_label(page).editor_id
+            if editor_id not in self._vte_terminals:
+                self._create_terminal(editor_id)
 
     def _font_size_changed_cb(self, widget, size):
         self._source_tabs.set_font_size(size)
-        self._vte.set_font(
-            Pango.FontDescription('Monospace {}'.format(size)))
+        font_desc = Pango.FontDescription('Monospace {}'.format(size))
+        for vte in self._vte_terminals.values():
+            vte.set_font(font_desc)
 
     def _store_config(self):
         font_size = self._source_tabs.get_font_size()
@@ -511,22 +542,24 @@ class PippyActivity(ViewSourceActivity):
     def _toggle_output_cb(self, button):
         shown = button.get_active()
         if shown:
-            self._outbox.show_all()
+            self._terminal_container.show_all()
             self._toggle_output.set_tooltip(_('Hide output panel'))
             self._toggle_output.set_icon_name('tray-hide')
         else:
-            self._outbox.hide()
+            self._terminal_container.hide()
             self._toggle_output.set_tooltip(_('Show output panel'))
             self._toggle_output.set_icon_name('tray-show')
 
     def __inverted_colors_toggled_cb(self, button):
         if button.props.active:
-            self._vte_set_colors('#E7E7E7', '#000000')
+            for vte in self._vte_terminals.values():
+                self._vte_set_colors_for_terminal(vte, '#E7E7E7', '#000000')
             self._source_tabs.set_dark()
             button.set_icon_name('light-theme')
             button.set_tooltip(_('Normal Colors'))
         else:
-            self._vte_set_colors('#000000', '#E7E7E7')
+            for vte in self._vte_terminals.values():
+                self._vte_set_colors_for_terminal(vte, '#000000', '#E7E7E7')
             self._source_tabs.set_light()
             button.set_icon_name('dark-theme')
             button.set_tooltip(_('Inverted Colors'))
@@ -571,6 +604,10 @@ class PippyActivity(ViewSourceActivity):
             self.session_data.append(None)
             self._source_tabs.get_nth_page(-1).show_all()
             self._source_tabs.get_text_view().grab_focus()
+            
+            # Create a terminal for this new tab
+            self._create_terminal_for_current_tab()
+            
             if self._collab._leader:
                 self._collab.post(dict(
                     action='add-source',
@@ -579,6 +616,7 @@ class PippyActivity(ViewSourceActivity):
             # The leader must do it first so that they can set
             # up the text buffer
             self._collab.post(dict(action='add-source-request'))
+        
         # Check if dark mode enabled, apply it
         self._source_tabs.update_edit_toolbar()
         if self._inverted_colors.props.active:
@@ -591,6 +629,30 @@ class PippyActivity(ViewSourceActivity):
     def _close_source_cb(self, notebook, page):
         self._source_tabs.update_edit_toolbar()
         _logger.debug('_close_source_cb %r' % (page))
+        
+        # Get the editor_id for the closed tab
+        index = self._source_tabs.page_num(page)
+        if index >= 0:
+            page = self._source_tabs.get_nth_page(index)
+            editor_id = self._source_tabs.get_tab_label(page).editor_id
+            
+            # Clean up terminal and process
+            if editor_id in self._pids and self._pids[editor_id] is not None:
+                try:
+                    os.kill(self._pids[editor_id][1], SIGTERM)
+                except:
+                    pass  # Process must already be dead.
+            
+            # Remove terminal from dictionary
+            if editor_id in self._vte_terminals:
+                # Remove from Stack widget
+                terminal_box = self._terminal_container.get_child_by_name(editor_id)
+                if terminal_box:
+                    self._terminal_container.remove(terminal_box)
+                del self._vte_terminals[editor_id]
+                if editor_id in self._pids:
+                    del self._pids[editor_id]
+        
         self._collab.post(dict(action='close-source', page=page))
 
     def __message_cb(self, collab, buddy, msg):
@@ -612,7 +674,17 @@ class PippyActivity(ViewSourceActivity):
 
     def _vte_drop_cb(self, widget, context, x, y, selection, targetType, time):
         if targetType == TARGET_TYPE_TEXT:
-            self._vte.feed_child(selection.data)
+            if widget in self._vte_terminals.values():
+                widget.feed_child(selection.data)
+            elif self._vte_terminals:
+                # Use current terminal if drop is outside a terminal
+                current_page = self._source_tabs.get_current_page()
+                if current_page >= 0:
+                    page = self._source_tabs.get_nth_page(current_page)
+                    editor_id = self._source_tabs.get_tab_label(page).editor_id
+                    vte = self._vte_terminals.get(editor_id)
+                    if vte:
+                        vte.feed_child(selection.data)
 
     def get_data(self):
         return self._source_tabs.get_all_data()
@@ -685,8 +757,18 @@ class PippyActivity(ViewSourceActivity):
                 f.write(content)
 
     def _reset_vte(self):
-        self._vte.grab_focus()
-        self._vte.feed(b'\x1B[H\x1B[J\x1B[0;39m')
+        # Get the current tab's terminal
+        current_page = self._source_tabs.get_current_page()
+        if current_page < 0:
+            return
+        
+        page = self._source_tabs.get_nth_page(current_page)
+        editor_id = self._source_tabs.get_tab_label(page).editor_id
+        
+        vte = self._vte_terminals.get(editor_id)
+        if vte:
+            vte.grab_focus()
+            vte.feed(b'\x1B[H\x1B[J\x1B[0;39m')
 
     def __undobutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
@@ -706,9 +788,19 @@ class PippyActivity(ViewSourceActivity):
 
     def __copybutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
-        if self._vte.get_has_selection():
-            self._vte.copy_clipboard()
-        elif text_buffer.get_has_selection():
+        
+        # Get the current terminal
+        current_page = self._source_tabs.get_current_page()
+        if current_page >= 0:
+            page = self._source_tabs.get_nth_page(current_page)
+            editor_id = self._source_tabs.get_tab_label(page).editor_id
+            vte = self._vte_terminals.get(editor_id)
+            
+            if vte and vte.get_has_selection():
+                vte.copy_clipboard()
+                return
+        
+        if text_buffer.get_has_selection():
             clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
             text_buffer.copy_clipboard(clipboard)
 
@@ -718,34 +810,47 @@ class PippyActivity(ViewSourceActivity):
         text_buffer.paste_clipboard(clipboard, None, True)
 
     def _go_button_cb(self, button):
-        self._stop_button_cb(button)  # Try stopping old code first.
+        # Get the current tab's editor_id
+        current_page = self._source_tabs.get_current_page()
+        if current_page < 0:
+            return
+        
+        page = self._source_tabs.get_nth_page(current_page)
+        editor_id = self._source_tabs.get_tab_label(page).editor_id
+        
+        # Try stopping old code first
+        self._stop_button_cb(button)
         self._reset_vte()
-
-        # FIXME: We're losing an odd race here
-        # Gtk.main_iteration(block=False)
-
+        
+        # Show the terminal panel if it's not already visible
         if self._toggle_output.get_active() is False:
-            self._outbox.show_all()
+            self._terminal_container.show_all()
             self._toggle_output.set_active(True)
-
+        
+        # Get the terminal for this tab
+        vte = self._vte_terminals.get(editor_id)
+        if not vte:
+            return
+        
+        # Prepare files
         pippy_tmp_dir = '%s/tmp/' % self.get_activity_root()
         self._write_all_buffers(pippy_tmp_dir)
-
+        
         current_file = os.path.join(
             pippy_tmp_dir,
             self._source_tabs.get_current_file_name())
-
-        # Write activity.py here too, to support pippy-based activities.
+        
+        # Write activity.py to support pippy-based activities
         copy2('%s/activity.py' % get_bundle_path(),
               '%s/tmp/activity.py' % self.get_activity_root())
-
-        # XXX Support both Vte APIs
+        
+        # Run the code in this terminal
         if _has_new_vte_api():
-            vte_run = self._vte.spawn_sync
+            vte_run = vte.spawn_sync
         else:
-            vte_run = self._vte.fork_command_full
-
-        self._pid = vte_run(
+            vte_run = vte.fork_command_full
+        
+        self._pids[editor_id] = vte_run(
             Vte.PtyFlags.DEFAULT,
             get_bundle_path(),
             ['/bin/sh', '-c', 'python3 %s; sleep 1' % current_file,
@@ -758,9 +863,17 @@ class PippyActivity(ViewSourceActivity):
             None,)
 
     def _stop_button_cb(self, button):
+        # Get the current tab's editor_id
+        current_page = self._source_tabs.get_current_page()
+        if current_page < 0:
+            return
+        
+        page = self._source_tabs.get_nth_page(current_page)
+        editor_id = self._source_tabs.get_tab_label(page).editor_id
+        
         try:
-            if self._pid is not None:
-                os.kill(self._pid[1], SIGTERM)
+            if editor_id in self._pids and self._pids[editor_id] is not None:
+                os.kill(self._pids[editor_id][1], SIGTERM)
         except:
             pass  # Process must already be dead.
 
@@ -835,6 +948,17 @@ class PippyActivity(ViewSourceActivity):
         chooser.destroy()
 
     def _create_bundle_cb(self, button):
+        # Get current terminal
+        current_page = self._source_tabs.get_current_page()
+        if current_page < 0:
+            return
+        
+        page = self._source_tabs.get_nth_page(current_page)
+        editor_id = self._source_tabs.get_tab_label(page).editor_id
+        vte = self._vte_terminals.get(editor_id)
+        if not vte:
+            return
+        
         from shutil import rmtree
         from tempfile import mkdtemp
 
@@ -858,26 +982,25 @@ class PippyActivity(ViewSourceActivity):
         alert_icon.props.title = _('Activity icon')
         alert_icon.props.msg = _('Please select an activity icon.')
 
-        self._stop_button_cb(None)  # try stopping old code first.
-        self._reset_vte()
-        self._outbox.show_all()
-        self._vte.feed(_("Creating activity bundle...").encode())
-        self._vte.feed(b'\r\n')
-        TMPDIR = 'instance'
-        app_temp = mkdtemp('.activity', 'Pippy',
-                           os.path.join(self.get_activity_root(), TMPDIR))
-        sourcefile = os.path.join(app_temp, 'xyzzy.py')
-        # invoke ourself to build the activity bundle.
-        _logger.debug('writing out source file: %s' % sourcefile)
-
         def internal_callback(window=None, event=None):
+            # Get current terminal again (in case tabs changed)
+            current_page = self._source_tabs.get_current_page()
+            if current_page < 0:
+                return
+            
+            page = self._source_tabs.get_nth_page(current_page)
+            editor_id = self._source_tabs.get_tab_label(page).editor_id
+            vte = self._vte_terminals.get(editor_id)
+            if not vte:
+                return
+            
             icon = '%s/activity/activity-default.svg' % (get_bundle_path())
             if window:
                 icon = window.get_icon()
             self._stop_button_cb(None)  # Try stopping old code first.
             self._reset_vte()
-            self._vte.feed(_('Creating activity bundle...').encode())
-            self._vte.feed(b'\r\n')
+            vte.feed(_('Creating activity bundle...').encode())
+            vte.feed(b'\r\n')
 
             TMPDIR = 'instance'
             app_temp = mkdtemp('.activity', 'Pippy',
@@ -891,19 +1014,19 @@ class PippyActivity(ViewSourceActivity):
 
             try:
                 # FIXME: vte invocation was raising errors.
-                # Switched to subprocss
+                # Switched to subprocess
                 output = subprocess.check_output(
                     ['/usr/bin/python3',
                      '%s/pippy_app.py' % get_bundle_path(),
                      '-p', '%s/library' % get_bundle_path(),
                      '-d', app_temp, title, sourcefile, icon])
-                self._vte.feed(output)
-                self._vte.feed(b'\r\n')
+                vte.feed(output)
+                vte.feed(b'\r\n')
                 self._bundle_cb(title, app_temp)
             except subprocess.CalledProcessError:
                 rmtree(app_temp, ignore_errors=True)  # clean up!
-                self._vte.feed(_('Save as Activity Error').encode())
-                self._vte.feed(b'\r\n')
+                vte.feed(_('Save as Activity Error').encode())
+                vte.feed(b'\r\n')
                 raise
 
         def _alert_response(alert, response_id):
@@ -915,6 +1038,12 @@ class PippyActivity(ViewSourceActivity):
 
             GObject.idle_add(_dialog)
 
+        # Make sure terminal is showing and stop any running process
+        self._stop_button_cb(None)
+        self._reset_vte()
+        self._terminal_container.show_all()
+        
+        # Connect alert response and show alert
         alert_icon.connect('response', _alert_response)
         self.add_alert(alert_icon)
 
@@ -1325,6 +1454,76 @@ class PippyActivity(ViewSourceActivity):
                 self._source_tabs.add_tab(name, content, path)
         else:
             self._source_tabs.add_tab()
+            
+        # Force a switch to first tab to make sure terminal is created
+        if self._source_tabs.get_n_pages() > 0:
+            self._source_tabs.set_current_page(0)
+
+    def _create_terminal_for_current_tab(self):
+        current_page = self._source_tabs.get_current_page()
+        if current_page < 0:
+            return
+        
+        page = self._source_tabs.get_nth_page(current_page)
+        editor_id = self._source_tabs.get_tab_label(page).editor_id
+        
+        if editor_id not in self._vte_terminals:
+            self._create_terminal(editor_id)
+
+    def _switch_page_cb(self, notebook, page, page_num):
+        # Create a terminal if it doesn't exist yet for this tab
+        page = self._source_tabs.get_nth_page(page_num)
+        editor_id = self._source_tabs.get_tab_label(page).editor_id
+        
+        # Create a terminal if it doesn't exist yet
+        if editor_id not in self._vte_terminals:
+            self._create_terminal(editor_id)
+        else:
+            # Switch to the terminal for this tab
+            self._terminal_container.set_visible_child_name(editor_id)
+
+    def _create_terminal(self, editor_id):
+        if editor_id in self._vte_terminals:
+            return  # Terminal already exists
+        
+        # Create a box for the terminal and scrollbar
+        outbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        
+        # Create the terminal
+        vte = Vte.Terminal()
+        vte.set_encoding('utf-8')
+        vte.set_size(30, 5)
+        vte.set_scrollback_lines(-1)
+        
+        # Set terminal colors
+        if hasattr(self, '_inverted_colors') and self._inverted_colors.props.active:
+            self._vte_set_colors_for_terminal(vte, '#E7E7E7', '#000000')
+        else:
+            self._vte_set_colors_for_terminal(vte, '#000000', '#E7E7E7')
+        
+        # Connect signals
+        vte.connect('child_exited', self._child_exited_cb)
+        vte.connect('drag_data_received', self._vte_drop_cb)
+        
+        outbox.pack_start(vte, True, True, 0)
+        
+        # Add scrollbar
+        scrollbar = Gtk.Scrollbar(orientation=Gtk.Orientation.VERTICAL)
+        scrollbar.set_adjustment(vte.get_vadjustment())
+        scrollbar.show()
+        outbox.pack_start(scrollbar, False, False, 0)
+        
+        # Add to container
+        self._terminal_container.add_named(outbox, editor_id)
+        
+        # Store the terminal
+        self._vte_terminals[editor_id] = vte
+        self._pids[editor_id] = None
+        
+        outbox.show_all()
+        
+        # Make this terminal active
+        self._terminal_container.set_visible_child_name(editor_id)
 
 # TEMPLATES AND INLINE FILES
 ACTIVITY_INFO_TEMPLATE = '''
