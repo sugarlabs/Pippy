@@ -243,13 +243,16 @@ class PippyActivity(ViewSourceActivity):
 
         view_btn = ToolbarButton()
         view_toolbar = DevelopViewToolbar(self)
-        view_btn.props.page = view_toolbar
+        view_btn.set_page(view_toolbar)
         view_btn.props.icon_name = 'toolbar-view'
         view_btn.props.label = _('View')
         view_toolbar.connect('font-size-changed',
                              self._font_size_changed_cb)
+        view_toolbar.connect('colors-changed',
+                             self._colors_changed_cb)
         self.get_toolbar_box().toolbar.insert(view_btn, -1)
         self.view_toolbar = view_toolbar
+        view_btn.show()
         view_toolbar.show()
 
         actions_toolbar = self.get_toolbar_box().toolbar
@@ -259,14 +262,6 @@ class PippyActivity(ViewSourceActivity):
         self._toggle_output.connect('toggled', self._toggle_output_cb)
         actions_toolbar.insert(self._toggle_output, -1)
         self._toggle_output.show()
-
-        self._inverted_colors = ToggleToolButton(icon_name='dark-theme')
-        self._inverted_colors.set_tooltip(_('Inverted Colors'))
-        self._inverted_colors.set_accelerator('<Ctrl><Shift>I')
-        self._inverted_colors.connect(
-            'toggled', self.__inverted_colors_toggled_cb)
-        actions_toolbar.insert(self._inverted_colors, -1)
-        self._inverted_colors.show()
 
         icons_path = os.path.join(get_bundle_path(), 'icons')
 
@@ -519,17 +514,13 @@ class PippyActivity(ViewSourceActivity):
             self._toggle_output.set_tooltip(_('Show output panel'))
             self._toggle_output.set_icon_name('tray-show')
 
-    def __inverted_colors_toggled_cb(self, button):
-        if button.props.active:
+    def _colors_changed_cb(self, toolbar, is_dark):
+        if is_dark:
             self._vte_set_colors('#E7E7E7', '#000000')
             self._source_tabs.set_dark()
-            button.set_icon_name('light-theme')
-            button.set_tooltip(_('Normal Colors'))
         else:
             self._vte_set_colors('#000000', '#E7E7E7')
             self._source_tabs.set_light()
-            button.set_icon_name('dark-theme')
-            button.set_tooltip(_('Inverted Colors'))
 
     def _load_example_cb(self, widget):
         widget.set_icon_name('pippy-openon')
@@ -581,7 +572,7 @@ class PippyActivity(ViewSourceActivity):
             self._collab.post(dict(action='add-source-request'))
         # Check if dark mode enabled, apply it
         self._source_tabs.update_edit_toolbar()
-        if self._inverted_colors.props.active:
+        if self.view_toolbar.inverted_colors.props.active:
             self._source_tabs.set_dark()
 
     def _rename_source_cb(self, notebook, page, name):
