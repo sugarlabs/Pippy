@@ -18,9 +18,11 @@
 
 from gi.repository import Gtk
 from gi.repository import GObject
+from gi.repository import Gdk
 
 from gettext import gettext as _
 from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.toggletoolbutton import ToggleToolButton
 
 from notebook import FONT_CHANGE_STEP, DEFAULT_FONT_SIZE
 
@@ -29,6 +31,8 @@ class DevelopViewToolbar(Gtk.Toolbar):
     __gsignals__ = {
         'font-size-changed': (GObject.SIGNAL_RUN_FIRST, None,
                               (int,)),
+        'colors-changed': (GObject.SIGNAL_RUN_FIRST, None,
+                         (bool,)),
     }
 
     def __init__(self, _activity):
@@ -36,18 +40,36 @@ class DevelopViewToolbar(Gtk.Toolbar):
 
         self._activity = _activity
         self.font_size = DEFAULT_FONT_SIZE
-
-        self.font_plus = ToolButton('zoom-in')
-        self.font_plus.connect('clicked', self._font_size_increase)
-        self.font_plus.set_tooltip(_('Zoom in'))
-        self.insert(self.font_plus, -1)
-        self.font_plus.show()
+        
+        _activity.connect('key-press-event', self._key_press_cb)
 
         self.font_minus = ToolButton('zoom-out')
         self.font_minus.connect('clicked', self._font_size_decrease)
         self.font_minus.set_tooltip(_('Zoom out'))
+        self.font_minus.set_accelerator('<Ctrl>minus')
         self.insert(self.font_minus, -1)
         self.font_minus.show()
+
+        self.font_plus = ToolButton('zoom-in')
+        self.font_plus.connect('clicked', self._font_size_increase)
+        self.font_plus.set_tooltip(_('Zoom in'))
+        self.font_plus.set_accelerator('<Ctrl>plus')
+        self.insert(self.font_plus, -1)
+        self.font_plus.show()
+
+        self.font_reset = ToolButton('zoom-best-fit')
+        self.font_reset.connect('clicked', self._font_size_reset)
+        self.font_reset.set_tooltip(_('Actual size'))
+        self.font_reset.set_accelerator('<Ctrl>0')
+        self.insert(self.font_reset, -1)
+        self.font_reset.show()
+
+        self.inverted_colors = ToggleToolButton(icon_name='dark-theme')
+        self.inverted_colors.set_tooltip(_('Inverted Colors'))
+        self.inverted_colors.set_accelerator('<Ctrl><Shift>I')
+        self.inverted_colors.connect('toggled', self._inverted_colors_toggled_cb)
+        self.insert(self.inverted_colors, -1)
+        self.inverted_colors.show()
 
         self.show()
 
@@ -62,3 +84,26 @@ class DevelopViewToolbar(Gtk.Toolbar):
     def _font_size_decrease(self, button):
         self.font_size -= FONT_CHANGE_STEP
         self.emit('font-size-changed', self.font_size)
+
+    def _font_size_reset(self, button):
+        self.font_size = DEFAULT_FONT_SIZE
+        self.emit('font-size-changed', self.font_size)
+        
+    def _inverted_colors_toggled_cb(self, button):
+        if button.props.active:
+            button.set_icon_name('light-theme')
+            button.set_tooltip(_('Normal Colors'))
+        else:
+            button.set_icon_name('dark-theme')
+            button.set_tooltip(_('Inverted Colors'))
+        self.emit('colors-changed', button.props.active)
+
+    def _key_press_cb(self, widget, event):
+        ctrl = event.state & Gdk.ModifierType.CONTROL_MASK
+        
+        if ctrl:
+            if (event.keyval == ord('+')):
+                self._font_size_increase(None)
+                return True
+                
+        return False
