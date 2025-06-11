@@ -770,6 +770,31 @@ class PippyActivity(ViewSourceActivity):
             GLib.SpawnFlags.DO_NOT_REAP_CHILD,
             None,
             None,)
+            
+    # To extract the source code    
+    def _get_current_code(self):
+        pippy_tmp_dir = '%s/tmp/' % self.get_activity_root()
+        current_file = os.path.join(
+            pippy_tmp_dir,
+            self._source_tabs.get_current_file_name()
+        )
+
+        try:
+            with open(current_file, 'r') as f:
+                return f.read()
+        except Exception as e:
+            print(f"Error reading file {current_file}: {e}")
+            return None
+    
+    def _debug_button_cb(self, button):
+        # Run the code
+        self._go_button_cb(button)
+
+        code = self._get_current_code()
+        if code:
+            print(f"Run and Debug!\n{code}")
+        else:
+            print("No code found to debug.")
 
     def _stop_button_cb(self, button):
         try:
