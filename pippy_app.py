@@ -290,6 +290,17 @@ class PippyActivity(ViewSourceActivity):
         button.show()
 
         icon_bw = Gtk.Image()
+        icon_bw.set_from_file(os.path.join(icons_path, 'debug-icon.svg'))
+        icon_bw.show()
+        button = ToolButton(label=_('Run and Debug'))
+        button.props.accelerator = _('<alt>d')
+        button.set_icon_widget(icon_bw)
+        button.set_tooltip(_('Run and Debug'))
+        button.connect('clicked', self._debug_button_cb)
+        actions_toolbar.insert(button, -1)
+        button.show()
+
+        icon_bw = Gtk.Image()
         icon_bw.set_from_file(os.path.join(icons_path, 'stopit_bw.svg'))
         icon_bw.show()
         icon_color = Gtk.Image()
