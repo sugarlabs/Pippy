@@ -33,6 +33,7 @@ from random import uniform
 import locale
 import json
 import sys
+import requests
 from shutil import copy2
 from signal import SIGTERM
 from gettext import gettext as _
@@ -793,6 +794,18 @@ class PippyActivity(ViewSourceActivity):
         code = self._get_current_code()
         if code:
             print(f"Run and Debug!\n{code}")
+
+            try:
+                response = requests.post(
+                    "http://192.168.64.1:8000/debug",
+                    json={"code": code},
+                    timeout=50
+                )
+                print(f"API Response: {response.status_code} - {response.text}")
+
+            except requests.RequestException as e:
+                print(f"Failed to send debug request: {e}")
+
         else:
             print("No code found to debug.")
 
