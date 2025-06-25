@@ -34,6 +34,7 @@ import locale
 import json
 import sys
 import requests
+import threading
 from shutil import copy2
 from signal import SIGTERM
 from gettext import gettext as _
@@ -438,15 +439,41 @@ class PippyActivity(ViewSourceActivity):
         self._vte.set_size(30, 5)
         self._vte.set_scrollback_lines(-1)
 
+        self._debug_vte = Vte.Terminal()
+        self._debug_vte.set_encoding('utf-8')
+        self._debug_vte.set_size(30,5)
+        self._debug_vte.set_scrollback_lines(-1)
+
         self._vte_set_colors('#000000', '#E7E7E7')
+        self._vte_set_debug_colors('#1E1E2E', '#D9E0EE')
 
         self._child_exited_handler = None
         self._vte.connect('child_exited', self._child_exited_cb)
         self._vte.connect('drag_data_received', self._vte_drop_cb)
-        self._outbox.pack_start(self._vte, True, True, 0)
+        self._debug_vte.connect('child_exited', self._child_exited_cb)
+        
+        self._debug_vte.feed(_("Please start a debugging session\n").encode())
+        
+        btn_output = Gtk.Button(label="Terminal")
+        btn_debug = Gtk.Button(label="Debug Terminal")
+        btn_output.connect("clicked", lambda w: self._terminal_stack.set_visible_child_name("output"))
+        btn_debug.connect("clicked", lambda w: self._terminal_stack.set_visible_child_name("debug"))
+
+        switch_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        switch_box.pack_start(btn_output, False, False, 0)
+        switch_box.pack_start(btn_debug, False, False, 0)
+
+        self._terminal_stack = Gtk.Stack()
+        self._terminal_stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
+        self._terminal_stack.add_named(self._vte, "output")
+        self._terminal_stack.add_named(self._debug_vte, "debug")
+
+        self._outbox.pack_start(switch_box, False, False, 0)
+        self._outbox.pack_start(self._terminal_stack, True, True, 0)
 
         outsb = Gtk.Scrollbar(orientation=Gtk.Orientation.VERTICAL)
         outsb.set_adjustment(self._vte.get_vadjustment())
+        outsb.set_adjustment(self._debug_vte.get_vadjustment())
         outsb.show()
         self._outbox.pack_start(outsb, False, False, 0)
 
@@ -470,12 +497,24 @@ class PippyActivity(ViewSourceActivity):
 
         self._vte.set_colors(foreground, background, [])
 
+    def _vte_set_debug_colors(self, bg, fg):
+        if _has_new_vte_api():
+            foreground = Gdk.RGBA(); foreground.parse(bg)
+            background = Gdk.RGBA(); background.parse(fg)
+        else:
+            foreground = Gdk.color_parse(bg)
+            background = Gdk.color_parse(fg)
+
+        self._debug_vte.set_colors(foreground, background, [])
+
     def after_init(self):
         self._outbox.hide()
 
     def _font_size_changed_cb(self, widget, size):
         self._source_tabs.set_font_size(size)
         self._vte.set_font(
+            Pango.FontDescription('Monospace {}'.format(size)))
+        self._debug_vte.set_font(
             Pango.FontDescription('Monospace {}'.format(size)))
 
     def _store_config(self):
@@ -703,6 +742,10 @@ class PippyActivity(ViewSourceActivity):
         self._vte.grab_focus()
         self._vte.feed(b'\x1B[H\x1B[J\x1B[0;39m')
 
+    def _reset_debug_vte(self):
+        self._debug_vte.grab_focus()
+        self._debug_vte.feed(b'\x1B[H\x1B[J\x1B[0;39m')
+
     def __undobutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
         if text_buffer.can_undo():
@@ -795,16 +838,29 @@ class PippyActivity(ViewSourceActivity):
         if code:
             print(f"Run and Debug!\n{code}")
 
+            self._reset_debug_vte()
+            self._debug_vte.feed(_("Analyzing code... Please wait while we generate debugging suggestions.\r\n").encode())
+
             try:
                 response = requests.post(
                     "http://192.168.64.1:8000/debug",
                     json={"code": code},
                     timeout=50
                 )
-                print(f"API Response: {response.status_code} - {response.text}")
+
+                if response.status_code == 200:
+                    tips = response.json().get("debug_tips", "")
+                    print(tips)
+                    data = response.text
+                    self._debug_vte.feed(_(data).encode())
+                
+                else:
+                    print(f"Error {response.status_code}: {response.text}")
 
             except requests.RequestException as e:
                 print(f"Failed to send debug request: {e}")
+                msg = f"Failed to send debug request: {e}\r\n"
+                self._debug_vte.feed(_(msg).encode())
 
         else:
             print("No code found to debug.")
