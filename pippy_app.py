@@ -835,35 +835,43 @@ class PippyActivity(ViewSourceActivity):
         self._go_button_cb(button)
 
         code = self._get_current_code()
-        if code:
-            print(f"Run and Debug!\n{code}")
+        if not code:
+            print("No code found to debug.")
+            return
 
-            self._reset_debug_vte()
-            self._debug_vte.feed(_("Analyzing code... Please wait while we generate debugging suggestions.\r\n").encode())
+        print(f"Run and Debug!\n{code}")
+        self._reset_debug_vte()
+        self._debug_vte.feed(_("Analyzing code... Please wait while we generate debugging suggestions.\r\n").encode())
 
+        def debug_task():
             try:
                 response = requests.post(
                     "http://192.168.64.1:8000/debug",
                     json={"code": code},
-                    timeout=50
+                    timeout=200
                 )
 
                 if response.status_code == 200:
-                    tips = response.json().get("debug_tips", "")
+                    data = response.json()
+                    tips = data["debug_tips"].replace('\n', '\r\n')\
+                        .replace('**', '') \
+                        .replace('###', '')\
+                        .replace('```python', '\n--- Code ---\n') \
+                        .replace('```', '\n--- End Code ---\n')
                     print(tips)
-                    data = response.text
-                    self._debug_vte.feed(_(data).encode())
-                
+                    self._reset_debug_vte()
+                    GLib.idle_add(self._debug_vte.feed, _(tips).encode())
                 else:
-                    print(f"Error {response.status_code}: {response.text}")
+                    error_msg = f"Error {response.status_code}: {response.text}"
+                    print(error_msg)
+                    GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
 
             except requests.RequestException as e:
-                print(f"Failed to send debug request: {e}")
-                msg = f"Failed to send debug request: {e}\r\n"
-                self._debug_vte.feed(_(msg).encode())
+                error_msg = f"Failed to send debug request: {e}"
+                print(error_msg)
+                GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
 
-        else:
-            print("No code found to debug.")
+        threading.Thread(target=debug_task, daemon=True).start()
 
     def _stop_button_cb(self, button):
         try:
