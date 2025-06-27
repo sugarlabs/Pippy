@@ -453,13 +453,39 @@ class PippyActivity(ViewSourceActivity):
         self._debug_vte.connect('child_exited', self._child_exited_cb)
         
         self._debug_vte.feed(_("Please start a debugging session\n").encode())
-        
-        btn_output = Gtk.Button(label="Terminal")
-        btn_debug = Gtk.Button(label="Debug Terminal")
+
+        icon_bw = Gtk.Image()
+        icon_bw.set_from_file(os.path.join(icons_path, 'output-terminal.svg'))
+        icon_bw.show()
+        btn_output = ToolButton(label=_("Terminal"))
+        btn_output.props.accelerator = _('<alt>r')
+        btn_output.set_icon_widget(icon_bw)
+        btn_output.set_tooltip(_("Terminal"))
         btn_output.connect("clicked", lambda w: self._terminal_stack.set_visible_child_name("output"))
+
+        icon_bw = Gtk.Image()
+        icon_bw.set_from_file(os.path.join(icons_path, 'debug-terminal.svg'))
+        icon_bw.show()
+        btn_debug = ToolButton(label=_("Debug Terminal"))
+        btn_debug.props.accelerator = _('<alt>d')
+        btn_debug.set_icon_widget(icon_bw)
+        btn_debug.set_tooltip(_("Debug Terminal"))
         btn_debug.connect("clicked", lambda w: self._terminal_stack.set_visible_child_name("debug"))
 
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_data(b"""
+        .colored-box {
+        background-color: #282828;
+        }
+        """)
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            style_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
         switch_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        switch_box.get_style_context().add_class("colored-box")
         switch_box.pack_start(btn_output, False, False, 0)
         switch_box.pack_start(btn_debug, False, False, 0)
 
