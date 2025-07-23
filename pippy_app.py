@@ -452,8 +452,6 @@ class PippyActivity(ViewSourceActivity):
         self._vte.connect('drag_data_received', self._vte_drop_cb)
         self._debug_vte.connect('child_exited', self._child_exited_cb)
         
-        self._debug_vte.feed(_("Please start a debugging session\n").encode())
-
         icon_bw = Gtk.Image()
         icon_bw.set_from_file(os.path.join(icons_path, 'output-terminal.svg'))
         icon_bw.show()
@@ -470,6 +468,7 @@ class PippyActivity(ViewSourceActivity):
         btn_debug.props.accelerator = _('<alt>d')
         btn_debug.set_icon_widget(icon_bw)
         btn_debug.set_tooltip(_("Debug Terminal"))
+        btn_debug.connect('clicked', self._debug_terminal_cb)
         btn_debug.connect("clicked", lambda w: self._terminal_stack.set_visible_child_name("debug"))
 
         style_provider = Gtk.CssProvider()
@@ -934,6 +933,45 @@ class PippyActivity(ViewSourceActivity):
                 GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
 
         threading.Thread(target=debug_task, daemon=True).start()
+
+    def _debug_terminal_cb(self, button):
+
+        code = self._get_current_code()
+        if not code:
+            print("No code found to get context.")
+            return
+
+        print(f"Context of \n{code}")
+
+        self._reset_debug_vte()
+        self._debug_vte.feed(_("Getting the context....\r\n").encode())
+
+        def context_task():
+            try:
+                response = requests.post(
+                    "http://192.168.64.1:8000/context",
+                    json={"code": code},
+                    timeout=200
+                )
+
+                if response.status_code == 200:
+                    data = response.json()
+                    context = data["code_context"]
+                    print(context)
+                    self._reset_debug_vte()
+                    ansi_output = self.markdown_parser(context)
+                    GLib.idle_add(self._debug_vte.feed, ansi_output.encode())
+                else:
+                    error_msg = f"Error {response.status_code}: {response.text}"
+                    print(error_msg)
+                    GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
+
+            except requests.RequestException as e:
+                error_msg = f"Failed to send context request: {e}"
+                print(error_msg)
+                GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
+
+        threading.Thread(target=context_task, daemon=True).start()
 
     def _stop_button_cb(self, button):
         try:
