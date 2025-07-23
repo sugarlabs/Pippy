@@ -445,7 +445,7 @@ class PippyActivity(ViewSourceActivity):
         self._debug_vte.set_scrollback_lines(-1)
 
         self._vte_set_colors('#000000', '#E7E7E7')
-        self._vte_set_debug_colors('#1E1E2E', '#D9E0EE')
+        self._vte_set_debug_colors('#000000', "#D9E0EE")
 
         self._child_exited_handler = None
         self._vte.connect('child_exited', self._child_exited_cb)
@@ -855,7 +855,46 @@ class PippyActivity(ViewSourceActivity):
         except Exception as e:
             print(f"Error reading file {current_file}: {e}")
             return None
-    
+
+    def markdown_parser(self, md: str):
+        lines = md.splitlines()
+        output = []
+        in_code_block = False
+
+        for line in lines:
+            stripped = line.strip()
+
+            if stripped.startswith("```"):
+                in_code_block = not in_code_block
+                continue
+
+            if in_code_block:
+                output.append("\033[1m" + line + "\033[0m\r\n")
+                continue
+
+            if stripped.startswith("### "):
+                output.append("\033[1;34;4m" + stripped[4:] + "\033[0m\r\n")
+                continue
+            elif stripped.startswith("## "):
+                output.append("\033[1;34;4m" + stripped[3:] + "\033[0m\r\n")
+                continue
+            elif stripped.startswith("# "):
+                output.append("\033[1;34m;" + stripped[2:] + "\033[0m\r\n")
+                continue
+
+            if stripped.startswith("- "):
+                line = "• " + stripped[2:]
+
+            line = re.sub(r"`([^`]*)`", r"\033[1m\1\033[0m", line)
+
+            line = re.sub(r"\*\*(.*?)\*\*", r"\033[2m\1\033[0m", line)
+
+            line = re.sub(r"(?<!\*)\*(?!\*)(.*?)\*(?!\*)", r"\033[2m\1\033[0m", line)
+
+            output.append(line + "\r\n")
+
+        return ''.join(output)
+
     def _debug_button_cb(self, button):
         # Run the code
         self._go_button_cb(button)
@@ -879,14 +918,11 @@ class PippyActivity(ViewSourceActivity):
 
                 if response.status_code == 200:
                     data = response.json()
-                    tips = data["debug_tips"].replace('\n', '\r\n')\
-                        .replace('**', '') \
-                        .replace('###', '')\
-                        .replace('```python', '\n--- Code ---\n') \
-                        .replace('```', '\n--- End Code ---\n')
-                    print(tips)
+                    debug_tips = data["debug_tips"]
+                    print(debug_tips)
                     self._reset_debug_vte()
-                    GLib.idle_add(self._debug_vte.feed, _(tips).encode())
+                    output = self.markdown_parser(debug_tips)
+                    GLib.idle_add(self._debug_vte.feed, output.encode())
                 else:
                     error_msg = f"Error {response.status_code}: {response.text}"
                     print(error_msg)
