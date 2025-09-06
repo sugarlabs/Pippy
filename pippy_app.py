@@ -124,6 +124,8 @@ setup(name='{modulename}',
       )
 """  # This is .format()'ed with the list of the file names.
 
+API_URL = "http://192.168.64.1:8000/debug"
+X_API_KEY = ""
 
 def _has_new_vte_api():
     try:
@@ -850,13 +852,22 @@ class PippyActivity(ViewSourceActivity):
 
         try:
             with open(current_file, 'r') as f:
-                return f.read()
+                lines = f.readlines()
+                filtered_lines = [
+                    line for line in lines
+                    if not (
+                        line.strip().startswith('#!') or
+                        'coding' in line.lower()
+                    )
+                ]
+            return ''.join(filtered_lines)
+
         except Exception as e:
             print(f"Error reading file {current_file}: {e}")
             return None
 
-    def markdown_parser(self, md: str):
-        lines = md.splitlines()
+    def markdown_parser(self, answer):
+        lines = answer.splitlines()
         output = []
         in_code_block = False
 
@@ -871,17 +882,20 @@ class PippyActivity(ViewSourceActivity):
                 output.append("\033[1m" + line + "\033[0m\r\n")
                 continue
 
-            if stripped.startswith("### "):
-                output.append("\033[1;34;4m" + stripped[4:] + "\033[0m\r\n")
+            if stripped.startswith("#### "):
+                output.append("\033[1;34m" + stripped[5:] + "\033[0m\r\n")
+                continue
+            elif stripped.startswith("### "):
+                output.append("\033[1;34m" + stripped[4:] + "\033[0m\r\n")
                 continue
             elif stripped.startswith("## "):
-                output.append("\033[1;34;4m" + stripped[3:] + "\033[0m\r\n")
+                output.append("\033[1;34m" + stripped[3:] + "\033[0m\r\n")
                 continue
             elif stripped.startswith("# "):
-                output.append("\033[1;34m;" + stripped[2:] + "\033[0m\r\n")
+                output.append("\033[1;32;4m" + stripped[2:] + "\033[0m\r\n")
                 continue
 
-            if stripped.startswith("- "):
+            if stripped.startswith("- " or "* "):
                 line = "• " + stripped[2:]
 
             line = re.sub(r"`([^`]*)`", r"\033[1m\1\033[0m", line)
@@ -895,80 +909,73 @@ class PippyActivity(ViewSourceActivity):
         return ''.join(output)
 
     def _debug_button_cb(self, button):
-        # Run the code
-        self._go_button_cb(button)
-
+        self._reset_debug_vte()
         code = self._get_current_code()
         if not code:
-            print("No code found to debug.")
+            self._debug_vte.feed(_("No code found to debug.\r\n").encode())
             return
 
-        print(f"Run and Debug!\n{code}")
-        self._reset_debug_vte()
-        self._debug_vte.feed(_("Analyzing code... Please wait while we generate debugging suggestions.\r\n").encode())
+        self._debug_vte.feed(_("Analyzing code....\r\n").encode())
 
         def debug_task():
             try:
                 response = requests.post(
-                    "http://192.168.64.1:8000/debug",
-                    json={"code": code},
-                    timeout=200
+                    API_URL,
+                    params = {
+                                "code": code,
+                                "context": False
+                            },
+                    headers = {"X-API-Key": X_API_KEY},
                 )
 
                 if response.status_code == 200:
                     data = response.json()
-                    debug_tips = data["debug_tips"]
-                    print(debug_tips)
+                    answer = data["answer"]
                     self._reset_debug_vte()
-                    output = self.markdown_parser(debug_tips)
-                    GLib.idle_add(self._debug_vte.feed, output.encode())
+                    parsed_answer = self.markdown_parser(answer)
+                    GLib.idle_add(self._debug_vte.feed, _(parsed_answer).encode())
                 else:
                     error_msg = f"Error {response.status_code}: {response.text}"
-                    print(error_msg)
                     GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
 
             except requests.RequestException as e:
                 error_msg = f"Failed to send debug request: {e}"
-                print(error_msg)
                 GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
 
         threading.Thread(target=debug_task, daemon=True).start()
 
     def _debug_terminal_cb(self, button):
-
+        self._reset_debug_vte()
         code = self._get_current_code()
         if not code:
-            print("No code found to get context.")
+            self._debug_vte.feed(_("No code found to get context.\r\n").encode())
             return
 
-        print(f"Context of \n{code}")
-
-        self._reset_debug_vte()
-        self._debug_vte.feed(_("Getting the context....\r\n").encode())
+        self._debug_vte.feed(_("Analyzing code....\r\n").encode())
 
         def context_task():
             try:
                 response = requests.post(
-                    "http://192.168.64.1:8000/context",
-                    json={"code": code},
-                    timeout=200
+                    API_URL,
+                    params = {
+                                "code": code,
+                                "context": True
+                            },
+                    headers = {"X-API-Key": X_API_KEY},
                 )
 
                 if response.status_code == 200:
                     data = response.json()
-                    context = data["code_context"]
-                    print(context)
+                    answer = data["answer"]
                     self._reset_debug_vte()
-                    ansi_output = self.markdown_parser(context)
-                    GLib.idle_add(self._debug_vte.feed, ansi_output.encode())
+                    parsed_answer = self.markdown_parser(answer)
+                    GLib.idle_add(self._debug_vte.feed, _(parsed_answer).encode())
                 else:
                     error_msg = f"Error {response.status_code}: {response.text}"
-                    print(error_msg)
                     GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
 
             except requests.RequestException as e:
                 error_msg = f"Failed to send context request: {e}"
-                print(error_msg)
                 GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
 
         threading.Thread(target=context_task, daemon=True).start()
