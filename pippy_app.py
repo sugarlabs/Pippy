@@ -526,8 +526,10 @@ class PippyActivity(ViewSourceActivity):
 
     def _vte_set_debug_colors(self, bg, fg):
         if _has_new_vte_api():
-            foreground = Gdk.RGBA(); foreground.parse(bg)
-            background = Gdk.RGBA(); background.parse(fg)
+            foreground = Gdk.RGBA()
+            foreground.parse(bg)
+            background = Gdk.RGBA()
+            background.parse(fg)
         else:
             foreground = Gdk.color_parse(bg)
             background = Gdk.color_parse(fg)
@@ -603,11 +605,13 @@ class PippyActivity(ViewSourceActivity):
     def __inverted_colors_toggled_cb(self, button):
         if button.props.active:
             self._vte_set_colors('#E7E7E7', '#000000')
+            self._vte_set_debug_colors( '#D9E0EE', '#000000')
             self._source_tabs.set_dark()
             button.set_icon_name('light-theme')
             button.set_tooltip(_('Normal Colors'))
         else:
             self._vte_set_colors('#000000', '#E7E7E7')
+            self._vte_set_debug_colors('#000000', '#D9E0EE')
             self._source_tabs.set_light()
             button.set_icon_name('dark-theme')
             button.set_tooltip(_('Inverted Colors'))
@@ -769,9 +773,10 @@ class PippyActivity(ViewSourceActivity):
         self._vte.grab_focus()
         self._vte.feed(b'\x1B[H\x1B[J\x1B[0;39m')
 
+    # Reset debugging terminal
     def _reset_debug_vte(self):
         self._debug_vte.grab_focus()
-        self._debug_vte.feed(b'\x1B[H\x1B[J\x1B[0;39m')
+        self._debug_vte.feed(b'\x1B[H\x1B[2J\x1B[3J\x1B[0;39m')
 
     def __undobutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
@@ -877,31 +882,37 @@ class PippyActivity(ViewSourceActivity):
             if stripped.startswith("```"):
                 in_code_block = not in_code_block
                 continue
-
+            
+            # Inside code block → render the line in bold
             if in_code_block:
                 output.append("\033[1m" + line + "\033[0m\r\n")
                 continue
-
-            if stripped.startswith("#### "):
+            
+            # Parse headings
+            if stripped.startswith("#### "): # H4 → Blue, bold
                 output.append("\033[1;34m" + stripped[5:] + "\033[0m\r\n")
                 continue
-            elif stripped.startswith("### "):
+            elif stripped.startswith("### "): # H3 → Blue, bold
                 output.append("\033[1;34m" + stripped[4:] + "\033[0m\r\n")
                 continue
-            elif stripped.startswith("## "):
+            elif stripped.startswith("## "): # H2 → Blue, bold
                 output.append("\033[1;34m" + stripped[3:] + "\033[0m\r\n")
                 continue
-            elif stripped.startswith("# "):
+            elif stripped.startswith("# "): # H1 → Green, bold + underlined
                 output.append("\033[1;32;4m" + stripped[2:] + "\033[0m\r\n")
                 continue
-
+            
+            # Parse bullet points (- or *) → replace with •
             if stripped.startswith("- " or "* "):
                 line = "• " + stripped[2:]
-
+            
+            # Parse inline code: `...` → bold
             line = re.sub(r"`([^`]*)`", r"\033[1m\1\033[0m", line)
-
+            
+            # Parse bold text: **...** → dim
             line = re.sub(r"\*\*(.*?)\*\*", r"\033[2m\1\033[0m", line)
-
+            
+            # Parse italic text: *...* → dim (excluding bold markers)
             line = re.sub(r"(?<!\*)\*(?!\*)(.*?)\*(?!\*)", r"\033[2m\1\033[0m", line)
 
             output.append(line + "\r\n")
