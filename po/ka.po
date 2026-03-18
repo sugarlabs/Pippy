@@ -8,13 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-07 07:08+1000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-03-18 06:28+0000\n"
+"Last-Translator: NF <rkavt@smartprojects.ge>\n"
+"Language-Team: Georgian <http://weblate.sugarlabs.org/projects/"
+"sugar-activities/pippy/ka/>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.4.2\n"
 
 #: activity/activity.info:2
 msgid "Pippy"
@@ -124,11 +127,11 @@ msgstr ""
 
 #: pippy_app.py:232
 msgid "Edit"
-msgstr ""
+msgstr "ჩასწორება"
 
 #: pippy_app.py:248
 msgid "View"
-msgstr ""
+msgstr "ხედი"
 
 #: pippy_app.py:258 pippy_app.py:519
 msgid "Show output panel"
@@ -148,7 +151,7 @@ msgstr ""
 
 #: pippy_app.py:295 pippy_app.py:301
 msgid "Stop"
-msgstr ""
+msgstr "გაჩერება"
 
 #: pippy_app.py:296
 msgid "<alt>s"
@@ -322,3 +325,7 @@ msgstr ""
 #: toolbars.py:48
 msgid "Zoom out"
 msgstr ""
+
+#: pippy_app.py:297 pippy_app.py:303
+msgid "Clear"
+msgstr "გასუფთავება"
