@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-07 07:08+1000\n"
-"PO-Revision-Date: 2026-03-18 06:28+0000\n"
+"PO-Revision-Date: 2026-04-01 08:11+0000\n"
 "Last-Translator: NF <rkavt@smartprojects.ge>\n"
 "Language-Team: Georgian <http://weblate.sugarlabs.org/projects/"
 "sugar-activities/pippy/ka/>\n"
@@ -304,7 +304,7 @@ msgstr ""
 
 #: pippy_app.py:1228
 msgid "Error"
-msgstr ""
+msgstr "შეცდომა"
 
 #: pippy_app.py:1229
 msgid "Error reading data."
@@ -320,11 +320,11 @@ msgstr ""
 
 #: toolbars.py:42
 msgid "Zoom in"
-msgstr ""
+msgstr "გადიდება"
 
 #: toolbars.py:48
 msgid "Zoom out"
-msgstr ""
+msgstr "დაპატარავება"
 
 #: pippy_app.py:297 pippy_app.py:303
 msgid "Clear"
