@@ -45,3 +45,4 @@ Pippy is packaged by Linux distributions;
 * [Fedora package sugar-pippy](https://src.fedoraproject.org/rpms/sugar-pippy)
 * [Debian package sugar-pippy-activity](https://packages.debian.org/sugar-pippy-activity).
 
+Contribution by Janasruthi for NxtWave GSoC mentorship program
