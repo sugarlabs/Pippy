@@ -37,6 +37,7 @@ from shutil import copy2
 from signal import SIGTERM
 from gettext import gettext as _
 import uuid
+import threading
 
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
@@ -162,6 +163,9 @@ class PippyActivity(ViewSourceActivity):
         self.connect("notify::active", self.__active_cb)
         self._collab.setup()
 
+        # Check if Python Language Server is available for code completion
+        self._check_pylsp_availability()
+
         def focus():
             """ Enforce focus for the text view once. """
             widget = self.get_toplevel().get_focus()
@@ -171,6 +175,31 @@ class PippyActivity(ViewSourceActivity):
                 return True
             return False
         GLib.timeout_add(100, focus)
+
+    def _check_pylsp_availability(self):
+        """Check if Jedi is available for autocompletion"""
+        try:
+            # Only run the check on first launch after startup, not for every tab
+            if not os.path.exists(os.path.join(self.get_activity_root(), 'instance', 'jedi_checked')):
+                # Run the check in a separate thread to avoid blocking the UI
+                def check_thread():
+                    try:
+                        script_path = os.path.join(get_bundle_path(), 'check_autocomplete.py')
+                        if os.path.exists(script_path):
+                            subprocess.Popen([sys.executable, script_path])
+                            
+                        # Create marker file to indicate we've already checked
+                        instance_dir = os.path.join(self.get_activity_root(), 'instance')
+                        if not os.path.exists(instance_dir):
+                            os.makedirs(instance_dir)
+                        with open(os.path.join(instance_dir, 'jedi_checked'), 'w') as f:
+                            f.write('checked')
+                    except Exception as e:
+                        _logger.error(f"Error checking jedi: {e}")
+                
+                threading.Thread(target=check_thread, daemon=True).start()
+        except Exception as e:
+            _logger.error(f"Error in _check_jedi_availability: {e}")
 
     def initialize_display(self):
         '''Build activity toolbar with title input, share button and export
@@ -251,6 +280,8 @@ class PippyActivity(ViewSourceActivity):
         view_btn.props.label = _('View')
         view_toolbar.connect('font-size-changed',
                              self._font_size_changed_cb)
+        view_toolbar.connect('autocomplete-toggled',
+                             self._autocomplete_toggled_cb)
         self.get_toolbar_box().toolbar.insert(view_btn, -1)
         self.view_toolbar = view_toolbar
         view_toolbar.show()
@@ -270,6 +301,20 @@ class PippyActivity(ViewSourceActivity):
             'toggled', self.__inverted_colors_toggled_cb)
         actions_toolbar.insert(self._inverted_colors, -1)
         self._inverted_colors.show()
+
+        # Add code completion toggle button
+        icon_completion = Gtk.Image()
+        icon_completion.set_from_file(os.path.join(get_bundle_path(), 'icons', 'completion.svg'))
+        icon_completion.show()
+        
+        self._toggle_completion = ToggleToolButton()
+        self._toggle_completion.set_icon_widget(icon_completion)
+        self._toggle_completion.set_tooltip(_('Enable/disable code completion'))
+        self._toggle_completion.set_accelerator('<Ctrl><Shift>C')
+        self._toggle_completion.set_active(True)  # Enable by default
+        self._toggle_completion.connect('toggled', self._autocomplete_toggled_cb)
+        actions_toolbar.insert(self._toggle_completion, -1)
+        self._toggle_completion.show()
 
         icons_path = os.path.join(get_bundle_path(), 'icons')
 
@@ -1328,6 +1373,28 @@ class PippyActivity(ViewSourceActivity):
                 self._source_tabs.add_tab(name, content, path)
         else:
             self._source_tabs.add_tab()
+
+    def _autocomplete_toggled_cb(self, button, enabled=None):
+        """Handle toggling of autocompletion feature"""
+        # If we get the ToggleToolButton directly (from our main toolbar button)
+        if isinstance(button, ToggleToolButton):
+            enabled = button.get_active()
+        
+        # Update the autocompletion state
+        self._source_tabs.set_autocomplete_enabled(enabled)
+        
+        # Update the button tooltip to reflect current state
+        if hasattr(self, '_toggle_completion'):
+            if enabled:
+                self._toggle_completion.set_tooltip(_('Disable code completion'))
+            else:
+                self._toggle_completion.set_tooltip(_('Enable code completion'))
+        
+        # Display a notification message at the top of the output area
+        status = _("ENABLED") if enabled else _("DISABLED")
+        self._toggle_output.set_active(True)  # Show output panel
+        self._reset_vte()
+        self._vte.feed(f"\r\n\033[1;32m>>> CODE COMPLETION {status} <<<\033[0m\r\n\r\n".encode())
 
 # TEMPLATES AND INLINE FILES
 ACTIVITY_INFO_TEMPLATE = '''
