@@ -333,6 +333,12 @@ class PippyActivity(ViewSourceActivity):
         self.get_toolbar_box().toolbar.insert(button, -1)
         button.show()
 
+        button = ToolButton('pippy-debugger')
+        button.set_tooltip(_('AI debugging tool'))
+        button.connect('clicked', self._debug_button_clicked)
+        self.get_toolbar_box().toolbar.insert(button, -1)
+        button.show()
+
         separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
         separator.set_expand(True)
@@ -933,6 +939,26 @@ class PippyActivity(ViewSourceActivity):
                 f.write(PYTHON_PREFIX)
             for line in text:
                 f.write(line)
+
+    def _read_user_code(self):
+        text_buffer = self._source_tabs.get_text_buffer()
+        start, end = text_buffer.get_bounds()
+        text = text_buffer.get_text(start, end, True)
+        return text
+
+    def _debug_button_clicked(self):
+      # Connects with the backend of Pippy Debugger.
+        user_code = self._read_user_code()
+      # from debugger import code_analysis_with_LLM   # (need to build a debugger.py with code_analysis_with_LLM function in it)
+      # response = code_analysis_with_LLM(user_code)
+        dialog = Gtk.MessageDialog(
+            self, Gtk.DialogFlags.MODAL,
+            Gtk.MessageType.INFO,
+            Gtk.ButtonsType.OK,
+            _("""Let's track down the bug!"""))
+        dialog.format_secondary_text(
+            _("response"))    # quotes should be removed once the response variable above is uncommented
+        pass  # Placeholder
 
     def _export_distutils_cb(self, button):
         app_temp = os.path.join(self.get_activity_root(), 'instance')
