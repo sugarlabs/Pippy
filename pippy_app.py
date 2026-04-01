@@ -33,6 +33,8 @@ from random import uniform
 import locale
 import json
 import sys
+import requests
+import threading
 from shutil import copy2
 from signal import SIGTERM
 from gettext import gettext as _
@@ -122,6 +124,8 @@ setup(name='{modulename}',
       )
 """  # This is .format()'ed with the list of the file names.
 
+API_URL = "http://192.168.64.1:8000/debug"
+X_API_KEY = ""
 
 def _has_new_vte_api():
     try:
@@ -290,6 +294,17 @@ class PippyActivity(ViewSourceActivity):
         button.show()
 
         icon_bw = Gtk.Image()
+        icon_bw.set_from_file(os.path.join(icons_path, 'debug-icon.svg'))
+        icon_bw.show()
+        button = ToolButton(label=_('Run and Debug'))
+        button.props.accelerator = _('<alt>d')
+        button.set_icon_widget(icon_bw)
+        button.set_tooltip(_('Run and Debug'))
+        button.connect('clicked', self._debug_button_cb)
+        actions_toolbar.insert(button, -1)
+        button.show()
+
+        icon_bw = Gtk.Image()
         icon_bw.set_from_file(os.path.join(icons_path, 'stopit_bw.svg'))
         icon_bw.show()
         icon_color = Gtk.Image()
@@ -426,15 +441,66 @@ class PippyActivity(ViewSourceActivity):
         self._vte.set_size(30, 5)
         self._vte.set_scrollback_lines(-1)
 
+        self._debug_vte = Vte.Terminal()
+        self._debug_vte.set_encoding('utf-8')
+        self._debug_vte.set_size(30,5)
+        self._debug_vte.set_scrollback_lines(-1)
+
         self._vte_set_colors('#000000', '#E7E7E7')
+        self._vte_set_debug_colors('#000000', "#D9E0EE")
 
         self._child_exited_handler = None
         self._vte.connect('child_exited', self._child_exited_cb)
         self._vte.connect('drag_data_received', self._vte_drop_cb)
-        self._outbox.pack_start(self._vte, True, True, 0)
+        self._debug_vte.connect('child_exited', self._child_exited_cb)
+        
+        icon_bw = Gtk.Image()
+        icon_bw.set_from_file(os.path.join(icons_path, 'output-terminal.svg'))
+        icon_bw.show()
+        btn_output = ToolButton(label=_("Terminal"))
+        btn_output.props.accelerator = _('<alt>r')
+        btn_output.set_icon_widget(icon_bw)
+        btn_output.set_tooltip(_("Terminal"))
+        btn_output.connect("clicked", lambda w: self._terminal_stack.set_visible_child_name("output"))
+
+        icon_bw = Gtk.Image()
+        icon_bw.set_from_file(os.path.join(icons_path, 'debug-terminal.svg'))
+        icon_bw.show()
+        btn_debug = ToolButton(label=_("Debug Terminal"))
+        btn_debug.props.accelerator = _('<alt>d')
+        btn_debug.set_icon_widget(icon_bw)
+        btn_debug.set_tooltip(_("Debug Terminal"))
+        btn_debug.connect('clicked', self._debug_terminal_cb)
+        btn_debug.connect("clicked", lambda w: self._terminal_stack.set_visible_child_name("debug"))
+
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_data(b"""
+        .colored-box {
+        background-color: #282828;
+        }
+        """)
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            style_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        switch_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        switch_box.get_style_context().add_class("colored-box")
+        switch_box.pack_start(btn_output, False, False, 0)
+        switch_box.pack_start(btn_debug, False, False, 0)
+
+        self._terminal_stack = Gtk.Stack()
+        self._terminal_stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
+        self._terminal_stack.add_named(self._vte, "output")
+        self._terminal_stack.add_named(self._debug_vte, "debug")
+
+        self._outbox.pack_start(switch_box, False, False, 0)
+        self._outbox.pack_start(self._terminal_stack, True, True, 0)
 
         outsb = Gtk.Scrollbar(orientation=Gtk.Orientation.VERTICAL)
         outsb.set_adjustment(self._vte.get_vadjustment())
+        outsb.set_adjustment(self._debug_vte.get_vadjustment())
         outsb.show()
         self._outbox.pack_start(outsb, False, False, 0)
 
@@ -458,12 +524,26 @@ class PippyActivity(ViewSourceActivity):
 
         self._vte.set_colors(foreground, background, [])
 
+    def _vte_set_debug_colors(self, bg, fg):
+        if _has_new_vte_api():
+            foreground = Gdk.RGBA()
+            foreground.parse(bg)
+            background = Gdk.RGBA()
+            background.parse(fg)
+        else:
+            foreground = Gdk.color_parse(bg)
+            background = Gdk.color_parse(fg)
+
+        self._debug_vte.set_colors(foreground, background, [])
+
     def after_init(self):
         self._outbox.hide()
 
     def _font_size_changed_cb(self, widget, size):
         self._source_tabs.set_font_size(size)
         self._vte.set_font(
+            Pango.FontDescription('Monospace {}'.format(size)))
+        self._debug_vte.set_font(
             Pango.FontDescription('Monospace {}'.format(size)))
 
     def _store_config(self):
@@ -525,11 +605,13 @@ class PippyActivity(ViewSourceActivity):
     def __inverted_colors_toggled_cb(self, button):
         if button.props.active:
             self._vte_set_colors('#E7E7E7', '#000000')
+            self._vte_set_debug_colors( '#D9E0EE', '#000000')
             self._source_tabs.set_dark()
             button.set_icon_name('light-theme')
             button.set_tooltip(_('Normal Colors'))
         else:
             self._vte_set_colors('#000000', '#E7E7E7')
+            self._vte_set_debug_colors('#000000', '#D9E0EE')
             self._source_tabs.set_light()
             button.set_icon_name('dark-theme')
             button.set_tooltip(_('Inverted Colors'))
@@ -691,6 +773,11 @@ class PippyActivity(ViewSourceActivity):
         self._vte.grab_focus()
         self._vte.feed(b'\x1B[H\x1B[J\x1B[0;39m')
 
+    # Reset debugging terminal
+    def _reset_debug_vte(self):
+        self._debug_vte.grab_focus()
+        self._debug_vte.feed(b'\x1B[H\x1B[2J\x1B[3J\x1B[0;39m')
+
     def __undobutton_cb(self, button):
         text_buffer = self._source_tabs.get_text_buffer()
         if text_buffer.can_undo():
@@ -759,6 +846,150 @@ class PippyActivity(ViewSourceActivity):
             GLib.SpawnFlags.DO_NOT_REAP_CHILD,
             None,
             None,)
+            
+    # To extract the source code    
+    def _get_current_code(self):
+        pippy_tmp_dir = '%s/tmp/' % self.get_activity_root()
+        current_file = os.path.join(
+            pippy_tmp_dir,
+            self._source_tabs.get_current_file_name()
+        )
+
+        try:
+            with open(current_file, 'r') as f:
+                lines = f.readlines()
+                filtered_lines = [
+                    line for line in lines
+                    if not (
+                        line.strip().startswith('#!') or
+                        'coding' in line.lower()
+                    )
+                ]
+            return ''.join(filtered_lines)
+
+        except Exception as e:
+            print(f"Error reading file {current_file}: {e}")
+            return None
+
+    def markdown_parser(self, answer):
+        lines = answer.splitlines()
+        output = []
+        in_code_block = False
+
+        for line in lines:
+            stripped = line.strip()
+
+            if stripped.startswith("```"):
+                in_code_block = not in_code_block
+                continue
+            
+            # Inside code block → render the line in bold
+            if in_code_block:
+                output.append("\033[1m" + line + "\033[0m\r\n")
+                continue
+            
+            # Parse headings
+            if stripped.startswith("#### "): # H4 → Blue, bold
+                output.append("\033[1;34m" + stripped[5:] + "\033[0m\r\n")
+                continue
+            elif stripped.startswith("### "): # H3 → Blue, bold
+                output.append("\033[1;34m" + stripped[4:] + "\033[0m\r\n")
+                continue
+            elif stripped.startswith("## "): # H2 → Blue, bold
+                output.append("\033[1;34m" + stripped[3:] + "\033[0m\r\n")
+                continue
+            elif stripped.startswith("# "): # H1 → Green, bold + underlined
+                output.append("\033[1;32;4m" + stripped[2:] + "\033[0m\r\n")
+                continue
+            
+            # Parse bullet points (- or *) → replace with •
+            if stripped.startswith("- " or "* "):
+                line = "• " + stripped[2:]
+            
+            # Parse inline code: `...` → bold
+            line = re.sub(r"`([^`]*)`", r"\033[1m\1\033[0m", line)
+            
+            # Parse bold text: **...** → dim
+            line = re.sub(r"\*\*(.*?)\*\*", r"\033[2m\1\033[0m", line)
+            
+            # Parse italic text: *...* → dim (excluding bold markers)
+            line = re.sub(r"(?<!\*)\*(?!\*)(.*?)\*(?!\*)", r"\033[2m\1\033[0m", line)
+
+            output.append(line + "\r\n")
+
+        return ''.join(output)
+
+    def _debug_button_cb(self, button):
+        self._reset_debug_vte()
+        code = self._get_current_code()
+        if not code:
+            self._debug_vte.feed(_("No code found to debug.\r\n").encode())
+            return
+
+        self._debug_vte.feed(_("Analyzing code....\r\n").encode())
+
+        def debug_task():
+            try:
+                response = requests.post(
+                    API_URL,
+                    params = {
+                                "code": code,
+                                "context": False
+                            },
+                    headers = {"X-API-Key": X_API_KEY},
+                )
+
+                if response.status_code == 200:
+                    data = response.json()
+                    answer = data["answer"]
+                    self._reset_debug_vte()
+                    parsed_answer = self.markdown_parser(answer)
+                    GLib.idle_add(self._debug_vte.feed, _(parsed_answer).encode())
+                else:
+                    error_msg = f"Error {response.status_code}: {response.text}"
+                    GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
+
+            except requests.RequestException as e:
+                error_msg = f"Failed to send debug request: {e}"
+                GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
+
+        threading.Thread(target=debug_task, daemon=True).start()
+
+    def _debug_terminal_cb(self, button):
+        self._reset_debug_vte()
+        code = self._get_current_code()
+        if not code:
+            self._debug_vte.feed(_("No code found to get context.\r\n").encode())
+            return
+
+        self._debug_vte.feed(_("Analyzing code....\r\n").encode())
+
+        def context_task():
+            try:
+                response = requests.post(
+                    API_URL,
+                    params = {
+                                "code": code,
+                                "context": True
+                            },
+                    headers = {"X-API-Key": X_API_KEY},
+                )
+
+                if response.status_code == 200:
+                    data = response.json()
+                    answer = data["answer"]
+                    self._reset_debug_vte()
+                    parsed_answer = self.markdown_parser(answer)
+                    GLib.idle_add(self._debug_vte.feed, _(parsed_answer).encode())
+                else:
+                    error_msg = f"Error {response.status_code}: {response.text}"
+                    GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
+
+            except requests.RequestException as e:
+                error_msg = f"Failed to send context request: {e}"
+                GLib.idle_add(self._debug_vte.feed, _(error_msg + "\r\n").encode())
+
+        threading.Thread(target=context_task, daemon=True).start()
 
     def _stop_button_cb(self, button):
         try:
