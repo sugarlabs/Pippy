@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-07 07:08+1000\n"
-"PO-Revision-Date: 2026-04-01 08:11+0000\n"
+"PO-Revision-Date: 2026-06-15 02:55+0000\n"
 "Last-Translator: NF <rkavt@smartprojects.ge>\n"
 "Language-Team: Georgian <http://weblate.sugarlabs.org/projects/"
 "sugar-activities/pippy/ka/>\n"
@@ -94,7 +94,7 @@ msgstr ""
 
 #: pippy_app.py:96
 msgid "string"
-msgstr ""
+msgstr "სტრიქონი"
 
 #: pippy_app.py:96
 msgid "tutorials"
