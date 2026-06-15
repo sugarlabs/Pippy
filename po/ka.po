@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-07 07:08+1000\n"
-"PO-Revision-Date: 2026-06-15 03:03+0000\n"
+"PO-Revision-Date: 2026-06-15 07:48+0000\n"
 "Last-Translator: NF <rkavt@smartprojects.ge>\n"
 "Language-Team: Georgian <http://weblate.sugarlabs.org/projects/"
 "sugar-activities/pippy/ka/>\n"
@@ -233,7 +233,7 @@ msgstr ""
 #: pippy_app.py:850 pippy_app.py:857 pippy_app.py:952 pippy_app.py:969
 #: pippy_app.py:1011
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: pippy_app.py:858
 msgid "Activity icon"
