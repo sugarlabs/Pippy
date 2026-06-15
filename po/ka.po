@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-07 07:08+1000\n"
-"PO-Revision-Date: 2026-06-15 08:59+0000\n"
+"PO-Revision-Date: 2026-06-15 16:05+0000\n"
 "Last-Translator: NF <rkavt@smartprojects.ge>\n"
 "Language-Team: Georgian <http://weblate.sugarlabs.org/projects/"
 "sugar-activities/pippy/ka/>\n"
@@ -56,7 +56,7 @@ msgstr ""
 
 #: library/pippy/game.py:36
 msgid "PAUSED"
-msgstr ""
+msgstr "შეჩერებულია"
 
 #: library/pippy/sound.py:41 sound_check.py:26
 msgid "Cannot find TamTamEdit sound library. Did you install TamTamEdit?"
@@ -78,15 +78,15 @@ msgstr ""
 
 #: pippy_app.py:95
 msgid "graphics"
-msgstr ""
+msgstr "გრაფიკა"
 
 #: pippy_app.py:95
 msgid "math"
-msgstr ""
+msgstr "მათემატიკა"
 
 #: pippy_app.py:95
 msgid "python"
-msgstr ""
+msgstr "python"
 
 #: pippy_app.py:95
 msgid "sound"
@@ -98,7 +98,7 @@ msgstr "სტრიქონი"
 
 #: pippy_app.py:96
 msgid "tutorials"
-msgstr ""
+msgstr "სახელმძღვანელოები"
 
 #: pippy_app.py:189
 msgid "Import Python file to new tab"
@@ -143,11 +143,11 @@ msgstr ""
 
 #: pippy_app.py:279 pippy_app.py:282
 msgid "Run!"
-msgstr ""
+msgstr "წავიდა!"
 
 #: pippy_app.py:280
 msgid "<alt>r"
-msgstr ""
+msgstr "<alt>r"
 
 #: pippy_app.py:295 pippy_app.py:301
 msgid "Stop"
@@ -155,7 +155,7 @@ msgstr "გაჩერება"
 
 #: pippy_app.py:296
 msgid "<alt>s"
-msgstr ""
+msgstr "<alt>s"
 
 #: pippy_app.py:311 pippy_app.py:317
 msgid "Clear output panel"
@@ -163,7 +163,7 @@ msgstr ""
 
 #: pippy_app.py:312
 msgid "<alt>c"
-msgstr ""
+msgstr "<alt>c"
 
 #: pippy_app.py:328
 msgid "Open an example"
@@ -202,7 +202,7 @@ msgstr ""
 
 #: pippy_app.py:798
 msgid "Saved"
-msgstr ""
+msgstr "შენახულია"
 
 #: pippy_app.py:799
 msgid "The document has been saved to journal."
@@ -312,11 +312,11 @@ msgstr ""
 
 #: pippy_app.py:1556
 msgid "Working..."
-msgstr ""
+msgstr "ვმუშაობ..."
 
 #: pippy_app.py:1559
 msgid "done!"
-msgstr ""
+msgstr "მზადაა!"
 
 #: toolbars.py:42
 msgid "Zoom in"
