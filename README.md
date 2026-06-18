@@ -12,6 +12,25 @@ Pippy is part of the Sugar desktop.  Please refer to;
 * [How to use Sugar](https://help.sugarlabs.org/),
 * [How to use Pippy](https://help.sugarlabs.org/pippy.html).
 
+Autocompletion
+==============
+
+Pippy now includes code autocompletion powered by the Jedi Python library:
+
+* Type at least 2 characters or press the dot (.) character to see suggestions
+* Press Ctrl+Space to manually trigger autocompletion at any time
+* Navigate the suggestion list using arrow keys
+* Press Enter or double-click to insert a suggestion
+* Press Escape to dismiss the autocompletion window
+
+The autocompletion feature helps you:
+* Discover available methods and attributes
+* See function signatures and documentation
+* Write code faster with fewer typos
+* Learn the Python standard library more easily
+
+This feature requires the `python3-jedi` package to be installed on your system.
+
 How to upgrade?
 ===============
 
