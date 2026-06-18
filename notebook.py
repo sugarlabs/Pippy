@@ -152,7 +152,7 @@ class AddNotebook(Gtk.Notebook):
     def __init__(self):
         Gtk.Notebook.__init__(self)
 
-        self._add_tab = ToolButton('gtk-add')
+        self._add_tab = ToolButton('list-add')
         self._add_tab.connect('clicked', self._add_tab_cb)
         self._add_tab.show()
         self.set_action_widget(self._add_tab, Gtk.PackType.END)
