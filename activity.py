@@ -248,7 +248,14 @@ class PyGameActivity(ViewSourceActivity):
         socket.add_id(windowid)
         self.show_all()
         socket.grab_focus()
-        GObject.child_watch_add(self.child_pid, lambda pid, cond: self.close())
+        def _child_exited_cb(self, pid, condition):
+            """Handle child process termination"""
+            if os.WIFEXITED(condition):
+                exit_code = os.WEXITSTATUS(condition)
+                if exit_code != 0:
+                    logging.warning('Pygame process exited with code: %d', exit_code)
+            self.close()
+        GObject.child_watch_add(self.child_pid, self._child_exited_cb)
 
 
 def _main():
